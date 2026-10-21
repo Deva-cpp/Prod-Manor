@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
+    inputs:
+      update:
+        description: "Telegram update handed over by the instant relay (leave empty)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -37,6 +42,7 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_RELAY_URL: ${{ vars.TELEGRAM_RELAY_URL }}
           RELAY_SECRET: ${{ secrets.RELAY_SECRET }}
+          RELAY_UPDATE: ${{ inputs.update }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}

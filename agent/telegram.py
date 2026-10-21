@@ -100,7 +100,14 @@ def _relay_updates(relay: str, offset: int) -> list[dict]:
     except (requests.RequestException, ValueError) as ex:
         log(f"relay unavailable: {ex!r}")
         return []
-    return [u for u in res.get("result") or [] if u.get("update_id", 0) >= offset]
+    updates = {u["update_id"]: u for u in res.get("result") or [] if "update_id" in u}
+    try:  # the tap that started this run, handed over directly in case KV doesn't show it yet
+        handed = json.loads(env("RELAY_UPDATE") or "null")
+        if isinstance(handed, dict) and "update_id" in handed:
+            updates.setdefault(handed["update_id"], handed)
+    except ValueError:
+        pass
+    return [updates[k] for k in sorted(updates) if k >= offset]
 
 
 # ------------------------------------------------------------------ cards

@@ -31,12 +31,17 @@ async function acknowledge(env, u) {
   }
 }
 
-async function startTick(env) {
-  const r = await fetch(`https://api.github.com/repos/${env.GH_REPO}/actions/workflows/${env.GH_WORKFLOW}/dispatches`, {
+// `u` (optional) rides along as a workflow input, so the run it starts always sees this tap even before
+// KV (eventually consistent, up to ~60s across locations) shows it. KV stays the source of truth.
+async function startTick(env, u) {
+  const send = (body) => fetch(`https://api.github.com/repos/${env.GH_REPO}/actions/workflows/${env.GH_WORKFLOW}/dispatches`, {
     method: 'POST',
     headers: { authorization: `Bearer ${env.GH_TOKEN}`, accept: 'application/vnd.github+json', 'user-agent': 'prod-manor-relay' },
-    body: JSON.stringify({ ref: env.GH_REF }),
+    body: JSON.stringify(body),
   });
+  const update = u ? JSON.stringify(u) : '';
+  let r = await send(update && update.length < 60000 ? { ref: env.GH_REF, inputs: { update } } : { ref: env.GH_REF });
+  if (r.status === 422 && update) r = await send({ ref: env.GH_REF }); // workflow without the input yet
   if (r.status !== 204) console.log('dispatch failed', r.status, await r.text());
 }
 
@@ -64,7 +69,7 @@ export default {
       const chat = u.message?.chat?.id ?? u.callback_query?.message?.chat?.id;
       if (String(chat) !== String(env.TELEGRAM_CHAT_ID)) return new Response('ignored'); // only the owner drives the bot
       await env.UPDATES.put(KEY(u.update_id), JSON.stringify(u), { expirationTtl: 14 * 86400 });
-      ctx.waitUntil(Promise.allSettled([acknowledge(env, u), startTick(env)]));
+      ctx.waitUntil(Promise.allSettled([acknowledge(env, u), startTick(env, u)]));
       return new Response('ok');
     }
 
