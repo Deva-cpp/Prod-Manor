@@ -1,9 +1,396 @@
 {
-  "episodes": {},
+  "episodes": {
+    "2026-10-22-a": {
+      "status": "pitched",
+      "created": "2026-10-22T00:59:19.012333+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-a",
+        "title": "The Call Is Coming From Inside The Whil…",
+        "monster": "caller",
+        "concept": "",
+        "level": "beginner",
+        "language": "javascript",
+        "hook": "POV: Your while loop has been running since 3 AM and it will not hang up.",
+        "logline": "A rotary phone monster traps Junior in an infinite while loop that never increments the counter.",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "03:14 AM",
+            "text": "CPU USAGE AT 100 PERCENT",
+            "sub": "The browser tab is screaming."
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Call Is Coming From Inside The Whil…",
+            "sub": "A bug that never stops talking",
+            "kicker": "EPISODE ONE",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "A forgotten counter turns a simple loop into an eternal phone call.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "gesture": "gasp"
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1,
+                "action": "spin",
+                "gesture": "wave"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why won't it hang up?!"
+              },
+              {
+                "who": "caller",
+                "text": "Ring ring. We are looping forever."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9,
+                "gesture": "think"
+              }
+            ],
+            "lines": [
+              "let count = 0;",
+              "while (count < 3) {",
+              "  console.log('Calling...');",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "retry.js",
+            "highlight": [
+              1,
+              2,
+              3
+            ],
+            "error": "Browser freezes. Infinite loop detected."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.65,
+                "scale": 1.4,
+                "action": "stack",
+                "copies": 4
+              },
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0,
+                "gesture": "cower"
+              }
+            ],
+            "title": "TAB UNRESPONSIVE",
+            "text": "The caller is still on the line. Forever."
+          },
+          {
+            "type": "scene",
+            "dur": 2.5,
+            "narration": "Always remember to update your condition inside the loop.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "gesture": "nod"
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I just need to increment the counter."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0,
+                "gesture": "type"
+              }
+            ],
+            "lines": [
+              "let count = 0;",
+              "while (count < 3) {",
+              "  console.log('Calling...');",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "retry.js",
+            "fix_line": 3,
+            "after": "  count++;",
+            "note": "Increment the counter so the loop actually terminates."
+          },
+          {
+            "type": "outro",
+            "dur": 2.5,
+            "lesson": "Update your loop counter or the caller stays forever.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "leak",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "POV: You forgot to increment your while loop counter and now your browser is hostage. A classic 3 AM deploy classic that freezes tabs instantly. Always check your loop conditions before pushing to main!\n\nHave you ever crashed production with an infinite loop? Drop your story below, and follow @prodmanor for more late-night debugging horrors.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#javascript",
+          "#webdev",
+          "#coderhumor",
+          "#devlife",
+          "#softwareengineer",
+          "#debugging"
+        ],
+        "cover_text": "INFINITE LOOP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 41
+    },
+    "2026-10-22-b": {
+      "status": "pitched",
+      "created": "2026-10-22T00:59:19.012355+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-b",
+        "title": "The Slime That Ate The Memory",
+        "monster": "leak",
+        "concept": "",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This magenta slime grows every time your component re-renders without cleanup.",
+        "logline": "A memory leak slime devours browser memory because useEffect forgets to remove its event listener.",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "03:42 AM",
+            "text": "HEAP OUT OF MEMORY",
+            "sub": "The dashboard slows to one frame…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Slime That Ate The Memory",
+            "sub": "A memory leak that never goes away",
+            "kicker": "EPISODE TWO",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Every time the component mounts, another event listener joins the feast.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0,
+                "gesture": "gasp"
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow",
+                "gesture": "laugh"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is my app using twelve gigabytes of ram?!"
+              },
+              {
+                "who": "leak",
+                "text": "...more listeners..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9,
+                "gesture": "facepalm"
+              }
+            ],
+            "lines": [
+              "useEffect(() => {",
+              "  window.addEventListener('resize', hand",
+              "}, []);"
+            ],
+            "lang": "javascript",
+            "file": "dashboard.jsx",
+            "highlight": [
+              1,
+              2
+            ],
+            "error": "Warning: Can't perform a React state update on an unmounted component."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.65,
+                "scale": 1.6,
+                "action": "grow"
+              },
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0,
+                "gesture": "cower"
+              }
+            ],
+            "title": "OUT OF MEMORY",
+            "text": "The tab crashed. The slime consumed everything."
+          },
+          {
+            "type": "scene",
+            "dur": 2.5,
+            "narration": "Always remove your listeners when the component unmounts.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "gesture": "nod"
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "shrink",
+                "gesture": "look_down"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I just need to return a cleanup function."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0,
+                "gesture": "type"
+              }
+            ],
+            "lines": [
+              "useEffect(() => {",
+              "  window.addEventListener('resize', hand",
+              "}, []);"
+            ],
+            "lang": "javascript",
+            "file": "dashboard.jsx",
+            "fix_line": 2,
+            "after": "  return () => window.removeEventListene",
+            "note": "Return a cleanup function to remove the event listener."
+          },
+          {
+            "type": "outro",
+            "dur": 2.5,
+            "lesson": "Always clean up your useEffect hooks or the slime eats your RAM.",
+            "cta": "Save this before your next React deploy.",
+            "next_monster": "ollie",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "POV: You forgot the cleanup function in useEffect and your memory usage has been climbing for three hours. The magenta slime feeds on orphan event listeners!\n\nHave you ever watched an app slow to a crawl because of a memory leak? Tell us about it in the comments, and follow @prodmanor for more code horrors.",
+        "hashtags": [
+          "#react",
+          "#javascript",
+          "#webdev",
+          "#coding",
+          "#frontend",
+          "#programming",
+          "#softwareengineer",
+          "#codinghumor"
+        ],
+        "cover_text": "MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 42
+    }
+  },
   "telegram": {
-    "offset": 557188802,
+    "offset": 557188803,
     "awaiting_rewrite": {},
-    "msg_to_ep": {}
+    "msg_to_ep": {
+      "41": "2026-10-22-a",
+      "42": "2026-10-22-b"
+    }
   },
   "settings": {},
   "ideas": [],
