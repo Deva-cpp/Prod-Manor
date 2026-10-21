@@ -18,8 +18,17 @@ if grep -q REPLACED_BY_SETUP_SCRIPT wrangler.toml; then
 fi
 
 echo "== 3/5 Deploy the relay"
-url=$($W deploy 2>&1 | tee /dev/stderr | grep -oE 'https://[a-zA-Z0-9.-]+\.workers\.dev' | head -1)
-[ -n "$url" ] || { echo "Deploy didn't print a workers.dev URL. Check the output above."; exit 1; }
+out=$($W deploy 2>&1 | tee /dev/stderr) || true
+url=$(printf '%s' "$out" | grep -oE 'https://[a-zA-Z0-9.-]+\.workers\.dev' | head -1)
+if [ -z "$url" ]; then
+  if printf '%s' "$out" | grep -q "workers.dev subdomain"; then
+    echo; echo ">> New Cloudflare account: pick your free workers.dev name once at the onboarding link above"
+    echo ">> (dash.cloudflare.com → Workers & Pages), then run this script again. It continues from here."
+  else
+    echo "Deploy didn't print a workers.dev URL. Check the output above."
+  fi
+  exit 1
+fi
 
 echo "== 4/5 Secrets (typing is hidden)"
 put() { printf '%s' "$2" | $W secret put "$1" >/dev/null && echo "  saved $1"; }
