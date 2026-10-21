@@ -6,7 +6,11 @@
   },
   "settings": {},
   "ideas": [],
-  "days": {},
+  "days": {
+    "2026-10-21": {
+      "pitch_error_sent": true
+    }
+  },
   "token": {},
   "render": {},
   "followers": []
