@@ -1,0 +1,12 @@
+name = "prod-manor-relay"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+
+[vars]
+GH_REPO = "Deva-cpp/Prod-Manor"
+GH_WORKFLOW = "tick.yml"
+GH_REF = "main"
+
+[[kv_namespaces]]
+binding = "UPDATES"
+id = "REPLACED_BY_SETUP_SCRIPT"

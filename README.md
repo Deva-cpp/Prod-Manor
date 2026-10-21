@@ -63,6 +63,19 @@ Tomorrow at 07:00 IST the first pitches arrive. Want some now? Send `/more 2`.
 - `reels_per_day` (3–5) and `pitches_per_day`. You can also change these from Telegram.
 - `pitch_time`, `report_time`, `timezone`.
 
+## Instant mode (optional, free)
+Without it, taps wait for the next 15-minute run, and a button just spins until then. Instant mode adds a tiny Cloudflare Worker
+([`relay/worker.js`](relay/worker.js)) that receives each tap straight away, replies "⏳ Got it" (or reacts 👀 to a message),
+and starts the `tick` workflow so the result arrives in about a minute.
+
+1. Create a free account at [dash.cloudflare.com](https://dash.cloudflare.com).
+2. Create a GitHub fine-grained token for this repo only with **Actions: Read and write**.
+3. Run `bash scripts/setup_relay.sh` and follow the prompts (Cloudflare login, bot token, chat id, GitHub token).
+   It tells you to add `RELAY_SECRET` (secret) and `TELEGRAM_RELAY_URL` (variable) in GitHub before it switches the bot over.
+
+To turn it off: open `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/deleteWebhook` in a browser and delete the
+`TELEGRAM_RELAY_URL` variable. The bot goes back to checking every 15 minutes.
+
 ## Telegram commands
 | Command | What it does |
 |---|---|

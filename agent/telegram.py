@@ -76,8 +76,26 @@ def send_video(path: Path, caption: str, buttons=None) -> int:
 
 
 def get_updates(offset: int) -> list[dict]:
+    relay = env("TELEGRAM_RELAY_URL")
+    if relay:
+        return _relay_updates(relay.rstrip("/"), offset)
     res = _call("getUpdates", offset=offset, timeout=0, allowed_updates=["message", "callback_query"])
     return res.get("result") or [] if isinstance(res.get("result"), list) else []
+
+
+def _relay_updates(relay: str, offset: int) -> list[dict]:
+    """Instant mode (relay/worker.js): Telegram pushes updates to the relay, we pull them from there.
+    Like getUpdates' offset, updates before `offset` were handled by a run whose state is saved, so drop them first."""
+    auth = {"Authorization": f"Bearer {env('RELAY_SECRET', required=True)}"}
+    try:
+        if offset > 0:
+            requests.post(f"{relay}/ack", params={"upto": offset - 1}, headers=auth, timeout=30)
+        r = requests.get(f"{relay}/updates", headers=auth, timeout=30)
+        res = r.json()
+    except (requests.RequestException, ValueError) as ex:
+        log(f"relay unavailable: {ex!r}")
+        return []
+    return [u for u in res.get("result") or [] if u.get("update_id", 0) >= offset]
 
 
 # ------------------------------------------------------------------ cards
