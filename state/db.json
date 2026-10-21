@@ -598,10 +598,11 @@
       "slot_label": "17:30",
       "explore": false,
       "episode_no": 1,
-      "approved_at": "2026-10-22T01:02:40.574820+05:30"
+      "approved_at": "2026-10-22T01:02:40.574820+05:30",
+      "held": true
     },
     "2026-10-22-d": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T01:23:00.619803+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -768,10 +769,16 @@
           "#code",
           "#prodmanor"
         ],
-        "cover_text": "LEAKY FILES"
+        "cover_text": "LEAKY FILES",
+        "series_tag": "EP 02"
       },
       "warnings": [],
-      "pitch_msg_id": 53
+      "pitch_msg_id": 53,
+      "slot_at": "2026-10-22T17:30:00+05:30",
+      "slot_label": "17:30",
+      "explore": false,
+      "episode_no": 2,
+      "approved_at": "2026-10-22T01:23:23.155647+05:30"
     },
     "2026-10-22-e": {
       "status": "pitched",
@@ -946,7 +953,7 @@
     }
   },
   "telegram": {
-    "offset": 557188810,
+    "offset": 557188812,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
