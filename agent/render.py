@@ -1,10 +1,11 @@
 """Render an episode JSON into a 1080x1920 MP4 reel + cover image.
 
 Pipeline (all free, runs on a GitHub Actions runner):
-  1. voice: narration per beat → WAV (Piper TTS if installed, else espeak-ng, else silent)
-  2. stretch beats so narration always fits
+  1. voice: every dialogue line and narration → WAV, each character re-cast with a horror-comedy voice
+     (Piper TTS if installed, else espeak-ng, else silent)
+  2. stretch beats so dialogue + narration always fit, and hand the line timings to the stage
   3. Playwright drives renderer/stage.html frame by frame → JPEG pipe → ffmpeg
-  4. sound design synthesized with ffmpeg (pager buzz, crash, ding, ring, drone) and mixed with voice
+  4. sound design synthesized with ffmpeg (pager buzz, crash, ding, ring, drone) and mixed with the voices
 """
 from __future__ import annotations
 
@@ -34,18 +35,23 @@ def _wav_seconds(path: Path) -> float:
         return 0.0
 
 
-def synth_voice(text: str, out: Path) -> bool:
-    """Try Piper (natural voice; CLI flags differ between releases), then espeak-ng. False = no TTS available."""
+def synth_voice(text: str, out: Path, length: float = 0.92) -> bool:
+    """Try Piper (natural voice; CLI flags differ between releases), then espeak-ng. False = no TTS available.
+    length > 1 speaks slower, < 1 faster."""
     voice = os.environ.get("PIPER_VOICE", str(ROOT / ".voices" / "en_US-ryan-medium.onnx"))
     good = lambda: out.exists() and out.stat().st_size > 2000
+    ls = f"{length:.2f}"
     if Path(voice).exists():
         attempts = []
         if shutil.which("piper"):
             attempts += [
-                (["piper", "-m", voice, "-f", str(out), "--length-scale", "0.92"], text),
-                (["piper", "--model", voice, "--output_file", str(out), "--length_scale", "0.92"], text),
+                (["piper", "-m", voice, "-f", str(out), "--length-scale", ls], text),
+                (["piper", "--model", voice, "--output_file", str(out), "--length_scale", ls], text),
             ]
-        attempts.append(([sys.executable, "-m", "piper", "-m", voice, "-f", str(out), "--", text], None))
+        attempts += [
+            ([sys.executable, "-m", "piper", "-m", voice, "-f", str(out), "--length-scale", ls, "--", text], None),
+            ([sys.executable, "-m", "piper", "-m", voice, "-f", str(out), "--", text], None),
+        ]
         for cmd, stdin in attempts:
             try:
                 r = subprocess.run(cmd, input=stdin, text=True, capture_output=True, timeout=120)
@@ -55,10 +61,63 @@ def synth_voice(text: str, out: Path) -> bool:
                 return True
     for exe in ("espeak-ng", "espeak"):
         if shutil.which(exe):
-            r = subprocess.run([exe, "-v", "en-us+m3", "-s", "160", "-p", "35", "-w", str(out), text], capture_output=True)
+            r = subprocess.run([exe, "-v", "en-us+m3", "-s", str(int(160 / length)), "-p", "35", "-w", str(out), text],
+                               capture_output=True)
             if r.returncode == 0 and good():
                 return True
+    if shutil.which("say"):  # macOS, for local previews only
+        aiff = out.with_suffix(".aiff")
+        r = subprocess.run(["say", "-r", str(int(185 / length)), "-o", str(aiff), text], capture_output=True)
+        if r.returncode == 0 and aiff.exists():
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(aiff), str(out)], capture_output=True)
+            if good():
+                return True
     return False
+
+
+# ---------------------------------------------------------------- horror-comedy voice cast
+# One base TTS voice, re-cast per character with ffmpeg filters (free, no extra downloads).
+# Each profile: speaking length (Piper length scale), loudness (LUFS) and a filter graph from [0:a] to [v].
+
+def _pitch(k: float) -> str:
+    """Shift pitch by k without changing speed."""
+    return f"aresample=44100,asetrate={int(44100 * k)},aresample=44100,atempo={1 / k:.4f}"
+
+
+VOICES = {
+    # deep horror-trailer narrator who sounds mildly disappointed in you: dry and close, no echo, so every word is clear
+    "narrator": (1.1, -15, f"[0:a]{_pitch(0.84)},highpass=f=60,bass=g=4:f=110,equalizer=f=3000:t=q:w=1.2:g=4,"
+                           f"lowpass=f=8000,acompressor=threshold=0.1:ratio=3:attack=5:release=120[v]"),
+    # scared young boy: plain and simple, higher, a little quick, just a slight tremble
+    "junior": (0.9, -15, f"[0:a]{_pitch(1.28)},vibrato=f=6:d=0.1,highpass=f=150[v]"),
+    # shy little ghost: airy whisper with a long hallway echo
+    "null": (1.15, -18, f"[0:a]{_pitch(1.32)},highpass=f=380,tremolo=f=5:d=0.35,aecho=0.8:0.85:260|520:0.45|0.28[v]"),
+    # rotary phone: telephone line, crunchy, and every word calls itself again
+    "caller": (0.95, -16, f"[0:a]{_pitch(1.06)},highpass=f=450,lowpass=f=3000,acrusher=bits=8:mode=log:aa=1:mix=0.35,"
+                          f"aecho=0.9:0.7:190|380|570:0.55|0.38|0.22[v]"),
+    # identical twins: two voices in eerie not-quite-unison
+    "twins": (0.95, -15, f"[0:a]aresample=44100,asplit=2[a][b];[a]{_pitch(1.3)}[a1];[b]{_pitch(0.86)},adelay=40[b1];"
+                         f"[a1][b1]amix=inputs=2:normalize=0[v]"),
+    # hungry slime: very low, slow and gloopy
+    "leak": (1.3, -15, f"[0:a]{_pitch(0.62)},vibrato=f=3.5:d=0.6,lowpass=f=2400,bass=g=3[v]"),
+    # too-polite tall neighbour: slow, old-butler warble, small parlour reverb
+    "ollie": (1.14, -15, f"[0:a]{_pitch(0.9)},vibrato=f=5:d=0.12,aecho=0.8:0.4:45:0.3[v]"),
+}
+
+
+def speak(text: str, who: str, out: Path) -> bool:
+    """Voice one line in character. Falls back to the plain TTS voice if the effects fail."""
+    length, lufs, graph = VOICES.get(who, VOICES["narrator"])
+    raw = out.with_name(out.stem + "_raw.wav")
+    if not synth_voice(text, raw, length):
+        return False
+    r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-filter_complex",
+                        f"{graph};[v]loudnorm=I={lufs}:TP=-2:LRA=11[o]", "-map", "[o]", "-ac", "1", "-ar", "44100", str(out)],
+                       capture_output=True)
+    if r.returncode != 0 or not out.exists():
+        print(f"  voice fx failed for {who}: {r.stderr.decode()[-200:]}", flush=True)
+        shutil.copy(raw, out)
+    return True
 
 
 # ---------------------------------------------------------------- sound design
@@ -79,7 +138,7 @@ SFX = {
 AUTO_SFX = {"pager": ["pager"], "crash": ["crash", "glitch"], "fix": ["ding"], "title": ["whoosh"], "outro": ["creak"]}
 
 
-def build_audio(ep: dict, beats: list[dict], voice_files: dict[int, Path], total: float, work: Path) -> Path:
+def build_audio(ep: dict, beats: list[dict], voice_clips: list[tuple[float, Path]], total: float, work: Path) -> Path:
     inputs, filters, labels = [], [], []
     # low horror drone bed for the whole reel
     drone = f"0.05*sin(2*PI*55*t)+0.035*sin(2*PI*82.4*t)*(0.6+0.4*sin(2*PI*0.2*t))+0.02*sin(2*PI*110.3*t)"
@@ -100,12 +159,12 @@ def build_audio(ep: dict, beats: list[dict], voice_files: dict[int, Path], total
             filters.append(f"[{n}:a]adelay={ms}|{ms},volume=0.9[s{n}]")
             labels.append(f"[s{n}]")
             n += 1
-        if i in voice_files:
-            inputs += ["-i", str(voice_files[i])]
-            ms = int((b["_t0"] + 0.15) * 1000)
-            filters.append(f"[{n}:a]aresample=44100,pan=mono|c0=c0,adelay={ms}|{ms},volume=1.6[v{n}]")
-            labels.append(f"[v{n}]")
-            n += 1
+    for t, wav in voice_clips:
+        inputs += ["-i", str(wav)]
+        ms = int(t * 1000)
+        filters.append(f"[{n}:a]aresample=44100,pan=mono|c0=c0,adelay={ms}|{ms}[v{n}]")
+        labels.append(f"[v{n}]")
+        n += 1
     mix = "".join(labels) + f"amix=inputs={len(labels)}:normalize=0,alimiter=limit=0.9,atrim=0:{total:.2f}[aout]"
     filters.append(mix)
     out = work / "audio.m4a"
@@ -174,31 +233,55 @@ def render_episode(ep: dict, out_dir: Path) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     work = Path(tempfile.mkdtemp(prefix="pm_"))
     beats = ep["beats"]
-    voice_files: dict[int, Path] = {}
     use_voice = os.environ.get("PM_VOICE", "1") != "0"
+    # every line gets a voice: dialogue first (in character, one after another), then the narrator.
+    # Timings go to the stage as _say_t / _narr_t so bubbles, lip flap and captions follow the audio.
+    clips: list[tuple[int, float, Path]] = []  # (beat index, offset in beat, wav)
     for i, b in enumerate(beats):
+        if not use_voice:
+            break
+        cur, voiced = 0.15, False
+        says = [s for s in (b.get("say") or []) if s.get("text")]
+        say_t = []
+        for j, s in enumerate(says):
+            wav = work / f"s{i}_{j}.wav"
+            if speak(s["text"], s["who"], wav):
+                d, voiced = _wav_seconds(wav), True
+                clips.append((i, cur, wav))
+            else:
+                d = 0.6 + 0.06 * len(s["text"])
+            say_t.append([round(cur, 3), round(d, 3)])
+            cur += d + 0.25
         text = (b.get("narration") or "").strip()
-        if use_voice and text:
-            wav = work / f"v{i}.wav"
-            if synth_voice(text, wav):
-                voice_files[i] = wav
-                b["dur"] = max(float(b.get("dur", 3)), _wav_seconds(wav) + 0.55)
+        if text:
+            wav = work / f"n{i}.wav"
+            if speak(text, "narrator", wav):
+                d, voiced = _wav_seconds(wav), True
+                clips.append((i, cur, wav))
+                b["_narr_t"] = [round(cur, 3), round(d, 3)]
+                cur += d + 0.15
+        if voiced:
+            if says:
+                b["_say_t"] = say_t
+            b["dur"] = max(float(b.get("dur", 3)), cur + 0.4)
     t = 0.0
     for b in beats:
         b["dur"] = max(0.8, float(b.get("dur", 3)))
         b["_t0"] = t
         t += b["dur"]
+    voice_clips = [(beats[i]["_t0"] + off, wav) for i, off, wav in clips]
     video_silent = work / "video.mp4"
     cover = out_dir / f"{ep['id']}.jpg"
     total = asyncio.run(capture(ep, video_silent, cover))
-    audio = build_audio(ep, beats, voice_files, total, work)
+    audio = build_audio(ep, beats, voice_clips, total, work)
     final = out_dir / f"{ep['id']}.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(video_silent), "-i", str(audio),
                     "-c:v", "copy", "-c:a", "copy", "-shortest", "-movflags", "+faststart", str(final)], check=True)
     for b in beats:
-        b.pop("_t0", None)
+        for k in ("_t0", "_say_t", "_narr_t"):
+            b.pop(k, None)
     shutil.rmtree(work, ignore_errors=True)
-    return {"video": str(final), "cover": str(cover), "seconds": round(total, 2), "voiced": bool(voice_files)}
+    return {"video": str(final), "cover": str(cover), "seconds": round(total, 2), "voiced": bool(voice_clips)}
 
 
 if __name__ == "__main__":

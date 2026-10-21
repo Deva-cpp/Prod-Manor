@@ -18,6 +18,7 @@ Each run, write today's storylines for the repository attached to this session, 
 6. Write the episodes to `queue/pitches/DATE.json` as `{"brain": "claude", "episodes": [ ... ]}`. Then run `python -m agent validate queue/pitches/DATE.json`. If any episode is INVALID or has warnings you can fix, fix it and validate again until every line says OK.
    Quality bar for every episode:
    - the first 2 seconds must stop a developer mid-scroll
+   - it is funny (at least two real laughs) and built on a real-world case developers recognise: a real symptom users or on-call devs actually see, not a toy example
    - the code is real, runnable and shows the bug; the error text is exactly what the language prints
    - the fix changes one line and is the correct, idiomatic fix
    - the monster's physical gag matches the bug (tower of phones for recursion, slime growing for leaks, Ollie half out of frame for off-by-one)

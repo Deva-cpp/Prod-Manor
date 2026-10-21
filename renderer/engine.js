@@ -272,9 +272,25 @@
   }
 
   // ---------- UI pieces ----------
-  function bubble(h, text, p, color, side) {
+  // which dialogue line is up at lt. Voiced beats carry real timings (_say_t: [start, length] per line);
+  // otherwise the lines split the beat evenly. p = progress through the line's slot, typed = share of text shown.
+  function sayAt(b, says, lt, dur) {
+    if (!says.length) return null;
+    const st = b._say_t;
+    if (st && st.length === says.length) {
+      let i = 0;
+      while (i + 1 < st.length && lt >= st[i + 1][0] - 0.1) i++;
+      const [t0, d] = st[i], end = i + 1 < st.length ? st[i + 1][0] - 0.1 : dur;
+      return { i, p: clamp((lt - t0 + 0.1) / Math.max(0.3, end - t0 + 0.1), 0, 1),
+        typed: clamp((lt - t0) / Math.max(0.2, d * 0.9), 0, 1), talking: lt > t0 && lt < t0 + d };
+    }
+    const seg = dur / says.length, i = clamp(Math.floor(lt / seg), 0, says.length - 1), p = (lt - i * seg) / seg;
+    return { i, p, typed: clamp(p * 2.2, 0, 1), talking: p > 0.04 && p < 0.5 };
+  }
+
+  function bubble(h, text, p, color, side, typed) {
     if (!h) return '';
-    const shown = text.slice(0, Math.ceil(text.length * clamp(p * 2.2, 0, 1)));
+    const shown = text.slice(0, Math.ceil(text.length * (typed == null ? clamp(p * 2.2, 0, 1) : typed)));
     const pop = prog(p, 0, 0.12, ease.back);
     const w = Math.min(820, Math.max(300, text.length * 22 + 80));
     let x = clamp(h.x - w / 2, 40, W - 40 - w);
@@ -423,10 +439,8 @@
     // who is speaking right now (bubbles play in order across the beat)
     const saysAll = (b.say || []).filter((s) => s && s.text);
     let speaker = null, talking = false;
-    if (saysAll.length) {
-      const seg = dur / saysAll.length, si = clamp(Math.floor(lt / seg), 0, saysAll.length - 1), sp = (lt - si * seg) / seg;
-      speaker = saysAll[si].who; talking = sp > 0.04 && sp < 0.5;
-    }
+    const line = sayAt(b, saysAll, lt, dur);
+    if (line) { speaker = saysAll[line.i].who; talking = line.talking; }
     const ctx = { type: b.type, speaker, talking, fixAt: dur * 0.38,
       others: actors.map((a, i) => ({ idx: i, who: a.who, x: a.x == null ? 0.5 : a.x })) };
     const sa = actors.find((a) => a.who === speaker);
@@ -489,18 +503,20 @@
     }
 
     // dialogue bubbles, sequential across the beat
-    const says = (b.say || []).filter((s) => s && s.text);
-    if (says.length) {
-      const seg = dur / says.length;
-      const i = clamp(Math.floor(lt / seg), 0, says.length - 1);
-      const s = says[i];
+    if (line) {
+      const s = saysAll[line.i];
       const h = heads.find((x) => x && x.who === s.who) || heads[0];
-      ui += bubble(h, s.text, (lt - i * seg) / seg, COLORS[s.who] || CREAM);
+      ui += bubble(h, s.text, line.p, COLORS[s.who] || CREAM, null, line.typed);
     }
 
     if (['title', 'pager', 'crash', 'outro'].includes(b.type) || b.on_screen) ui = `<div style="position:absolute;left:0;right:0;top:0;height:1100px;z-index:42;background:linear-gradient(to bottom, rgba(10,11,30,.82) 0%, rgba(10,11,30,.6) 55%, rgba(10,11,30,0) 100%)"></div>` + ui;
     ui += lightLayer(b, lt, dur, T, heads);
-    if (b.type !== 'title' && b.type !== 'outro') ui += captions(b.narration, lt, dur);
+    if (b.type !== 'title' && b.type !== 'outro') {
+      // voiced narration: captions start with the narrator and run at his pace
+      const nt = b._narr_t;
+      if (!nt) ui += captions(b.narration, lt, dur);
+      else if (lt >= nt[0] - 0.05) ui += captions(b.narration, lt - nt[0], nt[1] + 0.3);
+    }
     if (b.on_screen) ui += `<div style="position:absolute;left:60px;right:60px;top:${b.type === 'scene' ? 300 : 1270}px;z-index:75;text-align:center;font-family:${FD};font-size:76px;line-height:1.05;color:#FFE7A0;text-shadow:0 6px 0 ${INK}">${esc(b.on_screen)}</div>`;
 
     const bgSvg = `<svg width="${W}" height="${H}" style="position:absolute;left:0;top:0">${bg(T)}</svg>`;

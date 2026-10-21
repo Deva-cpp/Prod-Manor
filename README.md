@@ -19,7 +19,7 @@ An autonomous producer and marketer for your programming-horror Reels. Every mor
 | Brain | Gemini API free tier (Flash models) | Or a Claude scheduled task on your existing Claude plan |
 | Approvals | Telegram bot | Free |
 | Rendering | Playwright + Chromium + ffmpeg | Your characters from `renderer/pm-characters.js` |
-| Voice | Piper TTS (open source), espeak-ng fallback | Downloaded on the runner |
+| Voice | Piper TTS (open source), espeak-ng fallback | Downloaded on the runner. Every narration and dialogue line is voiced; ffmpeg re-casts each character with a horror-comedy voice (`VOICES` in `agent/render.py`) |
 | Hosting for Instagram to fetch | GitHub Pages | Only unpublished reels are kept |
 | Posting + analytics | Official Instagram API | 50 API posts per 24h, far above 3–5/day |
 

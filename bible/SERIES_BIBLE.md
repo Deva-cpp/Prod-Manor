@@ -25,10 +25,16 @@ Tone: cute-creepy. Spooky, never gory. Funny, never cringe. The monsters are lon
 7. THE FIX: a `fix` beat that changes exactly one line (`fix_line`, `after`). The `note` explains WHY in under 14 words.
 8. OUTRO: `outro` beat with the one-line lesson, the CTA, and `next_monster` teasing a different monster.
 
+## Funny, interesting, real (every episode, no exceptions)
+- REAL WORLD: every bug is one developers actually ship, in a situation they recognise: a Friday deploy, a hotfix during a demo, a login page that crashes for users with no profile photo, a cart total off by one item, a search box that fires 40 requests while you type, a dashboard that gets slower every hour it stays open, two payment clicks that charge twice. Name the real-world symptom (what the user or the on-call dev sees) before showing the code.
+- FUNNY: at least two real laughs per episode, not just puns. What works: a spooky voice saying something painfully mundane, Junior's panic being way bigger than the bug, the monster being reasonable and polite about destroying prod, painfully relatable dev pain (Slack pings at 3 AM, "works on my machine", "who approved this PR?" "...you did"). The narrator stays deadpan; never explain the joke.
+- INTERESTING: give a senior developer something too. Name the real error, a common wrong fix, or a "wait, really?" detail, but keep it one concept a beginner gets in one viewing.
+
 ## Writing rules
 - Total 25–40 seconds, 6–9 beats. Every beat dur 1.8–5s.
 - Narration: a calm, dry storyteller voice. Max 16 words per beat. Not on every beat (3–5 beats). Never read the code aloud character by character.
 - Dialogue bubbles: max 9 words each, max 2 per beat. Characters speak in character.
+- Every line is VOICED, horror-comedy style, so write for the ear: deep, clear, deadpan horror-trailer narrator, Junior's simple, scared young boy's voice, The Null's tiny echoing whisper, The Caller down a crackly phone line where each word echoes itself, Fork & Join speaking in eerie unison, The Leak's slow gloopy rumble, Ollie's slow too-polite butler warble. The joke lands when a spooky voice says something mundane ("...more?", "Room four, I presume?") or Junior panics about something tiny. Use punctuation for delivery ("...", "?!", short. clipped. words.). Write words, not symbols: "three A M", "equals equals", never "===" or "3AM". Dialogue and narration in the same beat play one after another, so keep a beat with both to about 20 words in total.
 - Code: max 6 lines, each line max 34 characters, real syntax, runnable. Prefer JavaScript or Python; occasionally Java, Go or TypeScript. Name things plainly (user, items, count).
 - The fix must be the correct, idiomatic fix — no hand-waving. If the honest answer is "it depends", pick a simpler concept.
 - No real brands, no real people, no copyrighted characters. No emoji inside beats (captions are fine).
