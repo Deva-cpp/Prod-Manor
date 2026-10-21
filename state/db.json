@@ -959,7 +959,7 @@
     }
   },
   "telegram": {
-    "offset": 557188815,
+    "offset": 557188816,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
@@ -969,7 +969,9 @@
       "54": "2026-10-22-e"
     }
   },
-  "settings": {},
+  "settings": {
+    "paused": false
+  },
   "ideas": [],
   "days": {
     "2026-10-21": {
