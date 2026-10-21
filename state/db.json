@@ -194,7 +194,7 @@
       "pitch_msg_id": 41
     },
     "2026-10-22-b": {
-      "status": "pitched",
+      "status": "rejected",
       "created": "2026-10-22T00:59:19.012355+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -385,8 +385,10 @@
     }
   },
   "telegram": {
-    "offset": 557188803,
-    "awaiting_rewrite": {},
+    "offset": 557188805,
+    "awaiting_rewrite": {
+      "43": "2026-10-22-a"
+    },
     "msg_to_ep": {
       "41": "2026-10-22-a",
       "42": "2026-10-22-b"
