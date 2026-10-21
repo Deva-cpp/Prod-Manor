@@ -599,15 +599,361 @@
       "explore": false,
       "episode_no": 1,
       "approved_at": "2026-10-22T01:02:40.574820+05:30"
+    },
+    "2026-10-22-d": {
+      "status": "pitched",
+      "created": "2026-10-22T01:23:00.619803+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-d",
+        "title": "Nobody Closed The File",
+        "monster": "leak",
+        "concept": "",
+        "level": "beginner",
+        "language": "python",
+        "hook": "POV: Your server runs out of file descriptors at 3 AM and the logs are crying",
+        "logline": "A magenta slime grows every time Junior opens a log file without closing it, eating the server's RAM.",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "time": "03:14 AM",
+            "text": "EMERGENCY: Too many ope…",
+            "sub": "Prod is drowning in unclosed logs."
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "NOBODY CLOSED THE FILE",
+            "sub": "A Memory Leak Story",
+            "kicker": "Prod Manor Season One",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more..."
+              },
+              {
+                "who": "junior",
+                "text": "Why are you taking up four gigabytes?!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "def read_logs():",
+              "    f = open('app.log', 'r')",
+              "    data = f.read()",
+              "    return data"
+            ],
+            "lang": "python",
+            "file": "logger.py",
+            "highlight": [
+              2
+            ],
+            "error": "OSError: [Errno 24] Too many open files"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.1
+              }
+            ],
+            "title": "FATAL: OUT OF D…",
+            "text": "Every read left the file handle open."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.8,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "So heavy..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "def read_logs():",
+              "    f = open('app.log', 'r')",
+              "    data = f.read()",
+              "    return data"
+            ],
+            "lang": "python",
+            "file": "logger.py",
+            "fix_line": 2,
+            "after": "    with open('app.log', 'r') as f:",
+            "note": "Context managers close files automatically when code exits."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always use context managers so files close themselves.",
+            "cta": "Save this before your next file I/O task.",
+            "next_monster": "null",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "POV: Your python script opens files in a loop and forgets to close them until the operating system violently cuts you off. The magenta slime just wanted to read a log. Use 'with open' and save your RAM. How many unclosed files are hiding in your legacy codebase right now? Let us know in the comments, and follow @prodmanor for more late-night debugging horror.",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#codinghumor",
+          "#webdev",
+          "#softwareengineer",
+          "#developer",
+          "#code",
+          "#prodmanor"
+        ],
+        "cover_text": "LEAKY FILES"
+      },
+      "warnings": [],
+      "pitch_msg_id": 53
+    },
+    "2026-10-22-e": {
+      "status": "pitched",
+      "created": "2026-10-22T01:23:00.619822+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-e",
+        "title": "Nobody Checked On Him",
+        "monster": "null",
+        "concept": "",
+        "level": "beginner",
+        "language": "javascript",
+        "hook": "This ghost crashes your app instantly just by existing without a profile picture",
+        "logline": "A lonely ghost named The Null waits for a property check, crashing production when Junior accesses an undefined object.",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "time": "03:42 AM",
+            "text": "TypeError: Cannot read…",
+            "sub": "Frontend is completely white-scre…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "NOBODY CHECKED ON HIM",
+            "sub": "A Null Pointer Haunting",
+            "kicker": "Prod Manor Season One",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Nobody ever checks if I exist..."
+              },
+              {
+                "who": "junior",
+                "text": "I just wanted the user's display name!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function renderUser(user) {",
+              "  return user.profile.name;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "profile.js",
+            "highlight": [
+              2
+            ],
+            "error": "TypeError: Cannot read properties of undefined (reading 'name')"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.1
+              }
+            ],
+            "title": "APPLICATION CRA…",
+            "text": "Tried to read a property from nothingness."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "You assumed I was there..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function renderUser(user) {",
+              "  return user.profile.name;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "profile.js",
+            "fix_line": 2,
+            "after": "  return user?.profile?.name;",
+            "note": "Optional chaining safely returns undefined instead of crashing."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Use optional chaining (?.) so missing properties don't crash prod.",
+            "cta": "Follow before the next null pointer wakes up.",
+            "next_monster": "caller",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "The Null is just lonely. He doesn't mean to crash your production app, but when you blindly call properties on undefined objects, things get spooky fast. Use optional chaining (?.) and let the ghost rest in peace. What's the worst TypeError you've ever seen in production? Drop it below and follow @prodmanor.",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#codinghumor",
+          "#programming",
+          "#frontend",
+          "#developer",
+          "#react",
+          "#prodmanor"
+        ],
+        "cover_text": "THE NULL GHOST"
+      },
+      "warnings": [],
+      "pitch_msg_id": 54
     }
   },
   "telegram": {
-    "offset": 557188809,
+    "offset": 557188810,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
       "42": "2026-10-22-b",
-      "46": "2026-10-22-c"
+      "46": "2026-10-22-c",
+      "53": "2026-10-22-d",
+      "54": "2026-10-22-e"
     }
   },
   "settings": {},
