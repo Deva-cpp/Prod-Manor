@@ -385,7 +385,7 @@
       "pitch_msg_id": 42
     },
     "2026-10-22-c": {
-      "status": "approved",
+      "status": "rendered",
       "created": "2026-10-22T01:01:13.697929+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -599,10 +599,20 @@
       "explore": false,
       "episode_no": 1,
       "approved_at": "2026-10-22T01:02:40.574820+05:30",
-      "held": true
+      "held": true,
+      "media": {
+        "video": "2026-10-22-c.mp4",
+        "cover": "2026-10-22-c.jpg",
+        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-c.mp4",
+        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-c.jpg",
+        "seconds": 33.71,
+        "voiced": true
+      },
+      "rendered_at": "2026-10-22T01:34:36.828610+05:30",
+      "preview_msg_id": 62
     },
     "2026-10-22-d": {
-      "status": "approved",
+      "status": "published",
       "created": "2026-10-22T01:23:00.619803+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -779,10 +789,26 @@
       "explore": false,
       "episode_no": 2,
       "approved_at": "2026-10-22T01:23:23.155647+05:30",
-      "post_now": true
+      "media": {
+        "video": "2026-10-22-d.mp4",
+        "cover": "2026-10-22-d.jpg",
+        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-d.mp4",
+        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-d.jpg",
+        "seconds": 25.2,
+        "voiced": true
+      },
+      "rendered_at": "2026-10-22T01:36:30.659874+05:30",
+      "preview_msg_id": 63,
+      "published_at": "2026-10-22T01:40:50.863116+05:30",
+      "ig": {
+        "container_id": "17970851795961651",
+        "media_id": "18126005806920380",
+        "permalink": "https://www.instagram.com/reel/DexO-2KDXl9/"
+      },
+      "metrics": {}
     },
     "2026-10-22-e": {
-      "status": "approved",
+      "status": "rendered",
       "created": "2026-10-22T01:23:00.619822+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -956,11 +982,21 @@
       "slot_label": "19:30",
       "explore": false,
       "episode_no": 3,
-      "approved_at": "2026-10-22T01:24:10.314875+05:30"
+      "approved_at": "2026-10-22T01:24:10.314875+05:30",
+      "media": {
+        "video": "2026-10-22-e.mp4",
+        "cover": "2026-10-22-e.jpg",
+        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-e.mp4",
+        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-e.jpg",
+        "seconds": 26.81,
+        "voiced": true
+      },
+      "rendered_at": "2026-10-22T01:38:36.178576+05:30",
+      "preview_msg_id": 64
     }
   },
   "telegram": {
-    "offset": 557188817,
+    "offset": 557188818,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
