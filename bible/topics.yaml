@@ -1,0 +1,42 @@
+# Topic backlog per monster. The producer rotates monsters and picks unused topics first.
+# Add your own ideas any time; level is beginner | intermediate.
+null:
+  - {topic: "calling a method on null", fix: "optional chaining ?.", level: beginner, lang: javascript}
+  - {topic: "undefined object property access", fix: "default with ?? (nullish coalescing)", level: beginner, lang: javascript}
+  - {topic: "|| vs ?? treating 0 and empty string as missing", fix: "use ?? instead of ||", level: intermediate, lang: javascript}
+  - {topic: "dict key missing KeyError", fix: "dict.get(key, default)", level: beginner, lang: python}
+  - {topic: "None returned from a function that forgot to return", fix: "add the return statement", level: beginner, lang: python}
+  - {topic: "array.find returns undefined", fix: "check the result before using it", level: beginner, lang: javascript}
+  - {topic: "NullPointerException on unboxing", fix: "Optional / null check", level: intermediate, lang: java}
+  - {topic: "destructuring undefined function argument", fix: "default parameter = {}", level: intermediate, lang: javascript}
+caller:
+  - {topic: "recursion without a base case", fix: "add the base case", level: beginner, lang: python}
+  - {topic: "maximum call stack size exceeded", fix: "base case that is actually reachable", level: beginner, lang: javascript}
+  - {topic: "factorial recursion", fix: "if n <= 1: return 1", level: beginner, lang: python}
+  - {topic: "fibonacci recursion exploding calls", fix: "memoization with lru_cache", level: intermediate, lang: python}
+  - {topic: "infinite while loop forgetting to update the counter", fix: "increment inside the loop", level: beginner, lang: javascript}
+  - {topic: "useEffect infinite re-render loop", fix: "add the dependency array", level: intermediate, lang: javascript}
+  - {topic: "setter calling itself", fix: "write to the backing field", level: intermediate, lang: javascript}
+twins:
+  - {topic: "two requests updating the same counter (lost update)", fix: "use a lock / atomic increment", level: intermediate, lang: python}
+  - {topic: "forgetting await so code runs out of order", fix: "await the promise", level: beginner, lang: javascript}
+  - {topic: "deadlock: two threads acquire locks in opposite order", fix: "always acquire locks in the same order", level: intermediate, lang: python}
+  - {topic: "double-click submits the form twice", fix: "disable the button while submitting", level: beginner, lang: javascript}
+  - {topic: "forEach with async callback doesn't wait", fix: "for...of with await, or Promise.all", level: intermediate, lang: javascript}
+  - {topic: "check-then-act race on a file or a seat booking", fix: "make it atomic (transaction)", level: intermediate, lang: python}
+leak:
+  - {topic: "event listener never removed", fix: "removeEventListener in cleanup", level: intermediate, lang: javascript}
+  - {topic: "setInterval never cleared", fix: "clearInterval on cleanup", level: beginner, lang: javascript}
+  - {topic: "useEffect without cleanup function", fix: "return a cleanup function", level: intermediate, lang: javascript}
+  - {topic: "global cache that grows forever", fix: "bounded LRU cache", level: intermediate, lang: python}
+  - {topic: "appending to a list inside a loop that never empties", fix: "clear or bound the list", level: beginner, lang: python}
+  - {topic: "mutable default argument keeps growing", fix: "default to None then create the list", level: intermediate, lang: python}
+  - {topic: "file opened and never closed", fix: "with open(...) as f", level: beginner, lang: python}
+ollie:
+  - {topic: "loop with <= length runs one too many", fix: "use < length", level: beginner, lang: javascript}
+  - {topic: "arrays start at 0", fix: "the last index is length - 1", level: beginner, lang: python}
+  - {topic: "range(1, 10) stops at 9", fix: "range(1, 11)", level: beginner, lang: python}
+  - {topic: "slice end is exclusive", fix: "slice(0, n) takes n items", level: beginner, lang: javascript}
+  - {topic: "fencepost: 10 meters of fence with posts every meter", fix: "posts = sections + 1", level: beginner, lang: python}
+  - {topic: "pagination skips or repeats one item", fix: "offset = (page - 1) * size", level: intermediate, lang: javascript}
+  - {topic: "JavaScript months start at 0", fix: "new Date(2026, 0, 1) is January", level: beginner, lang: javascript}

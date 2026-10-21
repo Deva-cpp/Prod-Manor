@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.voices/
+media/
+out/
+.env
+.render_needed

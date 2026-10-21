@@ -1,0 +1,52 @@
+name: tick
+# The heartbeat: reads your Telegram taps, pitches in the morning, schedules, publishes, collects metrics,
+# and sends the nightly report. Every 15 minutes (GitHub may delay scheduled runs by a few minutes).
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write   # lets the tick start the render workflow
+
+concurrency:
+  group: prod-manor-state
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Fetch hosted media (resumable upload mode only)
+        if: ${{ vars.IG_UPLOAD == 'resumable' }}
+        run: git clone --depth 1 -b media "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" media || true
+      - name: Tick
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_LOGIN: ${{ vars.IG_LOGIN }}
+          IG_UPLOAD: ${{ vars.IG_UPLOAD }}
+          MEDIA_BASE_URL: ${{ vars.MEDIA_BASE_URL }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m agent tick
+      - name: Save state
+        if: always()
+        run: bash scripts/commit_state.sh "tick"
+      - name: Start rendering newly approved reels
+        if: ${{ hashFiles('.render_needed') != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run render.yml --ref "${{ github.ref_name }}"

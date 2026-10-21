@@ -1,0 +1,72 @@
+{"episodes": [
+  {
+    "title": "The Call Is Coming From Inside",
+    "monster": "caller", "concept": "recursion needs a base case", "level": "beginner", "language": "python",
+    "hook": "This phone calls itself until your app dies",
+    "logline": "The Caller keeps answering his own call, stacking phones into a tower until Junior gives him a reason to hang up.",
+    "beats": [
+      {"type": "title", "dur": 2.4, "text": "The Call Is Coming From Inside", "sub": "This phone calls itself until your app dies", "sfx": ["ring"]},
+      {"type": "scene", "dur": 3.2, "bg": "hallway", "light": "flashlight",
+       "actors": [{"who": "junior", "expr": "scared", "x": 0.24}, {"who": "caller", "expr": "happy", "x": 0.72, "action": "spin"}],
+       "say": [{"who": "caller", "text": "Hold on, I'll just call myself!"}], "sfx": ["ring"]},
+      {"type": "code", "dur": 4.0, "lang": "python", "lines": ["def call(n):", "    return call(n - 1)", "", "call(5)"],
+       "highlight": [2], "error": "RecursionError: maximum recursion depth exceeded",
+       "narration": "Every call makes another call. Nobody ever hangs up."},
+      {"type": "scene", "dur": 3.4, "bg": "hallway", "light": "flicker",
+       "actors": [{"who": "junior", "expr": "scared", "x": 0.22, "action": "shake"}, {"who": "caller", "expr": "happy", "x": 0.7, "action": "stack", "copies": 5}],
+       "on_screen": "STACK OVERFLOW", "sfx": ["thud"]},
+      {"type": "fix", "dur": 4.4, "lang": "python", "lines": ["def call(n):", "    return call(n - 1)", "", "call(5)"],
+       "fix_line": 2, "after": "    return 0 if n == 0 else call(n-1)", "note": "A base case gives the recursion a floor to stop at.",
+       "narration": "Junior added a base case. At zero, the phone finally hangs up."},
+      {"type": "outro", "dur": 3.2, "lesson": "Every recursive function needs a base case it can actually reach.", "next_monster": "leak"}
+    ],
+    "caption": "He just wanted to talk. Forever.\n\nRecursion without a base case never stops calling. Add a case that returns without calling again.\n\nWhat's the deepest stack trace you've ever scrolled?",
+    "hashtags": ["#python", "#recursion", "#coding", "#programming", "#codinghumor", "#learntocode"],
+    "cover_text": "IT CALLS ITSELF"
+  },
+  {
+    "title": "Room Zero",
+    "monster": "ollie", "concept": "loop bounds: < length, not <= length", "level": "beginner", "language": "javascript",
+    "hook": "Your loop just knocked on a door that doesn't exist",
+    "logline": "Ollie visits one room too many and finds undefined behind the door.",
+    "beats": [
+      {"type": "pager", "dur": 2.0, "text": "items[3] IS UNDEFINED"},
+      {"type": "title", "dur": 2.4, "text": "Room Zero", "sub": "Your loop just knocked on a door that doesn't exist"},
+      {"type": "scene", "dur": 3.0, "bg": "hallway", "light": "flashlight",
+       "actors": [{"who": "junior", "expr": "neutral", "x": 0.25}, {"who": "ollie", "expr": "happy", "x": 0.95}],
+       "say": [{"who": "ollie", "text": "Good evening! Room four, I presume?"}]},
+      {"type": "code", "dur": 4.0, "lang": "javascript", "lines": ["const rooms = ['a', 'b', 'c'];", "for (let i = 0; i <= rooms.length; i++) {", "  knock(rooms[i]);", "}"],
+       "highlight": [2], "error": "knock(undefined) - there is no rooms[3]",
+       "narration": "Three rooms. Indexes zero, one, two. Ollie knocked on four."},
+      {"type": "fix", "dur": 4.2, "lang": "javascript", "lines": ["const rooms = ['a', 'b', 'c'];", "for (let i = 0; i <= rooms.length; i++) {", "  knock(rooms[i]);", "}"],
+       "fix_line": 2, "after": "for (let i = 0; i < rooms.length; i++) {", "note": "Indexes stop at length - 1, so use <.",
+       "actors": [{"who": "junior", "expr": "happy", "x": 0.25}, {"who": "ollie", "expr": "neutral", "x": 0.95, "to": {"x": 0.72}}]},
+      {"type": "outro", "dur": 3.0, "lesson": "Arrays start at 0. The last index is length - 1.", "next_monster": "twins"}
+    ],
+    "caption": "He's not creepy. He's just one off.\n\nArrays start at 0, so a loop with <= length runs one time too many.\n\nBe honest: how many times this week?",
+    "hashtags": ["#javascript", "#coding", "#webdev", "#programming", "#codinghumor"],
+    "cover_text": "ONE TOO MANY"
+  },
+  {
+    "title": "Just One More Listener",
+    "monster": "leak", "concept": "remove event listeners in cleanup", "level": "intermediate", "language": "javascript",
+    "hook": "Your app slows down because you keep feeding this thing",
+    "logline": "Every re-render feeds The Leak another listener until the manor slows to a crawl.",
+    "beats": [
+      {"type": "title", "dur": 2.4, "text": "Just One More Listener", "sub": "Your app slows down because you keep feeding this thing", "sfx": ["slurp"]},
+      {"type": "scene", "dur": 3.6, "bg": "hallway", "light": "dark",
+       "actors": [{"who": "junior", "expr": "neutral", "x": 0.22}, {"who": "leak", "expr": "happy", "x": 0.68, "scale": 0.7, "action": "grow", "amount": 2.0}],
+       "say": [{"who": "leak", "text": "...more?"}], "sfx": ["slurp"]},
+      {"type": "code", "dur": 4.2, "lang": "javascript", "lines": ["useEffect(() => {", "  window.addEventListener(", "    'resize', onResize);", "}, [size]);"],
+       "highlight": [2, 3], "error": "Every render adds another listener. None are removed.",
+       "narration": "Each time this runs, it feeds the Leak another listener."},
+      {"type": "fix", "dur": 4.4, "lang": "javascript", "lines": ["useEffect(() => {", "  window.addEventListener(", "    'resize', onResize);", "}, [size]);"],
+       "fix_line": 4, "after": "  return () => off(onResize); }, [size]);", "note": "Return a cleanup that removes the listener.",
+       "actors": [{"who": "junior", "expr": "happy", "x": 0.22}, {"who": "leak", "expr": "scared", "x": 0.7, "scale": 1.3, "action": "shrink", "amount": 0.45}]},
+      {"type": "outro", "dur": 3.0, "lesson": "Whatever you add in an effect, remove in its cleanup.", "next_monster": "null"}
+    ],
+    "caption": "It was so small once.\n\nListeners added in useEffect stay forever unless your cleanup removes them.\n\nWhat's the biggest memory leak you've hunted?",
+    "hashtags": ["#react", "#javascript", "#webdev", "#coding", "#programming", "#memoryleak"],
+    "cover_text": "IT KEEPS EATING"
+  }
+]}

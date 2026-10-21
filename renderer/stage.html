@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'DM Sans'; src: url('fonts/DMSans.woff2') format('woff2'); font-weight: 100 1000; }
+  @font-face { font-family: 'Griffy'; src: url('fonts/Griffy.woff2') format('woff2'); }
+  @font-face { font-family: 'JetBrains Mono'; src: url('fonts/JetBrainsMono.woff2') format('woff2'); font-weight: 100 800; }
+  html, body { margin: 0; padding: 0; background: #0B0C1F; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #0B0C1F; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<!-- fonts must be ready before the first frame is captured -->
+<div style="position:absolute;left:-9999px;font-family:Griffy">.</div>
+<div style="position:absolute;left:-9999px;font-family:'DM Sans';font-weight:700">.</div>
+<div style="position:absolute;left:-9999px;font-family:'JetBrains Mono';font-weight:800">.</div>
+<script src="pm-characters.js"></script>
+<script src="engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+# Prod Manor workflow agent — main settings. Most of these can also be changed from Telegram.
+timezone: Asia/Kolkata
+instagram_handle: "@prodmanor"        # used in CTAs; change to your handle
+
+brain: gemini                         # gemini | claude   (Telegram: /brain gemini, /brain claude)
+gemini_model: gemini-2.5-flash        # any free-tier Flash model; override with GEMINI_MODEL secret
+pitches_per_day: 4                    # how many storylines to pitch each morning
+reels_per_day: 3                      # max reels posted per day (3-5). Telegram: /perday 4
+
+# Candidate posting slots (local time). The marketer learns which ones work and favors them.
+slots: ["08:30", "12:45", "17:30", "19:30", "21:15", "22:45"]
+min_gap_minutes: 120                  # never post two reels closer than this
+explore_rate: 0.25                    # share of posts used to test less-proven slots
+
+pitch_time: "07:00"                   # when the morning pitches arrive in Telegram
+claude_fallback_after: "07:40"        # in claude mode, fall back to Gemini if no pitches by then
+report_time: "23:30"                  # nightly marketer report
+
+render:
+  fps: 30
+  voice: true                         # Piper TTS narration (free, open source)
+  piper_voice: en_US-ryan-medium
+
+instagram:
+  api_version: v23.0
+  login: instagram                    # instagram (graph.instagram.com) | facebook (graph.facebook.com)
+  upload: url                         # url = host on the repo's media branch | resumable = upload bytes directly (facebook login)
+  share_to_feed: true
