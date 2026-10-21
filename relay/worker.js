@@ -4,6 +4,8 @@
 //   1. answers right away (button toast "Got it", or a 👀 reaction on your message),
 //   2. keeps the update in KV until the agent has handled it,
 //   3. starts the GitHub `tick` workflow so it's handled in about a minute, not at the next schedule.
+// It is also the clock: a Cloudflare cron trigger starts `tick` every 15 minutes, because GitHub's own
+// schedule runs late, skips runs, or doesn't start at all on new repos.
 // The tick reads updates from GET /updates instead of Telegram's getUpdates (which stops working once a webhook is set).
 //
 // Secrets: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, RELAY_SECRET, GH_TOKEN (fine-grained, Actions: read & write)
@@ -92,5 +94,9 @@ export default {
     }
 
     return new Response('not found', { status: 404 });
+  },
+
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(startTick(env));
   },
 };

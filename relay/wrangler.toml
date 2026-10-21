@@ -2,6 +2,9 @@ name = "prod-manor-relay"
 main = "worker.js"
 compatibility_date = "2025-09-01"
 
+[triggers]
+crons = ["*/15 * * * *"]   # the heartbeat: start tick every 15 minutes
+
 [vars]
 GH_REPO = "Deva-cpp/Prod-Manor"
 GH_WORKFLOW = "tick.yml"
