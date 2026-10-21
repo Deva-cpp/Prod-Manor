@@ -194,18 +194,33 @@ def _message(state: dict, cfg: dict, msg: dict):
 
 
 def status_text(state: dict, cfg: dict) -> str:
+    """Counts first (what's waiting on you, what's ready), then every open item whatever day it came from."""
     n = now(cfg)
+    today_s = n.date().isoformat()
+    icons = {"pitched": "🕓", "rewrite_queued": "📝", "approved": "🎞", "rendered": "📦", "failed": "⚠️", "published": "✅"}
+    eps = state["episodes"]
+    count = lambda *st: sum(1 for v in eps.values() if v["status"] in st)
+    live_today = [v for v in eps.values() if v["status"] == "published" and (v.get("published_at") or "")[:10] == today_s]
+    s = state["settings"]
+    head = (f"<b>Status</b> · brain {e(setting(state, cfg, 'brain'))} · {setting(state, cfg, 'reels_per_day')}/day"
+            + (" · ⏸ PAUSED" if s.get("paused") else ""))
+    summary = (f"📜 Scripts waiting for you: <b>{count('pitched', 'rewrite_queued')}</b>\n"
+               f"🎞 Reels being made: <b>{count('approved')}</b>\n"
+               f"📦 Reels ready to post: <b>{count('rendered')}</b>\n"
+               f"✅ Posted today: <b>{len(live_today)}</b> · all time: <b>{count('published')}</b>")
+    if count("failed"):
+        summary += f"\n⚠️ Failed: <b>{count('failed')}</b>"
+    open_recs = [(k, v) for k, v in eps.items() if v["status"] in icons and v["status"] != "published"]
+    open_recs += [(k, v) for k, v in eps.items() if v in live_today]
+    order = list(icons)
+    open_recs.sort(key=lambda kv: (order.index(kv[1]["status"]), kv[1].get("slot_at") or "z"))
     rows = []
-    icons = {"pitched": "🕓", "approved": "🎞", "rendered": "📦", "published": "✅", "failed": "⚠️", "rewrite_queued": "📝"}
-    recs = sorted(((k, v) for k, v in state["episodes"].items() if v["status"] in icons and v.get("day", "") >= (n.date().isoformat())),
-                  key=lambda kv: kv[1].get("slot_at") or "z")
-    for k, v in recs:
+    for k, v in open_recs[:15]:
         when = ""
         if v.get("slot_at") and v["status"] != "published":
             when = f" · {fmt_day(parse(v['slot_at']), cfg)} {fmt_time(parse(v['slot_at']), cfg)}"
         held = " · ⏸ held" if v.get("held") else ""
         rows.append(f"{icons[v['status']]} {short(k)} <b>{e(v['episode']['title'])}</b> — {v['status']}{when}{held}")
-    s = state["settings"]
-    head = (f"<b>Status</b> · brain {e(setting(state, cfg, 'brain'))} · {setting(state, cfg, 'reels_per_day')}/day"
-            + (" · ⏸ PAUSED" if s.get("paused") else ""))
-    return head + "\n" + ("\n".join(rows) if rows else "Nothing in the pipeline today yet.")
+    if len(open_recs) > 15:
+        rows.append(f"…and {len(open_recs) - 15} more")
+    return head + "\n\n" + summary + ("\n\n" + "\n".join(rows) if rows else "\n\nNothing in the pipeline yet. Send /more 2 for pitches.")
