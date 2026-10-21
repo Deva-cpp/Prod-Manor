@@ -3,7 +3,9 @@
 # the Telegram bot at it. Run from the repo root: bash scripts/setup_relay.sh
 set -euo pipefail
 cd "$(dirname "$0")/../relay"
-W="npx --yes wrangler@4"
+echo "== 0/5 Installing Cloudflare's wrangler tool (first time takes a minute)"
+npm install --no-audit --no-fund
+W="./node_modules/.bin/wrangler"
 
 echo "== 1/5 Log in to Cloudflare (a browser window opens; click Allow)"
 $W whoami 2>/dev/null | grep -q "You are logged in" || $W login

@@ -5,3 +5,5 @@ media/
 out/
 .env
 .render_needed
+relay/node_modules/
+relay/.wrangler/
