@@ -21,6 +21,22 @@ from .common import LEARNINGS, ROOT, env, load_config, log, now, parse
 from .schema import CONTRACT, MONSTERS, NAMES
 
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+GEMINI_MODELS_URL = "https://generativelanguage.googleapis.com/v1beta/models"
+GEMINI_FALLBACKS = ["gemini-3.5-flash", "gemini-3.5-flash-lite"]
+
+
+def _gemini_flash_models(key: str) -> list[str]:
+    """Flash models this key can call right now, newest first (Google retires old names for new keys)."""
+    try:
+        r = requests.get(GEMINI_MODELS_URL, headers={"x-goog-api-key": key}, params={"pageSize": 200}, timeout=30)
+        models = r.json().get("models", []) if r.ok else []
+    except (requests.RequestException, ValueError):
+        return []
+    names = [m["name"].split("/", 1)[-1] for m in models
+             if "generateContent" in m.get("supportedGenerationMethods", []) and "flash" in m.get("name", "")
+             and not any(x in m["name"] for x in ("preview", "exp", "image", "tts", "live", "audio"))]
+    num = lambda n: [float(x) for x in re.findall(r"\d+(?:\.\d+)?", n)[:1]] or [0.0]
+    return sorted(names, key=lambda n: (num(n), "lite" not in n), reverse=True)
 
 
 # ------------------------------------------------------------------ brief
@@ -143,9 +159,14 @@ def _extract_json(text: str) -> dict:
 def gemini(system: str, user: str, temperature: float = 0.9) -> dict:
     key = env("GEMINI_API_KEY", required=True)
     cfg = load_config()
-    models = [env("GEMINI_MODEL") or cfg.get("gemini_model", "gemini-2.5-flash"), "gemini-2.5-flash-lite"]
-    last = None
-    for model in dict.fromkeys(models):
+    models = [env("GEMINI_MODEL") or cfg.get("gemini_model", GEMINI_FALLBACKS[0]), *GEMINI_FALLBACKS]
+    last, discovered = None, False
+    tried = set()
+    while models:
+        model = models.pop(0)
+        if model in tried:
+            continue
+        tried.add(model)
         for attempt in range(4):
             body = {
                 "systemInstruction": {"parts": [{"text": system}]},
@@ -165,6 +186,11 @@ def gemini(system: str, user: str, temperature: float = 0.9) -> dict:
                 continue
             if r.status_code >= 400:
                 last = f"{model}: HTTP {r.status_code} {r.text[:300]}"
+                if r.status_code == 404 and not discovered:  # model retired: ask Google what this key can use
+                    discovered = True
+                    found = _gemini_flash_models(key)
+                    log("gemini model unavailable, discovered:", found[:5])
+                    models += found[:4]
                 break  # try next model
             data = r.json()
             try:

@@ -3,7 +3,8 @@ timezone: Asia/Kolkata
 instagram_handle: "@prodmanor"        # used in CTAs; change to your handle
 
 brain: gemini                         # gemini | claude   (Telegram: /brain gemini, /brain claude)
-gemini_model: gemini-2.5-flash        # any free-tier Flash model; override with GEMINI_MODEL secret
+gemini_model: gemini-3.5-flash        # any free-tier Flash model; override with GEMINI_MODEL variable.
+                                      # If Google retires it, the brain finds an available Flash model itself.
 pitches_per_day: 4                    # how many storylines to pitch each morning
 reels_per_day: 3                      # max reels posted per day (3-5). Telegram: /perday 4
 
