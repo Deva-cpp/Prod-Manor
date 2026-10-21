@@ -385,7 +385,7 @@
       "pitch_msg_id": 42
     },
     "2026-10-22-c": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T01:01:13.697929+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -587,16 +587,22 @@
           "#codehumor",
           "#debugging"
         ],
-        "cover_text": "STACK OVERFLOW"
+        "cover_text": "STACK OVERFLOW",
+        "series_tag": "EP 01"
       },
       "warnings": [],
       "rewrite_of": "2026-10-22-a",
       "notes": "Make it more real world use case with tough story something difficult",
-      "pitch_msg_id": 46
+      "pitch_msg_id": 46,
+      "slot_at": "2026-10-22T17:30:00+05:30",
+      "slot_label": "17:30",
+      "explore": false,
+      "episode_no": 1,
+      "approved_at": "2026-10-22T01:02:40.574820+05:30"
     }
   },
   "telegram": {
-    "offset": 557188807,
+    "offset": 557188808,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
@@ -613,6 +619,8 @@
     "2026-10-22": {}
   },
   "token": {},
-  "render": {},
+  "render": {
+    "requested_at": "2026-10-22T01:02:41.599505+05:30"
+  },
   "followers": []
 }
