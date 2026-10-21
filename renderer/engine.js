@@ -131,36 +131,28 @@
     look_left: () => ({ lookX: -1 }),
     look_right: () => ({ lookX: 1 }),
   };
-  // eye saccades: hold a gaze, then dart quickly to the next one
-  function gaze(seed, T, period) {
-    const n = T / period + hash(seed) * 7, i = Math.floor(n), fr = n - i;
-    const w = ease.inout(clamp((fr - 0.82) / 0.18, 0, 1));
-    return [mix(hash(i * 3.1 + seed) * 2 - 1, hash((i + 1) * 3.1 + seed) * 2 - 1, w), mix(hash(i * 7.7 + seed) - 0.5, hash((i + 1) * 7.7 + seed) - 0.5, w)];
-  }
   function autoActing(a, st, ctx, lt, dur, T, idx) {
     const who = a.who, other = ctx.others.find((o) => o.idx !== idx);
     const toward = other ? Math.sign(other.x - st.x) || 1 : 0;
-    const [gx, gy] = gaze(idx * 13 + 5, T, 1.7);
-    const r = { lookX: toward * 0.7 + gx * 0.3, lookY: gy * 0.6 };
-    if (who === 'junior') { r.armL = 4 + 3 * S1(T * 1.3 + idx); r.armR = 3 + 3 * S1(T * 1.1 + idx + 2); }
-    if (st.expr === 'scared') Object.assign(r, GESTURES.tremble(T));
-    const t = ctx.type;
-    if (t === 'pager' && who === 'junior') Object.assign(r, GESTURES.cower(T));
-    if (t === 'code') { r.lookY = -1; r.lookX = gx * 0.4; if (who === 'junior') Object.assign(r, GESTURES.think(T), { lookX: 0.3 + gx * 0.3 }); }
+    // still bodies: the face does the acting. Eyes rest on the other character, brows and expression react.
+    const r = { lookX: toward * 0.7, lookY: 0 };
+    if (st.expr === 'scared') r.brow = 1;
+    const t = ctx.type, monster = who !== 'junior', calm = st.expr === 'neutral';
+    if (t === 'pager' && who === 'junior') { st.expr = 'scared'; r.brow = 1; }
+    if (t === 'code') { r.lookY = -1; r.lookX = 0; if (who === 'junior') { r.lookX = 0.3; r.brow = 0.8; if (calm) st.expr = 'scared'; } }
     if (t === 'crash') {
-      if (who === 'junior') Object.assign(r, GESTURES.cower(T));
-      else if (st.expr === 'happy') Object.assign(r, GESTURES.laugh(T));
+      if (who === 'junior') { st.expr = 'scared'; r.brow = 1; }
+      else if (calm) st.expr = 'happy';
     }
     if (t === 'fix') {
-      if (who === 'junior') Object.assign(r, lt < ctx.fixAt ? GESTURES.type(T) : GESTURES.celebrate(T));
-      else if (lt >= ctx.fixAt) { r.tilt = -10; r.brow = 1; }
-      else r.lookY = -1;
+      if (lt < ctx.fixAt) { r.lookY = -1; if (who === 'junior') r.brow = -0.3; }
+      else if (monster) { st.expr = 'scared'; r.brow = 1; }
+      else { st.expr = 'happy'; r.brow = 0.8; }
     }
-    if (t === 'outro' && who === 'junior') Object.assign(r, GESTURES.wave(T));
+    if (t === 'outro' && who === 'junior' && calm) st.expr = 'happy';
     if (ctx.speaker === who && ctx.talking) {
-      // lip flap: syllable rhythm + a little head bob while the line is being said
+      // lip flap while the line is being said; the head stays still
       r.talk = 0.15 + 0.85 * AB(S1(T * 13 + 2 * S1(T * 5.3)));
-      r.tilt = (r.tilt || 0) + 2.5 * S1(T * 7);
       r.brow = Math.max(r.brow || 0, 0.4 * AB(S1(T * 3)));
       if (other) r.lookX = toward * 0.8;
     } else if (ctx.speaker && ctx.speakerX != null && ctx.speaker !== who && t === 'scene') {
@@ -168,6 +160,10 @@
     }
     return r;
   }
+  // what each scripted gesture does to the face (bodies stay still, so this is the whole reaction)
+  const GESTURE_FACE = { gasp: 'scared', cower: 'scared', tremble: 'scared', laugh: 'happy', celebrate: 'happy', dance: 'happy', wave: 'happy', beckon: 'happy' };
+  const FACE_ONLY = ['lookX', 'lookY', 'brow', 'talk'];
+
   function acting(a, st, ctx, lt, dur, T, idx) {
     let base = autoActing(a, st, ctx, lt, dur, T, idx);
     const list = (a.gestures || []).slice();
@@ -177,7 +173,11 @@
     list.filter((x) => GESTURES[x.g]).sort((x, y) => (x.at || 0) - (y.at || 0)).forEach((x) => {
       const start = (x.at || 0) * dur;
       if (lt < start) return;
-      const tgt = Object.assign({}, base, GESTURES[x.g](T - start));
+      if (GESTURE_FACE[x.g] && a.action !== 'defeated') st.expr = GESTURE_FACE[x.g];
+      const g = GESTURES[x.g](0), face = {};
+      FACE_ONLY.forEach((k) => { if (g[k] != null && k !== 'talk') face[k] = g[k]; });
+      if (x.g === 'gasp') face.talk = 0.95;
+      const tgt = Object.assign({}, base, face);
       const w = prog(lt, start, start + 0.3, ease.inout);
       const prev = cur;
       cur = {};
@@ -186,16 +186,13 @@
     // ease every rig channel in from rest at the start of the beat so cuts never pop
     const inW = prog(lt, 0, 0.22, ease.out);
     const o = {};
-    for (const k of ['armL', 'armR', 'tilt', 'lookX', 'lookY', 'brow', 'talk']) {
+    for (const k of FACE_ONLY) {
       let v = (cur[k] || 0) * (k === 'lookX' || k === 'lookY' ? 1 : inW);
       if (k === 'lookX' && a.flip) v = -v;
-      const qs = { armL: 1, armR: 1, tilt: 0.5, lookX: 0.1, lookY: 0.1, brow: 0.1, talk: 0.125 }[k];
+      const qs = { lookX: 0.1, lookY: 0.1, brow: 0.1, talk: 0.5 }[k]; // talk: closed / half / open
       v = q(v, qs);
       if (v) o[k] = v;
     }
-    if (a.who === 'caller' && (o.armR || o.armL)) st.opts.recv = q((st.opts.recv || 0) + 0.25 * Math.max(o.armR || 0, o.armL || 0) * (0.6 + 0.4 * S1(T * 10)), 1);
-    if (a.who !== 'junior' && a.who !== 'ollie' && a.who !== 'twins') { delete o.armL; delete o.armR; }
-    if (a.who === 'leak' || a.who === 'caller' || a.who === 'twins') { st.rot += (o.tilt || 0) * 0.5; delete o.tilt; }
     Object.assign(st.opts, o);
   }
 
@@ -210,13 +207,7 @@
     }
     if (a.expr_to && p >= (a.expr_at == null ? 0.5 : a.expr_at)) st.expr = a.expr_to;
     const who = a.who;
-    // signature idles keep each character alive even when the beat gives no action
-    if (who === 'junior') st.sy = 1 + 0.012 * Math.sin(T * 2.6 + idx);
-    if (who === 'null') st.dy = -10 * Math.sin(T * 1.7 + idx);
-    if (who === 'caller') { st.opts.spin = q((T * 140) % 360, 4); st.opts.recv = q(3 * Math.sin(T * 9), 1); }
-    if (who === 'twins') st.opts.lean = q(5 + 2.5 * Math.sin(T * 3.2), 0.5);
-    if (who === 'leak') { const wb = 0.025 * Math.sin(T * 3.4); st.sx = 1 + wb; st.sy = 1 - wb; }
-    if (who === 'ollie') st.rot = 2 * Math.sin(T * 1.3);
+    // characters hold still; only blinking and the face are alive
     st.opts.blink = ((T + idx * 0.7) % 3.3) < 0.12;
 
     switch (a.action) {
@@ -224,8 +215,7 @@
       case 'enter_right': st.x = mix(1.35, st.x, prog(lt, 0, 0.7, ease.out)); break;
       case 'exit_left': st.x = mix(st.x, -0.45, prog(lt, dur - 0.7, dur, ease.inout)); break;
       case 'exit_right': st.x = mix(st.x, 1.45, prog(lt, dur - 0.7, dur, ease.inout)); break;
-      case 'shake': st.x += 0.006 * Math.sin(T * 70); st.expr = a.expr || 'scared'; break;
-      case 'hop': { const h = lt % 0.6; st.dy -= 36 * Math.abs(Math.sin(Math.PI * h / 0.6)); break; }
+      case 'shake': st.expr = 'scared'; break; // a scared face, no jitter
       case 'grow': st.scale *= mix(1, a.amount || 1.8, prog(lt, 0, dur * 0.8, ease.inout)); break;
       case 'shrink': st.scale *= mix(1, a.amount || 0.4, prog(lt, 0, dur * 0.8, ease.inout)); break;
       case 'pop_in': st.scale *= prog(lt, 0, 0.45, ease.back); break;
@@ -233,8 +223,7 @@
       case 'fade_out': st.op *= 1 - prog(lt, dur * 0.4, dur); break;
       case 'defeated': st.expr = 'scared'; st.scale *= mix(1, 0.55, prog(lt, dur * 0.35, dur, ease.inout)); st.op *= mix(1, 0.15, prog(lt, dur * 0.5, dur)); break;
       case 'peek': st.x = mix(a.x > 0.5 ? 1.25 : -0.25, st.x, prog(lt, 0.2, 1.0, ease.out)); break;
-      case 'spin': st.opts.dial = q(290 * prog(lt, 0, dur * 0.4, ease.inout) - 290 * prog(lt, dur * 0.5, dur * 0.9, ease.inout), 2); st.opts.recv = q(9 * Math.sin(T * 9), 1); break;
-      case 'float': st.dy -= 24 + 14 * Math.sin(T * 2.2); break;
+      case 'float': st.dy -= 24; break;
     }
     if (who === 'null' && a.action !== 'fade_in' && a.action !== 'fade_out') st.op *= 0.92; // he's barely there
     if (ctx) acting(a, st, ctx, lt, dur, T, idx);
@@ -252,14 +241,14 @@
       const cx = st.x * W;
       const left = cx - g.cxOff;
       const stackLift = c === 0 ? 0 : (() => { let up = 0; for (let j = 0; j < c; j++) up += geom(a.who, st.scale * Math.pow(0.78, j)).h * 0.62; return up; })();
-      const wobble = c > 0 ? Math.sin(T * 3 + c) * (2 + c * 1.5) : 0;
+      const wobble = 0;
       const top = FLOOR - g.footY + (a.y_off || 0) + st.dy - stackLift;
       const opts = Object.assign({ expr: st.expr }, st.opts);
       const flip = a.flip ? ' scaleX(-1)' : '';
       const ox = ((g.d.cx - g.d.x0) / g.d.w) * 100, oy = ((g.d.floor - g.d.y0) / g.d.h) * 100;
       html += `<div style="position:absolute;left:${left.toFixed(1)}px;top:${top.toFixed(1)}px;width:${g.w.toFixed(1)}px;height:${g.h.toFixed(1)}px;opacity:${st.op.toFixed(3)};transform-origin:${ox}% ${oy}%;transform:rotate(${(st.rot + wobble).toFixed(2)}deg) scale(${st.sx.toFixed(4)},${st.sy.toFixed(4)})${flip};z-index:${10 + (a.z || 0)}">${charSVG(a.who, opts, S * sc)}</div>`;
       html += `<div style="position:absolute;left:${(cx - g.w * 0.32).toFixed(1)}px;top:${(FLOOR - 10 - (a.y_off || 0) * 0).toFixed(1)}px;width:${(g.w * 0.64).toFixed(1)}px;height:22px;border-radius:50%;background:rgba(8,9,28,${(0.45 * st.op).toFixed(2)});z-index:5"></div>`;
-      if (c === copies - 1) head = { x: cx, y: top + g.headOff, w: g.w, h: g.h, who: a.who, cyMid: top + g.h * 0.45 };
+      if (c === copies - 1) head = { x: cx, y: top + g.headOff, top: top + g.headOff, w: g.w, h: g.h, who: a.who, cyMid: top + g.h * 0.45 };
       if (a.who === 'junior' && c === 0) {
         const fx = a.flip ? -1 : 1;
         // the flashlight rides the right arm: rotate the lens around the shoulder pivot (170,180)
@@ -288,13 +277,20 @@
     return { i, p, typed: clamp(p * 2.2, 0, 1), talking: p > 0.04 && p < 0.5 };
   }
 
-  function bubble(h, text, p, color, side, typed) {
+  // bubble footprint, estimated a little generously so the layout never under-reserves space
+  function bubbleSize(text) {
+    const w = Math.min(820, Math.max(300, text.length * 22 + 80));
+    const lines = Math.max(1, Math.ceil((text.length * 24) / (w - 72)));
+    return { w, h: 98 + lines * 48 };
+  }
+  const BUBBLE_TAIL = 46;
+
+  function bubble(h, text, p, color, side, typed, y) {
     if (!h) return '';
     const shown = text.slice(0, Math.ceil(text.length * (typed == null ? clamp(p * 2.2, 0, 1) : typed)));
     const pop = prog(p, 0, 0.12, ease.back);
-    const w = Math.min(820, Math.max(300, text.length * 22 + 80));
+    const w = bubbleSize(text).w;
     let x = clamp(h.x - w / 2, 40, W - 40 - w);
-    const y = Math.max(300, h.y - 210);
     const tailX = clamp(h.x, x + 60, x + w - 60);
     return `<div style="position:absolute;left:${x}px;top:${y}px;width:${w}px;z-index:60;transform:scale(${pop.toFixed(3)});transform-origin:${tailX - x}px 170px">
       <div style="background:${CREAM};border:6px solid ${INK};border-radius:34px;padding:22px 30px;font-family:${FS};font-weight:700;font-size:40px;line-height:1.18;color:${INK};box-shadow:0 8px 0 ${INK};min-height:60px">
@@ -404,9 +400,9 @@
       }
     }
     let vig = light === 'normal' ? 0.25 : 0.62;
-    if (light === 'flicker') vig = hash(Math.floor(T * 14)) > 0.78 ? 0.92 : 0.5;
+    if (light === 'flicker') { const f = (lt / Math.max(0.01, dur)); vig = (f > 0.3 && f < 0.34) || (f > 0.72 && f < 0.75) ? 0.92 : 0.5; }
     s += `<div style="position:absolute;inset:0;z-index:40;pointer-events:none;background:radial-gradient(ellipse 75% 55% at 50% 52%, rgba(8,9,28,0) 40%, rgba(8,9,28,${vig}) 100%)"></div>`;
-    if (light === 'red') s += `<div style="position:absolute;inset:0;z-index:41;background:#FF2440;mix-blend-mode:multiply;opacity:${(0.25 + 0.2 * Math.sin(T * 7)).toFixed(3)}"></div><div style="position:absolute;inset:0;z-index:41;background:#FF2440;opacity:${(0.06 + 0.06 * Math.sin(T * 7)).toFixed(3)}"></div>`;
+    if (light === 'red') s += `<div style="position:absolute;inset:0;z-index:41;background:#FF2440;mix-blend-mode:multiply;opacity:0.32"></div><div style="position:absolute;inset:0;z-index:41;background:#FF2440;opacity:0.08"></div>`;
     return s;
   }
 
@@ -419,9 +415,10 @@
     let stage = '', ui = '';
     const bg = BGS[b.bg] || (b.type === 'pager' ? bgBedroom : b.type === 'crash' ? bgServer : bgHallway);
     const cam = b.camera || {};
-    const z = mix(cam.zoom_from || 1, cam.zoom_to || (b.type === 'scene' ? 1.05 : 1.02), prog(lt, 0, dur, ease.inout));
+    // held framing: settle into the shot in the first third of a second, then the camera stays put
+    const z = mix(cam.zoom_from || 1, cam.zoom_to || (b.type === 'scene' ? 1.05 : 1.02), prog(lt, 0, 0.35, ease.out));
     const fx = (cam.focus_x == null ? 0.5 : cam.focus_x) * W;
-    let shake = b.shake || b.type === 'crash' ? (b.type === 'crash' ? 14 * (1 - prog(lt, 0, 1.4)) + 3 : 6) : 0;
+    let shake = b.shake || b.type === 'crash' ? (b.type === 'crash' ? 14 : 6) * (1 - prog(lt, 0, 0.5)) : 0; // one hit, then still
     const sx = shake * Math.sin(T * 61), sy = shake * Math.cos(T * 47);
 
     let actors = b.actors || [];
@@ -445,8 +442,27 @@
       others: actors.map((a, i) => ({ idx: i, who: a.who, x: a.x == null ? 0.5 : a.x })) };
     const sa = actors.find((a) => a.who === speaker);
     ctx.speakerX = sa ? (sa.x == null ? 0.5 : sa.x) : null;
+    // text never covers a character: bubbles (and big on-screen text) get a band at the top of the frame,
+    // and if any character would reach into it at any point in the beat, the whole cast is scaled down for the beat
+    let bandTop = 250, bandBottom = 0;
+    if (b.type === 'scene' && (saysAll.length || b.on_screen)) {
+      if (b.on_screen) bandTop = 300 + Math.ceil((b.on_screen.length * 40) / (W - 120)) * 82 + 24;
+      const bh = Math.max(0, ...saysAll.map((x) => bubbleSize(x.text).h));
+      bandBottom = bandTop + (bh ? bh + BUBBLE_TAIL : 0) + 30;
+      let highest = FLOOR;
+      for (const f of [0, 0.5, 0.85, 1]) {
+        actors.forEach((a, i) => { if (!NAMES[a.who]) return; const r = renderActor(a, dur * f, dur, T - lt + dur * f, i, null); if (r.head) highest = Math.min(highest, r.head.top); });
+      }
+      if (highest < bandBottom) {
+        const k = Math.max(0.4, (FLOOR - bandBottom) / (FLOOR - highest));
+        actors = actors.map((a) => Object.assign({}, a, { scale: (a.scale || 1) * k },
+          a.to && a.to.scale != null ? { to: Object.assign({}, a.to, { scale: a.to.scale * k }) } : {}));
+      }
+    }
     const heads = [];
-    actors.forEach((a, i) => { if (!NAMES[a.who]) return; const r = renderActor(a, lt, dur, T, i, ctx); stage += r.html; heads.push(r.head); });
+    // characters animate on twos (12 poses a second): stepped, held frames instead of constant drift
+    const Ts = Math.floor(T * 12) / 12, lts = Math.max(0, lt - (T - Ts));
+    actors.forEach((a, i) => { if (!NAMES[a.who]) return; const r = renderActor(a, lts, dur, Ts, i, ctx); stage += r.html; heads.push(r.head); });
 
     // title card: monster silhouette reveal
     if (b.type === 'title') {
@@ -506,7 +522,11 @@
     if (line) {
       const s = saysAll[line.i];
       const h = heads.find((x) => x && x.who === s.who) || heads[0];
-      ui += bubble(h, s.text, line.p, COLORS[s.who] || CREAM, null, line.typed);
+      // sit just above the characters under it, but never above the band's top edge
+      const bs = bubbleSize(s.text), bx0 = clamp(h.x - bs.w / 2, 40, W - 40 - bs.w), bx1 = bx0 + bs.w;
+      const under = heads.filter((x) => x && x.x + x.w / 2 > bx0 && x.x - x.w / 2 < bx1).map((x) => x.top);
+      const y = Math.max(bandTop, Math.min(h.top, ...under) - bs.h - BUBBLE_TAIL - 24);
+      ui += bubble(h, s.text, line.p, COLORS[s.who] || CREAM, null, line.typed, y);
     }
 
     if (['title', 'pager', 'crash', 'outro'].includes(b.type) || b.on_screen) ui = `<div style="position:absolute;left:0;right:0;top:0;height:1100px;z-index:42;background:linear-gradient(to bottom, rgba(10,11,30,.82) 0%, rgba(10,11,30,.6) 55%, rgba(10,11,30,0) 100%)"></div>` + ui;
@@ -545,7 +565,7 @@
     if (black > 0.01) html += `<div style="position:absolute;inset:0;background:#0B0C1F;z-index:200;opacity:${black.toFixed(3)}"></div>`;
     if (c.b.type === 'crash' && lt < 0.12) html += `<div style="position:absolute;inset:0;background:#FFF;z-index:201;opacity:${(1 - lt / 0.12).toFixed(3)}"></div>`;
     // film grain (static noise texture shifted per frame)
-    html += `<div style="position:absolute;inset:-40px;z-index:150;pointer-events:none;opacity:.07;background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>&quot;);transform:translate(${(hash(Math.floor(T * 24)) * 40 - 20).toFixed(0)}px,${(hash(Math.floor(T * 24) + 7) * 40 - 20).toFixed(0)}px)"></div>`;
+    html += `<div style="position:absolute;inset:-40px;z-index:150;pointer-events:none;opacity:.05;background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>&quot;);transform:translate(${(hash(Math.floor(T * 12)) * 40 - 20).toFixed(0)}px,${(hash(Math.floor(T * 12) + 7) * 40 - 20).toFixed(0)}px)"></div>`;
     root().innerHTML = html;
   }
   window.PMR = { load, seek, W, H, NAMES, COLORS, get total() { return TOTAL; } };

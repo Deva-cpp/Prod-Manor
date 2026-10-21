@@ -92,9 +92,9 @@ VOICES = {
     "junior": (0.9, -15, f"[0:a]{_pitch(1.28)},vibrato=f=6:d=0.1,highpass=f=150[v]"),
     # shy little ghost: airy whisper with a long hallway echo
     "null": (1.15, -18, f"[0:a]{_pitch(1.32)},highpass=f=380,tremolo=f=5:d=0.35,aecho=0.8:0.85:260|520:0.45|0.28[v]"),
-    # rotary phone: telephone line, crunchy, and every word calls itself again
+    # rotary phone: crackly old telephone line, one faint echo so every word stays clear
     "caller": (0.95, -16, f"[0:a]{_pitch(1.06)},highpass=f=450,lowpass=f=3000,acrusher=bits=8:mode=log:aa=1:mix=0.35,"
-                          f"aecho=0.9:0.7:190|380|570:0.55|0.38|0.22[v]"),
+                          f"aecho=0.8:0.5:120:0.2[v]"),
     # identical twins: two voices in eerie not-quite-unison
     "twins": (0.95, -15, f"[0:a]aresample=44100,asplit=2[a][b];[a]{_pitch(1.3)}[a1];[b]{_pitch(0.86)},adelay=40[b1];"
                          f"[a1][b1]amix=inputs=2:normalize=0[v]"),

@@ -105,7 +105,9 @@ def _beat(b: dict, ep: dict, warn: list) -> dict | None:
         acts = [x for x in (_actor(a, warn) for a in b["actors"][:4]) if x]
         if acts:
             out["actors"] = acts
-    if isinstance(b.get("say"), list):
+    if isinstance(b.get("say"), list) and t != "scene":
+        warn.append(f"dropped dialogue on a {t} beat (dialogue only plays in scene beats)")
+    elif isinstance(b.get("say"), list):
         says = [{"who": s["who"], "text": _txt(s.get("text"), 70)} for s in b["say"][:2]
                 if isinstance(s, dict) and s.get("who") in CAST and s.get("text")]
         if says:

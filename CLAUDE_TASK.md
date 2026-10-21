@@ -22,7 +22,8 @@ Each run, write today's storylines for the repository attached to this session, 
    - the code is real, runnable and shows the bug; the error text is exactly what the language prints
    - the fix changes one line and is the correct, idiomatic fix
    - the monster's physical gag matches the bug (tower of phones for recursion, slime growing for leaks, Ollie half out of frame for off-by-one)
-   - every scene beat has acting: at least one `gesture` per beat chosen for the line being said (gasp, wave, point, shrug, facepalm, nod, laugh, dance…), with mid-beat changes via `gestures` for reactions (see "Acting" in the brief)
+   - every dialogue line says something new and simple: no repeated lines or catchphrase loops; together the lines explain what broke and what fixed it (see "Dialogue" in the brief)
+   - characters stay still; faces react: in each scene at least one face changes when the line lands (`expr_to`/`expr_at` or a face cue in `gestures`, see "Acting" in the brief)
    - each episode in the batch uses a different monster and a different hook style
 7. Rewrites: read `queue/rewrites.json`. For each item whose output file `queue/pitches/DATE-rewrite-<id>.json` does not exist yet, rewrite `item.episode` applying `item.notes`. Write the result as `{"brain": "claude", "rewrite_of": "<id>", "episodes": [ <one episode> ]}`, then validate it the same way.
 8. Commit only the new files under `queue/pitches/` with the message `pitches: DATE (claude)` and push to `main`. The repo's workflows take it from there: they send each pitch to Telegram for approval.
