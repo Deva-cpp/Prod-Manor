@@ -781,7 +781,7 @@
       "approved_at": "2026-10-22T01:23:23.155647+05:30"
     },
     "2026-10-22-e": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T01:23:00.619822+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -946,14 +946,20 @@
           "#react",
           "#prodmanor"
         ],
-        "cover_text": "THE NULL GHOST"
+        "cover_text": "THE NULL GHOST",
+        "series_tag": "EP 03"
       },
       "warnings": [],
-      "pitch_msg_id": 54
+      "pitch_msg_id": 54,
+      "slot_at": "2026-10-22T19:30:00+05:30",
+      "slot_label": "19:30",
+      "explore": false,
+      "episode_no": 3,
+      "approved_at": "2026-10-22T01:24:10.314875+05:30"
     }
   },
   "telegram": {
-    "offset": 557188812,
+    "offset": 557188813,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
