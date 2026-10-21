@@ -181,8 +181,14 @@ def gemini(system: str, user: str, temperature: float = 0.9) -> dict:
                 continue
             if r.status_code in (429, 500, 503):
                 last = f"{model}: HTTP {r.status_code} {r.text[:200]}"
+                if attempt >= 1:  # still busy: a less loaded model beats waiting
+                    log("gemini busy, switching model:", model)
+                    if not discovered:
+                        discovered = True
+                        models += _gemini_flash_models(key)[:4]
+                    break
                 log("gemini busy/rate-limited, retrying:", last)
-                time.sleep(min(60, 10 * 2 ** attempt))
+                time.sleep(15)
                 continue
             if r.status_code >= 400:
                 last = f"{model}: HTTP {r.status_code} {r.text[:300]}"
