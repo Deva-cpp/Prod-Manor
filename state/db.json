@@ -778,7 +778,8 @@
       "slot_label": "17:30",
       "explore": false,
       "episode_no": 2,
-      "approved_at": "2026-10-22T01:23:23.155647+05:30"
+      "approved_at": "2026-10-22T01:23:23.155647+05:30",
+      "post_now": true
     },
     "2026-10-22-e": {
       "status": "approved",
@@ -959,7 +960,7 @@
     }
   },
   "telegram": {
-    "offset": 557188816,
+    "offset": 557188817,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
