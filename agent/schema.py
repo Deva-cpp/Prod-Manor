@@ -138,8 +138,6 @@ def _beat(b: dict, ep: dict, warn: list) -> dict | None:
         else:
             fl = int(_num(b.get("fix_line"), 1, len(lines), len(lines)))
             after = str(b.get("after") or "").rstrip()[:40]
-            if not after or after == lines[fl - 1]:
-                raise EpisodeError("fix beat must change its fix_line to a different `after` line")
             out.update(fix_line=fl, after=after, note=_txt(b.get("note") or "Fixed.", 90))
     elif t == "crash":
         out.update(title=_txt(b.get("title") or "CRASH!", 16), text=_txt(b.get("text") or "Uncaught Error", 90))
@@ -150,6 +148,23 @@ def _beat(b: dict, ep: dict, warn: list) -> dict | None:
         if b.get("kicker"):
             out["kicker"] = _txt(b["kicker"], 20)
     return out
+
+
+def _repair_fix(b: dict, code: dict | None, warn: list) -> None:
+    """A fix beat shows the BUGGY lines and swaps fix_line for `after`. Brains often hand over the already
+    fixed code instead; the code beat before it still has the buggy version, so recover the one changed line."""
+    lines, fl, after = b["lines"], b["fix_line"], b["after"]
+    if after and after != lines[fl - 1]:
+        return
+    if code and len(code["lines"]) == len(lines):
+        diff = [i for i, (x, y) in enumerate(zip(code["lines"], lines)) if x.rstrip() != y.rstrip()]
+        if len(diff) == 1:
+            i = diff[0]
+            b.update(lines=list(code["lines"]), fix_line=i + 1, after=lines[i])
+            warn.append("fix beat had the fixed code in `lines`; rebuilt it from the code beat")
+            return
+    raise EpisodeError("fix beat must change its fix_line to a different `after` line "
+                       "(`lines` = the buggy code from the code beat, `after` = the corrected text of line fix_line)")
 
 
 def validate(raw: dict) -> tuple[dict, list[str]]:
@@ -170,6 +185,9 @@ def validate(raw: dict) -> tuple[dict, list[str]]:
     types = [b["type"] for b in beats]
     if "code" not in types or "fix" not in types:
         raise EpisodeError("episode needs at least one code beat and one fix beat")
+    for i, b in enumerate(beats):
+        if b["type"] == "fix":
+            _repair_fix(b, next((c for c in reversed(beats[:i]) if c["type"] == "code"), None), warn)
     if types[0] not in ("pager", "title"):
         beats.insert(0, {"type": "title", "dur": 2.4, "text": ep["title"], "sub": ep["hook"], "monster": ep["monster"]})
         warn.append("inserted title hook at start")

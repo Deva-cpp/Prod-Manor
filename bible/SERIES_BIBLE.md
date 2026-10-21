@@ -49,6 +49,7 @@ Common fields on any beat: type, dur, narration, sfx (list from: pager, ring, cr
 - code: lang, file, lines[], highlight[line numbers], error, actors[]
 - crash: title, text, actors[]
 - fix: lang, file, lines[] (the buggy version), fix_line (1-based), after (the fixed line), note, actors[]
+  `lines` must be EXACTLY the buggy lines from the code beat, unchanged. Only `after` holds the corrected line; the renderer swaps it in on screen. Example: code beat lines ["for (let i = 0; i <= a.length; i++) {", "  go(a[i]);", "}"] → fix beat lines identical to those, fix_line 1, after "for (let i = 0; i < a.length; i++) {". Never put the fixed code in `lines`.
 - outro: lesson, cta, kicker, next_monster
 
 Actor: {who, expr (neutral | happy | scared), x (0–1 across the screen), scale (0.5–1.6), flip, action, to {x, scale}, expr_to, expr_at, copies (caller only, tower size), opacity, z}
