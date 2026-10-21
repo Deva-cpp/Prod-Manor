@@ -1,8 +1,9 @@
 {
   "episodes": {},
   "telegram": {
-    "offset": 557188783,
-    "awaiting_rewrite": {}
+    "offset": 557188784,
+    "awaiting_rewrite": {},
+    "msg_to_ep": {}
   },
   "settings": {},
   "ideas": [],
