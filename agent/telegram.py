@@ -91,6 +91,11 @@ def _relay_updates(relay: str, offset: int) -> list[dict]:
         if offset > 0:
             requests.post(f"{relay}/ack", params={"upto": offset - 1}, headers=auth, timeout=30)
         r = requests.get(f"{relay}/updates", headers=auth, timeout=30)
+        if r.status_code == 403:
+            log("relay refused the RELAY_SECRET")
+            send("⚠️ Instant mode: the relay refused the bot. RELAY_SECRET in GitHub doesn't match the one in Cloudflare, "
+                 "so your taps are waiting unread.")
+            return []
         res = r.json()
     except (requests.RequestException, ValueError) as ex:
         log(f"relay unavailable: {ex!r}")
