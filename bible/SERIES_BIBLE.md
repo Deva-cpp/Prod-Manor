@@ -46,8 +46,20 @@ Common fields on any beat: type, dur, narration, sfx (list from: pager, ring, cr
 - outro: lesson, cta, kicker, next_monster
 
 Actor: {who, expr (neutral | happy | scared), x (0–1 across the screen), scale (0.5–1.6), flip, action, to {x, scale}, expr_to, expr_at, copies (caller only, tower size), opacity, z}
+Gestures (hands, face and head acting — use them; still characters look dead):
+  gesture: one of wave, point, shrug, celebrate, cower, facepalm, think, nod, shake_head, type, beckon, dance, laugh, gasp, tremble, look_up, look_down, look_left, look_right
+  gesture_at: 0–0.95, when in the beat it starts (default 0)
+  gestures: up to 4 timed changes in one beat, e.g. [{"g": "think", "at": 0}, {"g": "point", "at": 0.5}]
 Actions: idle, enter_left, enter_right, exit_left, exit_right, shake, hop, grow, shrink, pop_in, fade_in, fade_out, defeated, peek, spin (caller dial), float, stack (caller: copies build into a tower; use with copies 3–5).
 Junior faces right, so put him on the left (x 0.2–0.35) with the monster on the right (x 0.65–0.8). Use `flashlight` when Junior and a monster share a scene.
+
+## Acting (every beat needs a performance, not a pose)
+The renderer already does automatic acting: eyes dart and look at the other character, listeners look at whoever is talking, the speaker's mouth moves and head bobs while their bubble types out, Junior cowers on `pager` and `crash`, thinks while code is on screen, types then celebrates on `fix`, a happy monster laughs on `crash`. ADD explicit gestures where a beat needs a specific acting choice:
+- Give every `scene` beat at least one gesture, chosen for the line being said: Junior `gasp` when the monster appears, monster `wave`/`beckon` when it greets him, `shrug` on a confused line, `facepalm` when Junior realises his own mistake, `nod` when he gets it, `shake_head` for "no, no, no".
+- Change gesture mid-beat for a reaction: `[{"g": "think", "at": 0}, {"g": "point", "at": 0.6}]` = Junior figures it out, then points at the bug.
+- Character signatures: Junior `facepalm` and `type`; The Null `look_down` (shy) and `nod`; The Caller `wave` (waves his receiver like a phone call) and `laugh`; Fork & Join `dance` together (they mirror each other — symmetry is the joke); The Leak `laugh` while growing; Ollie `beckon` and `wave` with his donut box.
+- Hands only exist on Junior, Fork & Join and Ollie. For The Null, The Caller and The Leak, gestures become head tilts, eye direction, receiver waves and mouth movement — still use them.
+- Don't use a gesture that fights the emotion (no `celebrate` on a `scared` expression).
 
 Monster physical gags to use:
 - leak: `action: "grow"` with `amount` 1.5–2.4 as it gets fed; `shrink` when cleaned up.

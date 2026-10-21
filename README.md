@@ -86,6 +86,12 @@ Tomorrow at 07:00 IST the first pitches arrive. Want some now? Send `/more 2`.
 - **Producer** (`bible/SERIES_BIBLE.md`, `bible/topics.yaml`): rotates monsters and avoids repeating topics from the last 30 days. It varies hook styles within a batch and enforces the beat sheet: 2-second hook → title → encounter → real buggy code → consequence → one-line fix → lesson and next-monster tease. Every script passes `agent/schema.py` before you ever see it.
 - **Marketer** (`agent/marketer.py`, `agent/scheduler.py`): pulls views, reach, shares, saves, comments and watch time at 24h, 72h and 7d. Each reel is scored as views + 8×shares + 6×saves + 3×comments + likes, boosted by watch time. Scores are aggregated by monster, level, language and slot, and written to `state/learnings.md`, which goes into every brief. Slots are chosen best-first, with a share reserved for testing under-sampled slots. After 100 followers, Instagram's "followers online" data also weighs in.
 
+## Look & animation
+- Your approved designs live in `design/`: the style guide and cast lineup from Claude Design. Open them in a browser.
+- `bible/STYLE_GUIDE.md` is the text version of the style guide, plus the animation rules.
+- Characters are rigged without being redrawn. Arms pivot at the shoulder, with props attached (Junior's flashlight beam follows his arm). Heads tilt, eyes dart and look at whoever's talking, brows lift, and mouths lip-sync while a speech bubble types out.
+- Scripts can direct 19 gestures per actor (wave, point, shrug, facepalm, celebrate, cower, dance, laugh…) and sequence them within a beat. The brain is instructed to give every scene a performance.
+
 ## Adding your own content
 - **New topics:** add lines to `bible/topics.yaml`.
 - **Tone or rules:** edit `bible/SERIES_BIBLE.md`.

@@ -106,8 +106,101 @@
   }
   const BGS = { hallway: bgHallway, bedroom: bgBedroom, server_room: bgServer };
 
+  // ---------- acting: hands, face and head (rig options from pm-characters.js) ----------
+  // Values: armL/armR = degrees raised from rest at the shoulder, tilt = head degrees,
+  // lookX/lookY = -1..1 eye direction, brow = -1..1, talk = 0..1 mouth open.
+  const S1 = Math.sin, AB = Math.abs;
+  const GESTURES = {
+    wave: (t) => ({ armR: 118 + 26 * S1(t * 14), tilt: 4, brow: 0.5 }),
+    point: () => ({ armR: 72, brow: 0.6 }),
+    shrug: (t) => ({ armL: 38, armR: 38, tilt: 9, brow: 1, lookY: -0.3 }),
+    celebrate: (t) => ({ armL: 142 + 12 * S1(t * 12), armR: 142 + 12 * S1(t * 12 + 1.2), tilt: 6 * S1(t * 6), brow: 0.8, talk: 0.5 + 0.5 * AB(S1(t * 9)) }),
+    cower: (t) => ({ armL: 112 + 5 * S1(t * 42), armR: 112 + 5 * S1(t * 42 + 1), tilt: -7, brow: 1, lookX: 0.7 * S1(t * 8.5) }),
+    facepalm: () => ({ armL: 152, tilt: 11, lookY: 1, brow: -0.6 }),
+    think: (t) => ({ armL: 42, tilt: 7, lookX: 0.6, lookY: -1, brow: 0.8 }),
+    nod: (t) => ({ tilt: 5 * S1(t * 9), lookY: 0.3 + 0.5 * S1(t * 9), brow: 0.3 }),
+    shake_head: (t) => ({ tilt: 9 * S1(t * 11), lookX: S1(t * 11), brow: -0.5 }),
+    type: (t) => ({ armR: 14 + 9 * AB(S1(t * 16)), armL: 8 + 7 * AB(S1(t * 16 + 1.3)), lookY: 1, brow: -0.3 }),
+    beckon: (t) => ({ armL: 58 + 24 * S1(t * 8), tilt: -4, brow: 0.6 }),
+    dance: (t) => ({ armL: 70 + 55 * S1(t * 9), armR: 70 + 55 * S1(t * 9 + Math.PI), tilt: 7 * S1(t * 4.5) }),
+    laugh: (t) => ({ talk: AB(S1(t * 17)), tilt: 6 * S1(t * 8.5), armL: 50 + 20 * S1(t * 17), armR: 50 + 20 * S1(t * 17 + 1), brow: 0.7 }),
+    gasp: (t) => ({ armL: 62, armR: 62, brow: 1, talk: 0.95, tilt: -3 }),
+    tremble: (t) => ({ armL: 16 + 4 * S1(t * 40), armR: 16 + 4 * S1(t * 40 + 1), lookX: 0.8 * S1(t * 6.3), brow: 1 }),
+    look_up: () => ({ lookY: -1, brow: 0.6 }),
+    look_down: () => ({ lookY: 1, brow: -0.3 }),
+    look_left: () => ({ lookX: -1 }),
+    look_right: () => ({ lookX: 1 }),
+  };
+  // eye saccades: hold a gaze, then dart quickly to the next one
+  function gaze(seed, T, period) {
+    const n = T / period + hash(seed) * 7, i = Math.floor(n), fr = n - i;
+    const w = ease.inout(clamp((fr - 0.82) / 0.18, 0, 1));
+    return [mix(hash(i * 3.1 + seed) * 2 - 1, hash((i + 1) * 3.1 + seed) * 2 - 1, w), mix(hash(i * 7.7 + seed) - 0.5, hash((i + 1) * 7.7 + seed) - 0.5, w)];
+  }
+  function autoActing(a, st, ctx, lt, dur, T, idx) {
+    const who = a.who, other = ctx.others.find((o) => o.idx !== idx);
+    const toward = other ? Math.sign(other.x - st.x) || 1 : 0;
+    const [gx, gy] = gaze(idx * 13 + 5, T, 1.7);
+    const r = { lookX: toward * 0.7 + gx * 0.3, lookY: gy * 0.6 };
+    if (who === 'junior') { r.armL = 4 + 3 * S1(T * 1.3 + idx); r.armR = 3 + 3 * S1(T * 1.1 + idx + 2); }
+    if (st.expr === 'scared') Object.assign(r, GESTURES.tremble(T));
+    const t = ctx.type;
+    if (t === 'pager' && who === 'junior') Object.assign(r, GESTURES.cower(T));
+    if (t === 'code') { r.lookY = -1; r.lookX = gx * 0.4; if (who === 'junior') Object.assign(r, GESTURES.think(T), { lookX: 0.3 + gx * 0.3 }); }
+    if (t === 'crash') {
+      if (who === 'junior') Object.assign(r, GESTURES.cower(T));
+      else if (st.expr === 'happy') Object.assign(r, GESTURES.laugh(T));
+    }
+    if (t === 'fix') {
+      if (who === 'junior') Object.assign(r, lt < ctx.fixAt ? GESTURES.type(T) : GESTURES.celebrate(T));
+      else if (lt >= ctx.fixAt) { r.tilt = -10; r.brow = 1; }
+      else r.lookY = -1;
+    }
+    if (t === 'outro' && who === 'junior') Object.assign(r, GESTURES.wave(T));
+    if (ctx.speaker === who && ctx.talking) {
+      // lip flap: syllable rhythm + a little head bob while the line is being said
+      r.talk = 0.15 + 0.85 * AB(S1(T * 13 + 2 * S1(T * 5.3)));
+      r.tilt = (r.tilt || 0) + 2.5 * S1(T * 7);
+      r.brow = Math.max(r.brow || 0, 0.4 * AB(S1(T * 3)));
+      if (other) r.lookX = toward * 0.8;
+    } else if (ctx.speaker && ctx.speakerX != null && ctx.speaker !== who && t === 'scene') {
+      r.lookX = Math.sign(ctx.speakerX - st.x) * 0.85; // listeners look at whoever is talking
+    }
+    return r;
+  }
+  function acting(a, st, ctx, lt, dur, T, idx) {
+    let base = autoActing(a, st, ctx, lt, dur, T, idx);
+    const list = (a.gestures || []).slice();
+    if (a.gesture) list.unshift({ g: a.gesture, at: a.gesture_at || 0 });
+    const p = lt / Math.max(0.01, dur);
+    let cur = base;
+    list.filter((x) => GESTURES[x.g]).sort((x, y) => (x.at || 0) - (y.at || 0)).forEach((x) => {
+      const start = (x.at || 0) * dur;
+      if (lt < start) return;
+      const tgt = Object.assign({}, base, GESTURES[x.g](T - start));
+      const w = prog(lt, start, start + 0.3, ease.inout);
+      const prev = cur;
+      cur = {};
+      new Set([...Object.keys(prev), ...Object.keys(tgt)]).forEach((k) => { cur[k] = mix(prev[k] || 0, tgt[k] || 0, w); });
+    });
+    // ease every rig channel in from rest at the start of the beat so cuts never pop
+    const inW = prog(lt, 0, 0.22, ease.out);
+    const o = {};
+    for (const k of ['armL', 'armR', 'tilt', 'lookX', 'lookY', 'brow', 'talk']) {
+      let v = (cur[k] || 0) * (k === 'lookX' || k === 'lookY' ? 1 : inW);
+      if (k === 'lookX' && a.flip) v = -v;
+      const qs = { armL: 1, armR: 1, tilt: 0.5, lookX: 0.1, lookY: 0.1, brow: 0.1, talk: 0.125 }[k];
+      v = q(v, qs);
+      if (v) o[k] = v;
+    }
+    if (a.who === 'caller' && (o.armR || o.armL)) st.opts.recv = q((st.opts.recv || 0) + 0.25 * Math.max(o.armR || 0, o.armL || 0) * (0.6 + 0.4 * S1(T * 10)), 1);
+    if (a.who !== 'junior' && a.who !== 'ollie' && a.who !== 'twins') { delete o.armL; delete o.armR; }
+    if (a.who === 'leak' || a.who === 'caller' || a.who === 'twins') { st.rot += (o.tilt || 0) * 0.5; delete o.tilt; }
+    Object.assign(st.opts, o);
+  }
+
   // ---------- actors ----------
-  function actorState(a, lt, dur, T, idx) {
+  function actorState(a, lt, dur, T, idx, ctx) {
     const p = lt / Math.max(0.01, dur);
     const st = { x: a.x == null ? 0.5 : a.x, scale: a.scale || 1, op: a.opacity == null ? 1 : a.opacity, dy: 0, rot: 0, sx: 1, sy: 1, expr: a.expr || 'neutral', opts: {} };
     if (a.to) {
@@ -144,11 +237,12 @@
       case 'float': st.dy -= 24 + 14 * Math.sin(T * 2.2); break;
     }
     if (who === 'null' && a.action !== 'fade_in' && a.action !== 'fade_out') st.op *= 0.92; // he's barely there
+    if (ctx) acting(a, st, ctx, lt, dur, T, idx);
     return st;
   }
 
-  function renderActor(a, lt, dur, T, idx) {
-    const st = actorState(a, lt, dur, T, idx);
+  function renderActor(a, lt, dur, T, idx, ctx) {
+    const st = actorState(a, lt, dur, T, idx, ctx);
     if (st.op <= 0.01 || st.scale <= 0.01) return { html: '', head: null };
     const copies = a.who === 'caller' && a.copies ? Math.max(1, Math.round(a.copies * (a.action === 'stack' ? prog(lt, 0, dur * 0.8, ease.inout) : 1))) : 1;
     let html = '', head = null;
@@ -168,7 +262,10 @@
       if (c === copies - 1) head = { x: cx, y: top + g.headOff, w: g.w, h: g.h, who: a.who, cyMid: top + g.h * 0.45 };
       if (a.who === 'junior' && c === 0) {
         const fx = a.flip ? -1 : 1;
-        head.lens = { x: left + (a.flip ? g.w - (LENS.x - g.d.x0) * g.k : (LENS.x - g.d.x0) * g.k), y: top + (LENS.y - g.d.y0) * g.k, dir: fx };
+        // the flashlight rides the right arm: rotate the lens around the shoulder pivot (170,180)
+        const ang = -(st.opts.armR || 0) * Math.PI / 180, ca = Math.cos(ang), sa = Math.sin(ang);
+        const lxu = 170 + (LENS.x - 170) * ca - (LENS.y - 180) * sa, lyu = 180 + (LENS.x - 170) * sa + (LENS.y - 180) * ca;
+        head.lens = { x: left + (a.flip ? g.w - (lxu - g.d.x0) * g.k : (lxu - g.d.x0) * g.k), y: top + (lyu - g.d.y0) * g.k, dir: fx };
       }
     }
     return { html, head };
@@ -323,8 +420,19 @@
       const n = (b.lines || []).length, cap = n <= 3 ? 0.78 : n <= 5 ? 0.62 : 0.5;
       actors = actors.map((a) => Object.assign({}, a, { scale: Math.min(a.scale || 1, cap) }));
     }
+    // who is speaking right now (bubbles play in order across the beat)
+    const saysAll = (b.say || []).filter((s) => s && s.text);
+    let speaker = null, talking = false;
+    if (saysAll.length) {
+      const seg = dur / saysAll.length, si = clamp(Math.floor(lt / seg), 0, saysAll.length - 1), sp = (lt - si * seg) / seg;
+      speaker = saysAll[si].who; talking = sp > 0.04 && sp < 0.5;
+    }
+    const ctx = { type: b.type, speaker, talking, fixAt: dur * 0.38,
+      others: actors.map((a, i) => ({ idx: i, who: a.who, x: a.x == null ? 0.5 : a.x })) };
+    const sa = actors.find((a) => a.who === speaker);
+    ctx.speakerX = sa ? (sa.x == null ? 0.5 : sa.x) : null;
     const heads = [];
-    actors.forEach((a, i) => { if (!NAMES[a.who]) return; const r = renderActor(a, lt, dur, T, i); stage += r.html; heads.push(r.head); });
+    actors.forEach((a, i) => { if (!NAMES[a.who]) return; const r = renderActor(a, lt, dur, T, i, ctx); stage += r.html; heads.push(r.head); });
 
     // title card: monster silhouette reveal
     if (b.type === 'title') {

@@ -38,6 +38,12 @@
     k.clip = (d, inner) => { const i = k.id(); return `<clipPath id="${i}"><path d="${d}"/></clipPath><g clip-path="url(#${i})">${inner}</g>`; };
     return k;
   }
+  // ── rig helpers: animate cut-out parts without redrawing them (style guide §06) ──
+  const rot = (deg, x, y, inner) => (deg ? `<g transform="rotate(${f(deg)} ${x} ${y})">${inner}</g>` : inner);
+  const mv = (dx, dy, inner) => (+dx || +dy ? `<g transform="translate(${dx} ${dy})">${inner}</g>` : inner);
+  // mouth swap for talking: open/close by scaling the mouth around its top edge
+  const flap = (o, x, y, inner, lo, hi) => { const t = o.talk || 0; if (!t) return inner; lo = lo == null ? 0.55 : lo; hi = hi == null ? 1.35 : hi; const sy = lo + t * (hi - lo); return `<g transform="translate(${x} ${y}) scale(1 ${f(sy)}) translate(${-x} ${-y})">${inner}</g>`; };
+  const lk = (o, sx, sy) => [f((o.lookX || 0) * sx), f((o.lookY || 0) * sy)];
   const txt = (x, y, s, size, extra) => `<text x="${x}" y="${y}" font-family="JetBrains Mono, monospace" font-size="${size}" font-weight="800" fill="${INK}" text-anchor="middle"${extra || ''}>${s}</text>`;
 
   function coil(k, P, loops, r, w, c) {
@@ -60,7 +66,10 @@
   // ───────────────────────── JUNIOR ─────────────────────────
   function junior(k, o) {
     const C = PAL.junior, e = o.expr || 'neutral', ex = o.explode || 0;
-    const P = (name, dx, dy, s) => `<g data-part="${name}" transform="translate(${f(dx * ex * 60)} ${f(dy * ex * 60)})">${s}</g>`;
+    // rig pivots: shoulders for the arms (laptop rides the left arm), neck for head + face
+    const RIG = { armL: [o.armL || 0, 52, 180], laptop: [o.armL || 0, 52, 180], armR: [-(o.armR || 0), 170, 180], head: [o.tilt || 0, 110, 154], face: [o.tilt || 0, 110, 154] };
+    const P = (name, dx, dy, s) => { const r = RIG[name]; const rt = r && r[0] ? ` rotate(${f(r[0])} ${r[1]} ${r[2]})` : ''; return `<g data-part="${name}" transform="translate(${f(dx * ex * 60)} ${f(dy * ex * 60)})${rt}">${s}</g>`; };
+    const [lx, ly] = lk(o, 5, 4), bw = -(o.brow || 0) * 6;
     let s = '';
     s += P('laptop', -0.9, 0.2, `<g transform="rotate(-8 34 228)">${k.part(R(12, 184, 44, 88, 6), C.laptop, C.laptopSh, 5)}${k.part(E(34, 214, 7), C.base, null, 0, 5)}</g>`);
     s += P('legs', 0, 0.8,
@@ -95,12 +104,13 @@
     else {
       const sc = e === 'scared', rx = sc ? 16 : 15, ry = sc ? 19 : 17, pr = sc ? 4.5 : 7;
       fc += k.part(E(88, 106, rx, ry), C.eye, null, 0, 5) + k.part(E(132, 106, rx, ry), C.eye, null, 0, 5);
-      fc += `<circle cx="89" cy="108" r="${pr}" fill="${INK}"/><circle cx="131" cy="108" r="${pr}" fill="${INK}"/><circle cx="91.6" cy="105" r="2.4" fill="#fff"/><circle cx="133.6" cy="105" r="2.4" fill="#fff"/>`;
+      fc += mv(lx, ly, `<circle cx="89" cy="108" r="${pr}" fill="${INK}"/><circle cx="131" cy="108" r="${pr}" fill="${INK}"/><circle cx="91.6" cy="105" r="2.4" fill="#fff"/><circle cx="133.6" cy="105" r="2.4" fill="#fff"/>`);
     }
     const brows = { neutral: ['M74,90Q84,82 99,84', 'M121,84Q136,82 146,90'], scared: ['M72,84Q82,72 98,74', 'M122,74Q138,72 148,84'], happy: ['M74,84Q86,76 98,80', 'M122,80Q134,76 146,84'] }[e] || ['M74,90Q84,82 99,84', 'M121,84Q136,82 146,90'];
-    fc += k.ln(brows[0], 5.5) + k.ln(brows[1], 5.5) + k.ln('M106,121Q111,127 115,120', 4);
-    if (e === 'happy') fc += k.part('M94,134Q110,138 128,133Q124,154 110,154Q96,154 94,134Z', C.mouth, null, 0, 5) + `<ellipse cx="111" cy="148" rx="7" ry="3.5" fill="${C.tongue}"/>`;
-    else if (e === 'scared') fc += k.part('M98,136Q110,130 122,136Q124,150 110,152Q96,150 98,136Z', C.mouth, null, 0, 5) + `<path d="M100,138Q110,134 120,138L120,141Q110,138 100,141Z" fill="#fff"/>`;
+    fc += mv(0, bw, k.ln(brows[0], 5.5) + k.ln(brows[1], 5.5)) + k.ln('M106,121Q111,127 115,120', 4);
+    if (e === 'happy') fc += flap(o, 110, 134, k.part('M94,134Q110,138 128,133Q124,154 110,154Q96,154 94,134Z', C.mouth, null, 0, 5) + `<ellipse cx="111" cy="148" rx="7" ry="3.5" fill="${C.tongue}"/>`, 0.5, 1.15);
+    else if (e === 'scared') fc += flap(o, 110, 134, k.part('M98,136Q110,130 122,136Q124,150 110,152Q96,150 98,136Z', C.mouth, null, 0, 5) + `<path d="M100,138Q110,134 120,138L120,141Q110,138 100,141Z" fill="#fff"/>`, 0.6, 1.3);
+    else if ((o.talk || 0) > 0.08) { const t = o.talk; fc += k.part(E(110, 141, 8 + 3 * t, 2.5 + 9 * t), C.mouth, null, 0, 5) + (t > 0.45 ? `<ellipse cx="110" cy="${f(144 + 5 * t)}" rx="${f(4 + 2 * t)}" ry="${f(1.5 + 2 * t)}" fill="${C.tongue}"/>` : ''); }
     else fc += k.ln('M96,140Q102,136 108,140Q114,144 122,139', 4.5);
     s += P('face', 0, -1.6, fc);
     return { x0: 0, y0: 0, w: 292, h: 368, floor: 362, cx: 110, top: 4, under: `<ellipse cx="112" cy="362" rx="84" ry="9" fill="#090A1E" opacity="0.35"/>`, body: s };
@@ -115,7 +125,9 @@
     else if (o.blink) eyes = [['M64,101Q78,109 92,101Q78,105 64,101Z', ''], ['M108,101Q122,109 136,101Q122,105 108,101Z', '']];
     else if (e === 'scared') eyes = [[E(78, 98, 15, 20), ''], [E(122, 98, 15, 20), '']];
     else eyes = [[E(78, 100, 12, 18), 'rotate(14 78 100)'], [E(122, 100, 12, 18), 'rotate(-14 122 100)']];
-    const ep = (fill, extra) => eyes.map((x) => `<path d="${x[0]}"${x[1] ? ` transform="${x[1]}"` : ''} fill="${fill}"${extra || ''}/>`).join('');
+    const [nlx, nly] = lk(o, 6, 5), nsq = 1 - 0.18 * (o.talk || 0);
+    const rigged = +nlx || +nly || nsq !== 1;
+    const ep = (fill, extra) => (rigged ? `<g transform="translate(${nlx} ${nly}) translate(100 100) scale(1 ${f(nsq)}) translate(-100 -100)">` : '') + eyes.map((x) => `<path d="${x[0]}"${x[1] ? ` transform="${x[1]}"` : ''} fill="${fill}"${extra || ''}/>`).join('') + (rigged ? '</g>' : '');
     const m = k.id();
     const folds = e === 'scared'
       ? ['M68,150C58,170 74,190 62,212C54,228 68,246 58,266', 'M132,150C142,170 128,190 140,212C148,228 134,246 146,262', 'M100,196C108,214 92,232 100,250C106,264 96,274 100,282']
@@ -123,7 +135,7 @@
     let sheet = k.part(SHEET, C.base, C.shade, 9);
     sheet += folds.map((d) => k.ln(d, 5, C.shade)).join('') + k.ln('M96,20C92,27 88,32 82,36', 4, C.shade) + k.ln('M104,20C108,27 112,32 118,36', 4, C.shade);
     if (e !== 'scared') sheet += `<ellipse cx="62" cy="126" rx="10" ry="5" fill="${C.blush}"/><ellipse cx="138" cy="126" rx="10" ry="5" fill="${C.blush}"/>`;
-    let s = `<g transform="rotate(-5 100 296)"><mask id="${m}" maskUnits="userSpaceOnUse" x="-60" y="-60" width="340" height="420"><rect x="-60" y="-60" width="340" height="420" fill="#fff"/>${ep('#000')}</mask>`;
+    let s = `<g transform="rotate(${f(-5 + (o.tilt || 0))} 100 296)"><mask id="${m}" maskUnits="userSpaceOnUse" x="-60" y="-60" width="340" height="420"><rect x="-60" y="-60" width="340" height="420" fill="#fff"/>${ep('#000')}</mask>`;
     s += `<g mask="url(#${m})">${sheet}</g>${ep('none', ` stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"`)}`;
     s += `<g data-part="tag" transform="translate(14 236) rotate(-14)">${k.part(R(-24, -12, 48, 24, 3), C.tag, null, 0, 5)}${k.ln('M-18,-12L-18,12', 2, '#AEBBDD', ' stroke-dasharray="3 3"')}${txt(3, 4.6, 'null', 13)}</g></g>`;
     const b = k.id();
@@ -147,54 +159,61 @@
     for (let i = 0; i < 10; i++) { const a = (90 + i * 33.33) * Math.PI / 180; holes += `<circle cx="${f(126 + 33 * Math.cos(a))}" cy="${f(116 + 33 * Math.sin(a))}" r="7.4" fill="${C.hole}" stroke="${INK}" stroke-width="2.5"/>`; }
     s += `<g data-part="dial" transform="rotate(${f(dial)} 126 116)">${holes}</g><path d="M147,152L158,163L150,164Z" fill="${INK}"/>`;
     s += k.part(E(126, 116, 20), C.eyeW, null, 0, 5);
-    if (e === 'scared') s += `<circle cx="126" cy="116" r="4.5" fill="${INK}"/>`;
+    const [clx, cly] = lk(o, 6, 5);
+    let eye = '';
+    if (e === 'scared') eye = `<circle cx="126" cy="116" r="4.5" fill="${INK}"/>`;
     else {
       let sp = ''; for (let i = 0; i <= 72; i++) { const th = i / 72 * 6 * Math.PI, rr = 1.5 + 15 * th / (6 * Math.PI); sp += (i ? 'L' : 'M') + f(126 + rr * Math.cos(th)) + ',' + f(116 + rr * Math.sin(th)); }
-      s += `<g data-part="spiral" transform="rotate(${f(spin)} 126 116)">${k.ln(sp, 3)}</g><circle cx="126" cy="116" r="2.8" fill="${C.base}"/>`;
+      eye = `<g data-part="spiral" transform="rotate(${f(spin)} 126 116)">${k.ln(sp, 3)}</g><circle cx="126" cy="116" r="2.8" fill="${C.base}"/>`;
     }
+    s += mv(clx, cly, eye);
     // grin
-    if (e === 'scared') s += k.part('M96,172Q106,166 116,172Q126,178 136,172Q146,166 156,172Q150,190 126,190Q102,190 96,172Z', C.mouth, null, 0, 5);
+    let grin = '';
+    if (e === 'scared') grin = k.part('M96,172Q106,166 116,172Q126,178 136,172Q146,166 156,172Q150,190 126,190Q102,190 96,172Z', C.mouth, null, 0, 5);
     else {
       const M = e === 'happy' ? 'M62,164Q126,176 190,164Q182,204 126,204Q70,204 62,164Z' : 'M68,166Q126,176 184,166Q176,200 126,200Q76,200 68,166Z';
-      s += k.ink(M, 6) + `<path d="${M}" fill="${C.mouth}"/>` + k.clip(M, `<rect x="56" y="150" width="140" height="31" fill="${C.teeth}"/>${[86, 106, 126, 146, 166].map((x) => k.ln(`M${x},160L${x},181`, 2.5)).join('')}${k.ln('M56,181L196,181', 3)}<ellipse cx="126" cy="${e === 'happy' ? 202 : 198}" rx="26" ry="10" fill="${C.tongue}"/>`) + k.ln(M, 4);
+      grin = k.ink(M, 6) + `<path d="${M}" fill="${C.mouth}"/>` + k.clip(M, `<rect x="56" y="150" width="140" height="31" fill="${C.teeth}"/>${[86, 106, 126, 146, 166].map((x) => k.ln(`M${x},160L${x},181`, 2.5)).join('')}${k.ln('M56,181L196,181', 3)}<ellipse cx="126" cy="${e === 'happy' ? 202 : 198}" rx="26" ry="10" fill="${C.tongue}"/>`) + k.ln(M, 4);
     }
+    s += flap(o, 126, 166, grin, 0.6, 1.12);
     s += `<g data-part="receiver" transform="translate(6 62) rotate(${f(-38 + rv)})">${k.part('M-58,-4C-58,-14 -48,-18 -40,-12L40,-12C48,-18 58,-14 58,-4L58,14C58,22 34,22 34,12L34,6L-34,6L-34,12C-34,22 -58,22 -58,14Z', C.base, C.shade, 5)}</g>`;
     return { x0: -44, y0: 8, w: 368, h: 214, floor: 216, cx: 126, top: 40, under: `<ellipse cx="128" cy="215" rx="104" ry="9" fill="#090A1E" opacity="0.35"/>`, body: s };
   }
 
   // ───────────────────────── FORK & JOIN ─────────────────────────
-  function gremlin(k, kind, e, blink) {
+  function gremlin(k, kind, e, blink, o) {
+    o = o || {};
+    const [glx, gly] = lk(o, 4, 3);
     const C = PAL.twins, G = C.base, GS = C.shade;
     let s = k.part('M20,74C6,64 -6,60 -14,60C-8,74 2,90 16,96Z', G, GS, 3) + k.part('M100,74C114,64 126,60 134,60C128,74 118,90 104,96Z', G, GS, 3);
     s += k.grp([[tube(44, 128, 40, 146, 16, 16), G, GS, 3], [E(37, 148, 12, 6), G, GS, 3], [tube(76, 128, 80, 146, 16, 16), G, GS, 3], [E(83, 148, 12, 6), G, GS, 3]]);
     s += kind === 'fork'
       ? k.iln('M60,42Q57,30 60,20', 4.5, G) + k.iln('M48,2L48,10Q48,20 60,20Q72,20 72,10L72,2', 4.5, G)
       : k.iln('M60,42Q57,32 60,21', 4.5, G) + k.iln(E(53, 12, 8.5), 4, G) + k.iln(E(67, 12, 8.5), 4, G) + k.iln('M59.5,6.5A8.5,8.5 0 0 1 59.5,17.5', 4, G);
-    s += k.grp([[tube(18, 104, -2, 80, 12, 10), G, GS, 2], [E(-4, 76, 7.5), G, GS, 2]]);
+    s += rot(o.armL || 0, 18, 104, k.grp([[tube(18, 104, -2, 80, 12, 10), G, GS, 2], [E(-4, 76, 7.5), G, GS, 2]]));
     s += k.part('M60,40C92,40 108,66 108,96C108,124 94,138 60,138C26,138 12,124 12,96C12,66 28,40 60,40Z', G, GS, 8);
-    s += k.grp([[tube(100, 106, 120, 98, 12, 10), G, GS, 2], [E(123, 97, 7.5), G, GS, 2]]);
+    s += rot(-(o.armR || 0), 100, 106, k.grp([[tube(100, 106, 120, 98, 12, 10), G, GS, 2], [E(123, 97, 7.5), G, GS, 2]]));
     if (e === 'happy') s += k.ln('M32,88Q44,74 56,88', 5) + k.ln('M64,88Q76,74 88,88', 5);
     else if (blink) s += k.ln('M32,86Q44,92 56,86', 5) + k.ln('M64,86Q76,92 88,86', 5);
     else {
       const sc = e === 'scared', ry = sc ? 17 : 15, pr = sc ? 3.5 : 5.5, px = sc ? 0 : 4;
       [44, 76].forEach((x) => {
         const S = E(x, 84, 13, ry);
-        s += k.part(S, C.eye, null, 0, 5) + `<circle cx="${x + px}" cy="${sc ? 84 : 88}" r="${pr}" fill="${INK}"/><circle cx="${x + px + 2}" cy="${sc ? 82 : 86}" r="1.8" fill="#fff"/>`;
+        s += k.part(S, C.eye, null, 0, 5) + `` + mv(glx, gly, `<circle cx="${x + px}" cy="${sc ? 84 : 88}" r="${pr}" fill="${INK}"/><circle cx="${x + px + 2}" cy="${sc ? 82 : 86}" r="1.8" fill="#fff"/>`);
         if (!sc) s += k.clip(S, `<path d="M${x - 16},60L${x + 16},60L${x + 16},${77}Q${x},${82} ${x - 16},${79}Z" fill="${G}"/>`) + k.ln(`M${x - 13},79Q${x},${82} ${x + 13},77`, 3.5);
       });
     }
-    if (e === 'scared') s += k.part('M44,112Q52,106 60,112Q68,118 76,112Q74,124 60,124Q46,124 44,112Z', C.mouth, null, 0, 5);
+    if (e === 'scared') s += flap(o, 60, 110, k.part('M44,112Q52,106 60,112Q68,118 76,112Q74,124 60,124Q46,124 44,112Z', C.mouth, null, 0, 5));
     else {
       const M = e === 'happy' ? 'M30,100Q60,112 90,98Q84,132 58,130Q36,128 30,100Z' : 'M34,104Q60,114 88,100Q80,126 58,124Q40,122 34,104Z';
-      s += k.part(M, C.mouth, null, 0, 5) + `<path d="M44,107L48,116L52,108Z" fill="${C.fang}"/><path d="M68,106L72,115L76,104Z" fill="${C.fang}"/>`;
+      s += flap(o, 60, 102, k.part(M, C.mouth, null, 0, 5) + `<path d="M44,107L48,116L52,108Z" fill="${C.fang}"/><path d="M68,106L72,115L76,104Z" fill="${C.fang}"/>`, 0.6, 1.25);
     }
     return s;
   }
   function twins(k, o) {
     const lean = o.lean == null ? 5 : o.lean, e = o.expr || 'neutral';
-    let s = `<g data-part="fork" transform="rotate(${f(lean)} 60 150)">${gremlin(k, 'fork', e, o.blink)}</g>`;
+    let s = `<g data-part="fork" transform="rotate(${f(lean)} 60 150)">${gremlin(k, 'fork', e, o.blink, o)}</g>`;
     k.fx = -1;
-    s += `<g data-part="join" transform="translate(240 0) scale(-1 1) rotate(${f(lean)} 60 150)">${gremlin(k, 'join', e, o.blink)}</g>`;
+    s += `<g data-part="join" transform="translate(240 0) scale(-1 1) rotate(${f(lean)} 60 150)">${gremlin(k, 'join', e, o.blink, Object.assign({}, o, { lookX: -(o.lookX || 0) }))}</g>`;
     k.fx = 1;
     return { x0: -24, y0: -6, w: 288, h: 162, floor: 154, cx: 120, top: 2, under: `<ellipse cx="62" cy="154" rx="50" ry="6" fill="#090A1E" opacity="0.35"/><ellipse cx="178" cy="154" rx="50" ry="6" fill="#090A1E" opacity="0.35"/>`, body: s };
   }
@@ -217,10 +236,11 @@
       const sc = e === 'scared', g = sc ? 2 : 0;
       s += k.part(E(126, 86, 17 + g, 19 + g), C.eye, null, 0, 5) + k.part(E(170, 90, 13 + g, 15 + g), C.eye, null, 0, 5);
       s += sc ? `<circle cx="126" cy="86" r="3.5" fill="${INK}"/><circle cx="170" cy="90" r="3" fill="${INK}"/>`
-        : `<circle cx="130" cy="91" r="7" fill="${INK}"/><circle cx="166" cy="94" r="6" fill="${INK}"/><circle cx="132.5" cy="88" r="2.3" fill="#fff"/><circle cx="168.5" cy="91.5" r="2" fill="#fff"/>`;
+        : mv(...lk(o, 5, 4), `<circle cx="130" cy="91" r="7" fill="${INK}"/><circle cx="166" cy="94" r="6" fill="${INK}"/><circle cx="132.5" cy="88" r="2.3" fill="#fff"/><circle cx="168.5" cy="91.5" r="2" fill="#fff"/>`);
     }
-    if (e === 'happy') s += k.part('M126,122Q148,132 172,120Q166,146 148,146Q130,146 126,122Z', C.mouth, null, 0, 5) + k.part(R(142, 126, 11, 12, 3), C.tooth, null, 0, 4);
-    else if (e === 'scared') s += k.part(E(148, 134, 10, 9), C.mouth, null, 0, 5) + k.part(R(143, 125, 10, 10, 3), C.tooth, null, 0, 4);
+    if (e === 'happy') s += flap(o, 148, 122, k.part('M126,122Q148,132 172,120Q166,146 148,146Q130,146 126,122Z', C.mouth, null, 0, 5) + k.part(R(142, 126, 11, 12, 3), C.tooth, null, 0, 4), 0.55, 1.3);
+    else if (e === 'scared') s += flap(o, 148, 125, k.part(E(148, 134, 10, 9), C.mouth, null, 0, 5) + k.part(R(143, 125, 10, 10, 3), C.tooth, null, 0, 4));
+    else if ((o.talk || 0) > 0.08) s += k.part(`M128,124Q148,${f(130 + 4 * o.talk)} 170,122Q166,${f(132 + 16 * o.talk)} 148,${f(134 + 16 * o.talk)}Q130,${f(132 + 16 * o.talk)} 128,124Z`, C.mouth, null, 0, 5) + k.part(R(142, 126, 11, 11, 3), C.tooth, null, 0, 4);
     else s += k.part(R(141, 130, 11, 12, 3), C.tooth, null, 0, 4) + k.ln('M128,124Q148,138 170,122', 5);
     s += k.part(E(262, 216, 7, 6), C.base, C.shade, 2);
     return { x0: 0, y0: 24, w: 274, h: 212, floor: 224, cx: 134, top: 34, under: `<ellipse cx="136" cy="224" rx="122" ry="9" fill="#090A1E" opacity="0.35"/>`, body: s };
@@ -229,7 +249,8 @@
   // ───────────────────────── OLLIE ONE-OFF ─────────────────────────
   function ollie(k, o) {
     const C = PAL.ollie, e = o.expr || 'neutral';
-    let s = k.grp([[tube(134, 140, 146, 200, 16, 14), C.base, C.shade, 4], [tube(146, 200, 152, 256, 14, 12), C.base, C.shade, 4]]) + k.part(E(153, 263, 9, 11), C.skin, C.skinSh, 3);
+    let s = rot(-(o.armR || 0), 134, 140, k.grp([[tube(134, 140, 146, 200, 16, 14), C.base, C.shade, 4], [tube(146, 200, 152, 256, 14, 12), C.base, C.shade, 4]]) + k.part(E(153, 263, 9, 11), C.skin, C.skinSh, 3));
+    const [olx, oly] = lk(o, 3, 2.5), obw = -(o.brow || 0) * 5;
     s += k.grp([[tube(88, 262, 84, 424, 20, 18), C.base, C.shade, 5], [tube(112, 262, 128, 348, 20, 18), C.base, C.shade, 5], [tube(128, 348, 136, 416, 18, 16), C.base, C.shade, 5]]);
     s += k.part('M46,438C54,430 70,420 86,420C96,420 100,428 98,436C97,440 94,442 88,442L50,442C46,442 44,440 46,438Z', C.shoe, C.shoeSh, 3);
     s += k.part('M122,412C134,408 152,414 168,426C172,430 170,435 164,435L130,430C121,428 117,418 122,412Z', C.shoe, C.shoeSh, 3);
@@ -240,25 +261,27 @@
     s += k.ln('M100,172L100,262', 3.5) + k.ln('M95,191L105,189', 3);
     s += k.part(E(100, 206, 5), C.button, null, 0, 4) + k.part(E(100, 234, 5), C.button, null, 0, 4);
     s += `<g data-part="pin">${k.part(E(86, 148, 9), C.shirt, null, 0, 5)}${txt(86, 152.5, '0', 12)}</g>`;
-    s += k.part(E(66, 68, 7, 10), C.skin, C.skinSh, 2) + k.part(E(134, 66, 7, 10), C.skin, C.skinSh, 2);
-    s += k.part(E(100, 62, 34, 46), C.skin, C.skinSh, 7);
-    s += k.part('M64,60C62,30 80,14 102,14C124,14 138,30 136,56C130,42 120,34 108,34C112,40 110,46 104,48C98,38 86,34 78,40C72,44 66,52 64,60Z', C.hair, C.hairSh, 4);
+    let hd = k.part(E(66, 68, 7, 10), C.skin, C.skinSh, 2) + k.part(E(134, 66, 7, 10), C.skin, C.skinSh, 2);
+    hd += k.part(E(100, 62, 34, 46), C.skin, C.skinSh, 7);
+    hd += k.part('M64,60C62,30 80,14 102,14C124,14 138,30 136,56C130,42 120,34 108,34C112,40 110,46 104,48C98,38 86,34 78,40C72,44 66,52 64,60Z', C.hair, C.hairSh, 4);
     // eyes: the right one sits 7u higher — on purpose
-    if (e === 'happy') s += k.ln('M79,66Q86,58 93,66', 4.5) + k.ln('M109,59Q116,51 123,59', 4.5);
-    else if (o.blink) s += k.ln('M79,64Q86,68 93,64', 4.5) + k.ln('M109,57Q116,61 123,57', 4.5);
+    if (e === 'happy') hd += k.ln('M79,66Q86,58 93,66', 4.5) + k.ln('M109,59Q116,51 123,59', 4.5);
+    else if (o.blink) hd += k.ln('M79,64Q86,68 93,64', 4.5) + k.ln('M109,57Q116,61 123,57', 4.5);
     else {
       const sc = e === 'scared', ry = sc ? 10 : 8.5, pr = sc ? 2.4 : 3.6;
-      s += k.part(E(86, 64, 7.5, ry), C.eye, null, 0, 4) + k.part(E(116, 57, 7.5, ry), C.eye, null, 0, 4) + `<circle cx="87" cy="65" r="${pr}" fill="${INK}"/><circle cx="117" cy="58" r="${pr}" fill="${INK}"/>`;
+      hd += k.part(E(86, 64, 7.5, ry), C.eye, null, 0, 4) + k.part(E(116, 57, 7.5, ry), C.eye, null, 0, 4) + mv(olx, oly, `<circle cx="87" cy="65" r="${pr}" fill="${INK}"/><circle cx="117" cy="58" r="${pr}" fill="${INK}"/>`);
     }
     const by = e === 'scared' ? -5 : 0;
-    s += k.ln(`M77,${51 + by}Q86,${45 + by} 95,${49 + by}`, 4.5) + k.ln(`M107,${44 + by}Q116,${38 + by} 125,${42 + by}`, 4.5) + k.ln('M101,66Q105,76 99,79', 4);
+    hd += mv(0, obw, k.ln(`M77,${51 + by}Q86,${45 + by} 95,${49 + by}`, 4.5) + k.ln(`M107,${44 + by}Q116,${38 + by} 125,${42 + by}`, 4.5)) + k.ln('M101,66Q105,76 99,79', 4);
     const M = 'M68,84Q100,94 134,80Q126,108 100,108Q76,108 68,84Z';
-    s += k.ink(M, 5) + `<path d="${M}" fill="${C.teeth}"/>` + k.clip(M, [80, 90, 100, 110, 120].map((x) => k.ln(`M${x},80L${x},112`, 2.2)).join('')) + k.ln(M, 3) + k.ln('M64,79Q66,84 70,86', 3.5) + k.ln('M138,76Q136,81 132,83', 3.5);
-    // front arm + donut box
-    s += k.grp([[tube(66, 138, 48, 196, 16, 14), C.base, C.shade, 4], [tube(48, 196, 28, 222, 14, 12), C.base, C.shade, 4]]) + k.part(E(26, 226, 12, 7), C.skin, C.skinSh, 2);
+    hd += flap(o, 100, 86, k.ink(M, 5) + `<path d="${M}" fill="${C.teeth}"/>` + k.clip(M, [80, 90, 100, 110, 120].map((x) => k.ln(`M${x},80L${x},112`, 2.2)).join('')) + k.ln(M, 3), 0.65, 1.25) + k.ln('M64,79Q66,84 70,86', 3.5) + k.ln('M138,76Q136,81 132,83', 3.5);
+    s += rot(o.tilt || 0, 100, 112, hd);
+    // front arm + donut box (one cut-out piece, pivots at the shoulder)
+    let fa = k.grp([[tube(66, 138, 48, 196, 16, 14), C.base, C.shade, 4], [tube(48, 196, 28, 222, 14, 12), C.base, C.shade, 4]]) + k.part(E(26, 226, 12, 7), C.skin, C.skinSh, 2);
     let box = k.part('M-18,196L60,196L68,186L-8,186Z', C.box, null, 0, 5) + k.part(R(-18, 196, 78, 30, 3), C.box, C.boxSh, 4) + k.part(R(-10, 201, 62, 18, 5), C.win, null, 0, 4);
     [[6, C.choc], [26, C.van], [46, C.choc]].forEach((d) => { box += k.part(E(d[0], 211, 9, 6.5), d[1], null, 0, 3) + `<ellipse cx="${d[0]}" cy="211" rx="2.8" ry="2" fill="${C.win}"/>`; });
-    s += `<g data-part="donuts">${box}</g>`;
+    fa += `<g data-part="donuts">${box}</g>`;
+    s += rot(o.armL || 0, 66, 138, fa);
     return { x0: 0, y0: 6, w: 204, h: 450, floor: 446, cx: 112, top: 18, under: `<ellipse cx="104" cy="444" rx="64" ry="8" fill="#090A1E" opacity="0.35"/>`, body: `<g transform="rotate(7 92 440)">${s}</g>` };
   }
 
@@ -305,7 +328,8 @@
   function PMChar(p) {
     const ref = React.useRef(null); if (!ref.current) ref.current = uid();
     const who = CH[p.who] ? p.who : 'junior';
-    const opts = { expr: p.expr || 'neutral', blink: bool(p.blink), dial: +p.dial || 0, spin: +p.spin || 0, recv: +p.recv || 0, lean: p.lean == null ? undefined : +p.lean, explode: +p.explode || 0, silhouette: bool(p.silhouette), wobble: !(p.wobble === false || p.wobble === 'false') };
+    const opts = { expr: p.expr || 'neutral', blink: bool(p.blink), dial: +p.dial || 0, spin: +p.spin || 0, recv: +p.recv || 0, lean: p.lean == null ? undefined : +p.lean, explode: +p.explode || 0, silhouette: bool(p.silhouette), wobble: !(p.wobble === false || p.wobble === 'false'),
+      armL: +p.armL || 0, armR: +p.armR || 0, tilt: +p.tilt || 0, lookX: +p.lookX || 0, lookY: +p.lookY || 0, brow: +p.brow || 0, talk: +p.talk || 0 };
     const d = dims(who);
     const sc = p.scale != null ? +p.scale : p.height != null ? +p.height / d.h : 1;
     const key = who + JSON.stringify(opts) + sc;

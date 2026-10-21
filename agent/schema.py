@@ -15,6 +15,8 @@ MONSTERS = CAST[1:]
 NAMES = {"junior": "Junior", "null": "The Null", "caller": "The Caller", "twins": "Fork & Join", "leak": "The Leak", "ollie": "Ollie One-Off"}
 BEAT_TYPES = {"pager", "title", "scene", "code", "crash", "fix", "outro"}
 EXPRS = {"neutral", "happy", "scared"}
+GESTURES = {"wave", "point", "shrug", "celebrate", "cower", "facepalm", "think", "nod", "shake_head", "type", "beckon",
+            "dance", "laugh", "gasp", "tremble", "look_up", "look_down", "look_left", "look_right"}
 ACTIONS = {"idle", "enter_left", "enter_right", "exit_left", "exit_right", "shake", "hop", "grow", "shrink", "pop_in",
            "fade_in", "fade_out", "defeated", "peek", "spin", "float", "stack"}
 BGS = {"hallway", "bedroom", "server_room"}
@@ -61,6 +63,15 @@ def _actor(a: dict, warn: list) -> dict | None:
         out["expr_at"] = _num(a.get("expr_at"), 0.05, 0.95, 0.5)
     if a.get("flip"):
         out["flip"] = True
+    if a.get("gesture") in GESTURES:
+        out["gesture"] = a["gesture"]
+        if a.get("gesture_at") is not None:
+            out["gesture_at"] = _num(a["gesture_at"], 0, 0.95, 0)
+    if isinstance(a.get("gestures"), list):
+        gs = [{"g": g.get("g") or g.get("gesture"), "at": _num(g.get("at"), 0, 0.95, 0)} for g in a["gestures"][:4]
+              if isinstance(g, dict) and (g.get("g") or g.get("gesture")) in GESTURES]
+        if gs:
+            out["gestures"] = gs
     if a["who"] == "caller" and a.get("copies"):
         out["copies"] = int(_num(a["copies"], 1, 6, 3))
     if a.get("opacity") is not None:

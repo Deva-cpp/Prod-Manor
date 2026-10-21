@@ -250,6 +250,14 @@ class E2E(unittest.TestCase):
         self.assertEqual(ep["beats"][-1]["type"], "outro")
         self.assertLessEqual(max(b["dur"] for b in ep["beats"]), 6)
         self.assertTrue(warns)
+        # gestures: valid ones survive, unknown ones are dropped
+        g = copy.deepcopy(pilot)
+        g["beats"][2]["actors"][0]["gestures"].append({"g": "moonwalk", "at": 0.9})
+        g["beats"][2]["actors"][1]["gesture"] = "teleport"
+        ep, _ = schema.validate(g)
+        a0, a1 = ep["beats"][2]["actors"]
+        self.assertEqual([x["g"] for x in a0["gestures"]], ["gasp", "point"])
+        self.assertNotIn("gesture", a1)
 
     def _id(self, st, title_part):
         return next(k for k, r in st["episodes"].items() if title_part in r["episode"]["title"])
