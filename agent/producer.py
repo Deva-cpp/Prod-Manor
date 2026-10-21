@@ -10,6 +10,15 @@ from .common import QUEUE, at_local, load_config, log, next_ids, now, setting, t
 from .schema import EpisodeError, validate
 
 
+last_rejected: list[str] = []  # why the latest _ingest threw episodes away, for the Telegram warning
+
+
+def _why_none(brain: str, raw_eps: list) -> str:
+    if not raw_eps:
+        return f"the {brain} brain sent back no episodes"
+    return f"all {len(raw_eps)} failed the quality check:\n" + "\n".join(f"• {telegram.e(r)}" for r in last_rejected[:4])
+
+
 def _ingest(state: dict, raw_eps: list[dict], brain: str, day: str, cfg: dict) -> list[str]:
     ids, rejected = [], []
     clean_eps = []
@@ -28,6 +37,7 @@ def _ingest(state: dict, raw_eps: list[dict], brain: str, day: str, cfg: dict) -
         ids.append(ep_id)
     if rejected:
         log("rejected invalid episodes:", rejected)
+    last_rejected[:] = rejected
     return ids
 
 
@@ -63,7 +73,7 @@ def pitch_today(state: dict, force: bool = False, fallback_ok: bool = False) -> 
         brain_used = "gemini"
     ids = _ingest(state, eps, brain_used, day, cfg)
     if not ids:
-        telegram.send(f"⚠️ The {brain_used} brain returned no valid episodes today. Send /more to try again.")
+        telegram.send(f"⚠️ No valid pitches today: {_why_none(brain_used, eps)}\nSend /more to try again.")
         return "no valid episodes"
     _mark_ideas_used(state)
     info.update(pitched=True, brain=brain_used, note=note)
@@ -79,6 +89,8 @@ def more(state: dict, n: int = 2, extra: str = "") -> list[str]:
     system, user = brains.build_brief(state, n, day + f"-more{len(state['episodes'])}", extra)
     eps = brains.gemini(system, user).get("episodes", [])
     ids = _ingest(state, eps, "gemini", day, cfg)
+    if not ids:
+        telegram.send(f"⚠️ No new pitches: {_why_none('gemini', eps)}\nSend /more to try again.")
     for i, ep_id in enumerate(ids, 1):
         telegram.send_pitch(state, ep_id, i, len(ids))
     return ids
