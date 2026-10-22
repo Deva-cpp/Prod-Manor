@@ -162,7 +162,7 @@
       "approved_at": "2026-10-22T14:04:17.730631+05:30"
     },
     "2026-10-22-k": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T14:01:12.935949+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -316,10 +316,16 @@
           "#softwareengineer",
           "#prodmanor"
         ],
-        "cover_text": "MEMORY LEAK"
+        "cover_text": "MEMORY LEAK",
+        "series_tag": "EP 02"
       },
       "warnings": [],
-      "pitch_msg_id": 87
+      "pitch_msg_id": 87,
+      "slot_at": "2026-10-22T19:30:00+05:30",
+      "slot_label": "19:30",
+      "explore": false,
+      "episode_no": 2,
+      "approved_at": "2026-10-22T14:04:40.512649+05:30"
     },
     "2026-10-22-l": {
       "status": "pitched",
@@ -633,7 +639,7 @@
     }
   },
   "telegram": {
-    "offset": 557188829,
+    "offset": 557188830,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "86": "2026-10-22-j",
