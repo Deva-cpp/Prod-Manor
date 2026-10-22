@@ -599,7 +599,6 @@
       "explore": false,
       "episode_no": 1,
       "approved_at": "2026-10-22T01:02:40.574820+05:30",
-      "held": true,
       "media": {
         "video": "2026-10-22-c.mp4",
         "cover": "2026-10-22-c.jpg",
@@ -1654,7 +1653,7 @@
     }
   },
   "telegram": {
-    "offset": 557188824,
+    "offset": 557188825,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
