@@ -76,12 +76,13 @@ def learnings(state: dict) -> str:
     if len(rows) < 3:
         return ("Too little data yet (" + str(len(rows)) + " measured reels). Keep testing different hook styles, "
                 "monsters and slots. Strong default: a threat or relatable-pain hook in the first 2 seconds.")
-    by_monster, by_slot, by_level, by_lang = defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
+    by_monster, by_slot, by_level, by_lang, by_tech = (defaultdict(list) for _ in range(5))
     for r in rows:
         ep, s = r["episode"], r["metrics"]["score"]
         by_monster[ep["monster"]].append(s)
         by_level[ep["level"]].append(s)
         by_lang[ep["language"]].append(s)
+        by_tech[ep.get("tech") or ep["language"]].append(s)
         if r.get("slot_label"):
             by_slot[r["slot_label"]].append(s)
     avg = lambda d: sorted(((k, sum(v) / len(v), len(v)) for k, v in d.items()), key=lambda x: -x[1])
@@ -92,6 +93,7 @@ def learnings(state: dict) -> str:
         f"Measured reels: {len(rows)}. Score = views + 8×shares + 6×saves + 3×comments + likes, boosted by watch time.",
         f"Monsters by avg score: {fmt(avg(by_monster), NAMES)}.",
         f"Level: {fmt(avg(by_level))}. Language: {fmt(avg(by_lang))}.",
+        f"Tech: {fmt(avg(by_tech))}.",
         f"Slots: {fmt(avg(by_slot))}.",
         "Top hooks to learn from (do NOT copy; find the pattern):",
         *[f"- \"{r['episode']['hook']}\" ({NAMES[r['episode']['monster']]}, {r['episode']['concept']}) → {r['metrics']['score']:.0f}" for r in best],

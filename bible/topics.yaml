@@ -1,65 +1,190 @@
-# Topic backlog per monster. The producer rotates monsters and picks unused topics first.
-# Add your own ideas any time; level is beginner | intermediate | advanced.
-# The planner prefers the target level (config `level`, Telegram /level) and skips anything already taught.
-"null":  # quoted: a bare null key is YAML None
-  - {topic: "API response missing a nested field crashes the profile page", fix: "user?.address?.city ?? 'Unknown'", level: intermediate, lang: javascript}
-  - {topic: "calling an optional callback prop that was never passed", fix: "onSave?.()", level: intermediate, lang: javascript}
-  - {topic: "JSON.parse(localStorage.getItem(key)) returns null on first visit", fix: "?? default object", level: intermediate, lang: javascript}
-  - {topic: "TypeScript non-null assertion ! hides a real undefined", fix: "narrow with an if check instead of !", level: intermediate, lang: typescript}
-  - {topic: "Python Optional return used without checking None", fix: "if result is None: return early", level: intermediate, lang: python}
-  - {topic: "calling a method on null", fix: "optional chaining ?.", level: beginner, lang: javascript}
-  - {topic: "undefined object property access", fix: "default with ?? (nullish coalescing)", level: beginner, lang: javascript}
-  - {topic: "|| vs ?? treating 0 and empty string as missing", fix: "use ?? instead of ||", level: intermediate, lang: javascript}
-  - {topic: "dict key missing KeyError", fix: "dict.get(key, default)", level: beginner, lang: python}
-  - {topic: "None returned from a function that forgot to return", fix: "add the return statement", level: beginner, lang: python}
-  - {topic: "array.find returns undefined", fix: "check the result before using it", level: beginner, lang: javascript}
-  - {topic: "NullPointerException on unboxing", fix: "Optional / null check", level: intermediate, lang: java}
-  - {topic: "destructuring undefined function argument", fix: "default parameter = {}", level: intermediate, lang: javascript}
-caller:
-  - {topic: "Python RecursionError walking a deeply nested JSON/tree", fix: "iterative walk with an explicit stack", level: intermediate, lang: python}
-  - {topic: "retry loop that retries forever when the API is down", fix: "max attempts with backoff", level: intermediate, lang: javascript}
-  - {topic: "toJSON / __repr__ that references itself through a circular object", fix: "break the cycle (skip the back-reference)", level: intermediate, lang: javascript}
-  - {topic: "event handler that triggers the same event it handles", fix: "guard flag or compare before setting", level: intermediate, lang: javascript}
-  - {topic: "recursion without a base case", fix: "add the base case", level: beginner, lang: python}
-  - {topic: "maximum call stack size exceeded", fix: "base case that is actually reachable", level: beginner, lang: javascript}
-  - {topic: "factorial recursion", fix: "if n <= 1: return 1", level: beginner, lang: python}
-  - {topic: "fibonacci recursion exploding calls", fix: "memoization with lru_cache", level: intermediate, lang: python}
-  - {topic: "infinite while loop forgetting to update the counter", fix: "increment inside the loop", level: beginner, lang: javascript}
-  - {topic: "useEffect infinite re-render loop", fix: "add the dependency array", level: intermediate, lang: javascript}
-  - {topic: "setter calling itself", fix: "write to the backing field", level: intermediate, lang: javascript}
-twins:
-  - {topic: "search box: an older slow response overwrites the newer one", fix: "AbortController cancels the stale request", level: intermediate, lang: javascript}
-  - {topic: "Promise.all fails everything when one request fails", fix: "Promise.allSettled", level: intermediate, lang: javascript}
-  - {topic: "async function in Python called without await returns a coroutine", fix: "await it (or asyncio.gather)", level: intermediate, lang: python}
-  - {topic: "payment button charges twice on retry", fix: "idempotency key on the request", level: intermediate, lang: javascript}
-  - {topic: "stale closure: setCount(count + 1) twice only adds one", fix: "functional update setCount(c => c + 1)", level: intermediate, lang: javascript}
-  - {topic: "two requests updating the same counter (lost update)", fix: "use a lock / atomic increment", level: intermediate, lang: python}
-  - {topic: "forgetting await so code runs out of order", fix: "await the promise", level: beginner, lang: javascript}
-  - {topic: "deadlock: two threads acquire locks in opposite order", fix: "always acquire locks in the same order", level: intermediate, lang: python}
-  - {topic: "double-click submits the form twice", fix: "disable the button while submitting", level: beginner, lang: javascript}
-  - {topic: "forEach with async callback doesn't wait", fix: "for...of with await, or Promise.all", level: intermediate, lang: javascript}
-  - {topic: "check-then-act race on a file or a seat booking", fix: "make it atomic (transaction)", level: intermediate, lang: python}
-leak:
-  - {topic: "fetch in useEffect sets state after the component unmounted", fix: "AbortController in the cleanup", level: intermediate, lang: javascript}
-  - {topic: "functools.lru_cache on a method keeps every instance alive", fix: "cache outside the instance or use maxsize", level: intermediate, lang: python}
-  - {topic: "WebSocket/subscription never unsubscribed when leaving the page", fix: "unsubscribe in cleanup", level: intermediate, lang: javascript}
-  - {topic: "Map used as a per-object cache keeps objects alive forever", fix: "WeakMap", level: intermediate, lang: javascript}
-  - {topic: "event listener never removed", fix: "removeEventListener in cleanup", level: intermediate, lang: javascript}
-  - {topic: "setInterval never cleared", fix: "clearInterval on cleanup", level: beginner, lang: javascript}
-  - {topic: "useEffect without cleanup function", fix: "return a cleanup function", level: intermediate, lang: javascript}
-  - {topic: "global cache that grows forever", fix: "bounded LRU cache", level: intermediate, lang: python}
-  - {topic: "appending to a list inside a loop that never empties", fix: "clear or bound the list", level: beginner, lang: python}
-  - {topic: "mutable default argument keeps growing", fix: "default to None then create the list", level: intermediate, lang: python}
-  - {topic: "file opened and never closed", fix: "with open(...) as f", level: beginner, lang: python}
-ollie:
-  - {topic: "Date ranges: end date excluded, last day of the report missing", fix: "query < next day, not <= end day", level: intermediate, lang: python}
-  - {topic: "reading the last item as items[items.length] gives undefined", fix: "items.at(-1)", level: intermediate, lang: javascript}
-  - {topic: "binary search mid calculation loops forever", fix: "lo = mid + 1", level: intermediate, lang: python}
-  - {topic: "substring(0, maxLength) cuts the ellipsis one character over the limit", fix: "slice(0, max - 1) + '…'", level: intermediate, lang: javascript}
-  - {topic: "loop with <= length runs one too many", fix: "use < length", level: beginner, lang: javascript}
-  - {topic: "arrays start at 0", fix: "the last index is length - 1", level: beginner, lang: python}
-  - {topic: "range(1, 10) stops at 9", fix: "range(1, 11)", level: beginner, lang: python}
-  - {topic: "slice end is exclusive", fix: "slice(0, n) takes n items", level: beginner, lang: javascript}
-  - {topic: "fencepost: 10 meters of fence with posts every meter", fix: "posts = sections + 1", level: beginner, lang: python}
-  - {topic: "pagination skips or repeats one item", fix: "offset = (page - 1) * size", level: intermediate, lang: javascript}
-  - {topic: "JavaScript months start at 0", fix: "new Date(2026, 0, 1) is January", level: beginner, lang: javascript}
+# Topic backlog: real production bugs, no beginner syntax. The series climbs three stages in order:
+#   languages  → production bugs in plain Python / JavaScript / TypeScript / Java / Go / PHP
+#   frameworks → the frameworks teams actually ship: Node/Express, NestJS, Next.js, React, Django, FastAPI, Flask,
+#                Spring Boot, Laravel, ORMs, Celery, GraphQL
+#   tools      → industry infrastructure: Kafka, Redis, PostgreSQL, MySQL, MongoDB, Elasticsearch, RabbitMQ, Docker,
+#                Kubernetes, AWS, GCP, Terraform, Nginx, CI/CD, observability, HTTP/gRPC
+# With `stage: auto` (config / Telegram /stage auto) the planner teaches a stage until its topics are used up, then
+# moves on. Topics already taught are skipped forever. When everything is used, the brain invents new ones.
+# monster = which cast member's bug family it belongs to:
+#   null: missing values, config, permissions, signals nobody receives   caller: loops, retries, redelivery, restarts
+#   twins: races, duplicates, ordering, consistency                      leak: memory, connections, cost, slowness
+#   ollie: off-by-one, limits, units, time zones, pagination, ordering of steps
+# Add your own any time: {topic, fix, monster, tech, lang}. lang = the language the code beat is written in.
+
+languages:
+  - {topic: "API returns 204 No Content and res.json() throws", fix: "check res.status before res.json()", monster: "null", tech: JavaScript, lang: javascript}
+  - {topic: "missing env var becomes the string 'undefined' inside a URL", fix: "fail fast at startup when a required env var is missing", monster: "null", tech: Node.js, lang: javascript}
+  - {topic: "TypeScript 'as User' cast trusts unvalidated API JSON", fix: "validate at runtime (zod schema.parse)", monster: "null", tech: TypeScript, lang: typescript}
+  - {topic: "Java Optional.get() on an empty Optional in a service", fix: "orElseThrow with a clear error / orElse", monster: "null", tech: Java, lang: java}
+  - {topic: "Go nil map write panics in a request handler", fix: "make(map[string]int) before writing", monster: "null", tech: Go, lang: go}
+  - {topic: "PHP strpos returns 0 and == false treats it as not found", fix: "strpos(...) !== false (or str_contains)", monster: "null", tech: PHP, lang: php}
+  - {topic: "retry loop without backoff hammers a failing API (retry storm)", fix: "exponential backoff with jitter and a max", monster: caller, tech: Python, lang: python}
+  - {topic: "JSON.stringify on an object with a circular reference", fix: "drop the back-reference before serializing", monster: caller, tech: JavaScript, lang: javascript}
+  - {topic: "recursive walk over a deep production tree hits RecursionError", fix: "iterative walk with an explicit stack", monster: caller, tech: Python, lang: python}
+  - {topic: "unhandled promise rejection crashes the Node process", fix: "await or .catch every promise", monster: twins, tech: Node.js, lang: javascript}
+  - {topic: "Promise.all drops every result when one request fails", fix: "Promise.allSettled", monster: twins, tech: JavaScript, lang: javascript}
+  - {topic: "blocking requests.get inside async def freezes the event loop", fix: "httpx.AsyncClient (or run_in_executor)", monster: twins, tech: Python asyncio, lang: python}
+  - {topic: "threads don't speed up CPU-heavy Python work (the GIL)", fix: "ProcessPoolExecutor", monster: twins, tech: Python, lang: python}
+  - {topic: "Go goroutines write the same map: concurrent map writes fatal error", fix: "sync.Mutex around the map (or sync.Map)", monster: twins, tech: Go, lang: go}
+  - {topic: "Java HashMap shared across threads loses updates", fix: "ConcurrentHashMap.merge", monster: twins, tech: Java, lang: java}
+  - {topic: "module-level dict cache in a long-running server grows forever", fix: "bounded cache (lru_cache maxsize / TTL cache)", monster: leak, tech: Python, lang: python}
+  - {topic: "EventEmitter listener added per request: MaxListenersExceededWarning", fix: "register once at startup or remove the listener", monster: leak, tech: Node.js, lang: javascript}
+  - {topic: "reading a 5 GB file into memory at once", fix: "stream it line by line", monster: leak, tech: Python, lang: python}
+  - {topic: "await inside a for loop makes 100 API calls run one by one", fix: "Promise.all with a concurrency limit", monster: leak, tech: JavaScript, lang: javascript}
+  - {topic: "Go goroutine leak: goroutine blocked forever on a channel nobody reads", fix: "context cancellation / buffered channel", monster: leak, tech: Go, lang: go}
+  - {topic: "64-bit IDs from the API lose precision in JSON.parse", fix: "send IDs as strings", monster: ollie, tech: JavaScript, lang: javascript}
+  - {topic: "float money totals: 0.1 + 0.2 on an invoice", fix: "integer cents or Decimal", monster: ollie, tech: Python, lang: python}
+  - {topic: "naive datetime.now() makes the daily report off by 5.5 hours", fix: "datetime.now(timezone.utc)", monster: ollie, tech: Python, lang: python}
+  - {topic: "new Date('2026-10-22') is UTC midnight and shows yesterday in the US", fix: "parse date-only strings with an explicit zone", monster: ollie, tech: JavaScript, lang: javascript}
+  - {topic: "setTimeout longer than 24.8 days fires immediately", fix: "split long delays / use a real scheduler", monster: ollie, tech: Node.js, lang: javascript}
+  - {topic: "Array.sort() sorts numbers as strings in a leaderboard", fix: "sort((a, b) => a - b)", monster: ollie, tech: JavaScript, lang: javascript}
+  - {topic: "total pages computed with integer division misses the last page", fix: "Math.ceil(total / size)", monster: ollie, tech: JavaScript, lang: javascript}
+  - {topic: "string length counts UTF-16 units: emoji username fails the limit", fix: "[...name].length (code points)", monster: ollie, tech: JavaScript, lang: javascript}
+  - {topic: "re.match without anchors accepts 'abc123evil'", fix: "re.fullmatch", monster: ollie, tech: Python, lang: python}
+
+frameworks:
+  # Node.js / Express / NestJS
+  - {topic: "req.body is undefined in Express", fix: "app.use(express.json())", monster: "null", tech: Express, lang: javascript}
+  - {topic: "Express 4 async handler throws and the request hangs forever", fix: "try/catch and pass the error to next(err)", monster: "null", tech: Express, lang: javascript}
+  - {topic: "Express error handler registered before the routes never runs", fix: "register the error middleware last", monster: ollie, tech: Express, lang: javascript}
+  - {topic: "a new database pool created on every request", fix: "one pool at module level, reused", monster: leak, tech: Node.js, lang: javascript}
+  - {topic: "CPU-heavy work in a route blocks every other request", fix: "worker_threads (or a job queue)", monster: twins, tech: Node.js, lang: javascript}
+  - {topic: "NestJS: Nest can't resolve dependencies of the service", fix: "add the provider to the module (or import its module)", monster: "null", tech: NestJS, lang: typescript}
+  - {topic: "NestJS ValidationPipe not enabled, so DTO decorators do nothing", fix: "app.useGlobalPipes(new ValidationPipe())", monster: "null", tech: NestJS, lang: typescript}
+  - {topic: "NestJS circular dependency between two services", fix: "forwardRef(() => OtherService) or split the logic", monster: caller, tech: NestJS, lang: typescript}
+  - {topic: "NestJS REQUEST-scoped provider makes every request rebuild the whole chain", fix: "keep providers singleton, pass context explicitly", monster: leak, tech: NestJS, lang: typescript}
+  # React / Next.js
+  - {topic: "stale closure: setInterval keeps reading the old state", fix: "functional update setCount(c => c + 1)", monster: twins, tech: React, lang: javascript}
+  - {topic: "useEffect with an object dependency refetches on every render", fix: "depend on the primitive id (or useMemo)", monster: caller, tech: React, lang: javascript}
+  - {topic: "onClick={setOpen(true)}: Too many re-renders", fix: "onClick={() => setOpen(true)}", monster: caller, tech: React, lang: javascript}
+  - {topic: "search box: a slow old response overwrites the newer one", fix: "AbortController cancels the stale request", monster: twins, tech: React, lang: javascript}
+  - {topic: "key={index} mixes up input values when an item is deleted", fix: "key={item.id}", monster: ollie, tech: React, lang: javascript}
+  - {topic: "Next.js hydration mismatch from Date.now() in render", fix: "set client-only values in useEffect", monster: twins, tech: Next.js, lang: javascript}
+  - {topic: "Next.js env var is undefined in the browser", fix: "prefix it NEXT_PUBLIC_", monster: "null", tech: Next.js, lang: javascript}
+  - {topic: "Next.js server component imports a secret into client code", fix: "keep it in server-only code ('server-only' import)", monster: "null", tech: Next.js, lang: typescript}
+  # Django / FastAPI / Flask / Celery
+  - {topic: "Django N+1 queries in a template loop", fix: "select_related('author')", monster: leak, tech: Django, lang: python}
+  - {topic: "Django lost update: obj.views += 1; obj.save()", fix: "F('views') + 1", monster: twins, tech: Django, lang: python}
+  - {topic: "Django sends the email before the transaction rolls back", fix: "transaction.on_commit(...)", monster: twins, tech: Django, lang: python}
+  - {topic: "Django DEBUG=False returns Bad Request (400)", fix: "set ALLOWED_HOSTS", monster: "null", tech: Django, lang: python}
+  - {topic: "Django queryset loads a million rows into memory", fix: ".iterator() with chunk_size", monster: leak, tech: Django, lang: python}
+  - {topic: "FastAPI: time.sleep in an async def endpoint stalls the server", fix: "plain def endpoint (threadpool) or await asyncio.sleep", monster: twins, tech: FastAPI, lang: python}
+  - {topic: "Pydantic v2: Optional[int] without a default is still required", fix: "x: int | None = None", monster: "null", tech: FastAPI, lang: python}
+  - {topic: "FastAPI creates a new httpx.AsyncClient per request", fix: "one shared client created in lifespan", monster: leak, tech: FastAPI, lang: python}
+  - {topic: "Flask: Working outside of application context in a background thread", fix: "with app.app_context():", monster: "null", tech: Flask, lang: python}
+  - {topic: "Flask dev server (app.run debug=True) used in production", fix: "run under gunicorn, debug off", monster: twins, tech: Flask, lang: python}
+  - {topic: "Celery task receives a stale ORM object", fix: "pass the id and reload inside the task", monster: twins, tech: Celery, lang: python}
+  - {topic: "Celery task retries forever on a permanent error", fix: "retry only transient errors, set max_retries", monster: caller, tech: Celery, lang: python}
+  # Spring Boot / JPA
+  - {topic: "@Transactional on a self-invoked method does nothing", fix: "call it through another bean (the proxy)", monster: "null", tech: Spring Boot, lang: java}
+  - {topic: "JPA LazyInitializationException: could not initialize proxy - no Session", fix: "JOIN FETCH in the query", monster: "null", tech: Spring Boot, lang: java}
+  - {topic: "JPA N+1: one query per order to load its items", fix: "@EntityGraph / JOIN FETCH", monster: leak, tech: Spring Boot, lang: java}
+  - {topic: "singleton Spring bean with a mutable field shared by all requests", fix: "keep request data in local variables", monster: twins, tech: Spring Boot, lang: java}
+  - {topic: "Spring @Scheduled cron with 5 fields fails (seconds come first)", fix: "6-field cron: \"0 0 * * * *\"", monster: ollie, tech: Spring Boot, lang: java}
+  - {topic: "@Async method returns before the work is done and errors vanish", fix: "return CompletableFuture and handle it", monster: twins, tech: Spring Boot, lang: java}
+  # Laravel / PHP
+  - {topic: "Laravel N+1: $post->author inside a loop", fix: "Post::with('author')->get()", monster: leak, tech: Laravel, lang: php}
+  - {topic: "Laravel mass assignment: MassAssignmentException / unexpected fields saved", fix: "define $fillable", monster: "null", tech: Laravel, lang: php}
+  - {topic: "Laravel queued job dispatched inside a transaction runs before commit", fix: "->afterCommit()", monster: twins, tech: Laravel, lang: php}
+  - {topic: "Laravel config cached, env() returns null in production", fix: "read env only in config files, use config()", monster: "null", tech: Laravel, lang: php}
+  # ORMs / GraphQL
+  - {topic: "SQLAlchemy session never closed: QueuePool limit reached", fix: "with Session() as session:", monster: leak, tech: SQLAlchemy, lang: python}
+  - {topic: "SQLAlchemy filter(User.deleted_at is None) matches nothing", fix: "User.deleted_at.is_(None)", monster: "null", tech: SQLAlchemy, lang: python}
+  - {topic: "Prisma client created per request exhausts connections", fix: "one shared PrismaClient instance", monster: leak, tech: Prisma, lang: typescript}
+  - {topic: "GraphQL resolver N+1: one DB query per item", fix: "DataLoader batches the lookups", monster: leak, tech: GraphQL, lang: javascript}
+  - {topic: "deeply nested GraphQL query (friends of friends of friends) takes down the API", fix: "query depth / complexity limit", monster: caller, tech: GraphQL, lang: javascript}
+
+tools:
+  # Kafka
+  - {topic: "Kafka auto-commit commits offsets before processing; a crash loses messages", fix: "enable_auto_commit=False, commit after processing", monster: ollie, tech: Kafka, lang: python}
+  - {topic: "Kafka order events lose ordering across partitions", fix: "use order_id as the message key", monster: twins, tech: Kafka, lang: python}
+  - {topic: "Kafka poison message: the consumer crashes and re-reads it forever", fix: "send it to a dead letter topic after N tries", monster: caller, tech: Kafka, lang: python}
+  - {topic: "Kafka redelivers after a rebalance and the payment runs twice", fix: "idempotent consumer: dedupe by event id", monster: twins, tech: Kafka, lang: python}
+  - {topic: "Kafka slow processing exceeds max.poll.interval.ms, endless rebalances", fix: "lower max.poll.records / process faster", monster: leak, tech: Kafka, lang: python}
+  - {topic: "Kafka: more consumers than partitions, extra consumers sit idle", fix: "partitions >= consumers in the group", monster: ollie, tech: Kafka, lang: bash}
+  - {topic: "Kafka producer exits before flushing; messages silently lost", fix: "producer.flush() before exit", monster: "null", tech: Kafka, lang: python}
+  - {topic: "Kafka producer retries write duplicate messages", fix: "enable.idempotence=true", monster: twins, tech: Kafka, lang: java}
+  # Redis
+  - {topic: "Redis keys without TTL fill memory: OOM command not allowed", fix: "r.set(key, val, ex=3600)", monster: leak, tech: Redis, lang: python}
+  - {topic: "cache stampede: a hot key expires and 1000 requests hit the DB", fix: "lock / single-flight rebuild", monster: twins, tech: Redis, lang: python}
+  - {topic: "KEYS * in production blocks Redis for everyone", fix: "scan_iter", monster: leak, tech: Redis, lang: python}
+  - {topic: "Redis lock without expiry: a crashed worker holds it forever", fix: "SET lock token NX PX 30000", monster: twins, tech: Redis, lang: python}
+  - {topic: "Redis ex= is seconds: a 1-hour cache set with ex=3600000 lives 41 days", fix: "ex=3600 (or px= for milliseconds)", monster: ollie, tech: Redis, lang: python}
+  - {topic: "cache penetration: missing rows are never cached, every miss hits the DB", fix: "cache the empty result with a short TTL", monster: "null", tech: Redis, lang: python}
+  - {topic: "rate limiter INCR then EXPIRE: a crash leaves a counter that never expires", fix: "run both in one MULTI pipeline", monster: twins, tech: Redis, lang: python}
+  - {topic: "fixed-window rate limiter allows double traffic at the window edge", fix: "sliding window (sorted set)", monster: ollie, tech: Redis, lang: python}
+  # PostgreSQL / MySQL
+  - {topic: "check-then-insert lets duplicate signups through", fix: "UNIQUE constraint + ON CONFLICT DO NOTHING", monster: twins, tech: PostgreSQL, lang: sql}
+  - {topic: "OFFSET pagination skips or repeats rows while new rows arrive", fix: "keyset pagination: WHERE id > last_id", monster: ollie, tech: PostgreSQL, lang: sql}
+  - {topic: "missing index: WHERE email = ? scans 10 million rows", fix: "CREATE INDEX on email", monster: leak, tech: PostgreSQL, lang: sql}
+  - {topic: "two transactions update rows in opposite order: deadlock detected", fix: "always lock rows in the same order", monster: twins, tech: PostgreSQL, lang: sql}
+  - {topic: "WHERE status != 'banned' silently drops rows where status is NULL", fix: "IS DISTINCT FROM", monster: "null", tech: PostgreSQL, lang: sql}
+  - {topic: "NOT IN with a NULL in the subquery returns no rows", fix: "NOT EXISTS", monster: "null", tech: PostgreSQL, lang: sql}
+  - {topic: "read balance, then update it: concurrent withdrawals overdraw the account", fix: "SELECT ... FOR UPDATE", monster: twins, tech: PostgreSQL, lang: sql}
+  - {topic: "every pod opens 20 connections: FATAL sorry, too many clients already", fix: "PgBouncer / smaller pool per pod", monster: leak, tech: PostgreSQL, lang: yaml}
+  - {topic: "migration adds a NOT NULL column to a table with rows and fails", fix: "add nullable, backfill, then set NOT NULL", monster: "null", tech: PostgreSQL, lang: sql}
+  - {topic: "idle in transaction session blocks vacuum and the table bloats", fix: "idle_in_transaction_session_timeout / commit promptly", monster: leak, tech: PostgreSQL, lang: sql}
+  - {topic: "timestamp without time zone shifts event times by the server zone", fix: "timestamptz", monster: ollie, tech: PostgreSQL, lang: sql}
+  - {topic: "MySQL utf8 column rejects emoji: Incorrect string value", fix: "utf8mb4", monster: ollie, tech: MySQL, lang: sql}
+  # MongoDB / Elasticsearch
+  - {topic: "MongoDB document with an ever-growing array hits the 16 MB limit", fix: "move the items into their own collection", monster: leak, tech: MongoDB, lang: javascript}
+  - {topic: "MongoDB read from a secondary right after a write returns stale data", fix: "read your writes from the primary", monster: twins, tech: MongoDB, lang: javascript}
+  - {topic: "MongoDB query on an unindexed field: COLLSCAN on every request", fix: "createIndex on the queried field", monster: leak, tech: MongoDB, lang: javascript}
+  - {topic: "Elasticsearch from + size beyond 10000: Result window is too large", fix: "search_after", monster: ollie, tech: Elasticsearch, lang: json}
+  - {topic: "Elasticsearch dynamic mapping guessed a field as long, strings rejected", fix: "explicit mapping for the field", monster: "null", tech: Elasticsearch, lang: json}
+  # RabbitMQ / SQS / Pub/Sub
+  - {topic: "RabbitMQ consumer without prefetch grabs every message and runs out of memory", fix: "basic_qos(prefetch_count=10)", monster: leak, tech: RabbitMQ, lang: python}
+  - {topic: "RabbitMQ nack with requeue=True loops a bad message forever", fix: "requeue=False with a dead letter exchange", monster: caller, tech: RabbitMQ, lang: python}
+  - {topic: "SQS visibility timeout shorter than the job: message processed twice", fix: "visibility timeout longer than max processing time", monster: caller, tech: AWS SQS, lang: python}
+  - {topic: "Pub/Sub ack deadline expires during long processing and redelivers", fix: "extend the ack deadline (or use flow control)", monster: caller, tech: GCP Pub/Sub, lang: python}
+  # Docker
+  - {topic: "container can't reach the database at localhost", fix: "use the compose service name (db:5432)", monster: "null", tech: Docker, lang: yaml}
+  - {topic: "2 GB Docker image ships the compiler and dev dependencies", fix: "multi-stage build", monster: leak, tech: Docker, lang: dockerfile}
+  - {topic: "shell-form CMD ignores SIGTERM; container killed after 10 seconds", fix: "exec-form CMD [\"node\", \"server.js\"]", monster: caller, tech: Docker, lang: dockerfile}
+  - {topic: "COPY . before npm install busts the cache on every build", fix: "COPY package*.json and install first", monster: ollie, tech: Docker, lang: dockerfile}
+  # Kubernetes
+  - {topic: "CrashLoopBackOff: liveness probe kills a slow-starting app", fix: "startupProbe", monster: caller, tech: Kubernetes, lang: yaml}
+  - {topic: "OOMKilled: Node heap bigger than the container memory limit", fix: "--max-old-space-size below the limit", monster: leak, tech: Kubernetes, lang: yaml}
+  - {topic: "Service selector label typo: no endpoints, every request 503", fix: "match the pod labels exactly", monster: "null", tech: Kubernetes, lang: yaml}
+  - {topic: "memory: 512m means 0.512 bytes, not 512 megabytes", fix: "memory: 512Mi", monster: ollie, tech: Kubernetes, lang: yaml}
+  - {topic: "rolling deploy: old pods crash on the new database schema", fix: "expand/contract (backward-compatible) migrations", monster: twins, tech: Kubernetes, lang: sql}
+  - {topic: "no readiness probe: traffic hits pods before the app is ready", fix: "readinessProbe on /ready", monster: "null", tech: Kubernetes, lang: yaml}
+  - {topic: "liveness probe checks the database: a DB blip restarts every pod", fix: "liveness checks only the process itself", monster: caller, tech: Kubernetes, lang: yaml}
+  - {topic: "ConfigMap change never reaches running pods (env vars)", fix: "kubectl rollout restart (or mount as a volume)", monster: "null", tech: Kubernetes, lang: bash}
+  - {topic: "HPA flaps: pods scale up and down every minute", fix: "scaleDown stabilizationWindowSeconds", monster: caller, tech: Kubernetes, lang: yaml}
+  # AWS
+  - {topic: "Lambda writes to the S3 bucket that triggers it: infinite loop and a huge bill", fix: "write to another bucket or prefix", monster: caller, tech: AWS Lambda, lang: python}
+  - {topic: "Lambda opens a new DB connection on every invocation", fix: "create the client outside the handler (or RDS Proxy)", monster: leak, tech: AWS Lambda, lang: python}
+  - {topic: "Lambda default 3 second timeout: Task timed out after 3.00 seconds", fix: "set the timeout for the real job length", monster: ollie, tech: AWS Lambda, lang: yaml}
+  - {topic: "S3 AccessDenied: policy grants the bucket ARN but not bucket/*", fix: "Resource arn:aws:s3:::bucket/*", monster: "null", tech: AWS S3, lang: json}
+  - {topic: "list_objects_v2 returns only the first 1000 keys", fix: "use the paginator", monster: ollie, tech: AWS S3, lang: python}
+  - {topic: "DynamoDB Limit applies before the FilterExpression, so pages come back short", fix: "keep paging with LastEvaluatedKey", monster: ollie, tech: AWS DynamoDB, lang: python}
+  - {topic: "DynamoDB read-modify-write loses concurrent updates", fix: "ConditionExpression on a version attribute", monster: twins, tech: AWS DynamoDB, lang: python}
+  - {topic: "DynamoDB hot partition: every write uses the same partition key", fix: "high-cardinality key (or write sharding)", monster: leak, tech: AWS DynamoDB, lang: python}
+  - {topic: "SQS standard queue delivers duplicates and out of order", fix: "idempotent handler (or a FIFO queue)", monster: twins, tech: AWS SQS, lang: python}
+  - {topic: "CloudWatch log groups never expire and the bill keeps growing", fix: "retention_in_days", monster: leak, tech: AWS CloudWatch, lang: hcl}
+  - {topic: "boto3 uses the wrong region: ResourceNotFoundException", fix: "set region_name explicitly", monster: "null", tech: AWS, lang: python}
+  # GCP
+  - {topic: "Cloud Run: work after the response is sent gets throttled and vanishes", fix: "finish before responding (or use Cloud Tasks)", monster: "null", tech: GCP Cloud Run, lang: python}
+  - {topic: "BigQuery SELECT * scans the whole table and the bill explodes", fix: "select columns + partition filter", monster: leak, tech: GCP BigQuery, lang: sql}
+  - {topic: "Cloud Scheduler job runs at the wrong hour (UTC default)", fix: "set the timeZone field", monster: ollie, tech: GCP Cloud Scheduler, lang: bash}
+  - {topic: "GCP service account missing a role: 403 PERMISSION_DENIED", fix: "grant the narrow role it needs", monster: "null", tech: GCP IAM, lang: bash}
+  # Terraform
+  - {topic: "renaming a Terraform resource destroys and recreates the database", fix: "moved block (and prevent_destroy)", monster: "null", tech: Terraform, lang: hcl}
+  - {topic: "two people run terraform apply at once and corrupt the state", fix: "remote state with locking", monster: twins, tech: Terraform, lang: hcl}
+  # Nginx / HTTP / gRPC
+  - {topic: "Nginx proxy_pass trailing slash changes the upstream path", fix: "match the trailing slashes on location and proxy_pass", monster: ollie, tech: Nginx, lang: bash}
+  - {topic: "Nginx 413 Request Entity Too Large on uploads (1m default)", fix: "client_max_body_size 20m", monster: ollie, tech: Nginx, lang: bash}
+  - {topic: "Nginx 504 after 60 seconds on a long report endpoint", fix: "proxy_read_timeout (or make it async)", monster: ollie, tech: Nginx, lang: bash}
+  - {topic: "outbound HTTP call without a timeout: requests pile up forever", fix: "requests.get(url, timeout=5)", monster: leak, tech: HTTP, lang: python}
+  - {topic: "A retries B which retries C: one failure becomes 27 calls", fix: "retry at one layer only, with a budget", monster: caller, tech: Microservices, lang: python}
+  - {topic: "gRPC call without a deadline hangs when the server stalls", fix: "set a deadline on every call", monster: leak, tech: gRPC, lang: go}
+  - {topic: "CORS preflight OPTIONS request not handled; browser blocks the API", fix: "answer OPTIONS with the CORS headers", monster: "null", tech: HTTP, lang: javascript}
+  - {topic: "JWT rejected as not yet valid because server clocks drift", fix: "allow a small leeway on iat/nbf", monster: ollie, tech: JWT, lang: python}
+  # CI/CD / observability
+  - {topic: "GitHub Actions cron runs at the wrong hour (it's UTC)", fix: "write the cron in UTC", monster: ollie, tech: GitHub Actions, lang: yaml}
+  - {topic: "two deploy jobs race and the older commit ends up live", fix: "concurrency group with cancel-in-progress", monster: twins, tech: GitHub Actions, lang: yaml}
+  - {topic: "secrets are empty on pull requests from forks", fix: "don't rely on secrets in fork PR jobs", monster: "null", tech: GitHub Actions, lang: yaml}
+  - {topic: "Prometheus label with user_id: cardinality explosion", fix: "label by route/status, never by user", monster: leak, tech: Prometheus, lang: python}
+  - {topic: "alert fires on a single bad scrape and pages on-call at 3 AM", fix: "for: 5m on the alert rule", monster: caller, tech: Prometheus, lang: yaml}

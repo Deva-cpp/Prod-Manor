@@ -299,7 +299,7 @@
     </div>`;
   }
 
-  const KWS = 'function|return|if|else|const|let|var|for|while|new|class|def|async|await|import|from|null|undefined|None|true|false|True|False|this|self|in|of|elif|lambda|try|catch|except|finally|throw|raise|public|static|void|int|String|synchronized|go|func|defer|chan';
+  const KWS = 'function|return|if|else|const|let|var|for|while|new|class|def|async|await|import|from|null|undefined|None|true|false|True|False|this|self|in|of|elif|lambda|try|catch|except|finally|throw|raise|public|static|void|int|String|synchronized|go|func|defer|chan|echo|SELECT|FROM|WHERE|INSERT|INTO|VALUES|UPDATE|SET|DELETE|JOIN|ON|AND|OR|NOT|NULL|IS|IN|EXISTS|CREATE|INDEX|TABLE|ALTER|ADD|CONFLICT|DO|NOTHING|LIMIT|OFFSET|ORDER|BY|FROM|COPY|RUN|CMD|ENV|WORKDIR|EXPOSE|resource|variable|module';
   const TOK = new RegExp('(\\/\\/.*$|#.*$)|("(?:[^"\\\\]|\\\\.)*"|\'(?:[^\'\\\\]|\\\\.)*\'|`[^`]*`)|\\b(' + KWS + ')\\b|\\b(\\d+(?:\\.\\d+)?)\\b|([A-Za-z_]\\w*)(?=\\s*\\()', 'g');
   function hl(line) {
     let out = '', last = 0, m;
@@ -349,7 +349,9 @@
       const caret = budget !== Infinity && budget < 0 && budget > -ln.length - 2 && text.length < ln.length ? '<span style="background:#FFE7A0;color:#FFE7A0">_</span>' : '';
       rows += `<div style="display:flex;background:${rowBg};border-radius:6px;min-height:${Math.round(fs * 1.45)}px;align-items:center;position:relative"><span style="width:52px;color:#4E5596;text-align:right;margin-right:22px;flex:none">${i + 1}</span><span style="white-space:pre;position:relative">${content}${caret}</span></div>`;
     });
-    const fname = b.file || (b.lang === 'python' ? 'haunted.py' : b.lang === 'java' ? 'Haunted.java' : 'haunted.js');
+    const FNAMES = { python: 'haunted.py', java: 'Haunted.java', typescript: 'haunted.ts', go: 'haunted.go', php: 'haunted.php',
+      sql: 'haunted.sql', yaml: 'haunted.yaml', json: 'haunted.json', bash: 'haunted.sh', hcl: 'main.tf', dockerfile: 'Dockerfile' };
+    const fname = b.file || FNAMES[b.lang] || 'haunted.js';
     let err = '';
     if (errOn) {
       const ep = prog(lt, typeEnd + 0.2, typeEnd + 0.55, ease.back);
@@ -485,7 +487,7 @@
       ui += `<div style="position:absolute;left:150px;right:150px;top:330px;z-index:70;transform:translateX(${buzz.toFixed(1)}px) rotate(${(buzz * 0.25).toFixed(2)}deg) scale(${pin.toFixed(3)})">
         <div style="background:#0E1030;border:8px solid ${INK};border-radius:44px;padding:30px;box-shadow:0 14px 0 ${INK},0 0 90px rgba(255,84,104,.35)">
           <div style="background:#3B0D1B;border:5px solid #FF5468;border-radius:24px;padding:26px;text-align:center">
-            <div style="font-family:${FM};font-weight:800;font-size:96px;color:#FF6B7D;line-height:1">${esc(b.time || '3:00 AM')}</div>
+            <div style="font-family:${FM};font-weight:800;font-size:96px;color:#FF6B7D;line-height:1">${esc(b.time || '')}</div>
             <div style="font-family:${FM};font-weight:800;font-size:38px;color:#FFD6DC;margin-top:14px;letter-spacing:.08em">${esc(b.text || 'PROD IS DOWN')}</div>
           </div>
           <div style="font-family:${FS};font-weight:700;font-size:30px;color:${MOON};text-align:center;margin-top:18px">${esc(b.sub || 'PagerDuty · Severity 1')}</div>

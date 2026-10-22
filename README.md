@@ -84,6 +84,8 @@ To turn it off: open `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/deleteWebhook
 | `/brain gemini` · `/brain claude` | switch the writer |
 | `/perday 4` | reels per day (1–5) |
 | `/level intermediate` | target viewer: beginner · intermediate · advanced |
+| `/stage` · `/stage tools` · `/stage auto` | topic stage: languages → frameworks → tools (Kafka, Redis, AWS, GCP…); auto moves on when a stage is used up |
+| `/news <headline or link>` | research a programming news story on the web and pitch a script from it, with sources on the card |
 | `/delete B` | delete a script or reel; its EP number goes to the next reel made (also 🗑 on every render preview) |
 | `/reset` | delete every script and reel and start fresh from EP 01 (asks first) |
 | `/taught` · `/taught X` · `/forget X` | concepts already covered, which are never taught again (only extended) |

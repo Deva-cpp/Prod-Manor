@@ -10,6 +10,8 @@ HELP = """<b>Prod Manor producer — commands</b>
 /brain gemini · /brain claude — switch the writer
 /perday 3 — reels per day (1-5)
 /level intermediate — beginner · intermediate · advanced
+/stage — languages → frameworks → tools (Kafka, Redis, AWS…) · /stage auto
+/news OpenAI found two bugs in PHP (or a link) — research it and pitch a script
 /more 2 — pitch 2 more storylines now
 /idea a ghost that haunts JSON.parse — add an idea to the next batch
 /postnow B — publish pitch B at the next tick
@@ -241,6 +243,23 @@ def _message(state: dict, cfg: dict, msg: dict):
         else:
             st["level"] = arg
             telegram.send(f"🎓 New pitches target <b>{arg}</b> developers.")
+    elif cmd == "/stage":
+        if arg in (*brains.STAGES, "auto"):
+            st["stage"] = arg
+            telegram.send(f"🧭 Stage: <b>{arg}</b>" + (" — moves on by itself when a stage's topics are used up." if arg == "auto"
+                                                        else f" — {e(brains.STAGES[arg])}."))
+        else:
+            fresh, total = brains.fresh_topics(state), brains.load_topics()
+            rows = "\n".join(f"{'▶️' if k == brains.active_stage(state, fresh) else '·'} <b>{k}</b>: {len(fresh[k])} of "
+                             f"{len(total[k])} topics left — {e(v)}" for k, v in brains.STAGES.items())
+            telegram.send(f"🧭 Stage setting: <b>{e(setting(state, cfg, 'stage') or 'auto')}</b>\n{rows}\n\n"
+                          "Use /stage languages, /stage frameworks, /stage tools or /stage auto.")
+    elif cmd == "/news":
+        if not arg:
+            telegram.send("Usage: /news OpenAI found two bugs in PHP — or paste a link to the article")
+        else:
+            telegram.send("📰 Researching that story and writing a script… (about a minute)")
+            producer.news(state, arg)
     elif cmd == "/delete":
         ep_id = find_episode(state, arg, cfg) if arg else None
         if not ep_id:
@@ -333,7 +352,7 @@ def status_text(state: dict, cfg: dict) -> str:
     live_today = [v for v in eps.values() if v["status"] == "published" and (v.get("published_at") or "")[:10] == today_s]
     s = state["settings"]
     head = (f"<b>Status</b> · brain {e(setting(state, cfg, 'brain'))} · {setting(state, cfg, 'reels_per_day')}/day"
-            f" · {e(brains.target_level(state))}"
+            f" · {e(brains.target_level(state))} · stage {e(brains.active_stage(state))}"
             + (" · ⏸ PAUSED" if s.get("paused") else ""))
     summary = (f"📜 Scripts waiting for you: <b>{count('pitched', 'rewrite_queued')}</b>\n"
                f"🎞 Reels being made: <b>{count('approved')}</b>\n"

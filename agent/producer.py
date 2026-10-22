@@ -108,6 +108,28 @@ def more(state: dict, n: int = 2, extra: str = "") -> list[str]:
     return ids
 
 
+def news(state: dict, query: str) -> str | None:
+    """Breaking-news episode: research the story on the web (plus any linked article), then write one pitch from
+    those facts only. The sources ride along on the pitch card so you can check them before approving."""
+    cfg = load_config()
+    day = today(cfg)
+    try:
+        found = brains.research(query)
+    except Exception as ex:
+        telegram.send(f"⚠️ Couldn't research that: {telegram.e(ex)}")
+        return None
+    system, user = brains.build_brief(state, 1, day + f"-news{len(state['episodes'])}", news={"query": query, **found})
+    eps = brains.gemini(system, user, temperature=0.7).get("episodes", [])
+    ids = _ingest(state, eps[:1], "gemini", day, cfg)
+    if not ids:
+        telegram.send(f"⚠️ No pitch from that news: {_why_none('gemini', eps)}")
+        return None
+    rec = state["episodes"][ids[0]]
+    rec["news"] = {"query": query[:300], "brief": found["brief"][:3000], "sources": found["sources"], "note": found["note"]}
+    telegram.send_pitch(state, ids[0], None, None)
+    return ids[0]
+
+
 def rewrite(state: dict, ep_id: str, notes: str) -> str | None:
     """Rewrite one pitch with the owner's notes. Uses Gemini (free) in both modes; if no Gemini key is
     configured, the request is queued for the next Claude run."""

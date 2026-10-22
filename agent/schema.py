@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import copy
 import json
+import random
 import re
 import sys
 
@@ -22,7 +23,8 @@ ACTIONS = {"idle", "enter_left", "enter_right", "exit_left", "exit_right", "shak
 BGS = {"hallway", "bedroom", "server_room"}
 LIGHTS = {"dark", "flashlight", "flicker", "red", "normal"}
 SFX = {"pager", "ring", "crash", "ding", "whoosh", "thud", "creak", "heartbeat", "slurp", "glitch"}
-LANGS = {"javascript", "typescript", "python", "java", "go"}
+LANGS = {"javascript", "typescript", "python", "java", "go", "php", "sql", "yaml", "json", "bash", "hcl", "dockerfile"}
+CLOCK = re.compile(r"^(1[0-2]|[1-9]):[0-5]\d (AM|PM)$")
 
 EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿️]")
 
@@ -113,7 +115,7 @@ def _beat(b: dict, ep: dict, warn: list) -> dict | None:
         if says:
             out["say"] = says
     if t == "pager":
-        out.update(time=_txt(b.get("time") or "3:00 AM", 10), text=_txt(b.get("text") or "PROD IS DOWN", 24),
+        out.update(time=ep["wake_time"], text=_txt(b.get("text") or "PROD IS DOWN", 24),
                    sub=_txt(b.get("sub") or "PagerDuty · Severity 1", 34))
     elif t == "title":
         out.update(text=_txt(b.get("text") or ep.get("title"), 40), sub=_txt(b.get("sub") or ep.get("hook"), 70))
@@ -174,7 +176,8 @@ def validate(raw: dict) -> tuple[dict, list[str]]:
     warn: list[str] = []
     if not isinstance(raw, dict):
         raise EpisodeError("episode must be an object")
-    ep = {k: raw.get(k) for k in ("id", "title", "monster", "concept", "level", "language", "hook", "logline", "builds_on", "topic")}
+    ep = {k: raw.get(k) for k in ("id", "title", "monster", "concept", "level", "language", "hook", "logline", "builds_on",
+                                  "topic", "tech", "wake_time")}
     if ep["monster"] not in MONSTERS:
         raise EpisodeError(f"monster must be one of {MONSTERS}, got {ep['monster']!r}")
     ep["title"] = _txt(ep["title"] or "Untitled Haunting", 40)
@@ -183,6 +186,12 @@ def validate(raw: dict) -> tuple[dict, list[str]]:
     ep["logline"] = _txt(ep["logline"] or "", 200)
     ep["builds_on"] = _txt(ep["builds_on"] or "", 80)
     ep["topic"] = _txt(ep["topic"] or "", 120)
+    ep["tech"] = _txt(ep["tech"] or "", 30)
+    wake = str(ep["wake_time"] or "").strip().upper()
+    if not CLOCK.match(wake) or wake == "3:00 AM":  # the opening clock is a random time, never the old 3:00 AM
+        rng = random.Random(ep["title"] or "")
+        wake = f"{rng.randint(1, 12)}:{rng.randint(1, 59):02d} {rng.choice(['AM', 'PM'])}"
+    ep["wake_time"] = wake
     ep["level"] = ep["level"] if ep["level"] in ("beginner", "intermediate", "advanced") else "intermediate"
     ep["language"] = ep["language"] if ep["language"] in LANGS else "javascript"
     beats = [x for x in (_beat(b, ep, warn) for b in (raw.get("beats") or []) if isinstance(b, dict)) if x]
@@ -214,7 +223,7 @@ def validate(raw: dict) -> tuple[dict, list[str]]:
     ep["beats"] = beats
     caption = EMOJI.sub(lambda m: m.group(0), str(raw.get("caption") or ""))[:1900].strip()
     if not caption:
-        caption = f"{ep['hook']}\n\n{ep['concept']}\n\nWhat's the worst bug you've hit at 3 AM?"
+        caption = f"{ep['hook']}\n\n{ep['concept']}\n\nWhat's the worst bug you've hit in production?"
     ep["caption"] = caption
     tags = []
     for t in raw.get("hashtags") or []:
@@ -232,7 +241,7 @@ def full_caption(ep: dict, handle: str = "") -> str:
     tail = " ".join(ep.get("hashtags", []))
     cap = ep["caption"]
     if handle and handle not in cap:
-        cap += f"\n\nFollow {handle} — the next bug wakes at 3 AM."
+        cap += f"\n\nFollow {handle} — the next bug is already awake."
     return (cap + "\n\n" + tail).strip()[:2200]
 
 
@@ -249,7 +258,9 @@ CONTRACT = {
         "builds_on": "the already-taught concept this episode extends, or empty if it's a new concept",
         "topic": "the lineup topic you used",
         "level": "beginner | intermediate | advanced",
-        "language": "javascript | typescript | python | java | go",
+        "language": "the code beat's language: javascript | typescript | python | java | go | php | sql | yaml | json | bash | hcl | dockerfile",
+        "tech": "the framework or tool, e.g. Kafka, Redis, Spring Boot, Kubernetes (or the language for plain-language bugs)",
+        "wake_time": "the lineup wake_time shown on the opening pager, e.g. '4:17 PM'",
         "hook": "the scroll-stopping line shown in the first 2 seconds",
         "logline": "one sentence storyline for the approval card",
         "beats": ["... 6-9 beat objects following the beat schema ..."],

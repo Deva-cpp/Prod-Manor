@@ -7,6 +7,7 @@ Two brains share one contract (agent/schema.py):
 """
 from __future__ import annotations
 
+import html
 import json
 import random
 import re
@@ -80,35 +81,79 @@ def target_level(state: dict) -> str:
     return lvl if lvl in LEVELS else "intermediate"
 
 
-def plan_lineup(state: dict, n: int, seed: str) -> list[dict]:
-    """Choose which monster + topic each pitch should cover: rotate monsters, never reuse a taught topic,
-    prefer the target level, and lean toward monsters the audience responds to (from the marketer's scores)."""
-    topics = yaml.safe_load((ROOT / "bible" / "topics.yaml").read_text())
-    recent = recent_episodes(state)
+STAGES = {
+    "languages": "production bugs in plain Python, JavaScript, TypeScript, Java, Go and PHP",
+    "frameworks": "production bugs in the frameworks teams ship: Node/Express, NestJS, Next.js, React, Django, FastAPI, "
+                  "Flask, Spring Boot, Laravel, ORMs, Celery, GraphQL",
+    "tools": "production incidents with industry tools: Kafka, Redis, PostgreSQL, MySQL, MongoDB, Elasticsearch, "
+             "RabbitMQ, Docker, Kubernetes, AWS, GCP, Terraform, Nginx, CI/CD, observability",
+}
+
+
+def load_topics() -> dict[str, list[dict]]:
+    data = yaml.safe_load((ROOT / "bible" / "topics.yaml").read_text()) or {}
+    return {st: [t for t in data.get(st) or [] if t.get("monster") in MONSTERS] for st in STAGES}
+
+
+def fresh_topics(state: dict, topics: dict | None = None) -> dict[str, list[dict]]:
+    """Backlog topics per stage that haven't been taught (or pitched today) yet."""
+    topics = topics or load_topics()
     taught = taught_concepts(state)
-    open_concepts = [e["episode"].get("concept", "") for e in recent if e.get("status") in ("pitched", "rewrite_queued")]
-    level = target_level(state)
+    open_concepts = [e["episode"].get("concept", "") for e in recent_episodes(state, days=1)
+                     if e.get("status") in ("pitched", "rewrite_queued")]
 
     def used(t):
         return any(same_concept(t["topic"], x.get("topic") or "") or same_concept(t["fix"], x["concept"]) or
                    same_concept(t["topic"], x["concept"]) for x in taught) or any(same_concept(t["fix"], c) for c in open_concepts)
 
+    return {st: [t for t in ts if not used(t)] for st, ts in topics.items()}
+
+
+def active_stage(state: dict, fresh: dict | None = None) -> str:
+    """The pinned stage (/stage frameworks), or with auto the first stage that still has untaught topics."""
+    pinned = setting(state, load_config(), "stage")
+    if pinned in STAGES:
+        return pinned
+    fresh = fresh or fresh_topics(state)
+    return next((st for st in STAGES if fresh[st]), list(STAGES)[-1])
+
+
+def random_clock(rng: random.Random) -> str:
+    """The time on the opening pager: any time of day or night, never the same old 3:00 AM."""
+    while True:
+        t = f"{rng.randint(1, 12)}:{rng.randint(0, 59):02d} {rng.choice(['AM', 'PM'])}"
+        if t != "3:00 AM":
+            return t
+
+
+def plan_lineup(state: dict, n: int, seed: str) -> list[dict]:
+    """Choose which monster + topic each pitch should cover: one monster each, topics from the active stage first
+    (spilling into the next stage when it runs short), never a taught topic, leaning toward monsters the audience
+    responds to (from the marketer's scores)."""
+    fresh = fresh_topics(state)
+    stage = active_stage(state, fresh)
+    level = target_level(state)
+    recent = recent_episodes(state)
     last_monsters = [e["episode"]["monster"] for e in recent[-6:] if e.get("episode")]
     perf = monster_scores(state)
     rng = random.Random(seed)
     counts = Counter(last_monsters)
     order = sorted(MONSTERS, key=lambda m: (counts[m] - 0.6 * perf.get(m, 0) + rng.random() * 0.5))
+    names = list(STAGES)
     lineup = []
-    for i in range(n):
-        m = order[i % len(order)]
-        fresh = [t for t in topics.get(m) or [] if not used(t) and t["topic"] not in [x["topic"] for x in lineup]]
-        at_level = [t for t in fresh if t.get("level") == level]
-        if at_level or fresh:
-            pick = rng.choice(at_level or fresh)
-        else:  # backlog used up: the brain invents a new concept from this monster's bug family
-            pick = {"topic": f"a NEW {NAMES[m]} bug not in the taught list (or a real-world extension of one)",
-                    "fix": "", "lang": "javascript"}
-        lineup.append({"monster": m, **pick, "level": level})
+    pinned = setting(state, load_config(), "stage") in STAGES
+    for st in [stage] if pinned else names[names.index(stage):]:
+        for m in order:
+            if len(lineup) < n and m not in [x["monster"] for x in lineup]:
+                pool = [t for t in fresh[st] if t["monster"] == m]
+                if pool:
+                    lineup.append({**rng.choice(pool), "stage": st})
+    while len(lineup) < n:  # backlog used up: the brain invents a new production bug from the stage's world
+        m = order[len(lineup) % len(order)]
+        lineup.append({"monster": m, "topic": f"a NEW production {NAMES[m]} bug from: {STAGES[stage]} "
+                       "(not in the taught list, or a real-world extension of one)", "fix": "", "tech": "", "stage": stage})
+    for x in lineup:
+        x.update(level=level, wake_time=random_clock(rng))
     return lineup
 
 
@@ -136,28 +181,45 @@ LEVEL_NOTES = {
 }
 
 
-def build_brief(state: dict, n: int, seed: str, extra: str = "") -> tuple[str, str]:
-    """Return (system_prompt, user_prompt)."""
+def build_brief(state: dict, n: int, seed: str, extra: str = "", news: dict | None = None) -> tuple[str, str]:
+    """Return (system_prompt, user_prompt). With `news` (from research()), the episode covers that news item
+    instead of the planned lineup."""
     bible = (ROOT / "bible" / "SERIES_BIBLE.md").read_text()
     cfg = load_config()
     lineup = plan_lineup(state, n, seed)
+    if news:
+        lineup = [{"monster": "pick the cast member whose bug family fits the root cause", "topic": news["query"],
+                   "level": lineup[0]["level"], "wake_time": lineup[0]["wake_time"], "stage": "news"}]
     recent = recent_episodes(state)
     learn = LEARNINGS.read_text() if LEARNINGS.exists() else "No performance data yet. Optimize for a strong 2-second hook and saves."
     ideas = [i["text"] for i in state.get("ideas", []) if not i.get("used")][:5]
     taught = taught_concepts(state)
     level = target_level(state)
+    stage = active_stage(state)
     handle = cfg.get("instagram_handle", "")
     system = (
         "You are the head producer and growth marketer of an animated Instagram Reels series. "
         "You write complete, render-ready episodes as strict JSON. Every episode is genuinely funny and built on a real-world bug "
         "developers actually ship. Every code sample must be real, correct and runnable; "
-        "every error message must be the real one the language produces. You optimize for: a scroll-stopping first 2 seconds, "
+        "every error message must be the real one the language or tool produces. You optimize for: a scroll-stopping first 2 seconds, "
         "rewatches, shares to developer friends, and saves.\n\n" + bible
     )
+    if news:
+        plan = f"""This is a BREAKING NEWS episode about a real, recent programming story. Research brief (the ONLY source
+of facts; never add versions, CVE IDs, names or dates that aren't in it):
+{news["brief"]}
+
+Lineup: {json.dumps(lineup)}
+News episode rules: the hook names the news ("Someone just found two bugs in ..."); the code beat shows the real bug
+class from the brief's MINIMAL EXAMPLE (keep it real and runnable, it may be a simplified illustration); the fix beat
+shows the correct mitigation; the narration or outro says what to update to; the caption credits who found it and
+says "update now" with the patched version if the brief has one. Set `topic` to "news: <one-line headline>"."""
+    else:
+        plan = f"""Planned lineup (follow it unless an idea below is clearly stronger):
+{json.dumps(lineup, indent=1)}"""
     user = f"""Write {n} NEW episodes for today.
 
-Planned lineup (follow it unless an idea below is clearly stronger):
-{json.dumps(lineup, indent=1)}
+{plan}
 
 Viewer/owner ideas to use if they fit: {json.dumps(ideas) if ideas else "none"}
 
@@ -169,6 +231,8 @@ advanced form (e.g. after "optional chaining ?." → "?. on an API response, wit
 taught concept it extends, and the reel must not re-explain the basics.
 
 Target level: {level.upper()} — {LEVEL_NOTES[level]}
+Series stage: {stage.upper()} — {STAGES[stage]}. No basic coding lessons: every episode is a bug that takes down,
+slows down or corrupts a real production system, with the real error/log line it produces. Name the tech in `tech`.
 
 Avoid repeating these recent episodes (title — concept):
 {chr(10).join(f"- {e['episode']['title']} — {e['episode'].get('concept','')}" for e in recent[-20:] if e.get('episode')) or "- none yet"}
@@ -178,10 +242,11 @@ What the marketer learned from real performance data:
 
 Rules for today's batch:
 - Each episode uses a DIFFERENT monster from the others in this batch.
-- Vary the hook style across the batch: one relatable pain ("POV: it's 3 AM and..."), one threat ("This ghost crashes your app just by existing"), one curiosity gap, one bold claim.
+- Vary the hook style across the batch: one relatable pain ("POV: you just merged and..."), one threat ("This ghost crashes your app just by existing"), one curiosity gap, one bold claim.
 - Captions end with a question that invites comments, then mention {handle or "the account"}.
 - Every episode's `concept` is new (see ALREADY TAUGHT) and different from the others in this batch.
-- Set `level` to "{level}" and `topic` to the lineup topic you used.
+- Set `level` to "{level}", `topic` to the lineup topic you used and `wake_time` to its lineup wake_time. The pager
+  beat shows that time; if narration or dialogue mentions the time, say that time in words (never "three A M").
 - 25-40 seconds each, 6-9 beats, exactly one code beat and one fix beat about the same code.
 {extra}
 
@@ -218,7 +283,8 @@ def _extract_json(text: str) -> dict:
     return data
 
 
-def gemini(system: str, user: str, temperature: float = 0.9) -> dict:
+def _generate(body: dict) -> dict:
+    """POST to Gemini with retries and model fallback; returns the first successful response body."""
     key = env("GEMINI_API_KEY", required=True)
     cfg = load_config()
     models = [env("GEMINI_MODEL") or cfg.get("gemini_model", GEMINI_FALLBACKS[0]), *GEMINI_FALLBACKS]
@@ -230,11 +296,6 @@ def gemini(system: str, user: str, temperature: float = 0.9) -> dict:
             continue
         tried.add(model)
         for attempt in range(4):
-            body = {
-                "systemInstruction": {"parts": [{"text": system}]},
-                "contents": [{"role": "user", "parts": [{"text": user}]}],
-                "generationConfig": {"temperature": temperature, "responseMimeType": "application/json", "maxOutputTokens": 32000},
-            }
             try:
                 r = requests.post(GEMINI_URL.format(model=model), headers={"x-goog-api-key": key}, json=body, timeout=180)
             except requests.RequestException as ex:
@@ -260,13 +321,89 @@ def gemini(system: str, user: str, temperature: float = 0.9) -> dict:
                     log("gemini model unavailable, discovered:", found[:5])
                     models += found[:4]
                 break  # try next model
-            data = r.json()
-            try:
-                parts = data["candidates"][0]["content"]["parts"]
-                text = "".join(p.get("text", "") for p in parts if not p.get("thought"))
-                return _extract_json(text)
-            except (KeyError, IndexError, json.JSONDecodeError) as ex:
-                last = f"{model}: unparseable response ({ex}) {str(data)[:300]}"
-                user = user + "\n\nYour previous answer was not valid JSON. Return ONLY the JSON object."
-                continue
+            return r.json()
     raise RuntimeError(f"Gemini failed: {last}")
+
+
+def _text(data: dict) -> str:
+    parts = data["candidates"][0]["content"]["parts"]
+    return "".join(p.get("text", "") for p in parts if not p.get("thought"))
+
+
+def gemini(system: str, user: str, temperature: float = 0.9) -> dict:
+    last = None
+    for _ in range(3):
+        body = {
+            "systemInstruction": {"parts": [{"text": system}]},
+            "contents": [{"role": "user", "parts": [{"text": user}]}],
+            "generationConfig": {"temperature": temperature, "responseMimeType": "application/json", "maxOutputTokens": 32000},
+        }
+        data = _generate(body)
+        try:
+            return _extract_json(_text(data))
+        except (KeyError, IndexError, json.JSONDecodeError) as ex:
+            last = f"unparseable response ({ex}) {str(data)[:300]}"
+            user = user + "\n\nYour previous answer was not valid JSON. Return ONLY the JSON object."
+    raise RuntimeError(f"Gemini failed: {last}")
+
+
+# ------------------------------------------------------------------ news research
+
+def _page_text(url: str, limit: int = 15000) -> str:
+    """Readable text of a linked article (scripts, styles and tags stripped)."""
+    try:
+        r = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0 (prod-manor research)"})
+        r.raise_for_status()
+    except requests.RequestException as ex:
+        log("news page fetch failed:", url, repr(ex))
+        return ""
+    t = re.sub(r"(?is)<(script|style|noscript|svg|nav|footer|header)[^>]*>.*?</\1>", " ", r.text)
+    t = html.unescape(re.sub(r"(?s)<[^>]+>", " ", t))
+    return " ".join(t.split())[:limit]
+
+
+RESEARCH_PROMPT = """You are a fact-checking research assistant for a developer education channel.
+Research this programming news item using Google Search and the article text below (if any):
+
+NEWS: {query}
+
+{pages}
+Write a factual brief (no fluff, max 400 words) with these headings:
+WHAT HAPPENED: who found or reported it, when, and where it was published.
+AFFECTED: product / language / framework / tool, and the exact versions or setups affected.
+IDS: CVE or advisory IDs, if any.
+ROOT CAUSE: the technical bug class (e.g. integer overflow in X, missing bounds check in Y) explained precisely.
+IMPACT: what an attacker or the bug can do in production.
+FIX: patched versions and the correct mitigation for developers.
+MINIMAL EXAMPLE: a short, real code pattern (max 6 lines) in the affected language that shows the same bug class,
+and the one-line fix. Say if it's an illustration of the class rather than the exact vulnerable code.
+UNCERTAIN: anything sources disagree on or you could not confirm.
+Only state what sources support. Never invent version numbers, CVE IDs, names or dates."""
+
+
+def research(query: str) -> dict:
+    """Search the web for a news item and return {"brief", "sources"} the episode is written from."""
+    urls = re.findall(r"https?://\S+", query)[:3]
+    pages = "".join(f"ARTICLE {u}:\n{txt}\n\n" for u in urls if (txt := _page_text(u)))
+    prompt = RESEARCH_PROMPT.format(query=query, pages=pages)
+    body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": 0.2, "maxOutputTokens": 8000}}
+    sources, note = [], ""
+    try:
+        data = _generate({**body, "tools": [{"google_search": {}}]})
+        meta = data["candidates"][0].get("groundingMetadata") or {}
+        for ch in meta.get("groundingChunks") or []:
+            web = ch.get("web") or {}
+            if web.get("uri") and web not in sources:
+                sources.append({"title": web.get("title") or web["uri"], "url": web["uri"]})
+    except (RuntimeError, KeyError, IndexError) as ex:  # search unavailable: fall back to the article + model knowledge
+        log("news search failed, answering without it:", repr(ex))
+        if not pages:
+            raise RuntimeError(f"web search failed and no article link was given ({ex}). Send /news with a link.")
+        data = _generate(body)
+        note = "Web search was unavailable; this brief comes from the linked article only."
+    brief = _text(data).strip()
+    if not brief:
+        raise RuntimeError("the research came back empty")
+    sources = [{"title": u, "url": u} for u in urls] + sources
+    return {"brief": brief, "sources": sources[:6], "note": note}

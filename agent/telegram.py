@@ -123,7 +123,7 @@ def pitch_text(rec: dict, idx=None, total=None, status_line: str = "") -> str:
     code = next((b for b in beats if b["type"] == "code"), {})
     fix = next((b for b in beats if b["type"] == "fix"), {})
     bug_line = (fix.get("lines") or [""])[max(0, fix.get("fix_line", 1) - 1)] if fix else ""
-    head = f"🎬 <b>Pitch {short(ep['id'])}</b>" + (f" · {idx}/{total}" if idx else "") + f" · {EMO.get(m, '')} {e(NAMES[m])} · {e(ep['level'])} · {e(ep['language'])}"
+    head = f"🎬 <b>Pitch {short(ep['id'])}</b>" + (f" · {idx}/{total}" if idx else "") + f" · {EMO.get(m, '')} {e(NAMES[m])} · {e(ep['level'])} · {e(ep.get('tech') or ep['language'])}"
     parts = [
         head,
         f"<b>“{e(ep['title'])}”</b>",
@@ -138,6 +138,11 @@ def pitch_text(rec: dict, idx=None, total=None, status_line: str = "") -> str:
     parts.append(f"🎓 {e(ep['concept'])} · ⏱ {runtime(ep)}s · {len(beats)} beats · brain: {e(rec.get('brain'))}")
     if rec.get("notes"):
         parts.append(f"✏️ <i>Rewritten with your notes:</i> {e(rec['notes'])}")
+    if rec.get("news"):
+        src = " · ".join(f'<a href="{html.escape(x["url"])}">{e(x["title"][:40])}</a>' for x in rec["news"]["sources"][:4])
+        parts.append(f"📰 <i>Breaking news</i> · sources: {src or 'none found'}")
+        if rec["news"].get("note"):
+            parts.append(f"ℹ️ {e(rec['news']['note'])}")
     if status_line:
         parts.append(status_line)
     return "\n".join(parts)

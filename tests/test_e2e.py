@@ -272,6 +272,42 @@ class E2E(unittest.TestCase):
         self.assertIn("Inside", " ".join(titles))  # freed by the reset, so it can be pitched again
         self.assertFalse(set(st["episodes"]) & {a, b, c, d})
 
+    def test_stages_wake_time_and_news(self):
+        os.environ["PM_NOW"] = "2026-10-22T09:00:00+05:30"
+        brains, schema = importlib.import_module("agent.brains"), importlib.import_module("agent.schema")
+        st = self.common.load_state()
+        # stage auto starts with languages; every pitch gets its own random clock, never 3:00 AM
+        lineup = brains.plan_lineup(st, 4, "seed")
+        self.assertEqual({x["stage"] for x in lineup}, {"languages"})
+        self.assertEqual(len({x["monster"] for x in lineup}), 4)
+        self.assertNotIn("3:00 AM", [x["wake_time"] for x in lineup])
+        # once every language topic is taught, the series moves on to frameworks
+        st["taught"] = [{"concept": t["fix"], "topic": t["topic"]} for t in brains.load_topics()["languages"]]
+        self.assertEqual(brains.active_stage(st), "frameworks")
+        self.assertEqual({x["stage"] for x in brains.plan_lineup(st, 3, "s2")}, {"frameworks"})
+        st["settings"]["stage"] = "tools"
+        self.assertEqual({x["stage"] for x in brains.plan_lineup(st, 3, "s3")}, {"tools"})
+        # the pager shows the episode's wake_time; a missing or 3:00 AM one is replaced by a random time
+        pilot = json.loads((FIX / "pilot_null.json").read_text())
+        ep, _ = schema.validate(copy.deepcopy(pilot))
+        pager = next(b for b in ep["beats"] if b["type"] == "pager")
+        self.assertEqual(pager["time"], ep["wake_time"])
+        self.assertRegex(pager["time"], schema.CLOCK)
+        self.assertNotEqual(pager["time"], "3:00 AM")
+        ep, _ = schema.validate({**copy.deepcopy(pilot), "wake_time": "4:17 pm"})
+        self.assertEqual(next(b for b in ep["beats"] if b["type"] == "pager")["time"], "4:17 PM")
+
+        # /news: research → one pitch written from the brief, with sources on the card
+        brains.research = lambda q: {"brief": "ROOT CAUSE: null pointer in the session handler (test brief)",
+                                     "sources": [{"title": "example.com", "url": "https://example.com/a"}], "note": ""}
+        self.tg.say("/news OpenAI found two bugs in PHP")
+        st = self.run_tick("2026-10-22T06:30:00+05:30")
+        self.assertIn("BREAKING NEWS", self.gemini_calls[-1])
+        self.assertIn("test brief", self.gemini_calls[-1])
+        (k, rec), = st["episodes"].items()
+        self.assertEqual(rec["news"]["query"], "OpenAI found two bugs in PHP")
+        self.assertIn('📰 <i>Breaking news</i> · sources: <a href="https://example.com/a">', self.card("Nobody Checked")["text"])
+
     def test_schema_rejects_and_repairs(self):
         schema = importlib.import_module("agent.schema")
         pilot = json.loads((FIX / "pilot_null.json").read_text())
