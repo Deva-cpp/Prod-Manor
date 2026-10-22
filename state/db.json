@@ -1,7 +1,7 @@
 {
   "episodes": {
     "2026-10-22-n": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T14:16:57.872840+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -186,13 +186,19 @@
           "#programming",
           "#webdev"
         ],
-        "cover_text": "LOST WRITES"
+        "cover_text": "LOST WRITES",
+        "series_tag": "EP 01"
       },
       "warnings": [],
-      "pitch_msg_id": 97
+      "pitch_msg_id": 97,
+      "slot_at": "2026-10-22T17:30:00+05:30",
+      "slot_label": "17:30",
+      "explore": false,
+      "episode_no": 1,
+      "approved_at": "2026-10-22T14:19:46.148887+05:30"
     },
     "2026-10-22-o": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T14:16:57.872862+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -357,13 +363,19 @@
           "#webdev",
           "#softwareengineering"
         ],
-        "cover_text": "NODE LEAK"
+        "cover_text": "NODE LEAK",
+        "series_tag": "EP 02"
       },
       "warnings": [],
-      "pitch_msg_id": 98
+      "pitch_msg_id": 98,
+      "slot_at": "2026-10-22T19:30:00+05:30",
+      "slot_label": "19:30",
+      "explore": false,
+      "episode_no": 2,
+      "approved_at": "2026-10-22T14:19:47.833022+05:30"
     },
     "2026-10-22-p": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T14:16:57.872866+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -527,13 +539,19 @@
           "#api",
           "#codinghumor"
         ],
-        "cover_text": "FETCH 204 BUG"
+        "cover_text": "FETCH 204 BUG",
+        "series_tag": "EP 03"
       },
       "warnings": [],
-      "pitch_msg_id": 99
+      "pitch_msg_id": 99,
+      "slot_at": "2026-10-22T22:45:00+05:30",
+      "slot_label": "22:45",
+      "explore": false,
+      "episode_no": 3,
+      "approved_at": "2026-10-22T14:19:49.227691+05:30"
     },
     "2026-10-22-q": {
-      "status": "pitched",
+      "status": "rejected",
       "created": "2026-10-22T14:16:57.872868+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -703,7 +721,7 @@
     }
   },
   "telegram": {
-    "offset": 557188838,
+    "offset": 557188842,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "97": "2026-10-22-n",
@@ -724,7 +742,9 @@
     }
   },
   "token": {},
-  "render": {},
+  "render": {
+    "requested_at": "2026-10-22T14:19:51.891879+05:30"
+  },
   "followers": [],
   "taught": [],
   "retired_ids": [
