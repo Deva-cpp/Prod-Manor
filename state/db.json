@@ -1,19 +1,19 @@
 {
   "episodes": {
-    "2026-10-22-n": {
-      "status": "rendered",
-      "created": "2026-10-22T14:16:57.872840+05:30",
+    "2026-10-22-r": {
+      "status": "pitched",
+      "created": "2026-10-22T16:27:38.824378+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
       "episode": {
-        "id": "2026-10-22-n",
-        "title": "The Vanishing Writes",
+        "id": "2026-10-22-r",
+        "title": "The Concurrent Cart Disaster",
         "monster": "twins",
-        "concept": "atomic updates with ConcurrentHashMap merge",
+        "concept": "Thread-safe map updates with ConcurrentHashMap.merge",
         "level": "intermediate",
         "language": "java",
-        "hook": "Why did half your high-concurrency order updates vanish into thin air?",
-        "logline": "Fork and Join race to update a shared HashMap at four A M, overwriting each other's order counts.",
+        "hook": "Two requests hit at once and corrupted the cart state.",
+        "logline": "Junior discovers why concurrent updates to a standard Java HashMap silently drop items during high traffic.",
         "builds_on": "",
         "topic": "Java HashMap shared across threads loses updates",
         "tech": "Java",
@@ -22,26 +22,33 @@
           {
             "type": "pager",
             "dur": 2.5,
-            "narration": "Four A M. High traffic arrives and order counts vanish.",
+            "narration": "Four A M. High concurrency just corrupted the cart state.",
             "sfx": [
-              "pager"
+              "pager",
+              "heartbeat"
             ],
             "time": "4:00 AM",
             "text": "PROD IS DOWN",
-            "sub": "Order counts are missing in high…"
+            "sub": "Cart totals are dropping items."
           },
           {
             "type": "title",
             "dur": 2.0,
-            "text": "The Vanishing Writes",
-            "sub": "When two threads write at once",
-            "kicker": "JAVA THREAD SAFETY",
+            "narration": "Fork and Join strike again.",
+            "sfx": [
+              "whoosh"
+            ],
+            "text": "The Concurrent Cart Disaster",
+            "sub": "When two threads write at once.",
+            "kicker": "JAVA CONCURRENCY",
             "monster": "twins"
           },
           {
             "type": "scene",
             "dur": 3.5,
-            "narration": "Fork and Join grab the shared map at the exact same time.",
+            "sfx": [
+              "creak"
+            ],
             "actors": [
               {
                 "who": "junior",
@@ -52,20 +59,18 @@
               {
                 "who": "twins",
                 "expr": "happy",
-                "x": 0.7,
-                "scale": 1.0,
-                "expr_to": "scared",
-                "expr_at": 0.7
+                "x": 0.75,
+                "scale": 1.0
               }
             ],
             "say": [
               {
-                "who": "twins",
-                "text": "I will update key one!"
+                "who": "junior",
+                "text": "Why is the cart total missing items?"
               },
               {
-                "who": "junior",
-                "text": "Wait, both of you?!"
+                "who": "twins",
+                "text": "We updated the map at the same exact millisecond!"
               }
             ],
             "bg": "server_room",
@@ -73,29 +78,30 @@
           },
           {
             "type": "code",
-            "dur": 4.5,
-            "narration": "Even with ConcurrentHashMap, put with get is not atomic.",
+            "dur": 4.0,
+            "narration": "Standard HashMap is not thread safe. Concurrent writes overwrite bucket updates.",
+            "sfx": [
+              "glitch"
+            ],
             "actors": [
               {
                 "who": "junior",
                 "expr": "scared",
                 "x": 0.2,
-                "scale": 0.9
+                "scale": 0.8
               }
             ],
             "lines": [
-              "Map<String, Integer> map =",
-              "  new ConcurrentHashMap<>();",
-              "void add(String key) {",
-              "  map.put(key, map.get(key) + 1);",
+              "public void add(String item) {",
+              "  counts.put(item, counts.getOrDefault(i",
               "}"
             ],
             "lang": "java",
-            "file": "OrderCounter.java",
+            "file": "Cart.java",
             "highlight": [
-              4
+              2
             ],
-            "error": "Silent lost updates: count is 1 instead of 2"
+            "error": "Race condition: lost updates in HashMap under multi-threading"
           },
           {
             "type": "crash",
@@ -103,21 +109,6 @@
             "sfx": [
               "crash"
             ],
-            "shake": true,
-            "actors": [
-              {
-                "who": "twins",
-                "expr": "happy",
-                "x": 0.5,
-                "scale": 1.1
-              }
-            ],
-            "title": "RACE CONDITION…",
-            "text": "Two threads read 0, both write 1. One write is lost forever."
-          },
-          {
-            "type": "scene",
-            "dur": 3.0,
             "actors": [
               {
                 "who": "junior",
@@ -128,14 +119,37 @@
               {
                 "who": "twins",
                 "expr": "happy",
-                "x": 0.7,
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "DATA CORRUPTION",
+            "text": "Non-atomic read-modify-write lost counter increments."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
                 "scale": 1.0
               }
             ],
             "say": [
               {
                 "who": "twins",
-                "text": "We both counted from zero!"
+                "text": "Atomic updates stop us from stepping on each other!"
               }
             ],
             "bg": "server_room",
@@ -156,71 +170,59 @@
               }
             ],
             "lines": [
-              "Map<String, Integer> map =",
-              "  new ConcurrentHashMap<>();",
-              "void add(String key) {",
-              "  map.put(key, map.get(key) + 1);",
+              "public void add(String item) {",
+              "  counts.put(item, counts.getOrDefault(i",
               "}"
             ],
             "lang": "java",
-            "file": "OrderCounter.java",
-            "fix_line": 4,
-            "after": "  map.merge(key, 1, Integer::sum);",
-            "note": "ConcurrentHashMap merge makes read and update atomic across threads."
+            "file": "Cart.java",
+            "fix_line": 2,
+            "after": "  counts.merge(item, 1, Integer::sum);",
+            "note": "ConcurrentHashMap.merge updates key values atomically without lock contention."
           },
           {
             "type": "outro",
             "dur": 3.0,
-            "lesson": "Use atomic operations like merge for thread-safe map updates.",
-            "cta": "Follow @prodmanor before the next race condition hits.",
+            "narration": "Follow @prodmanor before the next bug wakes up.",
+            "sfx": [
+              "whoosh"
+            ],
+            "lesson": "Use ConcurrentHashMap with atomic merge for thread-safe counters.",
+            "cta": "Save this before your next thread safety bug.",
             "next_monster": "leak",
-            "kicker": "NO MORE LOST WRITES"
+            "kicker": "FOLLOW FOR MORE PRO…"
           }
         ],
-        "caption": "Even inside ConcurrentHashMap, doing map.put(key, map.get(key) + 1) creates a race condition! Two threads read the same value before either writes back, losing updates. Use map.merge() to make the read-and-modify operation atomic.\n\nHave you ever debugged a lost write in production? Tell us below!\n\n@prodmanor #java #multithreading #backend #coding #programming #webdev #java17",
+        "caption": "Two threads updating a standard Java HashMap at the exact same moment can quietly overwrite each other's writes without throwing an exception. Swapping to ConcurrentHashMap with .merge() makes key updates atomic and thread-safe. Have you ever chased a race condition in prod? Follow @prodmanor for more.",
         "hashtags": [
           "#java",
+          "#concurrency",
           "#multithreading",
           "#backend",
-          "#coding",
           "#programming",
-          "#webdev"
+          "#softwareengineering",
+          "#codinghumor",
+          "#devops"
         ],
-        "cover_text": "LOST WRITES",
-        "series_tag": "EP 01"
+        "cover_text": "JAVA MAP BUG"
       },
       "warnings": [],
-      "pitch_msg_id": 97,
-      "slot_at": "2026-10-22T17:30:00+05:30",
-      "slot_label": "17:30",
-      "explore": false,
-      "episode_no": 1,
-      "approved_at": "2026-10-22T14:19:46.148887+05:30",
-      "media": {
-        "video": "2026-10-22-n.mp4",
-        "cover": "2026-10-22-n.jpg",
-        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-n.mp4",
-        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-n.jpg",
-        "seconds": 30.29,
-        "voiced": true
-      },
-      "rendered_at": "2026-10-22T14:49:24.923166+05:30",
-      "preview_msg_id": 114
+      "pitch_msg_id": 120
     },
-    "2026-10-22-o": {
-      "status": "rendered",
-      "created": "2026-10-22T14:16:57.872862+05:30",
+    "2026-10-22-s": {
+      "status": "pitched",
+      "created": "2026-10-22T16:27:38.824399+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
       "episode": {
-        "id": "2026-10-22-o",
-        "title": "The Unbounded Listener",
+        "id": "2026-10-22-s",
+        "title": "The Eternal Listener",
         "monster": "leak",
-        "concept": "EventEmitter listener leaks",
+        "concept": "Event listener cleanup in Node.js HTTP handlers",
         "level": "intermediate",
         "language": "javascript",
-        "hook": "This magenta slime will slow your Node server until prod crashes.",
-        "logline": "The Leak grows with every HTTP request as an EventEmitter listener is registered inside an express handler.",
+        "hook": "This cute slime will freeze your server during peak traffic.",
+        "logline": "Junior investigates a Node.js process running out of RAM due to unremoved event listeners in an API route.",
         "builds_on": "",
         "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
         "tech": "Node.js",
@@ -229,26 +231,33 @@
           {
             "type": "pager",
             "dur": 2.5,
-            "narration": "Ten twenty five A M. Node memory is exploding under load.",
+            "narration": "Ten twenty five A M. A hidden leak is devouring production RAM.",
             "sfx": [
-              "pager"
+              "pager",
+              "slurp"
             ],
             "time": "10:25 AM",
-            "text": "MEMORY WARNING",
-            "sub": "MaxListenersExceededWarning on se…"
+            "text": "MAX LISTENERS EXCEEDED",
+            "sub": "Memory usage climbing on every AP…"
           },
           {
             "type": "title",
             "dur": 2.0,
-            "text": "The Unbounded Listener",
-            "sub": "Adding listeners inside route handlers",
-            "kicker": "NODEJS MEMORY LEAK",
+            "narration": "The Leak feeds on leftover callbacks.",
+            "sfx": [
+              "whoosh"
+            ],
+            "text": "The Eternal Listener",
+            "sub": "MaxListenersExceededWarning in Node.js",
+            "kicker": "NODE.JS EVENT LEAK",
             "monster": "leak"
           },
           {
             "type": "scene",
             "dur": 3.5,
-            "narration": "Every incoming request feeds the slime another listener.",
+            "sfx": [
+              "slurp"
+            ],
             "actors": [
               {
                 "who": "junior",
@@ -258,41 +267,45 @@
               },
               {
                 "who": "leak",
-                "expr": "happy",
-                "x": 0.7,
+                "expr": "neutral",
+                "x": 0.75,
                 "scale": 1.0,
-                "action": "grow"
+                "action": "grow",
+                "amount": 1.5
               }
             ],
             "say": [
               {
-                "who": "leak",
-                "text": "...more?"
+                "who": "junior",
+                "text": "Why is node emitting memory warnings?"
               },
               {
-                "who": "junior",
-                "text": "Stop attaching to the bus!"
+                "who": "leak",
+                "text": "Every request leaves a listener behind... more?"
               }
             ],
-            "bg": "hallway",
-            "light": "flashlight"
+            "bg": "server_room",
+            "light": "dark"
           },
           {
             "type": "code",
-            "dur": 4.5,
-            "narration": "bus dot on inside a request handler attaches a new listener every call.",
+            "dur": 4.0,
+            "narration": "Attaching emitter.on inside a request handler registers a new callback forever.",
+            "sfx": [
+              "glitch"
+            ],
             "actors": [
               {
                 "who": "junior",
                 "expr": "scared",
                 "x": 0.2,
-                "scale": 0.9
+                "scale": 0.8
               }
             ],
             "lines": [
-              "app.get('/order', (req, res) => {",
-              "  bus.on('paid', () => {",
-              "    res.send('Done');",
+              "app.get('/events', (req, res) => {",
+              "  emitter.on('update', (data) => {",
+              "    res.write(JSON.stringify(data));",
               "  });",
               "});"
             ],
@@ -301,25 +314,59 @@
             "highlight": [
               2
             ],
-            "error": "MaxListenersExceededWarning: 11 paid listeners added"
+            "error": "MaxListenersExceededWarning: Possible EventEmitter memory leak detected."
           },
           {
             "type": "crash",
             "dur": 3.0,
             "sfx": [
-              "slurp"
+              "crash"
             ],
-            "shake": true,
             "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
               {
                 "who": "leak",
                 "expr": "happy",
-                "x": 0.5,
-                "scale": 1.6
+                "x": 0.75,
+                "scale": 1.5
               }
             ],
-            "title": "EVENT EMITTER O…",
-            "text": "Memory usage spikes to 100%. Node process becomes unresponsive."
+            "title": "MEMORY EXHAUSTI…",
+            "text": "Listeners stack in memory and hold references to request contexts."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.2
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Use once so it unbinds after firing!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
           },
           {
             "type": "fix",
@@ -333,81 +380,64 @@
                 "expr": "happy",
                 "x": 0.25,
                 "scale": 1.0
-              },
-              {
-                "who": "leak",
-                "expr": "scared",
-                "x": 0.75,
-                "scale": 0.8,
-                "action": "shrink"
               }
             ],
             "lines": [
-              "app.get('/order', (req, res) => {",
-              "  bus.on('paid', () => {",
-              "    res.send('Done');",
+              "app.get('/events', (req, res) => {",
+              "  emitter.on('update', (data) => {",
+              "    res.write(JSON.stringify(data));",
               "  });",
               "});"
             ],
             "lang": "javascript",
             "file": "server.js",
             "fix_line": 2,
-            "after": "  bus.once('paid', () => {",
-            "note": "bus.once removes the listener after firing so memory stays flat."
+            "after": "  emitter.once('update', (data) => {",
+            "note": "Using once automatically unregisters the listener after first execution."
           },
           {
             "type": "outro",
             "dur": 3.0,
-            "lesson": "Never add persistent event listeners inside HTTP route handlers.",
-            "cta": "Save this before your next Node deployment.",
+            "narration": "Follow @prodmanor before the next bug wakes up.",
+            "sfx": [
+              "whoosh"
+            ],
+            "lesson": "Never attach persistent event listeners inside request handlers.",
+            "cta": "Save this before Node freezes your server.",
             "next_monster": "null",
-            "kicker": "CLEAN UP YOUR LISTE…"
+            "kicker": "FOLLOW FOR MORE PRO…"
           }
         ],
-        "caption": "Attaching bus.on() inside an Express route creates a new event listener on every single HTTP request! These listeners are never garbage collected, leading to MaxListenersExceededWarning and memory leaks. Use bus.once() or register handlers at app startup.\n\nHow do you catch memory leaks in your app? Let us know below!\n\n@prodmanor #nodejs #javascript #express #backend #webdev #softwareengineering",
+        "caption": "Adding persistent event listeners inside Express route handlers is one of the most common ways to leak memory in Node.js. Every request attaches another callback to the event emitter until your RAM fills up. Use .once() or unbind explicitly. What is your go-to Node profiling tool? Follow @prodmanor for more.",
         "hashtags": [
           "#nodejs",
           "#javascript",
-          "#express",
           "#backend",
+          "#memoryleak",
           "#webdev",
+          "#fullstack",
+          "#codinghumor",
           "#softwareengineering"
         ],
-        "cover_text": "NODE LEAK",
-        "series_tag": "EP 02"
+        "cover_text": "NODE MEMORY LEAK"
       },
       "warnings": [],
-      "pitch_msg_id": 98,
-      "slot_at": "2026-10-22T19:30:00+05:30",
-      "slot_label": "19:30",
-      "explore": false,
-      "episode_no": 2,
-      "approved_at": "2026-10-22T14:19:47.833022+05:30",
-      "media": {
-        "video": "2026-10-22-o.mp4",
-        "cover": "2026-10-22-o.jpg",
-        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-o.mp4",
-        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-o.jpg",
-        "seconds": 26.41,
-        "voiced": true
-      },
-      "rendered_at": "2026-10-22T14:51:35.901225+05:30",
-      "preview_msg_id": 115
+      "pitch_msg_id": 121
     },
-    "2026-10-22-p": {
-      "status": "rendered",
-      "created": "2026-10-22T14:16:57.872866+05:30",
+    "2026-10-22-t": {
+      "status": "pitched",
+      "created": "2026-10-22T16:27:38.824403+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
       "episode": {
-        "id": "2026-10-22-p",
-        "title": "The Empty Response",
+        "id": "2026-10-22-t",
+        "title": "The Ghost of Two Hundred Four",
         "monster": "null",
-        "concept": "handling HTTP 204 No Content in fetch",
+        "concept": "Handling empty 204 No Content HTTP responses",
         "level": "intermediate",
         "language": "javascript",
-        "hook": "POV: your DELETE endpoint succeeds with status 204, but your frontend crashes.",
-        "logline": "The Null haunts a DELETE endpoint when res.json() tries to parse an empty status 204 HTTP body.",
+        "hook": "Why does a HTTP 204 success response crash your app?",
+        "logline": "The Null haunts a frontend client that attempts to call res.json() on a body-less 204 HTTP response.",
         "builds_on": "",
         "topic": "API returns 204 No Content and res.json() throws",
         "tech": "JavaScript",
@@ -416,26 +446,96 @@
           {
             "type": "pager",
             "dur": 2.5,
-            "narration": "Ten thirty seven A M. The API delete succeeded, but the page crashed.",
+            "narration": "Ten thirty seven A M. An empty response body just crashed the UI.",
             "sfx": [
-              "pager"
+              "pager",
+              "glitch"
             ],
             "time": "10:37 AM",
-            "text": "FRONTEND CRASH",
-            "sub": "Unexpected end of JSON input on D…"
+            "text": "UNCAUGHT SYNTAX ERROR",
+            "sub": "Frontend crash after clicking del…"
           },
           {
             "type": "title",
             "dur": 2.0,
-            "text": "The Empty Response",
-            "sub": "When status 204 returns no body",
-            "kicker": "FETCH API GOTCHA",
+            "narration": "The Null brings an empty bedsheet.",
+            "sfx": [
+              "whoosh"
+            ],
+            "text": "The Ghost of Two Hundred Four",
+            "sub": "When res.json() tries to parse nothing.",
+            "kicker": "HTTP RESPONSE BUGS",
             "monster": "null"
           },
           {
             "type": "scene",
             "dur": 3.5,
-            "narration": "The Null ghost stands in the response body. There is nothing inside.",
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The server responded with success!"
+              },
+              {
+                "who": "null",
+                "text": "I brought you two hundred and four... empty air!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "Calling res.json on an HTTP two hundred and four response crashes on empty body parsing.",
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "async function deleteItem(id) {",
+              "  const res = await fetch(`/items/${id}`",
+              "  const data = await res.json();",
+              "  return data;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "highlight": [
+              3
+            ],
+            "error": "SyntaxError: Unexpected end of JSON input at JSON.parse (<anonymous>)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
             "actors": [
               {
                 "who": "junior",
@@ -446,67 +546,41 @@
               {
                 "who": "null",
                 "expr": "scared",
-                "x": 0.7,
-                "scale": 1.0,
-                "action": "fade_in"
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "PARSING ERROR",
+            "text": "HTTP 204 No Content has no body stream to parse."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
               }
             ],
             "say": [
               {
                 "who": "null",
-                "text": "Nobody checks on me..."
-              },
-              {
-                "who": "junior",
-                "text": "Wait, res.json failed?!"
+                "text": "Check my status code before parsing me..."
               }
             ],
-            "bg": "bedroom",
+            "bg": "hallway",
             "light": "flashlight"
-          },
-          {
-            "type": "code",
-            "dur": 4.5,
-            "narration": "Calling res dot json on an empty 204 body throws a SyntaxError.",
-            "actors": [
-              {
-                "who": "junior",
-                "expr": "scared",
-                "x": 0.2,
-                "scale": 0.9
-              }
-            ],
-            "lines": [
-              "async function del() {",
-              "  const r = await fetch('/u');",
-              "  const ok = true;",
-              "  return ok ? r.json() : null;",
-              "}"
-            ],
-            "lang": "javascript",
-            "file": "api.js",
-            "highlight": [
-              4
-            ],
-            "error": "SyntaxError: Unexpected end of JSON input"
-          },
-          {
-            "type": "crash",
-            "dur": 3.0,
-            "sfx": [
-              "glitch"
-            ],
-            "shake": true,
-            "actors": [
-              {
-                "who": "null",
-                "expr": "scared",
-                "x": 0.5,
-                "scale": 1.2
-              }
-            ],
-            "title": "PARSING ERROR",
-            "text": "HTTP 204 No Content has no JSON body to parse."
           },
           {
             "type": "fix",
@@ -520,80 +594,64 @@
                 "expr": "happy",
                 "x": 0.25,
                 "scale": 1.0
-              },
-              {
-                "who": "null",
-                "expr": "happy",
-                "x": 0.7,
-                "scale": 0.9
               }
             ],
             "lines": [
-              "async function del() {",
-              "  const r = await fetch('/u');",
-              "  const ok = true;",
-              "  return ok ? r.json() : null;",
+              "async function deleteItem(id) {",
+              "  const res = await fetch(`/items/${id}`",
+              "  const data = await res.json();",
+              "  return data;",
               "}"
             ],
             "lang": "javascript",
             "file": "api.js",
             "fix_line": 3,
-            "after": "  const ok = r.status !== 204;",
-            "note": "Check status 204 before parsing JSON response bodies."
+            "after": "  const data = res.status === 204 ? null",
+            "note": "Check res.status === 204 or res.status === 205 before parsing JSON."
           },
           {
             "type": "outro",
             "dur": 3.0,
-            "lesson": "Always check response.status before parsing fetch JSON.",
-            "cta": "Follow @prodmanor before your next API release.",
+            "narration": "Follow @prodmanor before the next bug wakes up.",
+            "sfx": [
+              "whoosh"
+            ],
+            "lesson": "HTTP 204 returns no body—check res.status before calling res.json().",
+            "cta": "Share this with a frontend dev who uses fetch.",
             "next_monster": "ollie",
-            "kicker": "CHECK YOUR STATUS"
+            "kicker": "FOLLOW FOR MORE PRO…"
           }
         ],
-        "caption": "HTTP 204 No Content means the request succeeded, but the body is intentionally empty. Calling response.json() on an empty body throws 'SyntaxError: Unexpected end of JSON input'. Always check if res.status === 204 before calling .json()!\n\nHas a 204 status code ever crashed your web app? Let us know below!\n\n@prodmanor #javascript #webdev #frontend #reactjs #api #codinghumor",
+        "caption": "HTTP 204 No Content indicates success, but contains zero body bytes. Calling fetch's res.json() unconditionally will throw an unhandled SyntaxError when parsing empty text. Always verify res.status before trying to parse JSON responses! How do you handle 204 status codes in your API clients? Follow @prodmanor for more.",
         "hashtags": [
           "#javascript",
-          "#webdev",
           "#frontend",
           "#reactjs",
+          "#webdev",
           "#api",
-          "#codinghumor"
+          "#programming",
+          "#codinghumor",
+          "#softwaredeveloper"
         ],
-        "cover_text": "FETCH 204 BUG",
-        "series_tag": "EP 03"
+        "cover_text": "HTTP 204 CRASH"
       },
       "warnings": [],
-      "pitch_msg_id": 99,
-      "slot_at": "2026-10-22T22:45:00+05:30",
-      "slot_label": "22:45",
-      "explore": false,
-      "episode_no": 3,
-      "approved_at": "2026-10-22T14:19:49.227691+05:30",
-      "media": {
-        "video": "2026-10-22-p.mp4",
-        "cover": "2026-10-22-p.jpg",
-        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-p.mp4",
-        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-p.jpg",
-        "seconds": 31.14,
-        "voiced": true
-      },
-      "rendered_at": "2026-10-22T14:54:07.195427+05:30",
-      "preview_msg_id": 116
+      "pitch_msg_id": 122
     },
-    "2026-10-22-q": {
-      "status": "rejected",
-      "created": "2026-10-22T14:16:57.872868+05:30",
+    "2026-10-22-u": {
+      "status": "pitched",
+      "created": "2026-10-22T16:27:38.824406+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
       "episode": {
-        "id": "2026-10-22-q",
-        "title": "The Extra Cents",
+        "id": "2026-10-22-u",
+        "title": "The Floating Point Penny",
         "monster": "ollie",
-        "concept": "floating point precision in currency calculations",
+        "concept": "Precise financial arithmetic with Python Decimal",
         "level": "intermediate",
         "language": "python",
-        "hook": "Floating point numbers will ruin your invoice totals every time.",
-        "logline": "Ollie One-Off haunts an invoice total in Python when zero point one plus zero point two adds tiny fractional cents.",
+        "hook": "POV: You charged a customer zero point three zero zero zero four dollars.",
+        "logline": "Ollie One-Off haunts a checkout routine where floating-point math leads to precise rounding errors on invoices.",
         "builds_on": "",
         "topic": "float money totals: 0.1 + 0.2 on an invoice",
         "tech": "Python",
@@ -602,26 +660,95 @@
           {
             "type": "pager",
             "dur": 2.5,
-            "narration": "Two twenty seven A M. Customer totals show strange precision numbers.",
+            "narration": "Two twenty seven A M. Binary floating point math just broke billing.",
             "sfx": [
-              "pager"
+              "pager",
+              "thud"
             ],
             "time": "2:27 AM",
             "text": "INVOICE DISCREPANCY",
-            "sub": "Customer charged $0.3000000000000…"
+            "sub": "Customer billed $0.30000000000000…"
           },
           {
             "type": "title",
             "dur": 2.0,
-            "text": "The Extra Cents",
-            "sub": "Floating point money math",
-            "kicker": "PYTHON PRECISION BUG",
+            "narration": "Ollie One Off is here to count fractions.",
+            "sfx": [
+              "whoosh"
+            ],
+            "text": "The Floating Point Penny",
+            "sub": "Why zero point one plus zero point two fails.",
+            "kicker": "PYTHON FLOAT BUGS",
             "monster": "ollie"
           },
           {
             "type": "scene",
             "dur": 3.5,
-            "narration": "Ollie One-Off lives in the tiny floating point remainder.",
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Where did these extra decimal places come from?"
+              },
+              {
+                "who": "ollie",
+                "text": "Knock knock! Just off by zero point zero zero zero zero one!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "Binary floating point formats cannot represent base ten decimals like zero point one accurately.",
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "def calculate_total(prices):",
+              "    total = 0.0",
+              "    for price in prices:",
+              "        total += price",
+              "    return total"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "highlight": [
+              2
+            ],
+            "error": "AssertionError: 0.1 + 0.2 == 0.30000000000000004"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
             "actors": [
               {
                 "who": "junior",
@@ -636,62 +763,37 @@
                 "scale": 1.0
               }
             ],
-            "say": [
-              {
-                "who": "ollie",
-                "text": "Room four, I presume?"
-              },
-              {
-                "who": "junior",
-                "text": "It is off by four quadrillionths!"
-              }
-            ],
-            "bg": "bedroom",
-            "light": "flashlight"
+            "title": "PRECISION DRIFT",
+            "text": "Floating point inaccuracies accumulate across currency operations."
           },
           {
-            "type": "code",
-            "dur": 4.5,
-            "narration": "IEEE seven fifty four floats cannot represent zero point one exactly in binary.",
+            "type": "scene",
+            "dur": 3.0,
+            "sfx": [
+              "ding"
+            ],
             "actors": [
               {
                 "who": "junior",
                 "expr": "scared",
-                "x": 0.2,
-                "scale": 0.9
-              }
-            ],
-            "lines": [
-              "def get_total(prices):",
-              "    return sum(prices)",
-              "",
-              "# prices = [0.10, 0.20]",
-              "# returns 0.30000000000000004"
-            ],
-            "lang": "python",
-            "file": "checkout.py",
-            "highlight": [
-              2
-            ],
-            "error": "Precision error: total is 0.30000000000000004"
-          },
-          {
-            "type": "crash",
-            "dur": 3.0,
-            "sfx": [
-              "thud"
-            ],
-            "shake": true,
-            "actors": [
+                "x": 0.25,
+                "scale": 1.0
+              },
               {
                 "who": "ollie",
-                "expr": "happy",
+                "expr": "scared",
                 "x": 0.7,
-                "scale": 1.1
+                "scale": 1.0
               }
             ],
-            "title": "PAYMENT GATEWAY…",
-            "text": "Stripe rejected total $0.30000000000000004 due to invalid currency value."
+            "say": [
+              {
+                "who": "junior",
+                "text": "Never use float for money totals!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
           },
           {
             "type": "fix",
@@ -705,59 +807,59 @@
                 "expr": "happy",
                 "x": 0.25,
                 "scale": 1.0
-              },
-              {
-                "who": "ollie",
-                "expr": "scared",
-                "x": 0.7,
-                "scale": 0.9
               }
             ],
             "lines": [
-              "def get_total(prices):",
-              "    return sum(prices)",
-              "",
-              "# prices = [0.10, 0.20]",
-              "# returns 0.30000000000000004"
+              "def calculate_total(prices):",
+              "    total = 0.0",
+              "    for price in prices:",
+              "        total += price",
+              "    return total"
             ],
             "lang": "python",
-            "file": "checkout.py",
+            "file": "billing.py",
             "fix_line": 2,
-            "after": "    return sum(prices) / 100",
-            "note": "Store money as integer cents to avoid floating point precision errors."
+            "after": "    total = Decimal('0.0')",
+            "note": "Use Decimal or integer cents to prevent floating point precision errors."
           },
           {
             "type": "outro",
             "dur": 3.0,
-            "lesson": "Never use float for money. Use integer cents or Decimal.",
-            "cta": "Follow @prodmanor before your next payment bug.",
+            "narration": "Follow @prodmanor before the next bug wakes up.",
+            "sfx": [
+              "whoosh"
+            ],
+            "lesson": "Never store currency in floats—use Decimal or integer cents.",
+            "cta": "Save this before floating point math touches your checkout.",
             "next_monster": "twins",
-            "kicker": "USE INTEGER CENTS"
+            "kicker": "FOLLOW FOR MORE PRO…"
           }
         ],
-        "caption": "In binary floating-point arithmetic (IEEE 754), 0.1 + 0.2 equals 0.30000000000000004! If you handle money as floats in Python or JavaScript, payment gateways like Stripe will reject invalid amounts. Always store money as integer cents or use the Decimal module.\n\nHow do you handle currency in your backend code? Let us know below!\n\n@prodmanor #python #pythonprogramming #backend #softwaredeveloper #webdevelopment #coding",
+        "caption": "Storing money as binary floating-point numbers leads to precision drift because base-10 decimals like 0.1 cannot be represented exactly in IEEE 754 binary floating point. Always use Python's Decimal module or store monetary values as integer cents! Do you use Decimal or integer cents for financial data? Follow @prodmanor for more.",
         "hashtags": [
           "#python",
-          "#pythonprogramming",
           "#backend",
-          "#softwaredeveloper",
-          "#webdevelopment",
-          "#coding"
+          "#fintech",
+          "#programming",
+          "#pythonprogramming",
+          "#softwareengineering",
+          "#codinghumor",
+          "#codequality"
         ],
-        "cover_text": "FLOAT MONEY BUG"
+        "cover_text": "PYTHON MONEY BUG"
       },
       "warnings": [],
-      "pitch_msg_id": 100
+      "pitch_msg_id": 123
     }
   },
   "telegram": {
-    "offset": 557188846,
+    "offset": 557188847,
     "awaiting_rewrite": {},
     "msg_to_ep": {
-      "97": "2026-10-22-n",
-      "98": "2026-10-22-o",
-      "99": "2026-10-22-p",
-      "100": "2026-10-22-q"
+      "120": "2026-10-22-r",
+      "121": "2026-10-22-s",
+      "122": "2026-10-22-t",
+      "123": "2026-10-22-u"
     }
   },
   "settings": {
@@ -772,9 +874,7 @@
     }
   },
   "token": {},
-  "render": {
-    "requested_at": "2026-10-22T14:45:28.243032+05:30"
-  },
+  "render": {},
   "followers": [],
   "taught": [],
   "retired_ids": [
@@ -790,6 +890,10 @@
     "2026-10-22-j",
     "2026-10-22-k",
     "2026-10-22-l",
-    "2026-10-22-m"
+    "2026-10-22-m",
+    "2026-10-22-n",
+    "2026-10-22-o",
+    "2026-10-22-p",
+    "2026-10-22-q"
   ]
 }
