@@ -1488,7 +1488,7 @@
       "pitch_msg_id": 69
     },
     "2026-10-22-i": {
-      "status": "approved",
+      "status": "rendered",
       "created": "2026-10-22T07:00:51.970887+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -1649,7 +1649,17 @@
       "slot_label": "17:30",
       "explore": false,
       "episode_no": 5,
-      "approved_at": "2026-10-22T07:46:29.746959+05:30"
+      "approved_at": "2026-10-22T07:46:29.746959+05:30",
+      "media": {
+        "video": "2026-10-22-i.mp4",
+        "cover": "2026-10-22-i.jpg",
+        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-i.mp4",
+        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-i.jpg",
+        "seconds": 25.22,
+        "voiced": true
+      },
+      "rendered_at": "2026-10-22T08:18:04.960447+05:30",
+      "preview_msg_id": 80
     }
   },
   "telegram": {
