@@ -1163,7 +1163,7 @@
       "approved_at": "2026-10-22T07:45:01.743474+05:30"
     },
     "2026-10-22-g": {
-      "status": "pitched",
+      "status": "rejected",
       "created": "2026-10-22T07:00:51.970877+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -1479,7 +1479,7 @@
       "pitch_msg_id": 69
     },
     "2026-10-22-i": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T07:00:51.970887+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -1631,14 +1631,20 @@
           "#softwareengineer",
           "#codinghumor"
         ],
-        "cover_text": "NULL IS HERE"
+        "cover_text": "NULL IS HERE",
+        "series_tag": "EP 05"
       },
       "warnings": [],
-      "pitch_msg_id": 70
+      "pitch_msg_id": 70,
+      "slot_at": "2026-10-23T17:30:00+05:30",
+      "slot_label": "17:30",
+      "explore": false,
+      "episode_no": 5,
+      "approved_at": "2026-10-22T07:46:29.746959+05:30"
     }
   },
   "telegram": {
-    "offset": 557188820,
+    "offset": 557188822,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
