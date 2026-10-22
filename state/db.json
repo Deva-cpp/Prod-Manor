@@ -328,7 +328,7 @@
       "approved_at": "2026-10-22T14:04:40.512649+05:30"
     },
     "2026-10-22-l": {
-      "status": "pitched",
+      "status": "rejected",
       "created": "2026-10-22T14:01:12.935955+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -485,7 +485,7 @@
       "pitch_msg_id": 88
     },
     "2026-10-22-m": {
-      "status": "pitched",
+      "status": "rejected",
       "created": "2026-10-22T14:01:12.935959+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -639,7 +639,7 @@
     }
   },
   "telegram": {
-    "offset": 557188830,
+    "offset": 557188832,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "86": "2026-10-22-j",
