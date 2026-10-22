@@ -993,6 +993,642 @@
       },
       "rendered_at": "2026-10-22T01:38:36.178576+05:30",
       "preview_msg_id": 64
+    },
+    "2026-10-22-f": {
+      "status": "pitched",
+      "created": "2026-10-22T07:00:51.970858+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-f",
+        "title": "Double Booked At Three",
+        "monster": "twins",
+        "concept": "atomic transaction",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: two users buy the exact same last seat at the exact same millisecond.",
+        "logline": "Twin gremlins book the last ticket simultaneously, breaking inventory.",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "3:04 AM",
+            "text": "PROD IS ON FIRE",
+            "sub": "Seat 12B sold twice. Customers ar…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "Double Booked At Three",
+            "sub": "Check-then-act race condition",
+            "kicker": "Prod Manor Season 2",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "pop_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "After you!"
+              },
+              {
+                "who": "twins",
+                "text": "No, after YOU."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "if seat.is_free:",
+              "    time.sleep(0.1)",
+              "    seat.is_free = False",
+              "    db.save(seat)"
+            ],
+            "lang": "python",
+            "file": "booking.py",
+            "highlight": [
+              1,
+              2,
+              3
+            ],
+            "error": "DatabaseIntegrityError: Duplicate booking detected for seat 12B"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "RACE CONDITION",
+            "text": "Both requests passed the check before either wrote to the database."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "if seat.is_free:",
+              "    time.sleep(0.1)",
+              "    seat.is_free = False",
+              "    db.save(seat)"
+            ],
+            "lang": "python",
+            "file": "booking.py",
+            "fix_line": 1,
+            "after": "with db.transaction():",
+            "note": "Lock the row so checks and writes happen atomically."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Check and act in one atomic step.",
+            "cta": "Save this before your next flash sale deploy.",
+            "next_monster": "ollie",
+            "kicker": "The next bug wakes…"
+          }
+        ],
+        "caption": "When two users click buy at the exact same microsecond and your database weeps. Race conditions are the silent killers of clean business logic. Wrap your critical sections in transactions before the twins book your entire inventory twice! Drop a comment if you've ever debugged a concurrency ghost. Follow @prodmanor for more 3 AM code horrors.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#python",
+          "#backend",
+          "#softwareengineer",
+          "#webdev",
+          "#codinghumor",
+          "#tech"
+        ],
+        "cover_text": "RACE CONDITION"
+      },
+      "warnings": [],
+      "pitch_msg_id": 67
+    },
+    "2026-10-22-g": {
+      "status": "pitched",
+      "created": "2026-10-22T07:00:51.970877+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-g",
+        "title": "Thirteen O Clock",
+        "monster": "ollie",
+        "concept": "off-by-one error",
+        "level": "beginner",
+        "language": "python",
+        "hook": "This neighbor knocks on door eleven when you only have ten apartments.",
+        "logline": "Ollie One-Off visits index ten of a ten-item array and panics the loop.",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "3:12 AM",
+            "text": "INDEX OUT OF RANGE",
+            "sub": "The loop refuses to stop knocking."
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "Thirteen O Clock",
+            "sub": "Off-by-one indexing error",
+            "kicker": "Prod Manor Season 2",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92,
+                "scale": 1.0,
+                "action": "peek"
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "I brought a guest for item ten!"
+              },
+              {
+                "who": "junior",
+                "text": "There are only ten items!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "users = ['Alice', 'Bob', 'Cal']",
+              "for i in range(len(users) + 1):",
+              "    print(users[i])"
+            ],
+            "lang": "python",
+            "file": "render.py",
+            "highlight": [
+              2
+            ],
+            "error": "IndexError: list index out of range"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "INDEXERROR",
+            "text": "Python counts from zero, but your loop went one step too far."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "users = ['Alice', 'Bob', 'Cal']",
+              "for i in range(len(users) + 1):",
+              "    print(users[i])"
+            ],
+            "lang": "python",
+            "file": "render.py",
+            "fix_line": 2,
+            "after": "for i in range(len(users)):",
+            "note": "Drop the plus one. Length is always past the last index."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "The last index is always length minus one.",
+            "cta": "Follow before Ollie knocks on your door.",
+            "next_monster": "leak",
+            "kicker": "The next bug wakes…"
+          }
+        ],
+        "caption": "Counting from zero is the first boss fight every developer wins and then forgets at 3 AM. Ollie One-Off loves visiting index length because he knows you added a random plus one. Check your loop bounds! Have you ever shipped an off-by-one to production? Tell us below. Follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#python",
+          "#beginners",
+          "#webdev",
+          "#softwaredeveloper",
+          "#codingmemes",
+          "#devlife"
+        ],
+        "cover_text": "OFF BY ONE"
+      },
+      "warnings": [],
+      "pitch_msg_id": 68
+    },
+    "2026-10-22-h": {
+      "status": "pitched",
+      "created": "2026-10-22T07:00:51.970883+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-h",
+        "title": "The Slime That Ate The RAM",
+        "monster": "leak",
+        "concept": "cleanup function",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This magenta slime grows bigger every single second your app stays open.",
+        "logline": "An uncleaned event listener feeds the memory leak until the browser tabs crash.",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "3:22 AM",
+            "text": "OUT OF MEMORY",
+            "sub": "Heap size hit four gigabytes."
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Slime That Ate The RAM",
+            "sub": "Undeleted event listener leak",
+            "kicker": "Prod Manor Season 2",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more?"
+              },
+              {
+                "who": "junior",
+                "text": "Stop attaching listeners on every re-render!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.4
+              }
+            ],
+            "lines": [
+              "useEffect(() => {",
+              "  window.addEventListener('resize', hand",
+              "}, []);"
+            ],
+            "lang": "javascript",
+            "file": "useWindow.js",
+            "highlight": [
+              2
+            ],
+            "error": "FATAL: JavaScript heap out of memory"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "MEMORY LEAK",
+            "text": "The component unmounted, but the window kept holding the reference."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.6,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "useEffect(() => {",
+              "  window.addEventListener('resize', hand",
+              "}, []);"
+            ],
+            "lang": "javascript",
+            "file": "useWindow.js",
+            "fix_line": 2,
+            "after": "  return () => window.removeEventListene",
+            "note": "Return a cleanup function to remove the listener."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always clean up listeners on unmount.",
+            "cta": "Save this before your next memory profile.",
+            "next_monster": "null",
+            "kicker": "The next bug wakes…"
+          }
+        ],
+        "caption": "Your users leave your app open for ten minutes and their laptop fans start sounding like jet engines. That's not a feature, that's a memory leak eating your RAM one uncleaned event listener at a time! Always return your cleanup functions in useEffect. How much RAM does your worst app consume? Let us know below. Follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#javascript",
+          "#react",
+          "#webdev",
+          "#frontend",
+          "#softwareengineer",
+          "#techhumor"
+        ],
+        "cover_text": "MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 69
+    },
+    "2026-10-22-i": {
+      "status": "pitched",
+      "created": "2026-10-22T07:00:51.970887+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-i",
+        "title": "Nobody Checked On Him",
+        "monster": "null",
+        "concept": "optional chaining",
+        "level": "beginner",
+        "language": "javascript",
+        "hook": "This lonely ghost crashes your entire web app just by existing.",
+        "logline": "Junior forgets a null check on a user profile picture, summoning the Null.",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "3:45 AM",
+            "text": "UNCAUGHT TYPEERROR",
+            "sub": "Cannot read properties of null re…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "Nobody Checked On Him",
+            "sub": "Undefined property access",
+            "kicker": "Prod Manor Season 2",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Nobody checked if I existed..."
+              },
+              {
+                "who": "junior",
+                "text": "I assumed the user object was always there!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function renderAvatar(user) {",
+              "    return user.profile.avatar;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "profile.js",
+            "highlight": [
+              2
+            ],
+            "error": "TypeError: Cannot read properties of undefined (reading 'avatar')"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "APP CRASHED",
+            "text": "A missing profile object brought down the entire component tree."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "function renderAvatar(user) {",
+              "    return user.profile.avatar;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "profile.js",
+            "fix_line": 2,
+            "after": "    return user?.profile?.avatar;",
+            "note": "Use optional chaining to safely return undefined instead."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always check your properties with a question mark.",
+            "cta": "Follow before the Null visits your login page.",
+            "next_monster": "caller",
+            "kicker": "The next bug wakes…"
+          }
+        ],
+        "caption": "The most famous error in JavaScript history starts with a simple assumption: that data always arrives. The Null doesn't want to break your app, but when you call a method on nothing, everything collapses. Use optional chaining and save your users from the void! What's your most hated runtime error? Tell us below. Follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#javascript",
+          "#webdev",
+          "#frontend",
+          "#react",
+          "#softwareengineer",
+          "#codinghumor"
+        ],
+        "cover_text": "NULL IS HERE"
+      },
+      "warnings": [],
+      "pitch_msg_id": 70
     }
   },
   "telegram": {
@@ -1003,7 +1639,11 @@
       "42": "2026-10-22-b",
       "46": "2026-10-22-c",
       "53": "2026-10-22-d",
-      "54": "2026-10-22-e"
+      "54": "2026-10-22-e",
+      "67": "2026-10-22-f",
+      "68": "2026-10-22-g",
+      "69": "2026-10-22-h",
+      "70": "2026-10-22-i"
     }
   },
   "settings": {
@@ -1014,7 +1654,11 @@
     "2026-10-21": {
       "pitch_error_sent": true
     },
-    "2026-10-22": {}
+    "2026-10-22": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {
