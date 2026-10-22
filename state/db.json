@@ -1,40 +1,238 @@
 {
   "episodes": {
-    "2026-10-22-k": {
-      "status": "approved",
-      "created": "2026-10-22T14:01:12.935949+05:30",
+    "2026-10-22-n": {
+      "status": "pitched",
+      "created": "2026-10-22T14:16:57.872840+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
       "episode": {
-        "id": "2026-10-22-k",
-        "title": "The Ghost In The State",
-        "monster": "leak",
-        "concept": "AbortController in useEffect cleanup",
+        "id": "2026-10-22-n",
+        "title": "The Vanishing Writes",
+        "monster": "twins",
+        "concept": "atomic updates with ConcurrentHashMap merge",
         "level": "intermediate",
-        "language": "javascript",
-        "hook": "This magenta slime grows every time a component unmounts and leaves a fetch run…",
-        "logline": "A forgotten async fetch tries to update state on a dead component, feeding the memory leak slime.",
+        "language": "java",
+        "hook": "Why did half your high-concurrency order updates vanish into thin air?",
+        "logline": "Fork and Join race to update a shared HashMap at four A M, overwriting each other's order counts.",
         "builds_on": "",
-        "topic": "fetch in useEffect sets state after the component unmounted",
+        "topic": "Java HashMap shared across threads loses updates",
+        "tech": "Java",
+        "wake_time": "4:00 AM",
         "beats": [
           {
             "type": "pager",
             "dur": 2.5,
-            "shake": true,
-            "time": "three A M",
-            "text": "CONSOLE WARNING",
-            "sub": "Can't perform a React state updat…"
+            "narration": "Four A M. High traffic arrives and order counts vanish.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "4:00 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Order counts are missing in high…"
           },
           {
             "type": "title",
+            "dur": 2.0,
+            "text": "The Vanishing Writes",
+            "sub": "When two threads write at once",
+            "kicker": "JAVA THREAD SAFETY",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Fork and Join grab the shared map at the exact same time.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.7
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "I will update key one!"
+              },
+              {
+                "who": "junior",
+                "text": "Wait, both of you?!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Even with ConcurrentHashMap, put with get is not atomic.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> map =",
+              "  new ConcurrentHashMap<>();",
+              "void add(String key) {",
+              "  map.put(key, map.get(key) + 1);",
+              "}"
+            ],
+            "lang": "java",
+            "file": "OrderCounter.java",
+            "highlight": [
+              4
+            ],
+            "error": "Silent lost updates: count is 1 instead of 2"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.1
+              }
+            ],
+            "title": "RACE CONDITION…",
+            "text": "Two threads read 0, both write 1. One write is lost forever."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "We both counted from zero!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> map =",
+              "  new ConcurrentHashMap<>();",
+              "void add(String key) {",
+              "  map.put(key, map.get(key) + 1);",
+              "}"
+            ],
+            "lang": "java",
+            "file": "OrderCounter.java",
+            "fix_line": 4,
+            "after": "  map.merge(key, 1, Integer::sum);",
+            "note": "ConcurrentHashMap merge makes read and update atomic across threads."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use atomic operations like merge for thread-safe map updates.",
+            "cta": "Follow @prodmanor before the next race condition hits.",
+            "next_monster": "leak",
+            "kicker": "NO MORE LOST WRITES"
+          }
+        ],
+        "caption": "Even inside ConcurrentHashMap, doing map.put(key, map.get(key) + 1) creates a race condition! Two threads read the same value before either writes back, losing updates. Use map.merge() to make the read-and-modify operation atomic.\n\nHave you ever debugged a lost write in production? Tell us below!\n\n@prodmanor #java #multithreading #backend #coding #programming #webdev #java17",
+        "hashtags": [
+          "#java",
+          "#multithreading",
+          "#backend",
+          "#coding",
+          "#programming",
+          "#webdev"
+        ],
+        "cover_text": "LOST WRITES"
+      },
+      "warnings": [],
+      "pitch_msg_id": 97
+    },
+    "2026-10-22-o": {
+      "status": "pitched",
+      "created": "2026-10-22T14:16:57.872862+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-o",
+        "title": "The Unbounded Listener",
+        "monster": "leak",
+        "concept": "EventEmitter listener leaks",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This magenta slime will slow your Node server until prod crashes.",
+        "logline": "The Leak grows with every HTTP request as an EventEmitter listener is registered inside an express handler.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "10:25 AM",
+        "beats": [
+          {
+            "type": "pager",
             "dur": 2.5,
-            "text": "The Ghost In The State",
-            "sub": "Uncanceled async requests haunting your heap",
+            "narration": "Ten twenty five A M. Node memory is exploding under load.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "10:25 AM",
+            "text": "MEMORY WARNING",
+            "sub": "MaxListenersExceededWarning on se…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Unbounded Listener",
+            "sub": "Adding listeners inside route handlers",
+            "kicker": "NODEJS MEMORY LEAK",
             "monster": "leak"
           },
           {
             "type": "scene",
-            "dur": 4.0,
+            "dur": 3.5,
+            "narration": "Every incoming request feeds the slime another listener.",
             "actors": [
               {
                 "who": "junior",
@@ -45,19 +243,19 @@
               {
                 "who": "leak",
                 "expr": "happy",
-                "x": 0.75,
-                "scale": 1.2,
+                "x": 0.7,
+                "scale": 1.0,
                 "action": "grow"
               }
             ],
             "say": [
               {
-                "who": "junior",
-                "text": "Why is the memory usage graph climbing into the ceiling?"
+                "who": "leak",
+                "text": "...more?"
               },
               {
-                "who": "leak",
-                "text": "...more data please..."
+                "who": "junior",
+                "text": "Stop attaching to the bus!"
               }
             ],
             "bg": "hallway",
@@ -66,47 +264,53 @@
           {
             "type": "code",
             "dur": 4.5,
+            "narration": "bus dot on inside a request handler attaches a new listener every call.",
             "actors": [
               {
                 "who": "junior",
                 "expr": "scared",
-                "x": 0.25,
+                "x": 0.2,
                 "scale": 0.9
               }
             ],
             "lines": [
-              "useEffect(() => {",
-              "  fetch('/api/user')",
-              "    .then(r => r.json())",
-              "    .then(setData);",
-              "}, []);"
+              "app.get('/order', (req, res) => {",
+              "  bus.on('paid', () => {",
+              "    res.send('Done');",
+              "  });",
+              "});"
             ],
             "lang": "javascript",
-            "file": "Profile.jsx",
+            "file": "server.js",
             "highlight": [
-              2,
-              3,
-              4
+              2
             ],
-            "error": "Warning: Can't perform a React state update on an unmounted component."
+            "error": "MaxListenersExceededWarning: 11 paid listeners added"
           },
           {
             "type": "crash",
             "dur": 3.0,
+            "sfx": [
+              "slurp"
+            ],
+            "shake": true,
             "actors": [
               {
                 "who": "leak",
                 "expr": "happy",
-                "x": 0.75,
+                "x": 0.5,
                 "scale": 1.6
               }
             ],
-            "title": "HEAP OUT OF MEM…",
-            "text": "Orphaned callbacks keep component references alive forever."
+            "title": "EVENT EMITTER O…",
+            "text": "Memory usage spikes to 100%. Node process becomes unresponsive."
           },
           {
             "type": "fix",
-            "dur": 4.5,
+            "dur": 4.0,
+            "sfx": [
+              "ding"
+            ],
             "actors": [
               {
                 "who": "junior",
@@ -123,84 +327,83 @@
               }
             ],
             "lines": [
-              "useEffect(() => {",
-              "  fetch('/api/user')",
-              "    .then(r => r.json())",
-              "    .then(setData);",
-              "}, []);"
+              "app.get('/order', (req, res) => {",
+              "  bus.on('paid', () => {",
+              "    res.send('Done');",
+              "  });",
+              "});"
             ],
             "lang": "javascript",
-            "file": "Profile.jsx",
+            "file": "server.js",
             "fix_line": 2,
-            "after": "  const ctrl = new AbortController();\n  ",
-            "note": "Abort the fetch when the component unmounts."
+            "after": "  bus.once('paid', () => {",
+            "note": "bus.once removes the listener after firing so memory stays flat."
           },
           {
             "type": "outro",
             "dur": 3.0,
-            "lesson": "Use AbortController in useEffect cleanup to cancel pending network requests.",
-            "cta": "Follow before the next memory leak wakes up.",
+            "lesson": "Never add persistent event listeners inside HTTP route handlers.",
+            "cta": "Save this before your next Node deployment.",
             "next_monster": "null",
-            "kicker": "Clean up your side…"
+            "kicker": "CLEAN UP YOUR LISTE…"
           }
         ],
-        "caption": "POV: You navigate away from a page before the fetch finishes and React starts screaming about unmounted components. The Leak slime loves orphaned promises and will eat your heap memory until the tab crashes. Always attach an AbortController signal in your cleanup function! How often do you audit your useEffect hooks? Let me know below!\n\nFollow @prodmanor for more scary frontend bugs.",
+        "caption": "Attaching bus.on() inside an Express route creates a new event listener on every single HTTP request! These listeners are never garbage collected, leading to MaxListenersExceededWarning and memory leaks. Use bus.once() or register handlers at app startup.\n\nHow do you catch memory leaks in your app? Let us know below!\n\n@prodmanor #nodejs #javascript #express #backend #webdev #softwareengineering",
         "hashtags": [
-          "#react",
+          "#nodejs",
           "#javascript",
-          "#frontend",
+          "#express",
+          "#backend",
           "#webdev",
-          "#codinghumor",
-          "#programming",
-          "#softwareengineer",
-          "#prodmanor"
+          "#softwareengineering"
         ],
-        "cover_text": "MEMORY LEAK",
-        "series_tag": "EP 02"
+        "cover_text": "NODE LEAK"
       },
       "warnings": [],
-      "pitch_msg_id": 87,
-      "slot_at": "2026-10-22T19:30:00+05:30",
-      "slot_label": "19:30",
-      "explore": false,
-      "episode_no": 2,
-      "approved_at": "2026-10-22T14:04:40.512649+05:30"
+      "pitch_msg_id": 98
     },
-    "2026-10-22-l": {
-      "status": "rejected",
-      "created": "2026-10-22T14:01:12.935955+05:30",
+    "2026-10-22-p": {
+      "status": "pitched",
+      "created": "2026-10-22T14:16:57.872866+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
       "episode": {
-        "id": "2026-10-22-l",
-        "title": "Nobody Checked On Him",
+        "id": "2026-10-22-p",
+        "title": "The Empty Response",
         "monster": "null",
-        "concept": "optional chaining on callback props",
+        "concept": "handling HTTP 204 No Content in fetch",
         "level": "intermediate",
         "language": "javascript",
-        "hook": "This polite ghost crashes your app instantly if you call a function that was ne…",
-        "logline": "A missing callback prop materializes as undefined, crashing the entire tree when called directly.",
+        "hook": "POV: your DELETE endpoint succeeds with status 204, but your frontend crashes.",
+        "logline": "The Null haunts a DELETE endpoint when res.json() tries to parse an empty status 204 HTTP body.",
         "builds_on": "",
-        "topic": "calling an optional callback prop that was never passed",
+        "topic": "API returns 204 No Content and res.json() throws",
+        "tech": "JavaScript",
+        "wake_time": "10:37 AM",
         "beats": [
           {
             "type": "pager",
             "dur": 2.5,
-            "shake": true,
-            "time": "three A M",
-            "text": "FATAL EXCEPTION",
-            "sub": "TypeError: onSave is not a functi…"
+            "narration": "Ten thirty seven A M. The API delete succeeded, but the page crashed.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "10:37 AM",
+            "text": "FRONTEND CRASH",
+            "sub": "Unexpected end of JSON input on D…"
           },
           {
             "type": "title",
-            "dur": 2.5,
-            "text": "Nobody Checked On Him",
-            "sub": "When optional callback props come back empty",
+            "dur": 2.0,
+            "text": "The Empty Response",
+            "sub": "When status 204 returns no body",
+            "kicker": "FETCH API GOTCHA",
             "monster": "null"
           },
           {
             "type": "scene",
-            "dur": 4.0,
+            "dur": 3.5,
+            "narration": "The Null ghost stands in the response body. There is nothing inside.",
             "actors": [
               {
                 "who": "junior",
@@ -211,19 +414,19 @@
               {
                 "who": "null",
                 "expr": "scared",
-                "x": 0.75,
+                "x": 0.7,
                 "scale": 1.0,
                 "action": "fade_in"
               }
             ],
             "say": [
               {
-                "who": "junior",
-                "text": "I forgot to pass the save handler down from the parent!"
+                "who": "null",
+                "text": "Nobody checks on me..."
               },
               {
-                "who": "null",
-                "text": "Nobody ever checks if I exist..."
+                "who": "junior",
+                "text": "Wait, res.json failed?!"
               }
             ],
             "bg": "bedroom",
@@ -232,45 +435,53 @@
           {
             "type": "code",
             "dur": 4.5,
+            "narration": "Calling res dot json on an empty 204 body throws a SyntaxError.",
             "actors": [
               {
                 "who": "junior",
                 "expr": "scared",
-                "x": 0.25,
+                "x": 0.2,
                 "scale": 0.9
               }
             ],
             "lines": [
-              "function Form({ onSave }) {",
-              "  return <button onClick={() => {",
-              "    onSave(data);",
-              "  }}>Save</button>;",
+              "async function del() {",
+              "  const r = await fetch('/u');",
+              "  const ok = true;",
+              "  return ok ? r.json() : null;",
               "}"
             ],
             "lang": "javascript",
-            "file": "Form.jsx",
+            "file": "api.js",
             "highlight": [
-              3
+              4
             ],
-            "error": "TypeError: onSave is not a function"
+            "error": "SyntaxError: Unexpected end of JSON input"
           },
           {
             "type": "crash",
             "dur": 3.0,
+            "sfx": [
+              "glitch"
+            ],
+            "shake": true,
             "actors": [
               {
                 "who": "null",
-                "expr": "happy",
-                "x": 0.75,
-                "scale": 1.1
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
               }
             ],
-            "title": "APP CRASHED",
-            "text": "Calling undefined as a function halts the runtime execution immediately."
+            "title": "PARSING ERROR",
+            "text": "HTTP 204 No Content has no JSON body to parse."
           },
           {
             "type": "fix",
-            "dur": 4.5,
+            "dur": 4.0,
+            "sfx": [
+              "ding"
+            ],
             "actors": [
               {
                 "who": "junior",
@@ -281,83 +492,88 @@
               {
                 "who": "null",
                 "expr": "happy",
-                "x": 0.75,
-                "scale": 1.0
+                "x": 0.7,
+                "scale": 0.9
               }
             ],
             "lines": [
-              "function Form({ onSave }) {",
-              "  return <button onClick={() => {",
-              "    onSave(data);",
-              "  }}>Save</button>;",
+              "async function del() {",
+              "  const r = await fetch('/u');",
+              "  const ok = true;",
+              "  return ok ? r.json() : null;",
               "}"
             ],
             "lang": "javascript",
-            "file": "Form.jsx",
+            "file": "api.js",
             "fix_line": 3,
-            "after": "    onSave?.(data);",
-            "note": "Use optional chaining so nothing happens if it's undefined."
+            "after": "  const ok = r.status !== 204;",
+            "note": "Check status 204 before parsing JSON response bodies."
           },
           {
             "type": "outro",
             "dur": 3.0,
-            "lesson": "Use optional chaining (onSave?.()) when calling callback props that might be undefined.",
-            "cta": "Save this before your next component refactor.",
+            "lesson": "Always check response.status before parsing fetch JSON.",
+            "cta": "Follow @prodmanor before your next API release.",
             "next_monster": "ollie",
-            "kicker": "Check on your nulls."
+            "kicker": "CHECK YOUR STATUS"
           }
         ],
-        "caption": "POV: You build a reusable component, forget to pass a callback prop, and your user clicks save. The Null ghost appears because nobody checked if the function actually existed before calling it. Add a simple question mark to your callbacks and keep the ghost happy! Do you check every prop or just hope for the best? Let me know below!\n\nFollow @prodmanor for more debugging tips.",
+        "caption": "HTTP 204 No Content means the request succeeded, but the body is intentionally empty. Calling response.json() on an empty body throws 'SyntaxError: Unexpected end of JSON input'. Always check if res.status === 204 before calling .json()!\n\nHas a 204 status code ever crashed your web app? Let us know below!\n\n@prodmanor #javascript #webdev #frontend #reactjs #api #codinghumor",
         "hashtags": [
-          "#react",
           "#javascript",
           "#webdev",
-          "#coding",
           "#frontend",
-          "#softwareengineer",
-          "#programming",
-          "#prodmanor"
+          "#reactjs",
+          "#api",
+          "#codinghumor"
         ],
-        "cover_text": "NOT A FUNCTION"
+        "cover_text": "FETCH 204 BUG"
       },
       "warnings": [],
-      "pitch_msg_id": 88
+      "pitch_msg_id": 99
     },
-    "2026-10-22-m": {
-      "status": "rejected",
-      "created": "2026-10-22T14:01:12.935959+05:30",
+    "2026-10-22-q": {
+      "status": "pitched",
+      "created": "2026-10-22T14:16:57.872868+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
       "episode": {
-        "id": "2026-10-22-m",
-        "title": "Always One Off",
+        "id": "2026-10-22-q",
+        "title": "The Extra Cents",
         "monster": "ollie",
-        "concept": "array negative indexing with at(-1)",
+        "concept": "floating point precision in currency calculations",
         "level": "intermediate",
-        "language": "javascript",
-        "hook": "This tall, far-too-polite neighbor always reaches for the item right past the e…",
-        "logline": "Trying to grab the last array item with length instead of index yields undefined, summoning Ollie One-Off.",
+        "language": "python",
+        "hook": "Floating point numbers will ruin your invoice totals every time.",
+        "logline": "Ollie One-Off haunts an invoice total in Python when zero point one plus zero point two adds tiny fractional cents.",
         "builds_on": "",
-        "topic": "reading the last item as items[items.length] gives undefined",
+        "topic": "float money totals: 0.1 + 0.2 on an invoice",
+        "tech": "Python",
+        "wake_time": "2:27 AM",
         "beats": [
           {
             "type": "pager",
             "dur": 2.5,
-            "shake": true,
-            "time": "three A M",
-            "text": "UI RENDER ERROR",
-            "sub": "Cannot read properties of undefin…"
+            "narration": "Two twenty seven A M. Customer totals show strange precision numbers.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "2:27 AM",
+            "text": "INVOICE DISCREPANCY",
+            "sub": "Customer charged $0.3000000000000…"
           },
           {
             "type": "title",
-            "dur": 2.5,
-            "text": "Always One Off",
-            "sub": "The eternal curse of array indexing boundaries",
+            "dur": 2.0,
+            "text": "The Extra Cents",
+            "sub": "Floating point money math",
+            "kicker": "PYTHON PRECISION BUG",
             "monster": "ollie"
           },
           {
             "type": "scene",
-            "dur": 4.0,
+            "dur": 3.5,
+            "narration": "Ollie One-Off lives in the tiny floating point remainder.",
             "actors": [
               {
                 "who": "junior",
@@ -367,65 +583,74 @@
               },
               {
                 "who": "ollie",
-                "expr": "neutral",
-                "x": 0.85,
-                "scale": 1.1,
-                "action": "enter_right"
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0
               }
             ],
             "say": [
               {
-                "who": "junior",
-                "text": "I tried to get the last item and got undefined!"
+                "who": "ollie",
+                "text": "Room four, I presume?"
               },
               {
-                "who": "ollie",
-                "text": "Room length plus one, I presume?"
+                "who": "junior",
+                "text": "It is off by four quadrillionths!"
               }
             ],
-            "bg": "hallway",
+            "bg": "bedroom",
             "light": "flashlight"
           },
           {
             "type": "code",
             "dur": 4.5,
+            "narration": "IEEE seven fifty four floats cannot represent zero point one exactly in binary.",
             "actors": [
               {
                 "who": "junior",
                 "expr": "scared",
-                "x": 0.25,
+                "x": 0.2,
                 "scale": 0.9
               }
             ],
             "lines": [
-              "const items = getData();",
-              "const last = items[items.length];",
-              "console.log(last.name);"
+              "def get_total(prices):",
+              "    return sum(prices)",
+              "",
+              "# prices = [0.10, 0.20]",
+              "# returns 0.30000000000000004"
             ],
-            "lang": "javascript",
-            "file": "history.js",
+            "lang": "python",
+            "file": "checkout.py",
             "highlight": [
               2
             ],
-            "error": "TypeError: Cannot read properties of undefined (reading 'name')"
+            "error": "Precision error: total is 0.30000000000000004"
           },
           {
             "type": "crash",
             "dur": 3.0,
+            "sfx": [
+              "thud"
+            ],
+            "shake": true,
             "actors": [
               {
                 "who": "ollie",
                 "expr": "happy",
-                "x": 0.75,
-                "scale": 1.2
+                "x": 0.7,
+                "scale": 1.1
               }
             ],
-            "title": "UNDEFINED PROPE…",
-            "text": "items.length points one step past the final valid index."
+            "title": "PAYMENT GATEWAY…",
+            "text": "Stripe rejected total $0.30000000000000004 due to invalid currency value."
           },
           {
             "type": "fix",
-            "dur": 4.5,
+            "dur": 4.0,
+            "sfx": [
+              "ding"
+            ],
             "actors": [
               {
                 "who": "junior",
@@ -436,54 +661,55 @@
               {
                 "who": "ollie",
                 "expr": "scared",
-                "x": 0.92,
-                "scale": 1.0
+                "x": 0.7,
+                "scale": 0.9
               }
             ],
             "lines": [
-              "const items = getData();",
-              "const last = items[items.length];",
-              "console.log(last.name);"
+              "def get_total(prices):",
+              "    return sum(prices)",
+              "",
+              "# prices = [0.10, 0.20]",
+              "# returns 0.30000000000000004"
             ],
-            "lang": "javascript",
-            "file": "history.js",
+            "lang": "python",
+            "file": "checkout.py",
             "fix_line": 2,
-            "after": "const last = items.at(-1);",
-            "note": "Use .at(-1) to safely read from the end of arrays."
+            "after": "    return sum(prices) / 100",
+            "note": "Store money as integer cents to avoid floating point precision errors."
           },
           {
             "type": "outro",
             "dur": 3.0,
-            "lesson": "Use array.at(-1) instead of items.length to safely grab the last element.",
-            "cta": "Follow before Ollie knocks on your door.",
+            "lesson": "Never use float for money. Use integer cents or Decimal.",
+            "cta": "Follow @prodmanor before your next payment bug.",
             "next_monster": "twins",
-            "kicker": "Mind the bounds."
+            "kicker": "USE INTEGER CENTS"
           }
         ],
-        "caption": "POV: You try to grab the last item of an array using items.length and accidentally summon Ollie One-Off. Array indexes start at zero, so length is always one past the end! Use items.at(-1) and banish Ollie back to the fenceposts. What's your favorite modern JavaScript array method? Let me know below!\n\nFollow @prodmanor for daily developer laughs.",
+        "caption": "In binary floating-point arithmetic (IEEE 754), 0.1 + 0.2 equals 0.30000000000000004! If you handle money as floats in Python or JavaScript, payment gateways like Stripe will reject invalid amounts. Always store money as integer cents or use the Decimal module.\n\nHow do you handle currency in your backend code? Let us know below!\n\n@prodmanor #python #pythonprogramming #backend #softwaredeveloper #webdevelopment #coding",
         "hashtags": [
-          "#javascript",
-          "#webdev",
-          "#coding",
-          "#programming",
-          "#frontend",
-          "#softwareengineer",
-          "#code",
-          "#prodmanor"
+          "#python",
+          "#pythonprogramming",
+          "#backend",
+          "#softwaredeveloper",
+          "#webdevelopment",
+          "#coding"
         ],
-        "cover_text": "ONE OFF BUG"
+        "cover_text": "FLOAT MONEY BUG"
       },
       "warnings": [],
-      "pitch_msg_id": 89
+      "pitch_msg_id": 100
     }
   },
   "telegram": {
-    "offset": 557188836,
+    "offset": 557188837,
     "awaiting_rewrite": {},
     "msg_to_ep": {
-      "87": "2026-10-22-k",
-      "88": "2026-10-22-l",
-      "89": "2026-10-22-m"
+      "97": "2026-10-22-n",
+      "98": "2026-10-22-o",
+      "99": "2026-10-22-p",
+      "100": "2026-10-22-q"
     }
   },
   "settings": {
@@ -498,9 +724,7 @@
     }
   },
   "token": {},
-  "render": {
-    "requested_at": "2026-10-22T14:04:18.849934+05:30"
-  },
+  "render": {},
   "followers": [],
   "taught": [],
   "retired_ids": [
@@ -513,6 +737,9 @@
     "2026-10-22-g",
     "2026-10-22-h",
     "2026-10-22-i",
-    "2026-10-22-j"
+    "2026-10-22-j",
+    "2026-10-22-k",
+    "2026-10-22-l",
+    "2026-10-22-m"
   ]
 }
