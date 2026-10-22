@@ -1,15 +1,652 @@
 {
-  "episodes": {},
+  "episodes": {
+    "2026-10-22-j": {
+      "status": "pitched",
+      "created": "2026-10-22T14:01:12.935927+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-j",
+        "title": "Double Click Disaster",
+        "monster": "twins",
+        "concept": "idempotency key on payment retries",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: A user clicks pay twice and charges their card fifty dollars twice.",
+        "logline": "Two gremlins click the charge button simultaneously, creating a double payment nightmare.",
+        "builds_on": "",
+        "topic": "payment button charges twice on retry",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "three A M",
+            "text": "PROD ALERT",
+            "sub": "Customer charged twice"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "Double Click Disaster",
+            "sub": "When network retries duplicate your charges",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "They both clicked at the exact same millisecond!"
+              },
+              {
+                "who": "twins",
+                "text": "After you! No, after YOU!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "async function handlePay(req) {",
+              "  const cart = await getCart();",
+              "  return chargeCard(cart.total);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "checkout.js",
+            "highlight": [
+              3
+            ],
+            "error": "DuplicateChargeError: Gateway received identical request payload."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "title": "DOUBLE CHARGE",
+            "text": "Two concurrent requests hit the payment gateway with no unique token."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "async function handlePay(req) {",
+              "  const cart = await getCart();",
+              "  return chargeCard(cart.total);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "checkout.js",
+            "fix_line": 3,
+            "after": "  return chargeCard(cart.total, req.idem",
+            "note": "Pass a unique key so the server processes it once."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always use idempotency keys on payment endpoints to prevent duplicate charges from retrie…",
+            "cta": "Save this before your next checkout deploy.",
+            "next_monster": "leak",
+            "kicker": "Never trust the net…"
+          }
+        ],
+        "caption": "POV: Your user double-clicks the checkout button and gets billed twice. Without an idempotency key, network retries and impatient users will spawn the Fork and Join twins directly into your billing database. Pass a unique request token and let the server reject the duplicate. Have you ever shipped a payment bug to prod? Let me know below!\n\nFollow @prodmanor for more 3 AM debugging nightmares.",
+        "hashtags": [
+          "#coding",
+          "#javascript",
+          "#webdev",
+          "#programming",
+          "#backend",
+          "#softwareengineer",
+          "#fullstack",
+          "#prodmanor"
+        ],
+        "cover_text": "DOUBLE CHARGE"
+      },
+      "warnings": [],
+      "pitch_msg_id": 86
+    },
+    "2026-10-22-k": {
+      "status": "pitched",
+      "created": "2026-10-22T14:01:12.935949+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-k",
+        "title": "The Ghost In The State",
+        "monster": "leak",
+        "concept": "AbortController in useEffect cleanup",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This magenta slime grows every time a component unmounts and leaves a fetch run…",
+        "logline": "A forgotten async fetch tries to update state on a dead component, feeding the memory leak slime.",
+        "builds_on": "",
+        "topic": "fetch in useEffect sets state after the component unmounted",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "three A M",
+            "text": "CONSOLE WARNING",
+            "sub": "Can't perform a React state updat…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Ghost In The State",
+            "sub": "Uncanceled async requests haunting your heap",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the memory usage graph climbing into the ceiling?"
+              },
+              {
+                "who": "leak",
+                "text": "...more data please..."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "useEffect(() => {",
+              "  fetch('/api/user')",
+              "    .then(r => r.json())",
+              "    .then(setData);",
+              "}, []);"
+            ],
+            "lang": "javascript",
+            "file": "Profile.jsx",
+            "highlight": [
+              2,
+              3,
+              4
+            ],
+            "error": "Warning: Can't perform a React state update on an unmounted component."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.6
+              }
+            ],
+            "title": "HEAP OUT OF MEM…",
+            "text": "Orphaned callbacks keep component references alive forever."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "useEffect(() => {",
+              "  fetch('/api/user')",
+              "    .then(r => r.json())",
+              "    .then(setData);",
+              "}, []);"
+            ],
+            "lang": "javascript",
+            "file": "Profile.jsx",
+            "fix_line": 2,
+            "after": "  const ctrl = new AbortController();\n  ",
+            "note": "Abort the fetch when the component unmounts."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use AbortController in useEffect cleanup to cancel pending network requests.",
+            "cta": "Follow before the next memory leak wakes up.",
+            "next_monster": "null",
+            "kicker": "Clean up your side…"
+          }
+        ],
+        "caption": "POV: You navigate away from a page before the fetch finishes and React starts screaming about unmounted components. The Leak slime loves orphaned promises and will eat your heap memory until the tab crashes. Always attach an AbortController signal in your cleanup function! How often do you audit your useEffect hooks? Let me know below!\n\nFollow @prodmanor for more scary frontend bugs.",
+        "hashtags": [
+          "#react",
+          "#javascript",
+          "#frontend",
+          "#webdev",
+          "#codinghumor",
+          "#programming",
+          "#softwareengineer",
+          "#prodmanor"
+        ],
+        "cover_text": "MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 87
+    },
+    "2026-10-22-l": {
+      "status": "pitched",
+      "created": "2026-10-22T14:01:12.935955+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-l",
+        "title": "Nobody Checked On Him",
+        "monster": "null",
+        "concept": "optional chaining on callback props",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This polite ghost crashes your app instantly if you call a function that was ne…",
+        "logline": "A missing callback prop materializes as undefined, crashing the entire tree when called directly.",
+        "builds_on": "",
+        "topic": "calling an optional callback prop that was never passed",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "three A M",
+            "text": "FATAL EXCEPTION",
+            "sub": "TypeError: onSave is not a functi…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "Nobody Checked On Him",
+            "sub": "When optional callback props come back empty",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I forgot to pass the save handler down from the parent!"
+              },
+              {
+                "who": "null",
+                "text": "Nobody ever checks if I exist..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "function Form({ onSave }) {",
+              "  return <button onClick={() => {",
+              "    onSave(data);",
+              "  }}>Save</button>;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "Form.jsx",
+            "highlight": [
+              3
+            ],
+            "error": "TypeError: onSave is not a function"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "title": "APP CRASHED",
+            "text": "Calling undefined as a function halts the runtime execution immediately."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function Form({ onSave }) {",
+              "  return <button onClick={() => {",
+              "    onSave(data);",
+              "  }}>Save</button>;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "Form.jsx",
+            "fix_line": 3,
+            "after": "    onSave?.(data);",
+            "note": "Use optional chaining so nothing happens if it's undefined."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use optional chaining (onSave?.()) when calling callback props that might be undefined.",
+            "cta": "Save this before your next component refactor.",
+            "next_monster": "ollie",
+            "kicker": "Check on your nulls."
+          }
+        ],
+        "caption": "POV: You build a reusable component, forget to pass a callback prop, and your user clicks save. The Null ghost appears because nobody checked if the function actually existed before calling it. Add a simple question mark to your callbacks and keep the ghost happy! Do you check every prop or just hope for the best? Let me know below!\n\nFollow @prodmanor for more debugging tips.",
+        "hashtags": [
+          "#react",
+          "#javascript",
+          "#webdev",
+          "#coding",
+          "#frontend",
+          "#softwareengineer",
+          "#programming",
+          "#prodmanor"
+        ],
+        "cover_text": "NOT A FUNCTION"
+      },
+      "warnings": [],
+      "pitch_msg_id": 88
+    },
+    "2026-10-22-m": {
+      "status": "pitched",
+      "created": "2026-10-22T14:01:12.935959+05:30",
+      "day": "2026-10-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-22-m",
+        "title": "Always One Off",
+        "monster": "ollie",
+        "concept": "array negative indexing with at(-1)",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This tall, far-too-polite neighbor always reaches for the item right past the e…",
+        "logline": "Trying to grab the last array item with length instead of index yields undefined, summoning Ollie One-Off.",
+        "builds_on": "",
+        "topic": "reading the last item as items[items.length] gives undefined",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "three A M",
+            "text": "UI RENDER ERROR",
+            "sub": "Cannot read properties of undefin…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "Always One Off",
+            "sub": "The eternal curse of array indexing boundaries",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.85,
+                "scale": 1.1,
+                "action": "enter_right"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I tried to get the last item and got undefined!"
+              },
+              {
+                "who": "ollie",
+                "text": "Room length plus one, I presume?"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const items = getData();",
+              "const last = items[items.length];",
+              "console.log(last.name);"
+            ],
+            "lang": "javascript",
+            "file": "history.js",
+            "highlight": [
+              2
+            ],
+            "error": "TypeError: Cannot read properties of undefined (reading 'name')"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2
+              }
+            ],
+            "title": "UNDEFINED PROPE…",
+            "text": "items.length points one step past the final valid index."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.92,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "const items = getData();",
+              "const last = items[items.length];",
+              "console.log(last.name);"
+            ],
+            "lang": "javascript",
+            "file": "history.js",
+            "fix_line": 2,
+            "after": "const last = items.at(-1);",
+            "note": "Use .at(-1) to safely read from the end of arrays."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use array.at(-1) instead of items.length to safely grab the last element.",
+            "cta": "Follow before Ollie knocks on your door.",
+            "next_monster": "twins",
+            "kicker": "Mind the bounds."
+          }
+        ],
+        "caption": "POV: You try to grab the last item of an array using items.length and accidentally summon Ollie One-Off. Array indexes start at zero, so length is always one past the end! Use items.at(-1) and banish Ollie back to the fenceposts. What's your favorite modern JavaScript array method? Let me know below!\n\nFollow @prodmanor for daily developer laughs.",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#coding",
+          "#programming",
+          "#frontend",
+          "#softwareengineer",
+          "#code",
+          "#prodmanor"
+        ],
+        "cover_text": "ONE OFF BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 89
+    }
+  },
   "telegram": {
     "offset": 557188828,
     "awaiting_rewrite": {},
-    "msg_to_ep": {}
+    "msg_to_ep": {
+      "86": "2026-10-22-j",
+      "87": "2026-10-22-k",
+      "88": "2026-10-22-l",
+      "89": "2026-10-22-m"
+    }
   },
   "settings": {
     "paused": false
   },
   "ideas": [],
-  "days": {},
+  "days": {
+    "2026-10-22": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
+  },
   "token": {},
   "render": {},
   "followers": [],
