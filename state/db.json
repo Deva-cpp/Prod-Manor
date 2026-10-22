@@ -1,176 +1,5 @@
 {
   "episodes": {
-    "2026-10-22-j": {
-      "status": "rendered",
-      "created": "2026-10-22T14:01:12.935927+05:30",
-      "day": "2026-10-22",
-      "brain": "gemini",
-      "episode": {
-        "id": "2026-10-22-j",
-        "title": "Double Click Disaster",
-        "monster": "twins",
-        "concept": "idempotency key on payment retries",
-        "level": "intermediate",
-        "language": "javascript",
-        "hook": "POV: A user clicks pay twice and charges their card fifty dollars twice.",
-        "logline": "Two gremlins click the charge button simultaneously, creating a double payment nightmare.",
-        "builds_on": "",
-        "topic": "payment button charges twice on retry",
-        "beats": [
-          {
-            "type": "pager",
-            "dur": 2.5,
-            "shake": true,
-            "time": "three A M",
-            "text": "PROD ALERT",
-            "sub": "Customer charged twice"
-          },
-          {
-            "type": "title",
-            "dur": 2.5,
-            "text": "Double Click Disaster",
-            "sub": "When network retries duplicate your charges",
-            "monster": "twins"
-          },
-          {
-            "type": "scene",
-            "dur": 4.0,
-            "actors": [
-              {
-                "who": "junior",
-                "expr": "scared",
-                "x": 0.25,
-                "scale": 1.0
-              },
-              {
-                "who": "twins",
-                "expr": "happy",
-                "x": 0.75,
-                "scale": 1.0,
-                "action": "idle"
-              }
-            ],
-            "say": [
-              {
-                "who": "junior",
-                "text": "They both clicked at the exact same millisecond!"
-              },
-              {
-                "who": "twins",
-                "text": "After you! No, after YOU!"
-              }
-            ],
-            "bg": "server_room",
-            "light": "flashlight"
-          },
-          {
-            "type": "code",
-            "dur": 4.5,
-            "actors": [
-              {
-                "who": "junior",
-                "expr": "scared",
-                "x": 0.25,
-                "scale": 0.9
-              }
-            ],
-            "lines": [
-              "async function handlePay(req) {",
-              "  const cart = await getCart();",
-              "  return chargeCard(cart.total);",
-              "}"
-            ],
-            "lang": "javascript",
-            "file": "checkout.js",
-            "highlight": [
-              3
-            ],
-            "error": "DuplicateChargeError: Gateway received identical request payload."
-          },
-          {
-            "type": "crash",
-            "dur": 3.0,
-            "actors": [
-              {
-                "who": "twins",
-                "expr": "happy",
-                "x": 0.75,
-                "scale": 1.1
-              }
-            ],
-            "title": "DOUBLE CHARGE",
-            "text": "Two concurrent requests hit the payment gateway with no unique token."
-          },
-          {
-            "type": "fix",
-            "dur": 4.5,
-            "actors": [
-              {
-                "who": "junior",
-                "expr": "happy",
-                "x": 0.25,
-                "scale": 1.0
-              },
-              {
-                "who": "twins",
-                "expr": "scared",
-                "x": 0.75,
-                "scale": 1.0
-              }
-            ],
-            "lines": [
-              "async function handlePay(req) {",
-              "  const cart = await getCart();",
-              "  return chargeCard(cart.total);",
-              "}"
-            ],
-            "lang": "javascript",
-            "file": "checkout.js",
-            "fix_line": 3,
-            "after": "  return chargeCard(cart.total, req.idem",
-            "note": "Pass a unique key so the server processes it once."
-          },
-          {
-            "type": "outro",
-            "dur": 3.0,
-            "lesson": "Always use idempotency keys on payment endpoints to prevent duplicate charges from retrie…",
-            "cta": "Save this before your next checkout deploy.",
-            "next_monster": "leak",
-            "kicker": "Never trust the net…"
-          }
-        ],
-        "caption": "POV: Your user double-clicks the checkout button and gets billed twice. Without an idempotency key, network retries and impatient users will spawn the Fork and Join twins directly into your billing database. Pass a unique request token and let the server reject the duplicate. Have you ever shipped a payment bug to prod? Let me know below!\n\nFollow @prodmanor for more 3 AM debugging nightmares.",
-        "hashtags": [
-          "#coding",
-          "#javascript",
-          "#webdev",
-          "#programming",
-          "#backend",
-          "#softwareengineer",
-          "#fullstack",
-          "#prodmanor"
-        ],
-        "cover_text": "DOUBLE CHARGE",
-        "series_tag": "EP 01"
-      },
-      "warnings": [],
-      "pitch_msg_id": 86,
-      "slot_at": "2026-10-22T17:30:00+05:30",
-      "slot_label": "17:30",
-      "explore": false,
-      "episode_no": 1,
-      "approved_at": "2026-10-22T14:04:17.730631+05:30",
-      "media": {
-        "video": "2026-10-22-j.mp4",
-        "cover": "2026-10-22-j.jpg",
-        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-j.mp4",
-        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-j.jpg",
-        "seconds": 24.64,
-        "voiced": true
-      },
-      "rendered_at": "2026-10-22T14:08:35.487674+05:30",
-      "preview_msg_id": 90
-    },
     "2026-10-22-k": {
       "status": "approved",
       "created": "2026-10-22T14:01:12.935949+05:30",
@@ -649,10 +478,9 @@
     }
   },
   "telegram": {
-    "offset": 557188833,
+    "offset": 557188835,
     "awaiting_rewrite": {},
     "msg_to_ep": {
-      "86": "2026-10-22-j",
       "87": "2026-10-22-k",
       "88": "2026-10-22-l",
       "89": "2026-10-22-m"
@@ -684,6 +512,7 @@
     "2026-10-22-f",
     "2026-10-22-g",
     "2026-10-22-h",
-    "2026-10-22-i"
+    "2026-10-22-i",
+    "2026-10-22-j"
   ]
 }
