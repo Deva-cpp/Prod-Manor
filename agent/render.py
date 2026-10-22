@@ -105,18 +105,53 @@ VOICES = {
 }
 
 
-def speak(text: str, who: str, out: Path) -> bool:
-    """Voice one line in character. Falls back to the plain TTS voice if the effects fail."""
-    length, lufs, graph = VOICES.get(who, VOICES["narrator"])
-    raw = out.with_name(out.stem + "_raw.wav")
-    if not synth_voice(text, raw, length):
-        return False
+def _peak_db(path: Path) -> float:
+    """Loudest sample in dBFS (-91 = digital silence or unreadable)."""
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(path), "-af", "volumedetect", "-f", "null", "-"],
+                       capture_output=True, text=True)
+    for line in r.stderr.splitlines():
+        if "max_volume:" in line:
+            try:
+                return float(line.split("max_volume:")[1].split()[0])
+            except ValueError:
+                break
+    return -91.0
+
+
+AUDIBLE_DB = -35.0  # a voiced line whose peak is below this came out silent
+
+
+def _fx(raw: Path, graph: str, lufs: int, out: Path) -> bool:
     r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-filter_complex",
                         f"{graph};[v]loudnorm=I={lufs}:TP=-2:LRA=11[o]", "-map", "[o]", "-ac", "1", "-ar", "44100", str(out)],
                        capture_output=True)
     if r.returncode != 0 or not out.exists():
-        print(f"  voice fx failed for {who}: {r.stderr.decode()[-200:]}", flush=True)
-        shutil.copy(raw, out)
+        print(f"  voice fx error: {r.stderr.decode()[-200:]}", flush=True)
+        return False
+    return _peak_db(out) > AUDIBLE_DB
+
+
+# fallback per character when its full effect chain comes out silent: just the pitch shift
+SIMPLE = {"junior": _pitch(1.28), "null": _pitch(1.32), "caller": _pitch(1.06), "twins": _pitch(1.3),
+          "leak": _pitch(0.62), "ollie": _pitch(0.9), "narrator": _pitch(0.84)}
+
+
+def speak(text: str, who: str, out: Path) -> bool:
+    """Voice one line in character. Every clip is checked for actual sound: if the character's effects come out
+    silent (some ffmpeg builds mangle a filter), it retries with just the pitch shift, then the plain TTS voice."""
+    length, lufs, graph = VOICES.get(who, VOICES["narrator"])
+    raw = out.with_name(out.stem + "_raw.wav")
+    if not synth_voice(text, raw, length) or _peak_db(raw) <= AUDIBLE_DB:
+        if not synth_voice(text, raw, 1.0) or _peak_db(raw) <= AUDIBLE_DB:  # retry at normal speed
+            print(f"  voice {who}: TTS produced no sound for {text!r}", flush=True)
+            return False
+    used = "fx"
+    if not _fx(raw, graph, lufs, out):
+        used = "pitch only"
+        if not _fx(raw, f"[0:a]{SIMPLE.get(who, 'anull')}[v]", lufs, out):
+            used = "plain"
+            shutil.copy(raw, out)
+    print(f"  voice {who:8s} {_wav_seconds(out):4.1f}s peak {_peak_db(out):5.1f} dB ({used}): {text[:40]}", flush=True)
     return True
 
 
