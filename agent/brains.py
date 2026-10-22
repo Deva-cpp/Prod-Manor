@@ -381,29 +381,46 @@ UNCERTAIN: anything sources disagree on or you could not confirm.
 Only state what sources support. Never invent version numbers, CVE IDs, names or dates."""
 
 
+def _why_empty(data: dict) -> str:
+    """Why a response had no text (finish reason, block reason, thinking tokens), for logs and Telegram."""
+    c = (data.get("candidates") or [{}])[0]
+    block = (data.get("promptFeedback") or {}).get("blockReason")
+    use = data.get("usageMetadata") or {}
+    return (f"finish={c.get('finishReason')}" + (f" blocked={block}" if block else "")
+            + f" thinking_tokens={use.get('thoughtsTokenCount')} output_tokens={use.get('candidatesTokenCount')}")
+
+
 def research(query: str) -> dict:
-    """Search the web for a news item and return {"brief", "sources"} the episode is written from."""
+    """Search the web for a news item and return {"brief", "sources", "note"} the episode is written from.
+    Tries Google Search grounding first; if that fails or comes back empty, retries once, then falls back to the
+    linked article text alone (never to the model's memory, which can't know recent news)."""
     urls = re.findall(r"https?://\S+", query)[:3]
     pages = "".join(f"ARTICLE {u}:\n{txt}\n\n" for u in urls if (txt := _page_text(u)))
     prompt = RESEARCH_PROMPT.format(query=query, pages=pages)
+    # thinking tokens count against maxOutputTokens, so leave plenty of room or the answer comes back empty
     body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}],
-            "generationConfig": {"temperature": 0.2, "maxOutputTokens": 8000}}
-    sources, note = [], ""
-    try:
-        data = _generate({**body, "tools": [{"google_search": {}}]})
-        meta = data["candidates"][0].get("groundingMetadata") or {}
-        for ch in meta.get("groundingChunks") or []:
+            "generationConfig": {"temperature": 0.2, "maxOutputTokens": 32000}}
+    search = {**body, "tools": [{"google_search": {}}]}
+    attempts = [("search", search), ("search retry", search)] + ([("article only", body)] if pages else [])
+    problems = []
+    for name, b in attempts:
+        try:
+            data = _generate(b)
+            brief = _text(data).strip()
+        except (RuntimeError, KeyError, IndexError) as ex:
+            problems.append(f"{name}: {str(ex)[:200]}")
+            log("news research failed:", name, repr(ex)[:300])
+            continue
+        if not brief:
+            problems.append(f"{name}: empty ({_why_empty(data)})")
+            log("news research empty:", name, _why_empty(data), str(data)[:500])
+            continue
+        sources = [{"title": u, "url": u} for u in urls]
+        for ch in (data["candidates"][0].get("groundingMetadata") or {}).get("groundingChunks") or []:
             web = ch.get("web") or {}
-            if web.get("uri") and web not in sources:
+            if web.get("uri") and all(x["url"] != web["uri"] for x in sources):
                 sources.append({"title": web.get("title") or web["uri"], "url": web["uri"]})
-    except (RuntimeError, KeyError, IndexError) as ex:  # search unavailable: fall back to the article + model knowledge
-        log("news search failed, answering without it:", repr(ex))
-        if not pages:
-            raise RuntimeError(f"web search failed and no article link was given ({ex}). Send /news with a link.")
-        data = _generate(body)
-        note = "Web search was unavailable; this brief comes from the linked article only."
-    brief = _text(data).strip()
-    if not brief:
-        raise RuntimeError("the research came back empty")
-    sources = [{"title": u, "url": u} for u in urls] + sources
-    return {"brief": brief, "sources": sources[:6], "note": note}
+        note = "" if name.startswith("search") else "Web search failed, so this brief comes from the linked article only."
+        return {"brief": brief, "sources": sources[:6], "note": note}
+    hint = "" if urls else " Try again with a link to the article."
+    raise RuntimeError("; ".join(problems) + hint)

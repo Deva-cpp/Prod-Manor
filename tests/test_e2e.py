@@ -308,6 +308,23 @@ class E2E(unittest.TestCase):
         self.assertEqual(rec["news"]["query"], "OpenAI found two bugs in PHP")
         self.assertIn('📰 <i>Breaking news</i> · sources: <a href="https://example.com/a">', self.card("Nobody Checked")["text"])
 
+    def test_news_research_falls_back_when_search_is_empty(self):
+        brains = importlib.import_module("agent.brains")
+        calls = []
+        empty = {"candidates": [{"content": {"parts": [{"thought": True, "text": "..."}]}, "finishReason": "MAX_TOKENS"}],
+                 "usageMetadata": {"thoughtsTokenCount": 7990}}
+        ok = {"candidates": [{"content": {"parts": [{"text": "WHAT HAPPENED: PHP memory bugs"}]}}]}
+        brains._generate = lambda body: calls.append("tools" in body) or (empty if "tools" in body else ok)
+        brains._page_text = lambda url: "Wiz Research uncovered critical vulnerabilities in core PHP"
+        res = brains.research("https://www.wiz.io/blog/php2shell-php-rce")
+        self.assertEqual(calls, [True, True, False])  # search, search retry, then the article alone
+        self.assertEqual(res["brief"], "WHAT HAPPENED: PHP memory bugs")
+        self.assertIn("linked article only", res["note"])
+        self.assertEqual(res["sources"][0]["url"], "https://www.wiz.io/blog/php2shell-php-rce")
+        # no link and no search: the error says why and asks for a link
+        with self.assertRaisesRegex(RuntimeError, "finish=MAX_TOKENS.*thinking_tokens=7990.*with a link"):
+            brains.research("OpenAI found two bugs in PHP")
+
     def test_schema_rejects_and_repairs(self):
         schema = importlib.import_module("agent.schema")
         pilot = json.loads((FIX / "pilot_null.json").read_text())
