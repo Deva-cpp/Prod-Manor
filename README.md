@@ -83,6 +83,10 @@ To turn it off: open `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/deleteWebhook
 | `/status` | today's pipeline |
 | `/brain gemini` · `/brain claude` | switch the writer |
 | `/perday 4` | reels per day (1–5) |
+| `/level intermediate` | target viewer: beginner · intermediate · advanced |
+| `/delete B` | delete a script or reel; its EP number goes to the next reel made (also 🗑 on every render preview) |
+| `/reset` | delete every script and reel and start fresh from EP 01 (asks first) |
+| `/taught` · `/taught X` · `/forget X` | concepts already covered, which are never taught again (only extended) |
 | `/more 2` | pitch more storylines now |
 | `/idea a ghost that haunts JSON.parse` | feed an idea into the next batch |
 | `/postnow B` · `/hold B` · `/release B` | control a single reel |

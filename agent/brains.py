@@ -17,7 +17,7 @@ from datetime import timedelta
 import requests
 import yaml
 
-from .common import LEARNINGS, ROOT, env, load_config, log, now, parse
+from .common import LEARNINGS, ROOT, env, load_config, log, now, parse, same_concept, setting
 from .schema import CONTRACT, MONSTERS, NAMES
 
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
@@ -52,12 +52,47 @@ def recent_episodes(state: dict, days: int = 30) -> list[dict]:
     return sorted(out, key=lambda e: e["created"])
 
 
+TAUGHT_STATUSES = ("approved", "rendered", "published", "failed")
+LEVELS = ("beginner", "intermediate", "advanced")
+
+
+def taught_concepts(state: dict, exclude: str | None = None) -> list[dict]:
+    """Every concept the series has already taught, all time: reels that are approved or further along, plus
+    concepts remembered from reels that were deleted after going live. These are never taught again."""
+    out = [dict(t) for t in state.get("taught", [])]
+    for k, r in state["episodes"].items():
+        ep = r.get("episode") or {}
+        if k != exclude and r.get("status") in TAUGHT_STATUSES and ep.get("concept"):
+            out.append({"concept": ep["concept"], "title": ep.get("title", ""), "topic": ep.get("topic", "")})
+    return out
+
+
+def already_taught(state: dict, concept: str, exclude: str | None = None) -> str | None:
+    """The taught concept this one repeats, or None if it's new."""
+    for t in taught_concepts(state, exclude):
+        if same_concept(concept, t["concept"]) or (t.get("topic") and same_concept(concept, t["topic"])):
+            return t["concept"]
+    return None
+
+
+def target_level(state: dict) -> str:
+    lvl = setting(state, load_config(), "level")
+    return lvl if lvl in LEVELS else "intermediate"
+
+
 def plan_lineup(state: dict, n: int, seed: str) -> list[dict]:
-    """Choose which monster + topic each pitch should cover: rotate monsters, prefer unused topics,
-    and lean toward monsters the audience responds to (from the marketer's scores)."""
+    """Choose which monster + topic each pitch should cover: rotate monsters, never reuse a taught topic,
+    prefer the target level, and lean toward monsters the audience responds to (from the marketer's scores)."""
     topics = yaml.safe_load((ROOT / "bible" / "topics.yaml").read_text())
     recent = recent_episodes(state)
-    used = {(e["episode"]["monster"], e["episode"].get("concept", "").lower()) for e in recent if e.get("episode")}
+    taught = taught_concepts(state)
+    open_concepts = [e["episode"].get("concept", "") for e in recent if e.get("status") in ("pitched", "rewrite_queued")]
+    level = target_level(state)
+
+    def used(t):
+        return any(same_concept(t["topic"], x.get("topic") or "") or same_concept(t["fix"], x["concept"]) or
+                   same_concept(t["topic"], x["concept"]) for x in taught) or any(same_concept(t["fix"], c) for c in open_concepts)
+
     last_monsters = [e["episode"]["monster"] for e in recent[-6:] if e.get("episode")]
     perf = monster_scores(state)
     rng = random.Random(seed)
@@ -66,10 +101,14 @@ def plan_lineup(state: dict, n: int, seed: str) -> list[dict]:
     lineup = []
     for i in range(n):
         m = order[i % len(order)]
-        pool = topics.get(m, [])
-        fresh = [t for t in pool if (m, t["topic"].lower()) not in used and t["topic"] not in [x["topic"] for x in lineup]]
-        pick = rng.choice(fresh or pool) if pool else {"topic": f"a classic {NAMES[m]} bug", "fix": "", "level": "beginner", "lang": "javascript"}
-        lineup.append({"monster": m, **pick})
+        fresh = [t for t in topics.get(m) or [] if not used(t) and t["topic"] not in [x["topic"] for x in lineup]]
+        at_level = [t for t in fresh if t.get("level") == level]
+        if at_level or fresh:
+            pick = rng.choice(at_level or fresh)
+        else:  # backlog used up: the brain invents a new concept from this monster's bug family
+            pick = {"topic": f"a NEW {NAMES[m]} bug not in the taught list (or a real-world extension of one)",
+                    "fix": "", "lang": "javascript"}
+        lineup.append({"monster": m, **pick, "level": level})
     return lineup
 
 
@@ -87,6 +126,16 @@ def monster_scores(state: dict) -> dict[str, float]:
     return {m: (v - overall) / overall for m, v in avg.items()}
 
 
+LEVEL_NOTES = {
+    "beginner": "the viewer is learning to code; explain the idea from scratch.",
+    "intermediate": "the viewer writes code daily and knows basic syntax, loops, functions and objects. Skip the basics; "
+                    "teach the bug that bites working developers in real apps (APIs, async, state, data, production), the "
+                    "subtle cause behind it and the idiomatic fix.",
+    "advanced": "the viewer is an experienced developer. Teach the edge case, the runtime/engine detail or the "
+                "production-scale failure behind a familiar bug.",
+}
+
+
 def build_brief(state: dict, n: int, seed: str, extra: str = "") -> tuple[str, str]:
     """Return (system_prompt, user_prompt)."""
     bible = (ROOT / "bible" / "SERIES_BIBLE.md").read_text()
@@ -95,6 +144,8 @@ def build_brief(state: dict, n: int, seed: str, extra: str = "") -> tuple[str, s
     recent = recent_episodes(state)
     learn = LEARNINGS.read_text() if LEARNINGS.exists() else "No performance data yet. Optimize for a strong 2-second hook and saves."
     ideas = [i["text"] for i in state.get("ideas", []) if not i.get("used")][:5]
+    taught = taught_concepts(state)
+    level = target_level(state)
     handle = cfg.get("instagram_handle", "")
     system = (
         "You are the head producer and growth marketer of an animated Instagram Reels series. "
@@ -110,6 +161,15 @@ Planned lineup (follow it unless an idea below is clearly stronger):
 
 Viewer/owner ideas to use if they fit: {json.dumps(ideas) if ideas else "none"}
 
+ALREADY TAUGHT — never teach any of these again, not even reworded or in another language:
+{chr(10).join(f"- {t['concept']}" for t in taught) or "- nothing yet"}
+You MAY go deeper on one of them with an extension the viewer hasn't seen: a real-world case, an edge case or the
+advanced form (e.g. after "optional chaining ?." → "?. on an API response, with ?? for the fallback" or
+"calling a maybe-missing callback with fn?.()"). Then the episode's `concept` names the NEW idea, `builds_on` names the
+taught concept it extends, and the reel must not re-explain the basics.
+
+Target level: {level.upper()} — {LEVEL_NOTES[level]}
+
 Avoid repeating these recent episodes (title — concept):
 {chr(10).join(f"- {e['episode']['title']} — {e['episode'].get('concept','')}" for e in recent[-20:] if e.get('episode')) or "- none yet"}
 
@@ -120,6 +180,8 @@ Rules for today's batch:
 - Each episode uses a DIFFERENT monster from the others in this batch.
 - Vary the hook style across the batch: one relatable pain ("POV: it's 3 AM and..."), one threat ("This ghost crashes your app just by existing"), one curiosity gap, one bold claim.
 - Captions end with a question that invites comments, then mention {handle or "the account"}.
+- Every episode's `concept` is new (see ALREADY TAUGHT) and different from the others in this batch.
+- Set `level` to "{level}" and `topic` to the lineup topic you used.
 - 25-40 seconds each, 6-9 beats, exactly one code beat and one fix beat about the same code.
 {extra}
 

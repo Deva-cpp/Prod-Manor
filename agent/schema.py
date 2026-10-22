@@ -174,14 +174,16 @@ def validate(raw: dict) -> tuple[dict, list[str]]:
     warn: list[str] = []
     if not isinstance(raw, dict):
         raise EpisodeError("episode must be an object")
-    ep = {k: raw.get(k) for k in ("id", "title", "monster", "concept", "level", "language", "hook", "logline")}
+    ep = {k: raw.get(k) for k in ("id", "title", "monster", "concept", "level", "language", "hook", "logline", "builds_on", "topic")}
     if ep["monster"] not in MONSTERS:
         raise EpisodeError(f"monster must be one of {MONSTERS}, got {ep['monster']!r}")
     ep["title"] = _txt(ep["title"] or "Untitled Haunting", 40)
     ep["hook"] = _txt(ep["hook"] or "", 80)
     ep["concept"] = _txt(ep["concept"] or "", 80)
     ep["logline"] = _txt(ep["logline"] or "", 200)
-    ep["level"] = ep["level"] if ep["level"] in ("beginner", "intermediate") else "beginner"
+    ep["builds_on"] = _txt(ep["builds_on"] or "", 80)
+    ep["topic"] = _txt(ep["topic"] or "", 120)
+    ep["level"] = ep["level"] if ep["level"] in ("beginner", "intermediate", "advanced") else "intermediate"
     ep["language"] = ep["language"] if ep["language"] in LANGS else "javascript"
     beats = [x for x in (_beat(b, ep, warn) for b in (raw.get("beats") or []) if isinstance(b, dict)) if x]
     types = [b["type"] for b in beats]
@@ -190,6 +192,10 @@ def validate(raw: dict) -> tuple[dict, list[str]]:
     for i, b in enumerate(beats):
         if b["type"] == "fix":
             _repair_fix(b, next((c for c in reversed(beats[:i]) if c["type"] == "code"), None), warn)
+    if not ep["concept"]:  # the taught-concepts memory needs a name for every reel
+        lesson = next((b.get("lesson") or b.get("note") for b in reversed(beats) if b.get("lesson") or b.get("note")), "")
+        ep["concept"] = _txt(lesson or ep["title"], 80)
+        warn.append("concept was empty; took it from the lesson")
     if types[0] not in ("pager", "title"):
         beats.insert(0, {"type": "title", "dur": 2.4, "text": ep["title"], "sub": ep["hook"], "monster": ep["monster"]})
         warn.append("inserted title hook at start")
@@ -239,8 +245,10 @@ CONTRACT = {
     "episodes": [{
         "title": "string, 2-6 words",
         "monster": "null | caller | twins | leak | ollie",
-        "concept": "the one concept taught, e.g. 'optional chaining ?.'",
-        "level": "beginner | intermediate",
+        "concept": "short name of the ONE concept taught, never one already taught, e.g. 'optional chaining ?.'",
+        "builds_on": "the already-taught concept this episode extends, or empty if it's a new concept",
+        "topic": "the lineup topic you used",
+        "level": "beginner | intermediate | advanced",
         "language": "javascript | typescript | python | java | go",
         "hook": "the scroll-stopping line shown in the first 2 seconds",
         "logline": "one sentence storyline for the approval card",

@@ -1,6 +1,12 @@
 # Topic backlog per monster. The producer rotates monsters and picks unused topics first.
-# Add your own ideas any time; level is beginner | intermediate.
-null:
+# Add your own ideas any time; level is beginner | intermediate | advanced.
+# The planner prefers the target level (config `level`, Telegram /level) and skips anything already taught.
+"null":  # quoted: a bare null key is YAML None
+  - {topic: "API response missing a nested field crashes the profile page", fix: "user?.address?.city ?? 'Unknown'", level: intermediate, lang: javascript}
+  - {topic: "calling an optional callback prop that was never passed", fix: "onSave?.()", level: intermediate, lang: javascript}
+  - {topic: "JSON.parse(localStorage.getItem(key)) returns null on first visit", fix: "?? default object", level: intermediate, lang: javascript}
+  - {topic: "TypeScript non-null assertion ! hides a real undefined", fix: "narrow with an if check instead of !", level: intermediate, lang: typescript}
+  - {topic: "Python Optional return used without checking None", fix: "if result is None: return early", level: intermediate, lang: python}
   - {topic: "calling a method on null", fix: "optional chaining ?.", level: beginner, lang: javascript}
   - {topic: "undefined object property access", fix: "default with ?? (nullish coalescing)", level: beginner, lang: javascript}
   - {topic: "|| vs ?? treating 0 and empty string as missing", fix: "use ?? instead of ||", level: intermediate, lang: javascript}
@@ -10,6 +16,10 @@ null:
   - {topic: "NullPointerException on unboxing", fix: "Optional / null check", level: intermediate, lang: java}
   - {topic: "destructuring undefined function argument", fix: "default parameter = {}", level: intermediate, lang: javascript}
 caller:
+  - {topic: "Python RecursionError walking a deeply nested JSON/tree", fix: "iterative walk with an explicit stack", level: intermediate, lang: python}
+  - {topic: "retry loop that retries forever when the API is down", fix: "max attempts with backoff", level: intermediate, lang: javascript}
+  - {topic: "toJSON / __repr__ that references itself through a circular object", fix: "break the cycle (skip the back-reference)", level: intermediate, lang: javascript}
+  - {topic: "event handler that triggers the same event it handles", fix: "guard flag or compare before setting", level: intermediate, lang: javascript}
   - {topic: "recursion without a base case", fix: "add the base case", level: beginner, lang: python}
   - {topic: "maximum call stack size exceeded", fix: "base case that is actually reachable", level: beginner, lang: javascript}
   - {topic: "factorial recursion", fix: "if n <= 1: return 1", level: beginner, lang: python}
@@ -18,6 +28,11 @@ caller:
   - {topic: "useEffect infinite re-render loop", fix: "add the dependency array", level: intermediate, lang: javascript}
   - {topic: "setter calling itself", fix: "write to the backing field", level: intermediate, lang: javascript}
 twins:
+  - {topic: "search box: an older slow response overwrites the newer one", fix: "AbortController cancels the stale request", level: intermediate, lang: javascript}
+  - {topic: "Promise.all fails everything when one request fails", fix: "Promise.allSettled", level: intermediate, lang: javascript}
+  - {topic: "async function in Python called without await returns a coroutine", fix: "await it (or asyncio.gather)", level: intermediate, lang: python}
+  - {topic: "payment button charges twice on retry", fix: "idempotency key on the request", level: intermediate, lang: javascript}
+  - {topic: "stale closure: setCount(count + 1) twice only adds one", fix: "functional update setCount(c => c + 1)", level: intermediate, lang: javascript}
   - {topic: "two requests updating the same counter (lost update)", fix: "use a lock / atomic increment", level: intermediate, lang: python}
   - {topic: "forgetting await so code runs out of order", fix: "await the promise", level: beginner, lang: javascript}
   - {topic: "deadlock: two threads acquire locks in opposite order", fix: "always acquire locks in the same order", level: intermediate, lang: python}
@@ -25,6 +40,10 @@ twins:
   - {topic: "forEach with async callback doesn't wait", fix: "for...of with await, or Promise.all", level: intermediate, lang: javascript}
   - {topic: "check-then-act race on a file or a seat booking", fix: "make it atomic (transaction)", level: intermediate, lang: python}
 leak:
+  - {topic: "fetch in useEffect sets state after the component unmounted", fix: "AbortController in the cleanup", level: intermediate, lang: javascript}
+  - {topic: "functools.lru_cache on a method keeps every instance alive", fix: "cache outside the instance or use maxsize", level: intermediate, lang: python}
+  - {topic: "WebSocket/subscription never unsubscribed when leaving the page", fix: "unsubscribe in cleanup", level: intermediate, lang: javascript}
+  - {topic: "Map used as a per-object cache keeps objects alive forever", fix: "WeakMap", level: intermediate, lang: javascript}
   - {topic: "event listener never removed", fix: "removeEventListener in cleanup", level: intermediate, lang: javascript}
   - {topic: "setInterval never cleared", fix: "clearInterval on cleanup", level: beginner, lang: javascript}
   - {topic: "useEffect without cleanup function", fix: "return a cleanup function", level: intermediate, lang: javascript}
@@ -33,6 +52,10 @@ leak:
   - {topic: "mutable default argument keeps growing", fix: "default to None then create the list", level: intermediate, lang: python}
   - {topic: "file opened and never closed", fix: "with open(...) as f", level: beginner, lang: python}
 ollie:
+  - {topic: "Date ranges: end date excluded, last day of the report missing", fix: "query < next day, not <= end day", level: intermediate, lang: python}
+  - {topic: "reading the last item as items[items.length] gives undefined", fix: "items.at(-1)", level: intermediate, lang: javascript}
+  - {topic: "binary search mid calculation loops forever", fix: "lo = mid + 1", level: intermediate, lang: python}
+  - {topic: "substring(0, maxLength) cuts the ellipsis one character over the limit", fix: "slice(0, max - 1) + '…'", level: intermediate, lang: javascript}
   - {topic: "loop with <= length runs one too many", fix: "use < length", level: beginner, lang: javascript}
   - {topic: "arrays start at 0", fix: "the last index is length - 1", level: beginner, lang: python}
   - {topic: "range(1, 10) stops at 9", fix: "range(1, 11)", level: beginner, lang: python}

@@ -1,7 +1,9 @@
 # PROD MANOR — Series Bible (the producer brain reads this before every pitch)
 
 ## The show
-Prod Manor is a comedy-horror series of 25–40 second vertical Instagram Reels. Each monster is a programming bug come to life. They wake at 3:00 AM after someone deploys on a Friday. Junior, a sleep-deprived junior developer, has to defeat one with a one-line fix. Every episode teaches exactly ONE real programming concept, correctly, in a way a beginner understands in one viewing and a senior developer finds funny.
+Prod Manor is a comedy-horror series of 25–40 second vertical Instagram Reels. Each monster is a programming bug come to life. They wake at 3:00 AM after someone deploys on a Friday. Junior, a sleep-deprived junior developer, has to defeat one with a one-line fix. Every episode teaches exactly ONE real programming concept, correctly, in a way a developer at the episode's level understands in one viewing and a senior developer finds funny. The default level is intermediate: the viewer already codes, so skip the basics and teach the bug that bites working developers.
+
+The series never teaches the same concept twice. Once a concept is taught (say optional chaining `?.`), later episodes may only go deeper on it — a real-world case, an edge case, the advanced form — and must say what they build on instead of re-explaining the basics.
 
 Tone: cute-creepy. Spooky, never gory. Funny, never cringe. The monsters are lonely, mischievous or hungry, not evil. Junior is brave but terrified.
 
@@ -28,14 +30,14 @@ Tone: cute-creepy. Spooky, never gory. Funny, never cringe. The monsters are lon
 ## Dialogue: every line says something new (most common failure, check it twice)
 - No repeated lines, no catchphrase loops, no line that only restates the episode title or the monster's gag. "Hold on, I'll call myself" once is a joke; the same idea three times is filler.
 - Every line does one job: reveal the symptom, show the cause, react, hint at the fix, or land the lesson. If a line could be cut without losing anything, cut it.
-- The dialogue carries the lesson in plain words a beginner understands: by the end, the viewer can say what went wrong and what fixed it, without reading the code. Example for recursion: "Every call opens another call." → "Nothing tells it when to stop." → "Stop at zero." Not: "Calling!" "Calling again!" "Still calling!"
+- The dialogue carries the lesson in plain words a viewer at the episode's level understands: by the end, the viewer can say what went wrong and what fixed it, without reading the code. Example for recursion: "Every call opens another call." → "Nothing tells it when to stop." → "Stop at zero." Not: "Calling!" "Calling again!" "Still calling!"
 - Keep it simple: short everyday words, one idea per line, no jargon beyond the concept's own name. Junior and the monster talk TO each other (question → answer), not past each other.
 - The monster's lines are its personality applied to THIS bug, different in every episode. Never reuse a line from a recent episode.
 
 ## Funny, interesting, real (every episode, no exceptions)
 - REAL WORLD: every bug is one developers actually ship, in a situation they recognise: a Friday deploy, a hotfix during a demo, a login page that crashes for users with no profile photo, a cart total off by one item, a search box that fires 40 requests while you type, a dashboard that gets slower every hour it stays open, two payment clicks that charge twice. Name the real-world symptom (what the user or the on-call dev sees) before showing the code.
 - FUNNY: at least two real laughs per episode, not just puns. What works: a spooky voice saying something painfully mundane, Junior's panic being way bigger than the bug, the monster being reasonable and polite about destroying prod, painfully relatable dev pain (Slack pings at 3 AM, "works on my machine", "who approved this PR?" "...you did"). The narrator stays deadpan; never explain the joke.
-- INTERESTING: give a senior developer something too. Name the real error, a common wrong fix, or a "wait, really?" detail, but keep it one concept a beginner gets in one viewing.
+- INTERESTING: give a senior developer something too. Name the real error, a common wrong fix, or a "wait, really?" detail, but keep it one concept the target viewer gets in one viewing.
 
 ## Writing rules
 - Total 25–40 seconds, 6–9 beats. Every beat dur 1.8–5s.

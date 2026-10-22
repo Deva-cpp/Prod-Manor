@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from . import brains, telegram
-from .common import QUEUE, at_local, load_config, log, next_ids, now, setting, today
+from .common import QUEUE, at_local, load_config, log, next_ids, now, same_concept, setting, today
 from .schema import EpisodeError, validate
 
 
@@ -19,12 +19,22 @@ def _why_none(brain: str, raw_eps: list) -> str:
     return f"all {len(raw_eps)} failed the quality check:\n" + "\n".join(f"• {telegram.e(r)}" for r in last_rejected[:4])
 
 
-def _ingest(state: dict, raw_eps: list[dict], brain: str, day: str, cfg: dict) -> list[str]:
+def _ingest(state: dict, raw_eps: list[dict], brain: str, day: str, cfg: dict, exclude: str | None = None) -> list[str]:
+    """Validate and store new pitches. A pitch that re-teaches a taught concept, or the concept of another open
+    pitch from the same day, is thrown away (`exclude` = the pitch being rewritten, which may keep its own concept)."""
     ids, rejected = [], []
     clean_eps = []
+    pending = [r["episode"].get("concept", "") for k, r in state["episodes"].items()
+               if k != exclude and r["status"] in ("pitched", "rewrite_queued") and r.get("day") == day]
     for raw in raw_eps:
         try:
             ep, warns = validate(copy.deepcopy(raw))
+            repeat = brains.already_taught(state, ep["concept"], exclude)
+            if repeat:
+                raise EpisodeError(f"concept already taught ({repeat})")
+            if any(same_concept(ep["concept"], c) for c in pending):
+                raise EpisodeError(f"another open pitch already covers {ep['concept']}")
+            pending.append(ep["concept"])
             clean_eps.append((ep, warns))
         except EpisodeError as ex:
             rejected.append(f"{raw.get('title', '?')}: {ex}")
@@ -91,6 +101,8 @@ def more(state: dict, n: int = 2, extra: str = "") -> list[str]:
     ids = _ingest(state, eps, "gemini", day, cfg)
     if not ids:
         telegram.send(f"⚠️ No new pitches: {_why_none('gemini', eps)}\nSend /more to try again.")
+    elif last_rejected:
+        telegram.send(f"ℹ️ Skipped {len(last_rejected)}:\n" + "\n".join(f"• {telegram.e(r)}" for r in last_rejected[:4]))
     for i, ep_id in enumerate(ids, 1):
         telegram.send_pitch(state, ep_id, i, len(ids))
     return ids
@@ -112,9 +124,10 @@ def rewrite(state: dict, ep_id: str, notes: str) -> str | None:
         return None
     system, user = brains.rewrite_brief(state, rec["episode"], notes)
     eps = brains.gemini(system, user, temperature=0.7).get("episodes", [])
-    new_ids = _ingest(state, eps[:1], "gemini", rec["day"], cfg)
+    new_ids = _ingest(state, eps[:1], "gemini", rec["day"], cfg, exclude=ep_id)
     if not new_ids:
-        telegram.send("⚠️ The rewrite came back invalid. Try different notes, or approve the original.")
+        why = f": {telegram.e(last_rejected[0])}" if last_rejected else ""
+        telegram.send(f"⚠️ The rewrite came back invalid{why}. Try different notes, or approve the original.")
         return None
     new = new_ids[0]
     state["episodes"][new]["rewrite_of"] = ep_id
@@ -137,7 +150,7 @@ def ingest_claude_rewrites(state: dict) -> int:
         old = raw.get("rewrite_of")
         if old in state["episodes"]:
             day = state["episodes"][old]["day"]
-            ids = _ingest(state, raw.get("episodes", [])[:1], "claude", day, cfg)
+            ids = _ingest(state, raw.get("episodes", [])[:1], "claude", day, cfg, exclude=old)
             if ids:
                 state["episodes"][ids[0]]["rewrite_of"] = old
                 state["episodes"][old].update(status="superseded", superseded_by=ids[0])

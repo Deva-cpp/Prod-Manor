@@ -1,8 +1,11 @@
 """Shared config, state and time helpers. All state lives in state/db.json, committed by the workflows."""
 from __future__ import annotations
 
+import difflib
+import itertools
 import json
 import os
+import re
 import string
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -40,6 +43,8 @@ DEFAULT_STATE = {
     "token": {},          # {"refreshed_at": iso, "expires_at": iso}
     "render": {},         # {"requested_at": iso}
     "followers": [],      # [{"at": iso, "count": n}]
+    "taught": [],         # concepts already taught by deleted/reset reels: [{"concept", "title", "at"}]
+    "retired_ids": [],    # ids of deleted episodes, never handed out again (old Telegram buttons stay harmless)
 }
 
 
@@ -108,9 +113,10 @@ def fmt_day(dt: datetime, cfg: dict) -> str:
 # ------------------------------------------------------------------ ids
 
 def next_ids(state: dict, day: str, n: int) -> list[str]:
-    used = {k for k in state["episodes"] if k.startswith(day)}
+    used = {k for k in [*state["episodes"], *state.get("retired_ids", [])] if k.startswith(day)}
     out = []
-    for letter in string.ascii_lowercase:
+    letters = itertools.chain(string.ascii_lowercase, ("".join(p) for p in itertools.product(string.ascii_lowercase, repeat=2)))
+    for letter in letters:
         cand = f"{day}-{letter}"
         if cand not in used:
             out.append(cand)
@@ -133,6 +139,22 @@ def find_episode(state: dict, ref: str, cfg: dict) -> str | None:
         cands = sorted((k for k in state["episodes"] if k.split("-", 3)[-1] == ref), reverse=True)
         return cands[0] if cands else None
     return None
+
+
+# ------------------------------------------------------------------ concepts
+
+def concept_key(text: str) -> str:
+    """Normalize a concept name for comparison; keeps operators like ?. and ?? since they carry meaning."""
+    s = re.sub(r"[^a-z0-9?.!=<>&|+\-*/%\[\]{}() ]+", " ", str(text or "").lower())
+    s = re.sub(r"\b(the|a|an|using|use|with|in|of|to|and|your|for)\b", " ", s)
+    return " ".join(s.split())
+
+
+def same_concept(a: str, b: str) -> bool:
+    ka, kb = concept_key(a), concept_key(b)
+    if not ka or not kb:
+        return False
+    return ka == kb or difflib.SequenceMatcher(None, ka, kb).ratio() >= 0.85
 
 
 def log(*a):

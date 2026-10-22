@@ -1,18 +1,23 @@
 """Processes your Telegram taps, replies and commands. Runs inside every `tick` (every 15 minutes)."""
 from __future__ import annotations
 
-from . import producer, scheduler, telegram
-from .common import find_episode, fmt_day, fmt_time, load_config, log, now, parse, setting, short
+from . import brains, producer, scheduler, telegram
+from .common import QUEUE, ROOT, find_episode, fmt_day, fmt_time, load_config, log, now, parse, same_concept, setting, short
 from .telegram import e
 
 HELP = """<b>Prod Manor producer — commands</b>
 /status — today's pipeline
 /brain gemini · /brain claude — switch the writer
 /perday 3 — reels per day (1-5)
+/level intermediate — beginner · intermediate · advanced
 /more 2 — pitch 2 more storylines now
 /idea a ghost that haunts JSON.parse — add an idea to the next batch
 /postnow B — publish pitch B at the next tick
 /hold B · /release B — pause or resume one reel
+/delete B — delete a script or reel (its EP number goes to the next reel)
+/reset — delete every script and reel and start fresh
+/taught — concepts already covered (never taught again)
+/taught Promise.all — mark a concept as covered · /forget Promise.all — undo
 /pause · /resume — stop or restart the whole pipeline
 /report — marketer report now
 Reply to any pitch with notes to rewrite it."""
@@ -52,13 +57,78 @@ def process(state: dict) -> dict:
 
 
 def number_episode(state: dict, ep_id: str) -> None:
-    """Approved reels get a running episode number (EP 01, EP 02, ...) shown in the reel's top label."""
+    """Approved reels get an episode number (EP 01, EP 02, ...) shown in the reel's top label: the lowest free one,
+    so a number freed by /delete goes to the next reel that's made."""
     rec = state["episodes"][ep_id]
     if rec.get("episode_no"):
         return
-    n = max([r.get("episode_no", 0) for r in state["episodes"].values()] + [0]) + 1
+    used = {r.get("episode_no") for r in state["episodes"].values()}
+    n = next(i for i in range(1, len(used) + 2) if i not in used)
     rec["episode_no"] = n
     rec["episode"]["series_tag"] = f"EP {n:02d}"
+
+
+# ------------------------------------------------------------------ delete / reset
+
+def _remember_if_live(state: dict, rec: dict, cfg: dict) -> None:
+    """A published reel stays on Instagram after it leaves the pipeline, so its concept stays taught."""
+    ep = rec.get("episode") or {}
+    if rec["status"] == "published" and ep.get("concept"):
+        state.setdefault("taught", []).append({"concept": ep["concept"], "title": ep.get("title", ""),
+                                               "topic": ep.get("topic", ""), "at": now(cfg).isoformat()})
+
+
+def _forget_messages(state: dict, ids: set) -> None:
+    tg = state["telegram"]
+    for key in ("msg_to_ep", "awaiting_rewrite"):
+        tg[key] = {m: k for m, k in tg.get(key, {}).items() if k not in ids}
+
+
+def delete_episode(state: dict, ep_id: str) -> list[str]:
+    """Remove a script or reel (and the older drafts it was rewritten from). Its media is pruned by the next render
+    job, its episode number goes to the next approved reel, and its id is never reused."""
+    cfg = load_config()
+    eps = state["episodes"]
+    gone = [ep_id]
+    while (prev := eps[gone[-1]].get("rewrite_of")) in eps and prev not in gone:
+        gone.append(prev)
+    for k in gone:
+        _remember_if_live(state, eps.pop(k), cfg)
+        (ROOT / "state" / "rendered" / f"{k}.json").unlink(missing_ok=True)
+    state.setdefault("retired_ids", []).extend(gone)
+    _forget_messages(state, set(gone))
+    return gone
+
+
+def reset(state: dict, forget: bool = False) -> int:
+    """Delete every script and reel and start fresh: today's pitch runs again at the next tick. Settings and
+    unused ideas stay. Concepts of published reels stay taught unless `forget`."""
+    cfg = load_config()
+    n = len(state["episodes"])
+    for rec in state["episodes"].values():
+        if not forget:
+            _remember_if_live(state, rec, cfg)
+    state.setdefault("retired_ids", []).extend(state["episodes"])
+    state["episodes"] = {}
+    if forget:
+        state["taught"] = []
+    state["telegram"].update(awaiting_rewrite={}, msg_to_ep={})
+    state["days"], state["render"] = {}, {}
+    state["ideas"] = [i for i in state.get("ideas", []) if not i.get("used")]
+    for f in [*(QUEUE / "pitches").glob("*.json"), *(ROOT / "state" / "rendered").glob("*.json")]:
+        f.unlink()
+    if (QUEUE / "rewrites.json").exists():
+        (QUEUE / "rewrites.json").write_text("[]\n")
+    return n
+
+
+def _ask_delete(rec: dict, ep_id: str, reply_to=None) -> None:
+    ep = rec["episode"]
+    tag = f"{ep['series_tag']} · " if ep.get("series_tag") else ""
+    live = "\nIt's already on Instagram: this only removes it here, delete the post in the app." if rec["status"] == "published" else ""
+    telegram.send(f"🗑 Delete <b>{e(tag)}{e(ep['title'])}</b> ({rec['status']})? This can't be undone.{live}",
+                  [[{"text": "🗑 Yes, delete", "callback_data": f"delok:{ep_id}"},
+                    {"text": "Keep it", "callback_data": f"keep:{ep_id}"}]], reply_to=reply_to)
 
 
 # ------------------------------------------------------------------ buttons
@@ -68,6 +138,17 @@ def _callback(state: dict, cfg: dict, cq: dict) -> None:
     action, _, ep_id = data.partition(":")
     rec = state["episodes"].get(ep_id)
     mid = cq["message"]["message_id"]
+    if action == "reset":
+        n = reset(state, forget=ep_id == "all")
+        telegram.answer(cq["id"], "Wiped.")
+        kept = "" if ep_id == "all" else f" Remembered concepts: {len(state.get('taught', []))} (send /taught to see them)."
+        telegram.edit(mid, f"🧹 <b>Fresh start.</b> Deleted {n} scripts and reels.{kept}\n"
+                           "New pitches arrive at the next tick, numbered from EP 01.")
+        return
+    if action == "keep":
+        telegram.answer(cq["id"], "Kept.")
+        telegram.edit(mid, "👍 Kept.")
+        return
     if not rec:
         telegram.answer(cq["id"], "That pitch no longer exists.")
         return
@@ -99,6 +180,14 @@ def _callback(state: dict, cfg: dict, cq: dict) -> None:
         rec["held"] = True
         telegram.answer(cq["id"], "On hold.")
         telegram.send(f"⏸ <b>{e(ep['title'])}</b> is on hold. Send /release {short(ep_id)} to put it back in the schedule.")
+    elif action == "del":
+        telegram.answer(cq["id"])
+        _ask_delete(rec, ep_id, reply_to=mid)
+    elif action == "delok":
+        title = ep["title"]
+        delete_episode(state, ep_id)
+        telegram.answer(cq["id"], "Deleted.")
+        telegram.edit(mid, f"🗑 Deleted <b>{e(title)}</b>.")
     elif action == "now":
         rec["post_now"] = True
         rec.pop("held", None)
@@ -146,6 +235,47 @@ def _message(state: dict, cfg: dict, msg: dict):
             telegram.send(f"📅 Posting up to <b>{n}</b> reels per day.")
         except ValueError:
             telegram.send("Usage: /perday 3")
+    elif cmd == "/level":
+        if arg not in brains.LEVELS:
+            telegram.send(f"Current level: <b>{e(brains.target_level(state))}</b>. Use /level beginner, /level intermediate or /level advanced.")
+        else:
+            st["level"] = arg
+            telegram.send(f"🎓 New pitches target <b>{arg}</b> developers.")
+    elif cmd == "/delete":
+        ep_id = find_episode(state, arg, cfg) if arg else None
+        if not ep_id:
+            telegram.send("Which one? e.g. /delete B (the letter from /status)")
+        else:
+            _ask_delete(state["episodes"][ep_id], ep_id)
+    elif cmd == "/reset":
+        live = sum(1 for r in state["episodes"].values() if r["status"] == "published")
+        telegram.send(f"🧹 Delete all <b>{len(state['episodes'])}</b> scripts and reels and start fresh from EP 01?\n"
+                      "Settings and unused ideas stay. Concepts of published reels stay remembered so they're never "
+                      f"taught again ({live} published) — or wipe that memory too.",
+                      [[{"text": "🗑 Wipe scripts & reels", "callback_data": "reset:keep"}],
+                       [{"text": "🗑 Wipe everything, forget concepts too", "callback_data": "reset:all"}],
+                       [{"text": "Cancel", "callback_data": "keep:"}]])
+    elif cmd == "/taught":
+        if arg:
+            if brains.already_taught(state, arg):
+                telegram.send(f"Already covered: <b>{e(brains.already_taught(state, arg))}</b>.")
+            else:
+                state.setdefault("taught", []).append({"concept": arg[:80], "title": "", "at": now(cfg).isoformat()})
+                telegram.send(f"📚 Marked as covered: <b>{e(arg[:80])}</b>. It won't be taught again (extensions still can).")
+        else:
+            taught = brains.taught_concepts(state)
+            rows = "\n".join(f"• {e(t['concept'])}" + (f" — <i>{e(t['title'])}</i>" if t.get("title") else "") for t in taught[-60:])
+            telegram.send(f"📚 <b>Already taught ({len(taught)})</b> — never repeated, only extended:\n{rows}" if taught
+                          else "📚 Nothing taught yet.")
+    elif cmd == "/forget":
+        before = len(state.get("taught", []))
+        state["taught"] = [t for t in state.get("taught", []) if not same_concept(arg, t["concept"])] if arg else state.get("taught", [])
+        if len(state["taught"]) < before:
+            telegram.send(f"🧽 Forgot <b>{e(arg)}</b>. It can be taught again.")
+        elif arg and brains.already_taught(state, arg):
+            telegram.send(f"<b>{e(arg)}</b> belongs to a reel that's still in the pipeline. /delete that reel to free it.")
+        else:
+            telegram.send("Usage: /forget Promise.all (the exact name from /taught)")
     elif cmd == "/pause":
         st["paused"] = True
         telegram.send("⏸ Pipeline paused. Nothing will be pitched or posted until /resume.")
@@ -203,6 +333,7 @@ def status_text(state: dict, cfg: dict) -> str:
     live_today = [v for v in eps.values() if v["status"] == "published" and (v.get("published_at") or "")[:10] == today_s]
     s = state["settings"]
     head = (f"<b>Status</b> · brain {e(setting(state, cfg, 'brain'))} · {setting(state, cfg, 'reels_per_day')}/day"
+            f" · {e(brains.target_level(state))}"
             + (" · ⏸ PAUSED" if s.get("paused") else ""))
     summary = (f"📜 Scripts waiting for you: <b>{count('pitched', 'rewrite_queued')}</b>\n"
                f"🎞 Reels being made: <b>{count('approved')}</b>\n"
@@ -220,7 +351,10 @@ def status_text(state: dict, cfg: dict) -> str:
         if v.get("slot_at") and v["status"] != "published":
             when = f" · {fmt_day(parse(v['slot_at']), cfg)} {fmt_time(parse(v['slot_at']), cfg)}"
         held = " · ⏸ held" if v.get("held") else ""
-        rows.append(f"{icons[v['status']]} {short(k)} <b>{e(v['episode']['title'])}</b> — {v['status']}{when}{held}")
+        tag = f"{v['episode']['series_tag']} " if v["episode"].get("series_tag") else ""
+        rows.append(f"{icons[v['status']]} {short(k)} {e(tag)}<b>{e(v['episode']['title'])}</b> — {v['status']}{when}{held}")
     if len(open_recs) > 15:
         rows.append(f"…and {len(open_recs) - 15} more")
+    if rows:
+        rows.append("\n/delete B removes one · /reset starts fresh")
     return head + "\n\n" + summary + ("\n\n" + "\n".join(rows) if rows else "\n\nNothing in the pipeline yet. Send /more 2 for pitches.")

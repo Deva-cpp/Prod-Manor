@@ -227,6 +227,51 @@ class E2E(unittest.TestCase):
         self.assertEqual(len(self.gemini_calls), 1)
         self.assertTrue(any("didn't arrive in time" in t for t in self.tg.texts()))
 
+    def test_delete_renumber_no_repeats_and_reset(self):
+        st = self.run_tick("2026-10-22T07:05:00+05:30")
+        a, b, c, d = (self._id(st, t) for t in ("Nobody Checked", "Inside", "Room Zero", "Listener"))
+        for k in (a, b, c):
+            self.tg.tap(f"ap:{k}", self.card(st["episodes"][k]["episode"]["title"])["id"])
+        st = self.run_tick("2026-10-22T07:20:00+05:30")
+        self.assertEqual([st["episodes"][k]["episode"]["series_tag"] for k in (a, b, c)], ["EP 01", "EP 02", "EP 03"])
+
+        # /delete asks first; confirming frees EP 02 for the next reel and retires the id
+        self.tg.say(f"/delete {b.rsplit('-', 1)[1]}")
+        self.run_tick("2026-10-22T07:35:00+05:30")
+        ask = next(s for s in reversed(self.tg.sent) if s.get("buttons") and "Delete" in (s.get("text") or ""))
+        self.tg.tap(f"delok:{b}", ask["id"])
+        self.tg.tap(f"ap:{d}", self.card("Listener")["id"])
+        st = self.run_tick("2026-10-22T07:50:00+05:30")
+        self.assertNotIn(b, st["episodes"])
+        self.assertIn(b, st["retired_ids"])
+        self.assertEqual(st["episodes"][d]["episode"]["series_tag"], "EP 02")
+        self.assertNotIn(b, self.common.next_ids(st, "2026-10-22", 3))
+
+        # the brief lists every taught concept, and a batch that repeats them is thrown away
+        self.tg.say("/more 2")
+        st = self.run_tick("2026-10-22T08:05:00+05:30")
+        self.assertIn("ALREADY TAUGHT", self.gemini_calls[-1])
+        self.assertIn("null reference / optional chaining", self.gemini_calls[-1])
+        self.assertIn("INTERMEDIATE", self.gemini_calls[-1])
+        new = [r["episode"]["title"] for k, r in st["episodes"].items() if k not in (a, c, d)]
+        self.assertEqual(new, ["The Call Is Coming From Inside"])  # b was deleted before going live, so it's free again
+        self.assertIn("concept already taught (null reference / optional chaining)", "\n".join(self.tg.texts()))
+
+        # reset: everything goes, the published reel's concept stays taught, today's pitch runs again
+        st["episodes"][a]["status"] = "published"
+        self.common.save_state(st)
+        self.tg.say("/reset")
+        self.run_tick("2026-10-22T08:20:00+05:30")
+        ask = next(s for s in reversed(self.tg.sent) if s.get("buttons") and "start fresh" in (s.get("text") or ""))
+        self.tg.tap("reset:keep", ask["id"])
+        st = self.run_tick("2026-10-22T08:35:00+05:30")
+        self.assertEqual([t["concept"] for t in st["taught"]], ["null reference / optional chaining"])
+        self.assertTrue(st["days"]["2026-10-22"]["pitched"])  # re-pitched on the same tick
+        titles = {r["episode"]["title"] for r in st["episodes"].values()}
+        self.assertNotIn("Nobody Checked On Him", titles)
+        self.assertIn("Inside", " ".join(titles))  # freed by the reset, so it can be pitched again
+        self.assertFalse(set(st["episodes"]) & {a, b, c, d})
+
     def test_schema_rejects_and_repairs(self):
         schema = importlib.import_module("agent.schema")
         pilot = json.loads((FIX / "pilot_null.json").read_text())

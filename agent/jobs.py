@@ -65,7 +65,8 @@ def render_pending(state: dict, limit: int = 5) -> list[str]:
         cap = f"🎬 <b>{e(rec['episode']['title'])}</b> is ready · {out['seconds']}s\nGoes live {e(when)}."
         result["preview_msg_id"] = telegram.send_video(
             Path(out["video"]), cap,
-            [[{"text": "🚀 Post now", "callback_data": f"now:{k}"}, {"text": "⏸ Hold", "callback_data": f"hold:{k}"}]])
+            [[{"text": "🚀 Post now", "callback_data": f"now:{k}"}, {"text": "⏸ Hold", "callback_data": f"hold:{k}"},
+              {"text": "🗑 Delete", "callback_data": f"del:{k}"}]])
         (RENDERED / f"{k}.json").write_text(json.dumps(result, indent=2))
         done.append(k)
     return done

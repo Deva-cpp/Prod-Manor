@@ -133,6 +133,8 @@ def pitch_text(rec: dict, idx=None, total=None, status_line: str = "") -> str:
     ]
     if code.get("error"):
         parts.append(f"💥 <i>{e(code['error'])}</i>")
+    if ep.get("builds_on"):
+        parts.append(f"🧩 <i>Builds on:</i> {e(ep['builds_on'])}")
     parts.append(f"🎓 {e(ep['concept'])} · ⏱ {runtime(ep)}s · {len(beats)} beats · brain: {e(rec.get('brain'))}")
     if rec.get("notes"):
         parts.append(f"✏️ <i>Rewritten with your notes:</i> {e(rec['notes'])}")

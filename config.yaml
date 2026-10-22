@@ -7,6 +7,7 @@ gemini_model: gemini-3.5-flash        # any free-tier Flash model; override with
                                       # If Google retires it, the brain finds an available Flash model itself.
 pitches_per_day: 4                    # how many storylines to pitch each morning
 reels_per_day: 3                      # max reels posted per day (3-5). Telegram: /perday 4
+level: intermediate                   # beginner | intermediate | advanced. Telegram: /level beginner
 
 # Candidate posting slots (local time). The marketer learns which ones work and favors them.
 slots: ["08:30", "12:45", "17:30", "19:30", "21:15", "22:45"]
