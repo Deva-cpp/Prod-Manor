@@ -995,7 +995,7 @@
       "preview_msg_id": 64
     },
     "2026-10-22-f": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T07:00:51.970858+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -1151,10 +1151,16 @@
           "#codinghumor",
           "#tech"
         ],
-        "cover_text": "RACE CONDITION"
+        "cover_text": "RACE CONDITION",
+        "series_tag": "EP 04"
       },
       "warnings": [],
-      "pitch_msg_id": 67
+      "pitch_msg_id": 67,
+      "slot_at": "2026-10-22T17:30:00+05:30",
+      "slot_label": "17:30",
+      "explore": false,
+      "episode_no": 4,
+      "approved_at": "2026-10-22T07:45:01.743474+05:30"
     },
     "2026-10-22-g": {
       "status": "pitched",
@@ -1315,7 +1321,7 @@
       "pitch_msg_id": 68
     },
     "2026-10-22-h": {
-      "status": "pitched",
+      "status": "rejected",
       "created": "2026-10-22T07:00:51.970883+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -1632,7 +1638,7 @@
     }
   },
   "telegram": {
-    "offset": 557188818,
+    "offset": 557188820,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "41": "2026-10-22-a",
@@ -1662,7 +1668,7 @@
   },
   "token": {},
   "render": {
-    "requested_at": "2026-10-22T01:30:22.417600+05:30"
+    "requested_at": "2026-10-22T07:45:04.426921+05:30"
   },
   "followers": []
 }
