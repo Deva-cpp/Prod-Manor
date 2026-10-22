@@ -1,7 +1,7 @@
 {
   "episodes": {
     "2026-10-22-n": {
-      "status": "approved",
+      "status": "rendered",
       "created": "2026-10-22T14:16:57.872840+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -195,10 +195,20 @@
       "slot_label": "17:30",
       "explore": false,
       "episode_no": 1,
-      "approved_at": "2026-10-22T14:19:46.148887+05:30"
+      "approved_at": "2026-10-22T14:19:46.148887+05:30",
+      "media": {
+        "video": "2026-10-22-n.mp4",
+        "cover": "2026-10-22-n.jpg",
+        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-n.mp4",
+        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-n.jpg",
+        "seconds": 30.29,
+        "voiced": true
+      },
+      "rendered_at": "2026-10-22T14:49:24.923166+05:30",
+      "preview_msg_id": 114
     },
     "2026-10-22-o": {
-      "status": "approved",
+      "status": "rendered",
       "created": "2026-10-22T14:16:57.872862+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -372,10 +382,20 @@
       "slot_label": "19:30",
       "explore": false,
       "episode_no": 2,
-      "approved_at": "2026-10-22T14:19:47.833022+05:30"
+      "approved_at": "2026-10-22T14:19:47.833022+05:30",
+      "media": {
+        "video": "2026-10-22-o.mp4",
+        "cover": "2026-10-22-o.jpg",
+        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-o.mp4",
+        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-o.jpg",
+        "seconds": 26.41,
+        "voiced": true
+      },
+      "rendered_at": "2026-10-22T14:51:35.901225+05:30",
+      "preview_msg_id": 115
     },
     "2026-10-22-p": {
-      "status": "approved",
+      "status": "rendered",
       "created": "2026-10-22T14:16:57.872866+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -548,7 +568,17 @@
       "slot_label": "22:45",
       "explore": false,
       "episode_no": 3,
-      "approved_at": "2026-10-22T14:19:49.227691+05:30"
+      "approved_at": "2026-10-22T14:19:49.227691+05:30",
+      "media": {
+        "video": "2026-10-22-p.mp4",
+        "cover": "2026-10-22-p.jpg",
+        "video_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-p.mp4",
+        "cover_url": "https://deva-cpp.github.io/Prod-Manor/2026-10-22-p.jpg",
+        "seconds": 31.14,
+        "voiced": true
+      },
+      "rendered_at": "2026-10-22T14:54:07.195427+05:30",
+      "preview_msg_id": 116
     },
     "2026-10-22-q": {
       "status": "rejected",
