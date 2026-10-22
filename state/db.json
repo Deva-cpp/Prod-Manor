@@ -1,7 +1,7 @@
 {
   "episodes": {
     "2026-10-22-j": {
-      "status": "pitched",
+      "status": "approved",
       "created": "2026-10-22T14:01:12.935927+05:30",
       "day": "2026-10-22",
       "brain": "gemini",
@@ -150,10 +150,16 @@
           "#fullstack",
           "#prodmanor"
         ],
-        "cover_text": "DOUBLE CHARGE"
+        "cover_text": "DOUBLE CHARGE",
+        "series_tag": "EP 01"
       },
       "warnings": [],
-      "pitch_msg_id": 86
+      "pitch_msg_id": 86,
+      "slot_at": "2026-10-22T17:30:00+05:30",
+      "slot_label": "17:30",
+      "explore": false,
+      "episode_no": 1,
+      "approved_at": "2026-10-22T14:04:17.730631+05:30"
     },
     "2026-10-22-k": {
       "status": "pitched",
@@ -627,7 +633,7 @@
     }
   },
   "telegram": {
-    "offset": 557188828,
+    "offset": 557188829,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "86": "2026-10-22-j",
@@ -648,7 +654,9 @@
     }
   },
   "token": {},
-  "render": {},
+  "render": {
+    "requested_at": "2026-10-22T14:04:18.849934+05:30"
+  },
   "followers": [],
   "taught": [],
   "retired_ids": [
