@@ -850,6 +850,650 @@
       },
       "warnings": [],
       "pitch_msg_id": 123
+    },
+    "2026-10-23-a": {
+      "status": "pitched",
+      "created": "2026-10-23T07:46:05.993875+05:30",
+      "day": "2026-10-23",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-23-a",
+        "title": "The Infinite Call Stack",
+        "monster": "caller",
+        "concept": "recursive tree traversal depth limits",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This bug wakes you up at two past two with a stack overflow.",
+        "logline": "Junior walks a deep production category tree recursively until Python gives up.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "2:02 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "2:02 PM",
+            "text": "PROD IS DOWN",
+            "sub": "RecursionError: maximum recursion…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Call Is Coming From Inside The Func…",
+            "sub": "Recursive tree walk hits a wall",
+            "kicker": "Production Outage",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Ring ring. Another frame on the stack."
+              },
+              {
+                "who": "junior",
+                "text": "Please hang up. The categories are four thousand levels deep."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def walk(node):",
+              "    results.append(node.id)",
+              "    for child in node.children:",
+              "        walk(child)"
+            ],
+            "lang": "python",
+            "file": "categories.py",
+            "highlight": [
+              3,
+              4
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3,
+                "action": "stack",
+                "copies": 5
+              }
+            ],
+            "title": "CALL STACK EXHA…",
+            "text": "Every recursive call opened a new frame until the process crashed."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.3,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "def walk(root):",
+              "    stack = [root]",
+              "    while stack:",
+              "        node = stack.pop()",
+              "        results.append(node.id)",
+              "        stack.extend(node.children)"
+            ],
+            "lang": "python",
+            "file": "categories.py",
+            "fix_line": 5,
+            "after": "        stack.extend(reversed(node.child",
+            "note": "Replace recursion with an explicit stack to protect production limits."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Deep trees need explicit stacks, not infinite recursion.",
+            "cta": "Save this before your next tree refactor.",
+            "next_monster": "null",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "POV: You wrote a clean recursive function for categories, and then marketing uploaded a tree that is five thousand levels deep. Python's call stack didn't survive the deploy. Drop a comment if you still use recursion in production! Follow @prodmanor for more midnight pager alerts.",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#coding",
+          "#backend",
+          "#softwareengineer",
+          "#pythondeveloper",
+          "#techhumor",
+          "#prodmanor"
+        ],
+        "cover_text": "RECURSION ERROR"
+      },
+      "warnings": [],
+      "pitch_msg_id": 137
+    },
+    "2026-10-23-b": {
+      "status": "pitched",
+      "created": "2026-10-23T07:46:05.993892+05:30",
+      "day": "2026-10-23",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-23-b",
+        "title": "The False Negative Ghost",
+        "monster": "null",
+        "concept": "strict type checking for string position checks",
+        "level": "intermediate",
+        "language": "php",
+        "hook": "POV: Your search feature ignores the first result because zero equals false.",
+        "logline": "Junior uses loose equality on strpos and accidentally locks out users whose names start at index zero.",
+        "builds_on": "",
+        "topic": "PHP strpos returns 0 and == false treats it as not found",
+        "tech": "PHP",
+        "wake_time": "11:52 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "11:52 AM",
+            "text": "USERS LOCKED OUT",
+            "sub": "Zero is treated as false in loose…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "Nobody Checked Index Zero",
+            "sub": "PHP loose comparison traps",
+            "kicker": "Production Bug",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Zero is falsy here. I swallowed your match."
+              },
+              {
+                "who": "junior",
+                "text": "It was right at the start of the string!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "$pos = strpos($haystack, $needle);",
+              "if ($pos == false) {",
+              "    throw new Exception('Not found');",
+              "}"
+            ],
+            "lang": "php",
+            "file": "search.php",
+            "highlight": [
+              2
+            ],
+            "error": "Exception: Not found on valid index zero match"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "VALID MATCH REJ…",
+            "text": "Index 0 matched the search term, but loose comparison turned it into false."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.3,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "$pos = strpos($haystack, $needle);",
+              "if ($pos == false) {",
+              "    throw new Exception('Not found');",
+              "}"
+            ],
+            "lang": "php",
+            "file": "search.php",
+            "fix_line": 2,
+            "after": "if ($pos === false) {",
+            "note": "Use strict comparison to distinguish index zero from not found."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always use strict comparison when checking string positions in PHP.",
+            "cta": "Follow before your next legacy refactor.",
+            "next_monster": "twins",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "POV: You use loose equality in PHP and wonder why customer support is screaming about search results. Zero is a valid index, not false! Have you been bitten by this legacy trap? Tag a PHP dev who needs to see this. Follow @prodmanor.",
+        "hashtags": [
+          "#php",
+          "#webdev",
+          "#coding",
+          "#backend",
+          "#softwareengineer",
+          "#phpdeveloper",
+          "#programming",
+          "#prodmanor"
+        ],
+        "cover_text": "PHP STRPOS BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 138
+    },
+    "2026-10-23-c": {
+      "status": "pitched",
+      "created": "2026-10-23T07:46:05.993898+05:30",
+      "day": "2026-10-23",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-23-c",
+        "title": "The GIL Lockstep Twins",
+        "monster": "twins",
+        "concept": "CPU-bound concurrency with multiprocessing pools",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This concurrency bug makes your multi-threaded worker slower than a single loop.",
+        "logline": "Junior spins up ten threads for heavy number crunching only to watch the GIL serialize everything.",
+        "builds_on": "",
+        "topic": "threads don't speed up CPU-heavy Python work (the GIL)",
+        "tech": "Python",
+        "wake_time": "4:09 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "4:09 AM",
+            "text": "PIPELINE FROZEN",
+            "sub": "Global Interpreter Lock stops par…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Single File Queue",
+            "sub": "Python threading and the GIL",
+            "kicker": "Concurrency Trap",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "After you with the GIL! No, after YOU."
+              },
+              {
+                "who": "junior",
+                "text": "I added eight more threads! Why is it taking longer?!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import ThreadPoo",
+              "with ThreadPoolExecutor() as pool:",
+              "    results = pool.map(heavy_cpu_task, i"
+            ],
+            "lang": "python",
+            "file": "worker.py",
+            "highlight": [
+              1,
+              2,
+              3
+            ],
+            "error": "CPU utilization stuck at 12% on a 16-core server"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3
+              }
+            ],
+            "title": "SERIALIZED BY T…",
+            "text": "Threads took turns holding the lock while all other CPU cores sat idle."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.3,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import ThreadPoo",
+              "with ThreadPoolExecutor() as pool:",
+              "    results = pool.map(heavy_cpu_task, i"
+            ],
+            "lang": "python",
+            "file": "worker.py",
+            "fix_line": 1,
+            "after": "from concurrent.futures import ProcessPo",
+            "note": "Swap threads for processes to bypass the GIL on CPU-bound tasks."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "CPU-bound work needs processes, I/O-bound work needs threads.",
+            "cta": "Share this with your backend team.",
+            "next_monster": "leak",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "POV: You use threads for heavy math in Python and wonder why your 16-core server acts like a single-core laptop. The GIL strikes again! Do you use multiprocessing or async for heavy workloads? Follow @prodmanor for more infrastructure horror stories.",
+        "hashtags": [
+          "#python",
+          "#concurrency",
+          "#backend",
+          "#coding",
+          "#softwareengineer",
+          "#pythondeveloper",
+          "#devops",
+          "#prodmanor"
+        ],
+        "cover_text": "PYTHON GIL TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 139
+    },
+    "2026-10-23-d": {
+      "status": "pitched",
+      "created": "2026-10-23T07:46:05.993902+05:30",
+      "day": "2026-10-23",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-23-d",
+        "title": "The Memory Slime",
+        "monster": "leak",
+        "concept": "unbounded module-level cache growth",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This silent memory leak grows every hour until your container OOMs.",
+        "logline": "Junior caches API responses in a global dictionary on a long-running FastAPI server.",
+        "builds_on": "",
+        "topic": "module-level dict cache in a long-running server grows forever",
+        "tech": "Python",
+        "wake_time": "12:48 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "shake": true,
+            "time": "12:48 AM",
+            "text": "CONTAINER OOM KILLED",
+            "sub": "RSS memory usage reached 99 perce…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Unbounded Dictionary",
+            "sub": "Global cache memory leak",
+            "kicker": "Production Outage",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more?"
+              },
+              {
+                "who": "junior",
+                "text": "Stop caching every user profile in a global dictionary!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "CACHE = {}",
+              "def get_profile(user_id):",
+              "    if user_id not in CACHE:",
+              "        CACHE[user_id] = fetch_db(user_i",
+              "    return CACHE[user_id]"
+            ],
+            "lang": "python",
+            "file": "cache.py",
+            "highlight": [
+              1,
+              4
+            ],
+            "error": "Killed: Out of Memory in Kubernetes pod"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.6,
+                "action": "grow"
+              }
+            ],
+            "title": "OUT OF MEMORY",
+            "text": "The cache grew without limits for seventy-two hours straight."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.3,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.7,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "CACHE = {}",
+              "def get_profile(user_id):",
+              "    if user_id not in CACHE:",
+              "        CACHE[user_id] = fetch_db(user_i",
+              "    return CACHE[user_id]"
+            ],
+            "lang": "python",
+            "file": "cache.py",
+            "fix_line": 1,
+            "after": "from functools import lru_cache\n@lru_cac",
+            "note": "Use lru_cache with a maxsize to keep memory bounded."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never use unbounded dictionaries for caching in production services.",
+            "cta": "Save this before your next cache review.",
+            "next_monster": "caller",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "POV: You wrote a simple global dict cache to speed up endpoints, and three days later Kubernetes kills your pod for eating 32GB of RAM. Always bound your caches! How do you handle cache eviction in your apps? Follow @prodmanor.",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#kubernetes",
+          "#devops",
+          "#coding",
+          "#softwareengineer",
+          "#programming",
+          "#prodmanor"
+        ],
+        "cover_text": "MEMORY LEAK OOM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 140
     }
   },
   "telegram": {
@@ -859,7 +1503,11 @@
       "120": "2026-10-22-r",
       "121": "2026-10-22-s",
       "122": "2026-10-22-t",
-      "123": "2026-10-22-u"
+      "123": "2026-10-22-u",
+      "137": "2026-10-23-a",
+      "138": "2026-10-23-b",
+      "139": "2026-10-23-c",
+      "140": "2026-10-23-d"
     }
   },
   "settings": {
@@ -874,7 +1522,11 @@
       "note": "",
       "reported": true
     },
-    "2026-10-23": {}
+    "2026-10-23": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": "Claude's pitches didn't arrive in time, so Gemini wrote today's batch."
+    }
   },
   "token": {},
   "render": {},
