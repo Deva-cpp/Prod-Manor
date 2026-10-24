@@ -1494,6 +1494,839 @@
       },
       "warnings": [],
       "pitch_msg_id": 140
+    },
+    "2026-10-24-a": {
+      "status": "pitched",
+      "created": "2026-10-24T07:46:16.316587+05:30",
+      "day": "2026-10-24",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-24-a",
+        "title": "The Leaky Listener",
+        "monster": "leak",
+        "concept": "EventEmitter listener scope in request handlers",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: Your Node server crashes after exactly eleven requests.",
+        "logline": "Junior attaches an event listener inside an Express route, triggering Node's memory leak warning after 11 hits.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "11:25 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "11:25 PM - PROD IS SLOW",
+            "sfx": [
+              "pager"
+            ],
+            "time": "11:25 PM",
+            "text": "PROD IS SLOW",
+            "sub": "11 listeners attached"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Leaky Listener",
+            "sub": "EventEmitter leak in Express",
+            "kicker": "EPISODE 01",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the server slowing down?"
+              },
+              {
+                "who": "leak",
+                "text": "I love listening to every request!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.8,
+                "scale": 1.2
+              }
+            ],
+            "lines": [
+              "app.get('/order', (req, res) => {",
+              "  bus.on('paid', (data) => {",
+              "    res.send(data);",
+              "  });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 paid listeners added to [EventEmi…"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.8,
+                "action": "grow"
+              }
+            ],
+            "title": "MEMORY LEAK DET…",
+            "text": "EventEmitter exceeded default limit of 10 listeners"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.8
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "Every hit gives me another listener!"
+              },
+              {
+                "who": "junior",
+                "text": "Use once so it auto removes!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "app.get('/order', (req, res) => {",
+              "  bus.on('paid', (data) => {",
+              "    res.send(data);",
+              "  });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  bus.once('paid', (data) => {",
+            "note": "bus.once automatically removes the listener after firing once."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never attach persistent event listeners inside route handlers without cleanup.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "caller",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Attaching bus.on() inside an Express handler creates a new listener on EVERY request. After 10 requests, Node triggers MaxListenersExceededWarning and leaks memory. Fix it by using bus.once() or declaring listeners at application startup! How many times have you leaked listeners in prod? @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#expressjs",
+          "#backend",
+          "#webdev",
+          "#codinghumor",
+          "#programming"
+        ],
+        "cover_text": "LEAKED LISTENERS"
+      },
+      "warnings": [],
+      "pitch_msg_id": 144
+    },
+    "2026-10-24-b": {
+      "status": "pitched",
+      "created": "2026-10-24T07:46:16.316610+05:30",
+      "day": "2026-10-24",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-24-b",
+        "title": "The Retry Storm",
+        "monster": "caller",
+        "concept": "exponential backoff in API retries",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This phone loop will crash your payment service in under three seconds.",
+        "logline": "Junior retries a failing API inside a tight loop with no backoff, triggering a rate-limit retry storm.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "1:44 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "1:44 AM - API DOWN",
+            "sfx": [
+              "ring"
+            ],
+            "time": "1:44 AM",
+            "text": "API DOWN",
+            "sub": "429 Too Many Requests"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Retry Storm",
+            "sub": "Retrying APIs without delay",
+            "kicker": "EPISODE 02",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "copies": 1
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The payment API failed once!"
+              },
+              {
+                "who": "caller",
+                "text": "I called back a thousand times!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.8,
+                "scale": 1.0,
+                "copies": 2
+              }
+            ],
+            "lines": [
+              "def fetch_data(url):",
+              "    for i in range(5):",
+              "        try:",
+              "            return req.get(url)",
+              "        except Exception:",
+              "            pass"
+            ],
+            "lang": "python",
+            "file": "payments.py",
+            "highlight": [
+              6
+            ],
+            "error": "HTTPError: 429 Too Many Requests (Rate limit exceeded)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "title": "RETRY STORM",
+            "text": "Slammed failing server with 500 requests per second"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Redialing instantly with zero sleep!"
+              },
+              {
+                "who": "junior",
+                "text": "Add exponential backoff!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "copies": 1
+              }
+            ],
+            "lines": [
+              "def fetch_data(url):",
+              "    for i in range(5):",
+              "        try:",
+              "            return req.get(url)",
+              "        except Exception:",
+              "            pass"
+            ],
+            "lang": "python",
+            "file": "payments.py",
+            "fix_line": 6,
+            "after": "            time.sleep(2 ** i)",
+            "note": "Exponential backoff delays retries, giving failing upstream services space to recover."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always use exponential backoff when retrying failed network requests.",
+            "cta": "Save this before your next API integration.",
+            "next_monster": "ollie",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Retrying failed requests instantly in a loop causes a retry storm that crushes downstream APIs. Always include exponential backoff (and jitter!) using time.sleep(2 ** attempt) so failing systems can actually recover. Have you ever accidentally DDoS'd an internal API? @prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#api",
+          "#systemdesign",
+          "#devops",
+          "#codinghumor",
+          "#softwareengineering"
+        ],
+        "cover_text": "RETRY STORM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 145
+    },
+    "2026-10-24-c": {
+      "status": "pitched",
+      "created": "2026-10-24T07:46:16.316614+05:30",
+      "day": "2026-10-24",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-24-c",
+        "title": "The Yesterday Bug",
+        "monster": "ollie",
+        "concept": "ISO date parsing timezone offsets",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does setting October twenty-second show up as October twenty-first?",
+        "logline": "Junior parses a date-only ISO string with new Date(), causing it to render as yesterday in US timezones.",
+        "builds_on": "",
+        "topic": "new Date('2026-10-22') is UTC midnight and shows yesterday in the US",
+        "tech": "JavaScript",
+        "wake_time": "3:31 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "3:31 PM - DATE CORRUPTED",
+            "sfx": [
+              "pager"
+            ],
+            "time": "3:31 PM",
+            "text": "DATE CORRUPTED",
+            "sub": "Booking off by one day"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Yesterday Bug",
+            "sub": "ISO date string timezone drift",
+            "kicker": "EPISODE 03",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I booked for October twenty-second!"
+              },
+              {
+                "who": "ollie",
+                "text": "Welcome to October twenty-first!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "normal"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function parse(d) {",
+              "  const x = new Date(d);",
+              "  return x.toDateString();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "dates.js",
+            "highlight": [
+              2
+            ],
+            "error": "Output: \"Wed Oct 21 2026\" (Expected \"Thu Oct 22 2026\")"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "thud"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0
+              }
+            ],
+            "title": "TIMEZONE SHIFT",
+            "text": "YYYY-MM-DD parses as UTC midnight, rolling back in local time"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "UTC midnight is yesterday in America!"
+              },
+              {
+                "who": "junior",
+                "text": "Append local time to fix it!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "normal"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function parse(d) {",
+              "  const x = new Date(d);",
+              "  return x.toDateString();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "dates.js",
+            "fix_line": 2,
+            "after": "  const x = new Date(d+\"T00:00\");",
+            "note": "Appending T00:00 forces JavaScript to parse the date in local timezone instead of UTC."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Date-only ISO strings parse as UTC midnight; append local time to avoid off-by-one shifts.",
+            "cta": "Share this with a dev who hates dates.",
+            "next_monster": "twins",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "In JavaScript, new Date('2026-10-22') defaults to UTC midnight. In any Western hemisphere timezone (like EST or PST), UTC 00:00 is actually 7 PM or 4 PM on October 21st! Appending 'T00:00' forces local time parsing. Has JavaScript date parsing ever ruined your UI? @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#frontend",
+          "#webdev",
+          "#reactjs",
+          "#bugs",
+          "#codinghumor",
+          "#fullstack"
+        ],
+        "cover_text": "YESTERDAY BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 146
+    },
+    "2026-10-24-d": {
+      "status": "pitched",
+      "created": "2026-10-24T07:46:16.316617+05:30",
+      "day": "2026-10-24",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-24-d",
+        "title": "The Map Collision",
+        "monster": "twins",
+        "concept": "synchronized map access in Go",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "Writing to a Go map from two goroutines WILL panic your server.",
+        "logline": "Junior updates a plain Go map concurrently across goroutines, causing a fatal runtime panic.",
+        "builds_on": "",
+        "topic": "Go goroutines write the same map: concurrent map writes fatal error",
+        "tech": "Go",
+        "wake_time": "8:25 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "8:25 PM - PROCESS PANIC",
+            "sfx": [
+              "creak"
+            ],
+            "time": "8:25 PM",
+            "text": "PROCESS PANIC",
+            "sub": "fatal error: concurrent map writes"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Map Collision",
+            "sub": "Concurrent map writes in Go",
+            "kicker": "EPISODE 04",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did Go crash instantly?"
+              },
+              {
+                "who": "twins",
+                "text": "We both wrote at the exact same time!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.8,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "func add(m map[string]int) {",
+              "  go func() {",
+              "    m[\"a\"]++",
+              "  }()",
+              "}"
+            ],
+            "lang": "go",
+            "file": "stats.go",
+            "highlight": [
+              3
+            ],
+            "error": "fatal error: concurrent map writes"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "FATAL RUNTIME P…",
+            "text": "Go runtime explicitly crashes on concurrent map writes"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Go maps are never thread-safe!"
+              },
+              {
+                "who": "junior",
+                "text": "Lock it with a sync.Mutex!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "func add(m map[string]int) {",
+              "  go func() {",
+              "    m[\"a\"]++",
+              "  }()",
+              "}"
+            ],
+            "lang": "go",
+            "file": "stats.go",
+            "fix_line": 3,
+            "after": " mu.Lock(); m[\"a\"]++; mu.Unlock()",
+            "note": "Protecting map writes with sync.Mutex prevents fatal concurrent map panics."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Go maps are not safe for concurrent use; protect writes with sync.Mutex.",
+            "cta": "Follow before the next panic hits production.",
+            "next_monster": "null",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Unlike some languages, Go's runtime explicitly detects concurrent map writes and panics immediately with unrecoverable fatal errors. Always wrap map access in a sync.Mutex or use sync.Map for concurrent read/write patterns! Have you ever seen this fatal panic in production? @prodmanor",
+        "hashtags": [
+          "#golang",
+          "#backend",
+          "#concurrency",
+          "#devops",
+          "#programming",
+          "#codinghumor",
+          "#softwareengineering"
+        ],
+        "cover_text": "MAP COLLISION"
+      },
+      "warnings": [],
+      "pitch_msg_id": 147
     }
   },
   "telegram": {
@@ -1507,7 +2340,11 @@
       "137": "2026-10-23-a",
       "138": "2026-10-23-b",
       "139": "2026-10-23-c",
-      "140": "2026-10-23-d"
+      "140": "2026-10-23-d",
+      "144": "2026-10-24-a",
+      "145": "2026-10-24-b",
+      "146": "2026-10-24-c",
+      "147": "2026-10-24-d"
     }
   },
   "settings": {
@@ -1528,7 +2365,11 @@
       "note": "Claude's pitches didn't arrive in time, so Gemini wrote today's batch.",
       "reported": true
     },
-    "2026-10-24": {}
+    "2026-10-24": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": "Claude's pitches didn't arrive in time, so Gemini wrote today's batch."
+    }
   },
   "token": {},
   "render": {},
