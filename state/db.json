@@ -3082,7 +3082,7 @@
     }
   },
   "telegram": {
-    "offset": 557188851,
+    "offset": 557188852,
     "awaiting_rewrite": {},
     "msg_to_ep": {
       "120": "2026-10-22-r",
@@ -3105,7 +3105,7 @@
   },
   "settings": {
     "paused": false,
-    "brain": "claude"
+    "brain": "gemini"
   },
   "ideas": [],
   "days": {
