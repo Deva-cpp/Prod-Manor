@@ -2327,6 +2327,758 @@
       },
       "warnings": [],
       "pitch_msg_id": 147
+    },
+    "2026-10-25-a": {
+      "status": "pitched",
+      "created": "2026-10-25T07:46:31.403649+05:30",
+      "day": "2026-10-25",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-25-a",
+        "title": "The Untrusted Cast",
+        "monster": "null",
+        "concept": "runtime schema validation with zod",
+        "level": "intermediate",
+        "language": "typescript",
+        "hook": "TypeScript won't save you if the API lies.",
+        "logline": "Junior casts raw API JSON to a TypeScript interface, but when the endpoint returns null fields in production, The Null crashes the app.",
+        "builds_on": "",
+        "topic": "TypeScript 'as User' cast trusts unvalidated API JSON",
+        "tech": "TypeScript",
+        "wake_time": "9:03 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Nine o three P M. TypeScript said it was safe, but production is crashing.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "9:03 PM",
+            "text": "PROD IS DOWN",
+            "sub": "TypeError: Cannot read properties…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Untrusted Cast",
+            "sub": "Types disappear at runtime.",
+            "kicker": "TS TYPE SAFETY",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "TypeScript assertions vanish after compile time.",
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "fade_in",
+                "opacity": 1
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "I lied... the API returned null."
+              },
+              {
+                "who": "junior",
+                "text": "But I cast it as User!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "lines": [
+              "const res = await fetch('/api/user');",
+              "const data = await res.json();",
+              "const user = data as User;",
+              "console.log(user.profile.name);"
+            ],
+            "lang": "typescript",
+            "file": "user.ts",
+            "highlight": [
+              3
+            ],
+            "error": "TypeError: Cannot read properties of undefined (reading 'name')"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The cast trusted raw API JSON without verifying the shape.",
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "CRASH: UNCAUGHT…",
+            "text": "data as User bypassed all runtime safety checks."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "expr_to": "neutral",
+                "expr_at": 0.5
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Check my shape before you trust me!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.3
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "const res = await fetch('/api/user');",
+              "const data = await res.json();",
+              "const user = data as User;",
+              "console.log(user.profile.name);"
+            ],
+            "lang": "typescript",
+            "file": "user.ts",
+            "fix_line": 3,
+            "after": "const user = UserSchema.parse(data);",
+            "note": "Zod parses and validates the runtime JSON payload."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Never trust type casts with external data. Validate at runtime.",
+            "lesson": "Type casts hide bugs; runtime schemas validate real data.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "ollie",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "TypeScript types don't exist at runtime! When you write 'data as User', you are telling the compiler to shut up and accept whatever comes over the wire. If the API drops a field, your app crashes instantly.\n\nValidate external payloads with a schema parser like Zod instead.\n\nDo you validate API responses in production? Let us know below! @prodmanor",
+        "hashtags": [
+          "#typescript",
+          "#javascript",
+          "#webdev",
+          "#frontend",
+          "#codinghumor",
+          "#programming"
+        ],
+        "cover_text": "FAKE TYPES"
+      },
+      "warnings": [],
+      "pitch_msg_id": 151
+    },
+    "2026-10-25-b": {
+      "status": "pitched",
+      "created": "2026-10-25T07:46:31.403666+05:30",
+      "day": "2026-10-25",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-25-b",
+        "title": "The Lost Day",
+        "monster": "ollie",
+        "concept": "date string parsing timezones",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: You stored a date and lost a day.",
+        "logline": "Junior parses a date string without a timestamp, but ISO defaults to UTC midnight, causing Ollie One-Off to shift the date back to yesterday in US timezones.",
+        "builds_on": "",
+        "topic": "new Date('2026-10-22') is UTC midnight and shows yesterday in the US",
+        "tech": "JavaScript",
+        "wake_time": "6:45 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Six forty five P M. Your date picker is off by exactly one day.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "6:45 PM",
+            "text": "PROD IS DOWN",
+            "sub": "User birthdate is off by one day…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Lost Day",
+            "sub": "ISO date strings default to UTC midnight.",
+            "kicker": "JS DATE PARSING",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Date strings without time components default to U T C midnight.",
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "action": "peek"
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "In New York, October twenty second is yesterday!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flicker"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "lines": [
+              "const input = '2026-10-22';",
+              "const date = new Date(input);",
+              "console.log(date.toLocaleDateString());"
+            ],
+            "lang": "javascript",
+            "file": "date.js",
+            "highlight": [
+              2
+            ],
+            "error": "Expected 10/22/2026, got 10/21/2026"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "thud"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92
+              }
+            ],
+            "title": "LOGIC BUG: WRON…",
+            "text": "UTC 00:00 is 8:00 PM yesterday in US Eastern time."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Local time parsing avoids implicit U T C conversion.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "So midnight UTC shifts backward in local time!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.3
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "action": "enter_left"
+              }
+            ],
+            "lines": [
+              "const input = '2026-10-22';",
+              "const date = new Date(input);",
+              "console.log(date.toLocaleDateString());"
+            ],
+            "lang": "javascript",
+            "file": "date.js",
+            "fix_line": 2,
+            "after": "const date = new Date(input + 'T00:00:00",
+            "note": "Appending local time forces interpretation in local timezone."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Format date strings explicitly to prevent timezone shifts.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "caller",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "In JavaScript, passing 'YYYY-MM-DD' into new Date() parses it as UTC midnight. If your user is anywhere in the Western Hemisphere, UTC midnight is still the previous evening!\n\nAppend local time or parse dates explicitly to avoid losing a whole day.\n\nHas timezones ever ruined your deploy? Tell us in the comments! @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#frontend",
+          "#coding",
+          "#softwareengineering",
+          "#devhumor"
+        ],
+        "cover_text": "YESTERDAY BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 152
+    },
+    "2026-10-25-c": {
+      "status": "pitched",
+      "created": "2026-10-25T07:46:31.403672+05:30",
+      "day": "2026-10-25",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-25-c",
+        "title": "The Ringing Tower",
+        "monster": "caller",
+        "concept": "retry backoff and jitter",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Why did five retries crash the server?",
+        "logline": "Junior's tight retry loop fires immediate API requests when an endpoint fails, creating a retry storm with The Caller that DDoS-es production.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "10:31 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Ten thirty one A M. Your retry loop destroyed the upstream API.",
+            "sfx": [
+              "pager",
+              "ring"
+            ],
+            "time": "10:31 AM",
+            "text": "PROD IS DOWN",
+            "sub": "HTTP 429 Too Many Requests: Serve…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Ringing Tower",
+            "sub": "Immediate retries create a stampede.",
+            "kicker": "PYTHON REQUESTS",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Retrying immediately without delays multiplies traffic on failing servers.",
+            "sfx": [
+              "ring"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Failed! Calling again right now!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "dark"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "lines": [
+              "for attempt in range(5):",
+              "    try:",
+              "        return requests.get(url)",
+              "    except RequestException:",
+              "        pass"
+            ],
+            "lang": "python",
+            "file": "api.py",
+            "highlight": [
+              5
+            ],
+            "error": "HTTP 429 Too Many Requests (Retry Storm)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "copies": 4
+              }
+            ],
+            "title": "OUTAGE: API SER…",
+            "text": "Tight loop hammered downstream service with 500 requests/sec."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Exponential backoff increases delay between consecutive failed attempts.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We need to wait between each call!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.3
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "copies": 1
+              }
+            ],
+            "lines": [
+              "for attempt in range(5):",
+              "    try:",
+              "        return requests.get(url)",
+              "    except RequestException:",
+              "        pass"
+            ],
+            "lang": "python",
+            "file": "api.py",
+            "fix_line": 5,
+            "after": "        time.sleep(2 ** attempt + random",
+            "note": "Exponential backoff with jitter prevents retry storms."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always add backoff and jitter to API retries.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "leak",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Retrying failed API requests in a tight loop is an accidental denial-of-service attack. When a service hiccups, thousands of clients hammering it instantly ensure it stays dead.\n\nUse exponential backoff with random jitter so retries spread out evenly.\n\nHave you ever accidentally DDOSed your own API? Comment below! @prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#api",
+          "#sysadmin",
+          "#devops",
+          "#programming"
+        ],
+        "cover_text": "RETRY STORM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 153
+    },
+    "2026-10-25-d": {
+      "status": "pitched",
+      "created": "2026-10-25T07:46:31.403676+05:30",
+      "day": "2026-10-25",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-25-d",
+        "title": "The Growing Slime",
+        "monster": "leak",
+        "concept": "event emitter listener scope",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This missing line of code will crash Node after fifty users.",
+        "logline": "Junior registers an event listener inside an HTTP route handler, causing The Leak to swell with every incoming request until Node warns of a memory leak.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "3:11 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Three eleven P M. Every HTTP request leaks another event listener.",
+            "sfx": [
+              "pager",
+              "slurp"
+            ],
+            "time": "3:11 PM",
+            "text": "PROD IS DOWN",
+            "sub": "MaxListenersExceededWarning: 11 d…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Growing Slime",
+            "sub": "Adding listeners inside request handlers leaks memory.",
+            "kicker": "NODE.JS EVENT EMITTER",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Attaching global listeners inside route handlers causes memory growth.",
+            "sfx": [
+              "slurp"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "grow",
+                "amount": 1.8
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "More requests... more listeners..."
+              },
+              {
+                "who": "junior",
+                "text": "Why are you getting bigger?!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flicker"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "lines": [
+              "app.get('/events', (req, res) => {",
+              "  emitter.on('data', (msg) => {",
+              "    res.write(msg);",
+              "  });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "MaxListenersExceededWarning: Possible EventEmitter memory leak detected"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "amount": 2.2
+              }
+            ],
+            "title": "WARNING: MEMORY…",
+            "text": "Unbounded listener growth slowed event loop to a crawl."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Remove request-scoped listeners on stream close or use once.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We must clean up when the request closes!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.3
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "app.get('/events', (req, res) => {",
+              "  emitter.on('data', (msg) => {",
+              "    res.write(msg);",
+              "  });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  emitter.once('data', (msg) => res.writ",
+            "note": "emitter.once automatically removes the listener after firing."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Clean up event listeners attached inside HTTP handlers.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "null",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Every time a user hits your endpoint, emitter.on() attaches a new listener to a global EventEmitter. Node keeps every single listener function in memory forever, slowing down your server until it crashes.\n\nUse emitter.once() or unbind listeners when the request closes.\n\nHave you seen MaxListenersExceededWarning in your logs? Drop a comment! @prodmanor",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#backend",
+          "#expressjs",
+          "#codinghumor",
+          "#webdevelopment"
+        ],
+        "cover_text": "LEAKY LISTENER"
+      },
+      "warnings": [],
+      "pitch_msg_id": 154
     }
   },
   "telegram": {
@@ -2344,7 +3096,11 @@
       "144": "2026-10-24-a",
       "145": "2026-10-24-b",
       "146": "2026-10-24-c",
-      "147": "2026-10-24-d"
+      "147": "2026-10-24-d",
+      "151": "2026-10-25-a",
+      "152": "2026-10-25-b",
+      "153": "2026-10-25-c",
+      "154": "2026-10-25-d"
     }
   },
   "settings": {
@@ -2371,7 +3127,11 @@
       "note": "Claude's pitches didn't arrive in time, so Gemini wrote today's batch.",
       "reported": true
     },
-    "2026-10-25": {}
+    "2026-10-25": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": "Claude's pitches didn't arrive in time, so Gemini wrote today's batch."
+    }
   },
   "token": {},
   "render": {},
