@@ -3130,7 +3130,8 @@
     "2026-10-25": {
       "pitched": true,
       "brain": "gemini",
-      "note": "Claude's pitches didn't arrive in time, so Gemini wrote today's batch."
+      "note": "Claude's pitches didn't arrive in time, so Gemini wrote today's batch.",
+      "reported": true
     }
   },
   "token": {},
