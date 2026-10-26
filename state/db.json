@@ -3079,6 +3079,808 @@
       },
       "warnings": [],
       "pitch_msg_id": 154
+    },
+    "2026-10-26-a": {
+      "status": "pitched",
+      "created": "2026-10-26T07:01:36.625915+05:30",
+      "day": "2026-10-26",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-26-a",
+        "title": "The Retry Storm",
+        "monster": "caller",
+        "concept": "exponential backoff with jitter",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Your immediate retries are DDOSing your own payment gateway.",
+        "logline": "Junior's tight retry loop crashes the payment gateway until backoff and jitter give the API room to breathe.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "7:32 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Seven thirty two P M. The payment service dropped one request, so Junior called back instantly.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "7:32 PM",
+            "text": "PROD IS DOWN",
+            "sub": "429 Rate Limit Exceeded"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Retry Storm",
+            "sub": "When retries turn into a self-inflicted attack",
+            "kicker": "EPISODE 101",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "A stack of phones rings simultaneously.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the API rate limiting us?"
+              },
+              {
+                "who": "caller",
+                "text": "We called back zero seconds later!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "A tiny fixed delay hammers a struggling server with hundreds of concurrent retries.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "def fetch_payment(order_id):",
+              "  for attempt in range(5):",
+              "    time.sleep(0.1)",
+              "    res = requests.get(URL)",
+              "    if res.ok: return res.json()"
+            ],
+            "lang": "python",
+            "file": "payment_client.py",
+            "highlight": [
+              3
+            ],
+            "error": "HTTP 429: Too Many Requests - Rate limit exceeded"
+          },
+          {
+            "type": "crash",
+            "dur": 3.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.4,
+                "action": "idle"
+              }
+            ],
+            "title": "RATE LIMIT EXCE…",
+            "text": "10,000 requests per second from a single instance"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "I ring faster when you reject me!"
+              },
+              {
+                "who": "junior",
+                "text": "We need space between retries!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "def fetch_payment(order_id):",
+              "  for attempt in range(5):",
+              "    time.sleep(0.1)",
+              "    res = requests.get(URL)",
+              "    if res.ok: return res.json()"
+            ],
+            "lang": "python",
+            "file": "payment_client.py",
+            "fix_line": 3,
+            "after": "    time.sleep(2**attempt + rand())",
+            "note": "Exponential backoff doubles delay each attempt while random jitter prevents synchronized…"
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Exponential backoff with jitter gives failing services room to recover.",
+            "cta": "Follow @prodmanor before your next deploy.",
+            "next_monster": "leak",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Retrying instantly on failure turns a temporary glitch into a total outage. Exponential backoff doubles the wait between attempts, and jitter randomizes it so your retries don't hit all at once. How do you handle retry limits in your services? Follow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#microservices",
+          "#webdev",
+          "#softwareengineering",
+          "#codinghumor",
+          "#devops"
+        ],
+        "cover_text": "RETRY STORM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 160
+    },
+    "2026-10-26-b": {
+      "status": "pitched",
+      "created": "2026-10-26T07:01:36.625938+05:30",
+      "day": "2026-10-26",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-26-b",
+        "title": "The Leaky Listener",
+        "monster": "leak",
+        "concept": "EventEmitter cleanup in request handlers",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: your Node server memory leaks every time a user hits /api/orders.",
+        "logline": "Adding an event listener inside an HTTP route handler causes Node memory to swell with every incoming request.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "4:29 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Four twenty nine P M. Node is leaking memory on every HTTP request.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "4:29 PM",
+            "text": "HIGH MEMORY WARNING",
+            "sub": "MaxListenersExceededWarning"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Leaky Listener",
+            "sub": "When request handlers register eternal callbacks",
+            "kicker": "EPISODE 102",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow",
+                "amount": 1.6
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is node warning about max listeners?"
+              },
+              {
+                "who": "leak",
+                "text": "Every request brings a new friend!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Using emitter dot on inside a route attaches a new callback that is never garbage collected.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "app.get('/order', (req, res) => {",
+              "  emitter.on('pay', (data) => {",
+              "    res.json(data);",
+              "  });",
+              "  processOrder(req.body);",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "MaxListenersExceededWarning: 11 pay listeners added. Use emitter.setMaxListeners() to increase limit"
+          },
+          {
+            "type": "crash",
+            "dur": 3.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.8,
+                "action": "idle"
+              }
+            ],
+            "title": "MEMORY EXHAUSTED",
+            "text": "Process memory reached 1.8GB heap limit"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.5,
+                "action": "idle"
+              },
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "I never leave after paying..."
+              },
+              {
+                "who": "junior",
+                "text": "We only needed you once!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "app.get('/order', (req, res) => {",
+              "  emitter.on('pay', (data) => {",
+              "    res.json(data);",
+              "  });",
+              "  processOrder(req.body);",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  emitter.once('pay', (data) => {",
+            "note": "emitter.once unregisters the listener after execution, preventing unbounded growth."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never use persistent event listeners inside short-lived request handlers.",
+            "cta": "Save this before your next Node release.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Registering an event listener with emitter.on inside an Express route creates a memory leak because the callback outlives the HTTP request. Switching to emitter.once cleans up the listener automatically after it runs. Have you caught this warning in your logs? Tag @prodmanor in your dev stories.",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#expressjs",
+          "#webdevelopment",
+          "#backend",
+          "#codinghumor",
+          "#fullstack"
+        ],
+        "cover_text": "LEAKY ROUTE"
+      },
+      "warnings": [],
+      "pitch_msg_id": 161
+    },
+    "2026-10-26-c": {
+      "status": "pitched",
+      "created": "2026-10-26T07:01:36.625941+05:30",
+      "day": "2026-10-26",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-26-c",
+        "title": "The Ghost URL",
+        "monster": "null",
+        "concept": "environment variable validation on startup",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why did your production app send a request to HTTP colon slash slash undefined?",
+        "logline": "A missing environment variable coerces into string undefined, silently corrupting outbound API requests.",
+        "builds_on": "",
+        "topic": "missing env var becomes the string 'undefined' inside a URL",
+        "tech": "Node.js",
+        "wake_time": "2:10 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Two ten P M. An unconfigured environment variable just ghosted production.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "2:10 PM",
+            "text": "500 SERVER ERROR",
+            "sub": "FetchError: ENOTFOUND undefined"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Ghost URL",
+            "sub": "When missing config turns into string literal 'undefined'",
+            "kicker": "EPISODE 103",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Where is the API host variable?"
+              },
+              {
+                "who": "null",
+                "text": "I turned into text for you!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "In JavaScript, string concatenation converts undefined into the literal string undefined.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "const HOST = process.env.API_HOST;",
+              "",
+              "async function fetchUser(id) {",
+              "  const url = 'http://' + HOST;",
+              "  return await fetch(url);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api_client.js",
+            "highlight": [
+              1,
+              4
+            ],
+            "error": "FetchError: request to http://undefined/ failed, reason: getaddrinfo ENOTFOUND undefined"
+          },
+          {
+            "type": "crash",
+            "dur": 3.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.3,
+                "action": "idle"
+              }
+            ],
+            "title": "INVALID HOSTNAME",
+            "text": "DNS lookup failed for domain 'undefined'"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Undefined is a string now!"
+              },
+              {
+                "who": "junior",
+                "text": "We should have failed on boot!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "const HOST = process.env.API_HOST;",
+              "",
+              "async function fetchUser(id) {",
+              "  const url = 'http://' + HOST;",
+              "  return await fetch(url);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api_client.js",
+            "fix_line": 1,
+            "after": "const HOST = assertEnv('API_HOST');",
+            "note": "Fail fast during startup if required environment variables are missing."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Validate environment variables at startup so missing config crashes early.",
+            "cta": "Follow @prodmanor before your next deploy.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Concatenating process.env variables without checking them turns missing values into the string 'undefined'. That leads to bizarre runtime errors like requests sent to http://undefined. Always validate your env config at process startup! How do you validate env vars? Let @prodmanor know below.",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#typescript",
+          "#devops",
+          "#softwareengineering",
+          "#codinghumor"
+        ],
+        "cover_text": "GHOST HOST"
+      },
+      "warnings": [],
+      "pitch_msg_id": 162
+    },
+    "2026-10-26-d": {
+      "status": "pitched",
+      "created": "2026-10-26T07:01:36.625944+05:30",
+      "day": "2026-10-26",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-26-d",
+        "title": "The Thread Trap",
+        "monster": "twins",
+        "concept": "multiprocessing for CPU-bound tasks in Python",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Adding threads to your CPU-heavy Python code just made it slower.",
+        "logline": "ThreadPoolExecutor fails to speed up heavy math due to Python's Global Interpreter Lock, fixed by using ProcessPoolExecutor.",
+        "builds_on": "",
+        "topic": "threads don't speed up CPU-heavy Python work (the GIL)",
+        "tech": "Python",
+        "wake_time": "9:51 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Nine fifty one A M. Junior added multithreading, but the CPU benchmark got slower.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "9:51 AM",
+            "text": "CPU BOTTLENECK",
+            "sub": "15 Cores Unused"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Thread Trap",
+            "sub": "Why Python threads cannot run CPU tasks in parallel",
+            "kicker": "EPISODE 104",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why are sixteen cores staying idle?"
+              },
+              {
+                "who": "twins",
+                "text": "Only one thread holds the lock!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Python's Global Interpreter Lock forces threads to take turns executing bytecode.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import *",
+              "def crunch(data):",
+              "  with ThreadPoolExecutor() as e:",
+              "    return list(e.map(work, data))"
+            ],
+            "lang": "python",
+            "file": "worker.py",
+            "highlight": [
+              3
+            ],
+            "error": "Performance penalty: Thread lock contention overhead on multi-core system"
+          },
+          {
+            "type": "crash",
+            "dur": 3.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.2,
+                "action": "idle"
+              }
+            ],
+            "title": "GIL LOCKSTEP",
+            "text": "Multi-threaded execution slower than single thread"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Threads share. Processes split!"
+              },
+              {
+                "who": "junior",
+                "text": "Time to spawn real processes!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import *",
+              "def crunch(data):",
+              "  with ThreadPoolExecutor() as e:",
+              "    return list(e.map(work, data))"
+            ],
+            "lang": "python",
+            "file": "worker.py",
+            "fix_line": 3,
+            "after": "  with ProcessPoolExecutor() as e:",
+            "note": "ProcessPoolExecutor bypasses the GIL by spawning separate Python processes across cores."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use processes for CPU-bound computation and threads for I/O operations.",
+            "cta": "Follow @prodmanor before your next deploy.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In CPython, the Global Interpreter Lock (GIL) prevents threads from executing Python bytecode in parallel. For CPU-bound tasks, thread switching adds overhead without utilizing multiple cores. Use ProcessPoolExecutor to distribute compute across real CPU cores! Do you prefer multiprocessing or AsyncIO in Python? Drop your thoughts for @prodmanor below.",
+        "hashtags": [
+          "#python",
+          "#concurrency",
+          "#multiprocessing",
+          "#backend",
+          "#dataengineering",
+          "#codinghumor",
+          "#softwareengineering"
+        ],
+        "cover_text": "GIL LOCKSTEP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 163
     }
   },
   "telegram": {
@@ -3100,7 +3902,11 @@
       "151": "2026-10-25-a",
       "152": "2026-10-25-b",
       "153": "2026-10-25-c",
-      "154": "2026-10-25-d"
+      "154": "2026-10-25-d",
+      "160": "2026-10-26-a",
+      "161": "2026-10-26-b",
+      "162": "2026-10-26-c",
+      "163": "2026-10-26-d"
     }
   },
   "settings": {
@@ -3133,7 +3939,11 @@
       "note": "Claude's pitches didn't arrive in time, so Gemini wrote today's batch.",
       "reported": true
     },
-    "2026-10-26": {}
+    "2026-10-26": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
