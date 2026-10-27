@@ -3881,6 +3881,721 @@
       },
       "warnings": [],
       "pitch_msg_id": 163
+    },
+    "2026-10-27-a": {
+      "status": "pitched",
+      "created": "2026-10-27T07:02:07.443752+05:30",
+      "day": "2026-10-27",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-27-a",
+        "title": "The Partial Match",
+        "monster": "ollie",
+        "concept": "regex fullmatch vs match",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Python re.match doesn't match the whole string.",
+        "logline": "Junior learns why re.match allows trailing unvalidated characters in production input.",
+        "builds_on": "",
+        "topic": "re.match without anchors accepts 'abc123evil'",
+        "tech": "Python",
+        "wake_time": "8:44 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "narration": "Eight forty four A M. Ollie is lurking at the edge of your regex.",
+            "time": "8:44 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Regex accepted invalid user ID!"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Partial Match",
+            "sub": "re.match only checks the start",
+            "kicker": "PROD MANOR",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I checked alphanumeric IDs with regex!"
+              },
+              {
+                "who": "ollie",
+                "text": "Knock knock. You forgot the ending."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "re match only matches from the start, leaving trailing characters unvalidated.",
+            "lines": [
+              "import re",
+              "",
+              "def is_valid(s):",
+              "    m = re.match(r'\\w+', s)",
+              "    return m is not None"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "highlight": [
+              4
+            ],
+            "error": "ACCEPTED: 'abc123evil_payload'"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92
+              }
+            ],
+            "title": "VALIDATION BYPA…",
+            "text": "Malicious payload passed regex validation!"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "I matched the front. The back is free."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "to": {
+                  "x": 0.7
+                }
+              }
+            ],
+            "lines": [
+              "import re",
+              "",
+              "def is_valid(s):",
+              "    m = re.match(r'\\w+', s)",
+              "    return m is not None"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "fix_line": 4,
+            "after": "    m = re.fullmatch(r'\\w+', s)",
+            "note": "re.fullmatch anchors match across the entire string length."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Use re.fullmatch to anchor both sides of your pattern.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "twins",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Python developers beware: re.match(r'\\w+', 'abc123evil') succeeds because it only matches from the beginning of the string! Unless you anchor your regex with ^ and $ or use re.fullmatch(), unvalidated payload tails slip into production.\n\nHave you ever been burned by implicit partial regex matches? Tell us below!\n\nFollow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#coding",
+          "#webdev",
+          "#backend",
+          "#softwareengineering",
+          "#devhumor"
+        ],
+        "cover_text": "REGEX TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 167
+    },
+    "2026-10-27-b": {
+      "status": "pitched",
+      "created": "2026-10-27T07:02:07.443771+05:30",
+      "day": "2026-10-27",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-27-b",
+        "title": "The Concurrent Map",
+        "monster": "twins",
+        "concept": "Go map mutex synchronization",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "POV: You ran two goroutines to speed up your Go API.",
+        "logline": "Fork and Join cause a fatal Go runtime panic by writing to the same map concurrently.",
+        "builds_on": "",
+        "topic": "Go goroutines write the same map: concurrent map writes fatal error",
+        "tech": "Go",
+        "wake_time": "9:09 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "narration": "Nine oh nine P M. Two goroutines just touched the same map.",
+            "time": "9:09 PM",
+            "text": "PROD IS DOWN",
+            "sub": "fatal error: concurrent map writes"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Concurrent Map",
+            "sub": "Go map writes are not thread safe",
+            "kicker": "PROD MANOR",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did the Go runtime crash instantly?"
+              },
+              {
+                "who": "twins",
+                "text": "We wrote to key A at the same time!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "Go built-in maps crash the whole process on unsynchronized concurrent writes.",
+            "lines": [
+              "var mu sync.Mutex",
+              "var cache = map[string]int{}",
+              "func Inc(k string) {",
+              "    // missing mutex lock",
+              "    cache[k]++",
+              "}"
+            ],
+            "lang": "go",
+            "file": "cache.go",
+            "highlight": [
+              4,
+              5
+            ],
+            "error": "fatal error: concurrent map writes"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "title": "FATAL RUNTIME P…",
+            "text": "fatal error: concurrent map writes"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "After you! No, after YOU!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "var mu sync.Mutex",
+              "var cache = map[string]int{}",
+              "func Inc(k string) {",
+              "    // missing mutex lock",
+              "    cache[k]++",
+              "}"
+            ],
+            "lang": "go",
+            "file": "cache.go",
+            "fix_line": 4,
+            "after": "    mu.Lock(); defer mu.Unlock()",
+            "note": "Mutex locks prevent concurrent map access across goroutines."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Protect shared Go map writes with a Mutex or use sync.Map.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "null",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Go maps are deliberately not concurrency-safe! If two goroutines write to (or read and write to) a standard map simultaneously, the Go runtime triggers an unrecoverable fatal crash: fatal error: concurrent map writes. Wrap access in a sync.Mutex or switch to sync.Map.\n\nDo you run go test -race in your CI pipeline? Let us know in the comments!\n\nFollow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#golang",
+          "#go",
+          "#backend",
+          "#programming",
+          "#coding",
+          "#concurrency",
+          "#devops"
+        ],
+        "cover_text": "MAP CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 168
+    },
+    "2026-10-27-c": {
+      "status": "pitched",
+      "created": "2026-10-27T07:02:07.443777+05:30",
+      "day": "2026-10-27",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-27-c",
+        "title": "The Nil Map Trap",
+        "monster": "null",
+        "concept": "Go nil map initialization with make",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "This ghost crashes your Go app every time a user registers.",
+        "logline": "The Null ghost panics Junior's Go service when a write hits an uninitialized map.",
+        "builds_on": "",
+        "topic": "Go nil map write panics in a request handler",
+        "tech": "Go",
+        "wake_time": "2:58 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "narration": "Two fifty eight P M. An uninitialized Go map just took down the HTTP server.",
+            "time": "2:58 PM",
+            "text": "PROD IS DOWN",
+            "sub": "panic: assignment to entry in nil…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Nil Map Trap",
+            "sub": "Writing to an uninitialized map panics",
+            "kicker": "PROD MANOR",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I declared the map variable right here!"
+              },
+              {
+                "who": "null",
+                "text": "Declaring isn't allocating... Nobody initialized me."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "In Go, reading a nil map returns zero values, but writing to it panics.",
+            "lines": [
+              "var counts map[string]int",
+              "",
+              "func Track(key string) {",
+              "    counts[key]++",
+              "}"
+            ],
+            "lang": "go",
+            "file": "tracker.go",
+            "highlight": [
+              1,
+              4
+            ],
+            "error": "panic: assignment to entry in nil map"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "title": "RUNTIME PANIC",
+            "text": "panic: assignment to entry in nil map"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Use make() to give me some space."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "var counts map[string]int",
+              "",
+              "func Track(key string) {",
+              "    counts[key]++",
+              "}"
+            ],
+            "lang": "go",
+            "file": "tracker.go",
+            "fix_line": 1,
+            "after": "var counts = make(map[string]int)",
+            "note": "make allocates memory for the map so writes do not panic."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always initialize Go maps with make() or a map literal before writing.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "leak",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Go maps declared without initialization default to nil. Reading a nil map is safe and returns zero values, but writing to a nil map triggers an instant runtime panic: panic: assignment to entry in nil map! Always allocate memory using make(map[K]V) or a map literal.\n\nHas an uninitialized map ever taken down your HTTP handler? Drop a comment below!\n\nFollow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#golang",
+          "#go",
+          "#backend",
+          "#programming",
+          "#webdev",
+          "#softwareengineering",
+          "#codinghumor"
+        ],
+        "cover_text": "NIL MAP PANIC"
+      },
+      "warnings": [],
+      "pitch_msg_id": 169
+    },
+    "2026-10-27-d": {
+      "status": "pitched",
+      "created": "2026-10-27T07:02:07.443781+05:30",
+      "day": "2026-10-27",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-27-d",
+        "title": "The Leaky Listener",
+        "monster": "leak",
+        "concept": "EventEmitter listener lifecycle with once",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does Node.js quietly leak memory on every HTTP request?",
+        "logline": "The Leak slime grows out of control when event listeners are registered per request.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "7:51 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "narration": "Seven fifty one P M. The event listener slime is growing in memory.",
+            "time": "7:51 PM",
+            "text": "PROD IS DOWN",
+            "sub": "MaxListenersExceededWarning in No…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Leaky Listener",
+            "sub": "Adding listeners inside request handlers",
+            "kicker": "PROD MANOR",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "action": "grow",
+                "amount": 1.6
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is memory creeping up on every HTTP hit?"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "bus.on inside a route handler registers a new listener for every single request.",
+            "lines": [
+              "app.get('/data', (req, res) => {",
+              "  // added on every request",
+              "  bus.on('data', data => {",
+              "    res.write(data);",
+              "  });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              3
+            ],
+            "error": "MaxListenersExceededWarning: Possible EventEmitter memory leak detected"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "MEMORY LEAK DET…",
+            "text": "MaxListenersExceededWarning: 11 data listeners added"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "grow",
+                "amount": 2.2
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Ten thousand requests, ten thousand listeners!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "app.get('/data', (req, res) => {",
+              "  // added on every request",
+              "  bus.on('data', data => {",
+              "    res.write(data);",
+              "  });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 3,
+            "after": "  bus.once('data', data => {",
+            "note": "bus.once automatically removes the listener after firing."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Use bus.once or clean up listeners to prevent memory leaks.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "caller",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Registering event listeners with emitter.on() inside HTTP route handlers causes a memory leak on every incoming request. Node.js limits default listeners to 10 before throwing MaxListenersExceededWarning. Use emitter.once() or unregister listeners on response completion!\n\nHave you seen MaxListenersExceededWarning in your production logs? Share your stories below!\n\nFollow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#expressjs",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#codinghumor"
+        ],
+        "cover_text": "MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 170
     }
   },
   "telegram": {
@@ -3906,7 +4621,11 @@
       "160": "2026-10-26-a",
       "161": "2026-10-26-b",
       "162": "2026-10-26-c",
-      "163": "2026-10-26-d"
+      "163": "2026-10-26-d",
+      "167": "2026-10-27-a",
+      "168": "2026-10-27-b",
+      "169": "2026-10-27-c",
+      "170": "2026-10-27-d"
     }
   },
   "settings": {
@@ -3945,7 +4664,11 @@
       "note": "",
       "reported": true
     },
-    "2026-10-27": {}
+    "2026-10-27": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
