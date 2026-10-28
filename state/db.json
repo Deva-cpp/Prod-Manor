@@ -4596,6 +4596,695 @@
       },
       "warnings": [],
       "pitch_msg_id": 170
+    },
+    "2026-10-28-a": {
+      "status": "pitched",
+      "created": "2026-10-28T07:01:39.479148+05:30",
+      "day": "2026-10-28",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-28-a",
+        "title": "The Instant Retry Storm",
+        "monster": "caller",
+        "concept": "exponential backoff with jitter",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This retry loop will DDoS your own production database.",
+        "logline": "Junior's API retry loop fires zero-delay requests at a struggling server, creating a self-inflicted denial of service.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "10:18 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Ten eighteen A M. The payment gateway dropped one request.",
+            "shake": true,
+            "time": "10:18 AM",
+            "text": "PROD IS DOWN",
+            "sub": "API GATEWAY OVERWHELMED"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "narration": "And The Caller started dialing back instantly.",
+            "text": "The Instant Retry Storm",
+            "sub": "Zero-delay retries act like a self-inflicted DDoS attack.",
+            "kicker": "PROD MANOR #101",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Every failed call triggers another call with zero delay.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "It failed! Redialing five hundred times right now!"
+              },
+              {
+                "who": "junior",
+                "text": "Wait, give the server a second to breathe!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Without a pause between tries, thousands of workers hammer the dying API.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.15,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "def fetch_data(url, retries=5):",
+              "    for i in range(retries):",
+              "        res = requests.get(url)",
+              "        if res.ok: return res.json()",
+              "        # immediate retry without delay",
+              "    raise Exception(\"API failed\")"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "highlight": [
+              3,
+              5
+            ],
+            "error": "HTTPError: 429 Too Many Requests (Rate limit exceeded)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The rate limiter locks the door completely.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3
+              }
+            ],
+            "title": "429 RATE LIMIT…",
+            "text": "5,000 requests per second hit the recovering downstream service."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Multiply the sleep duration by powers of two on every attempt.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def fetch_data(url, retries=5):",
+              "    for i in range(retries):",
+              "        res = requests.get(url)",
+              "        if res.ok: return res.json()",
+              "        # immediate retry without delay",
+              "    raise Exception(\"API failed\")"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "fix_line": 5,
+            "after": "        time.sleep(2 ** i)",
+            "note": "Exponential backoff increases delay between retries to let servers recover."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "narration": "Give failing servers space to recover. Follow for more production fixes.",
+            "lesson": "Always back off when retrying failing network requests.",
+            "cta": "Follow before the next deploy wakes you up.",
+            "next_monster": "ollie",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Tight retry loops without backoff transform minor network blips into total service outages. When an API stumbles, instant retries act like a DDoS attack from inside your own cluster.\n\nExponential backoff increases the sleep interval after each failure (`2 ** attempt`), giving downstream databases time to recover.\n\nHow do you handle retries in your microservices? Let us know below!\n\n@prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#codinghumor",
+          "#devops",
+          "#softwareengineering",
+          "#systemdesign"
+        ],
+        "cover_text": "RETRY STORM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 174
+    },
+    "2026-10-28-b": {
+      "status": "pitched",
+      "created": "2026-10-28T07:01:39.479167+05:30",
+      "day": "2026-10-28",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-28-b",
+        "title": "The Missing Final Page",
+        "monster": "ollie",
+        "concept": "pagination count with Math.ceil",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does item twenty-one vanish from your paginated results?",
+        "logline": "Junior's pagination logic truncates remaining items because integer division rounds down total pages.",
+        "builds_on": "",
+        "topic": "total pages computed with integer division misses the last page",
+        "tech": "JavaScript",
+        "wake_time": "4:01 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Four o one A M. Users report missing products in search.",
+            "shake": true,
+            "time": "4:01 AM",
+            "text": "CUSTOMER REPORT",
+            "sub": "ITEMS 21-25 MISSING IN SEARCH"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "narration": "Ollie One-Off is counting pages again.",
+            "text": "The Missing Final Page",
+            "sub": "Integer division truncates the last page of results.",
+            "kicker": "PROD MANOR #102",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Ollie lives right outside the boundary.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92,
+                "scale": 1.1,
+                "to": {
+                  "x": 0.85
+                }
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Twenty-five items at ten per page... that is two pages!"
+              },
+              {
+                "who": "junior",
+                "text": "What about the remaining five items?!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Math floor truncates the remainder, hiding the final partial page.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.15,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "function getPageCount(totalItems, pageSi",
+              "  // divide total by size",
+              "  return Math.floor(totalItems / pageSiz",
+              "}",
+              "// getPageCount(25, 10) returns 2 pages!",
+              "// Items 21-25 are never reachable."
+            ],
+            "lang": "javascript",
+            "file": "pagination.js",
+            "highlight": [
+              3
+            ],
+            "error": "AssertionError: expected 3 pages, got 2 (5 items lost)"
+          },
+          {
+            "type": "crash",
+            "dur": 2.8,
+            "narration": "Five customer orders disappear into thin air.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2
+              }
+            ],
+            "title": "PAGE 3 UNREACHA…",
+            "text": "25 total items / 10 per page = 2 pages calculated. 5 items dropped."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Math ceil rounds up any fractional result to include every item.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function getPageCount(totalItems, pageSi",
+              "  // divide total by size",
+              "  return Math.floor(totalItems / pageSiz",
+              "}",
+              "// getPageCount(25, 10) returns 2 pages!",
+              "// Items 21-25 are never reachable."
+            ],
+            "lang": "javascript",
+            "file": "pagination.js",
+            "fix_line": 3,
+            "after": "  return Math.ceil(totalItems / pageSize",
+            "note": "Math.ceil rounds up so leftover items get their own page."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "narration": "Never leave leftover data behind. Follow for daily dev fixes.",
+            "lesson": "Use Math.ceil for pagination page counts.",
+            "cta": "Save this before your next pagination PR.",
+            "next_monster": "leak",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Calculating total pages using `Math.floor` or integer division truncates remainder items whenever the total isn't perfectly divisible by page size.\n\n25 items with 10 items per page yields `2.5`, which `Math.floor` turns into 2 pages. Items 21 through 25 become completely unreachable in UI pagination controls!\n\nAlways use `Math.ceil(total / pageSize)` so remaining items get their own page.\n\nHave you ever shipped a pagination off-by-one bug to prod? Tell us below!\n\n@prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#frontend",
+          "#fullstack",
+          "#coding",
+          "#softwareengineering",
+          "#js"
+        ],
+        "cover_text": "PAGINATION TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 175
+    },
+    "2026-10-28-c": {
+      "status": "pitched",
+      "created": "2026-10-28T07:01:39.479173+05:30",
+      "day": "2026-10-28",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-28-c",
+        "title": "The Infinite Dictionary",
+        "monster": "leak",
+        "concept": "bounded cache with lru_cache",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: your server uses eight gigabytes of RAM by midnight.",
+        "logline": "An unbounded module-level dictionary in Python holds every request response forever until OOMKilled.",
+        "builds_on": "",
+        "topic": "module-level dict cache in a long-running server grows forever",
+        "tech": "Python",
+        "wake_time": "10:36 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Ten thirty-six P M. Server memory hit one hundred percent.",
+            "shake": true,
+            "time": "10:36 PM",
+            "text": "CRASH REPORT",
+            "sub": "PROCESS KILLED (OOMKILLED)"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "narration": "The Leak has found your in-memory cache.",
+            "text": "The Infinite Dictionary",
+            "sub": "Module-level dicts without bounds leak memory until crash.",
+            "kicker": "PROD MANOR #103",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Every unique query parameter stays in memory forever.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow",
+                "to": {
+                  "scale": 1.8
+                }
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more user dicts?"
+              },
+              {
+                "who": "junior",
+                "text": "It keeps expanding with every single API call!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Setting maxsize to None turns off eviction completely.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.15,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "from functools import lru_cache",
+              "",
+              "@lru_cache(maxsize=None)",
+              "def get_user_profile(user_id):",
+              "    # unbounded cache grows forever",
+              "    return db.fetch_user(user_id)"
+            ],
+            "lang": "python",
+            "file": "cache.py",
+            "highlight": [
+              3
+            ],
+            "error": "MemoryError: Worker process killed (OOMKilled exit code 137)"
+          },
+          {
+            "type": "crash",
+            "dur": 2.8,
+            "narration": "The container runner kills your process.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 2.0
+              }
+            ],
+            "title": "OOM KILLED (EXI…",
+            "text": "RAM consumption exceeded container limits. Worker terminated."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Bound your cache with a fixed maxsize to evict old items automatically.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "from functools import lru_cache",
+              "",
+              "@lru_cache(maxsize=None)",
+              "def get_user_profile(user_id):",
+              "    # unbounded cache grows forever",
+              "    return db.fetch_user(user_id)"
+            ],
+            "lang": "python",
+            "file": "cache.py",
+            "fix_line": 3,
+            "after": "@lru_cache(maxsize=1024)",
+            "note": "Set an explicit maxsize so old entries are evicted when full."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "narration": "Keep your memory footprint predictable. Follow for clean Python patterns.",
+            "lesson": "Always bound in-memory caches with maxsize or TTL.",
+            "cta": "Follow before the next memory leak wakes you.",
+            "next_monster": "null",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Using `@lru_cache(maxsize=None)` or an unbounded global dict in a Python web server means memory usage only goes in one direction: up.\n\nEvery unique key stays in RAM for the life of the process. Under high traffic, Linux OOM killer will terminate your container with exit code 137.\n\nSet a explicit `maxsize` (e.g. 1024) so least recently used items are evicted when the limit is reached.\n\nWhat is your go-to caching strategy in production? Drop it in the comments!\n\n@prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#devops",
+          "#webdevelopment",
+          "#coding",
+          "#softwareengineering",
+          "#pythonprogramming"
+        ],
+        "cover_text": "MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 176
+    },
+    "2026-10-28-d": {
+      "status": "pitched",
+      "created": "2026-10-28T07:01:39.479177+05:30",
+      "day": "2026-10-28",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-28-d",
+        "title": "The Zero Index Ghost",
+        "monster": "null",
+        "concept": "strict comparison with strpos",
+        "level": "intermediate",
+        "language": "php",
+        "hook": "This single equals sign drops valid user queries in PHP.",
+        "logline": "PHP's loose equality turns strpos returning 0 into false, discarding strings that match at the start.",
+        "builds_on": "",
+        "topic": "PHP strpos returns 0 and == false treats it as not found",
+        "tech": "PHP",
+        "wake_time": "9:28 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Nine twenty-eight P M. Admin search queries are failing.",
+            "shake": true,
+            "time": "9:28 PM",
+            "text": "BUG REPORT",
+            "sub": "ADMIN LOGIN REJECTED"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "narration": "The Null is haunting your string comparisons.",
+            "text": "The Zero Index Ghost",
+            "sub": "Loose comparison treats index zero as boolean false.",
+            "kicker": "PROD MANOR #104",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Loose equality converts integer zero straight into boolean false.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in",
+                "opacity": 0.7
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Zero looks just like false to me..."
+              },
+              {
+                "who": "junior",
+                "text": "But the substring was found at position zero!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Double equals coercion evaluates integer zero equal to false.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.15,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "function has_prefix($string, $prefix) {",
+              "    // strpos returns 0 when found at st",
+              "    if (strpos($string, $prefix) == fals",
+              "        return false;",
+              "    }",
+              "    return true;",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "highlight": [
+              3
+            ],
+            "error": "FAIL: has_prefix('admin_user', 'admin') returned false"
+          },
+          {
+            "type": "crash",
+            "dur": 2.8,
+            "narration": "The function rejects valid matches right at the start.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "FALSE NEGATIVE…",
+            "text": "strpos('admin_user', 'admin') returns 0. (0 == false) evaluates to true!"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use strict comparison so position zero stays an integer.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 0.9,
+                "opacity": 0.9
+              }
+            ],
+            "lines": [
+              "function has_prefix($string, $prefix) {",
+              "    // strpos returns 0 when found at st",
+              "    if (strpos($string, $prefix) == fals",
+              "        return false;",
+              "    }",
+              "    return true;",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "fix_line": 3,
+            "after": "    if (strpos($string, $prefix) === fal",
+            "note": "Triple equals checks type to distinguish integer 0 from boolean false."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "narration": "Check your types strictly. Follow for daily real-world code bugs.",
+            "lesson": "Always use strict !== false with PHP strpos.",
+            "cta": "Save this before your next PHP refactor.",
+            "next_monster": "caller",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "In PHP, `strpos()` returns `0` when the substring is found right at the beginning of the text.\n\nUsing loose equality (`== false`), PHP coerces integer `0` to boolean `false`, causing your check to report that the string was NOT found!\n\nAlways use strict inequality (`=== false`) or modern `str_contains()` in PHP 8+ to prevent false negatives.\n\nHas PHP type coercion ever bitten you in production? Share your story below!\n\n@prodmanor",
+        "hashtags": [
+          "#php",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#codinghumor",
+          "#softwaredeveloper",
+          "#fullstack"
+        ],
+        "cover_text": "PHP EQUALS TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 177
     }
   },
   "telegram": {
@@ -4625,7 +5314,11 @@
       "167": "2026-10-27-a",
       "168": "2026-10-27-b",
       "169": "2026-10-27-c",
-      "170": "2026-10-27-d"
+      "170": "2026-10-27-d",
+      "174": "2026-10-28-a",
+      "175": "2026-10-28-b",
+      "176": "2026-10-28-c",
+      "177": "2026-10-28-d"
     }
   },
   "settings": {
@@ -4670,7 +5363,11 @@
       "note": "",
       "reported": true
     },
-    "2026-10-28": {}
+    "2026-10-28": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
