@@ -6158,7 +6158,8 @@
     "2026-10-29": {
       "pitched": true,
       "brain": "gemini",
-      "note": ""
+      "note": "",
+      "reported": true
     }
   },
   "token": {},
