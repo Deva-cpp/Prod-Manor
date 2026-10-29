@@ -5285,6 +5285,788 @@
       },
       "warnings": [],
       "pitch_msg_id": 177
+    },
+    "2026-10-29-a": {
+      "status": "pitched",
+      "created": "2026-10-29T07:02:02.818842+05:30",
+      "day": "2026-10-29",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-29-a",
+        "title": "The Parallel Illusion",
+        "monster": "twins",
+        "concept": "multiprocessing vs threading for CPU-bound tasks in Python",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Threading in Python will not speed up CPU work.",
+        "logline": "Junior tries to speed up image processing with Python threads, but the GIL keeps the twins locked in single-file execution.",
+        "builds_on": "",
+        "topic": "threads don't speed up CPU-heavy Python work (the GIL)",
+        "tech": "Python",
+        "wake_time": "3:35 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Three thirty-five A M. Four threads spawned, but execution time doubled.",
+            "sfx": [
+              "pager",
+              "heartbeat"
+            ],
+            "time": "3:35 AM",
+            "text": "PROD IS DOWN",
+            "sub": "CPU worker timing out"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Parallel Illusion",
+            "sub": "Python GIL blocks CPU threads",
+            "kicker": "PROD MANOR #101",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Fork and Join are taking turns instead of running together.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.7,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why take turns? I gave you four threads!"
+              },
+              {
+                "who": "twins",
+                "text": "The GIL only lets one of us work!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "ThreadPoolExecutor cannot bypass the Global Interpreter Lock for CPU work.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import (",
+              "    ThreadPoolExecutor as Pool",
+              ")",
+              "def run_calc(data):",
+              "    with Pool() as p:",
+              "        return list(p.map(work, data))"
+            ],
+            "lang": "python",
+            "file": "worker.py",
+            "highlight": [
+              2
+            ],
+            "error": "CPU utilization: 100% on core 0, 0% on core 1"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "GIL LOCKOUT",
+            "text": "Thread concurrency blocked on single core"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Give us separate OS processes, brother!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import (",
+              "    ThreadPoolExecutor as Pool",
+              ")",
+              "def run_calc(data):",
+              "    with Pool() as p:",
+              "        return list(p.map(work, data))"
+            ],
+            "lang": "python",
+            "file": "worker.py",
+            "fix_line": 2,
+            "after": "    ProcessPoolExecutor as Pool",
+            "note": "ProcessPoolExecutor spawns separate Python processes, bypassing the GIL."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Use multiprocessing for CPU-bound tasks in Python.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "ollie",
+            "kicker": "BYPASS THE GIL"
+          }
+        ],
+        "caption": "Python threads share a single Global Interpreter Lock (GIL), meaning CPU-heavy tasks run strictly one at a time. To utilize multiple cores, swap ThreadPoolExecutor for ProcessPoolExecutor to run separate OS processes!\n\nHave you been burned by Python thread limits in prod? Let us know below!\n\n@prodmanor",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#backend",
+          "#codinghumor",
+          "#multiprocessing",
+          "#devops"
+        ],
+        "cover_text": "PYTHON GIL TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 181
+    },
+    "2026-10-29-b": {
+      "status": "pitched",
+      "created": "2026-10-29T07:02:02.818862+05:30",
+      "day": "2026-10-29",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-29-b",
+        "title": "The Instant Timeout",
+        "monster": "ollie",
+        "concept": "32-bit signed integer overflow in setTimeout delay",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why did a thirty day timeout trigger in zero seconds?",
+        "logline": "Junior schedules a trial expiration for 30 days out, but Node integer overflow fires the callback immediately.",
+        "builds_on": "",
+        "topic": "setTimeout longer than 24.8 days fires immediately",
+        "tech": "Node.js",
+        "wake_time": "11:09 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Eleven oh nine A M. A thirty day trial expired in zero milliseconds.",
+            "sfx": [
+              "pager",
+              "ring"
+            ],
+            "time": "11:09 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Trial expired instantly"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Instant Timeout",
+            "sub": "32-bit integer overflow in Node setTimeout",
+            "kicker": "PROD MANOR #102",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Ollie One-Off is knocking thirty days early.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I set the timeout for thirty days!"
+              },
+              {
+                "who": "ollie",
+                "text": "Two billion ms overflowed to zero, neighbor!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Node stores setTimeout delays as 32-bit signed integers.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const DAYS_30 = 30 * 86400 * 1000;",
+              "// 2,592,000,000 ms > 2^31 - 1",
+              "setTimeout(() => {",
+              "  cancelTrial(user);",
+              "}, DAYS_30);"
+            ],
+            "lang": "javascript",
+            "file": "scheduler.js",
+            "highlight": [
+              1,
+              5
+            ],
+            "error": "TimeoutOverflowWarning: 2592000000 does not fit into a 32-bit signed integer"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "glitch"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "title": "INTEGER OVERFLOW",
+            "text": "Delay defaulted to 1 ms"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Cap it at max int or use a database!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "const DAYS_30 = 30 * 86400 * 1000;",
+              "// 2,592,000,000 ms > 2^31 - 1",
+              "setTimeout(() => {",
+              "  cancelTrial(user);",
+              "}, DAYS_30);"
+            ],
+            "lang": "javascript",
+            "file": "scheduler.js",
+            "fix_line": 5,
+            "after": "}, Math.min(DAYS_30, 2**31 - 1));",
+            "note": "Node timeouts cap at 2147483647 ms (24.8 days) before overflowing."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Never pass delays larger than 24.8 days to setTimeout.",
+            "cta": "Save this before writing long timers.",
+            "next_monster": "caller",
+            "kicker": "24 DAY TIMEOUT LIMIT"
+          }
+        ],
+        "caption": "In Node.js and browsers, setTimeout delays are stored as 32-bit signed integers. Any delay larger than 2147483647 ms (~24.8 days) overflows instantly to 1 ms, executing your callback right away!\n\nHave you ever shipped a long setTimeout to prod? Tell us in the comments!\n\n@prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#coding",
+          "#frontend",
+          "#bugfix"
+        ],
+        "cover_text": "SETTIMEOUT OVERFLOW"
+      },
+      "warnings": [],
+      "pitch_msg_id": 182
+    },
+    "2026-10-29-c": {
+      "status": "pitched",
+      "created": "2026-10-29T07:02:02.818867+05:30",
+      "day": "2026-10-29",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-29-c",
+        "title": "The Infinite Depth",
+        "monster": "caller",
+        "concept": "call stack limits vs explicit stack iteration for deep tree walks",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: your nested tree parser worked until customer 402 uploaded a deep file.",
+        "logline": "Junior's recursive tree walker crashes with RecursionError when processing a deeply nested structure in production.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "1:26 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "One twenty-six P M. Customer tree depth hit 1000 nodes.",
+            "sfx": [
+              "pager",
+              "ring"
+            ],
+            "time": "1:26 PM",
+            "text": "PROD IS DOWN",
+            "sub": "Recursion limit exceeded"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Infinite Depth",
+            "sub": "Recursion limit crash on deep trees",
+            "kicker": "PROD MANOR #103",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The Caller is stacking frames higher than the room.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Stop calling! The stack is full!"
+              },
+              {
+                "who": "caller",
+                "text": "Just frame 1001, darling!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Python defaults to a maximum call stack depth of 1000 frames.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def walk_tree(root):",
+              "    stack = [root]",
+              "    while stack:",
+              "        curr = stack.pop()",
+              "        walk_tree(curr)"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "highlight": [
+              5
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded in comparison"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.2,
+                "action": "stack",
+                "copies": 5
+              }
+            ],
+            "title": "STACK OVERFLOW",
+            "text": "Maximum recursion depth reached"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Move the frames onto heap memory, sweetie!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "def walk_tree(root):",
+              "    stack = [root]",
+              "    while stack:",
+              "        curr = stack.pop()",
+              "        walk_tree(curr)"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "fix_line": 5,
+            "after": "        stack.extend(curr.nodes)",
+            "note": "Using an explicit heap stack avoids Python call stack frame limits."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Use explicit heap stacks for deep tree walks.",
+            "cta": "Follow for real backend engineering fixes.",
+            "next_monster": "leak",
+            "kicker": "HEAP OVER STACK"
+          }
+        ],
+        "caption": "Recursive functions rely on the process call stack, which in Python caps at 1000 calls. When processing arbitrary user-generated trees or graphs, swap recursion for an explicit heap-allocated list stack to handle infinite depth!\n\nWhat is the deepest recursion bug you have seen in production?\n\n@prodmanor",
+        "hashtags": [
+          "#python",
+          "#datastructures",
+          "#algorithms",
+          "#backend",
+          "#softwareengineering",
+          "#coding"
+        ],
+        "cover_text": "RECURSION CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 183
+    },
+    "2026-10-29-d": {
+      "status": "pitched",
+      "created": "2026-10-29T07:02:02.818871+05:30",
+      "day": "2026-10-29",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-29-d",
+        "title": "The Memory Feast",
+        "monster": "leak",
+        "concept": "streaming file reading vs in-memory readall",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This magenta slime will crash your server if you read a file at once.",
+        "logline": "Junior reads a 5 GB log file into memory using readlines(), triggering an OOM kill from The Leak.",
+        "builds_on": "",
+        "topic": "reading a 5 GB file into memory at once",
+        "tech": "Python",
+        "wake_time": "11:38 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Eleven thirty-eight A M. Process killed by Out Of Memory detector.",
+            "sfx": [
+              "pager",
+              "slurp"
+            ],
+            "time": "11:38 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Container OOM Killed"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Memory Feast",
+            "sub": "Entire file loaded into RAM",
+            "kicker": "PROD MANOR #104",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The Leak is expanding to absorb five gigabytes of logs.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow",
+                "amount": 2.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Stop swelling! It was just one log file!"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "f.readlines() loads all lines into RAM at once.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def parse_logs(path):",
+              "    with open(path) as f:",
+              "        for line in f.readlines():",
+              "            process(line)"
+            ],
+            "lang": "python",
+            "file": "parse.py",
+            "highlight": [
+              3
+            ],
+            "error": "MemoryError / Command terminated by signal 9 (SIGKILL)"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 2.0
+              }
+            ],
+            "title": "OOM KILLED",
+            "text": "Memory ceiling exceeded (512MB limit)"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.8
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Stream the file handle directly instead!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "def parse_logs(path):",
+              "    with open(path) as f:",
+              "        for line in f.readlines():",
+              "            process(line)"
+            ],
+            "lang": "python",
+            "file": "parse.py",
+            "fix_line": 3,
+            "after": "        for line in f:",
+            "note": "Iterating the file object streams line by line with minimal memory."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Stream large files line by line instead of buffering into memory.",
+            "cta": "Save this before writing your next data pipeline.",
+            "next_monster": "null",
+            "kicker": "STREAM DON'T BUFFER"
+          }
+        ],
+        "caption": "Calling f.readlines() or f.read() on large files forces Python to load the entire payload into RAM at once, triggering container OOM (Out Of Memory) kills. Iterate directly over the file generator `for line in f:` to stream chunks lazily!\n\nWhat is the largest file you ever accidentally read into RAM?\n\n@prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#dataengineering",
+          "#devops",
+          "#codinghumor",
+          "#cleanengineers"
+        ],
+        "cover_text": "FILE READ OOM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 184
     }
   },
   "telegram": {
@@ -5318,7 +6100,11 @@
       "174": "2026-10-28-a",
       "175": "2026-10-28-b",
       "176": "2026-10-28-c",
-      "177": "2026-10-28-d"
+      "177": "2026-10-28-d",
+      "181": "2026-10-29-a",
+      "182": "2026-10-29-b",
+      "183": "2026-10-29-c",
+      "184": "2026-10-29-d"
     }
   },
   "settings": {
@@ -5369,7 +6155,11 @@
       "note": "",
       "reported": true
     },
-    "2026-10-29": {}
+    "2026-10-29": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
