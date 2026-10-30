@@ -6067,6 +6067,682 @@
       },
       "warnings": [],
       "pitch_msg_id": 184
+    },
+    "2026-10-30-a": {
+      "status": "pitched",
+      "created": "2026-10-30T07:01:04.215387+05:30",
+      "day": "2026-10-30",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-30-a",
+        "title": "The Ghost Invoice",
+        "monster": "ollie",
+        "concept": "float money precision error in Python",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: Your invoice total is zero point three zero zero zero zero zero zero zero…",
+        "logline": "A tall phantom shows up at 8:01 PM because floating point math just charged a customer four extra cents on coffee.",
+        "builds_on": "",
+        "topic": "float money totals: 0.1 + 0.2 on an invoice",
+        "tech": "Python",
+        "wake_time": "8:01 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "8:01 PM",
+            "text": "PROD IS ON FIRE",
+            "sub": "Customer charged forty-seven cent…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Ghost Invoice",
+            "sub": "Floating point math meets checkout.",
+            "kicker": "EIGHT ZERO ONE PM",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92,
+                "scale": 1.1,
+                "action": "enter_right",
+                "to": {
+                  "x": 0.7,
+                  "scale": 1.1
+                }
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Your change is slightly off."
+              },
+              {
+                "who": "junior",
+                "text": "It was just zero point one plus zero point two!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "lines": [
+              "subtotal = 0.1 + 0.2",
+              "tax = 0.05",
+              "total = subtotal + tax",
+              "print(round(total, 2))"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "highlight": [
+              1,
+              3
+            ],
+            "error": "AssertionError: 0.30000000000000004 != 0.3"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "title": "CHECKOUT CRASH",
+            "text": "Binary floats cannot represent decimal fractions accurately."
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.1,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "subtotal = 0.1 + 0.2",
+              "tax = 0.05",
+              "total = subtotal + tax",
+              "print(round(total, 2))"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "fix_line": 1,
+            "after": "subtotal = Decimal('0.1') + Decimal('0.2",
+            "note": "Use decimal strings for exact money."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never use standard floats for money.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "twins",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Never trust floating point math with money unless you want ghostly invoices at eight PM. Use Decimal or integer cents for exact accounting. How much money has a rounding bug cost your team? Follow @prodmanor for more late-night production horrors.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#python",
+          "#developer",
+          "#webdev",
+          "#codinghumor",
+          "#softwareengineer",
+          "#backend"
+        ],
+        "cover_text": "THE GHOST INVOICE"
+      },
+      "warnings": [],
+      "pitch_msg_id": 188
+    },
+    "2026-10-30-b": {
+      "status": "pitched",
+      "created": "2026-10-30T07:01:04.215408+05:30",
+      "day": "2026-10-30",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-30-b",
+        "title": "The Twin Race",
+        "monster": "twins",
+        "concept": "ConcurrentHashMap atomic updates in Java",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "This bug silently drops your user updates when two threads write at once.",
+        "logline": "Two identical gremlin twins race to overwrite a shared HashMap at eleven PM, wiping out production state.",
+        "builds_on": "",
+        "topic": "Java HashMap shared across threads loses updates",
+        "tech": "Spring Boot",
+        "wake_time": "11:01 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "11:01 PM",
+            "text": "STATE CORRUPTED",
+            "sub": "Missing updates across thread poo…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Twin Race",
+            "sub": "Thread safety meets standard maps.",
+            "kicker": "ELEVEN ZERO ONE PM",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1,
+                "action": "enter_right"
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "After you! No, after YOU!"
+              },
+              {
+                "who": "junior",
+                "text": "Stop writing to the same hash map!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> cache = new HashMap",
+              "public void recordHit(String key) {",
+              "    int count = cache.getOrDefault(key, ",
+              "    cache.put(key, count + 1);",
+              "}"
+            ],
+            "lang": "java",
+            "file": "SessionManager.java",
+            "highlight": [
+              1,
+              3,
+              4
+            ],
+            "error": "ConcurrentModificationException / Lost update race condition"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0
+              }
+            ],
+            "title": "RACE CONDITION",
+            "text": "Standard HashMaps are not thread-safe."
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.1,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> cache = new HashMap",
+              "public void recordHit(String key) {",
+              "    int count = cache.getOrDefault(key, ",
+              "    cache.put(key, count + 1);",
+              "}"
+            ],
+            "lang": "java",
+            "file": "SessionManager.java",
+            "fix_line": 1,
+            "after": "ConcurrentMap<String, Integer> cache = n",
+            "note": "Use ConcurrentHashMap with atomic operations."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Protect shared state across threads.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "caller",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Two threads walk into a HashMap. Both write, neither waits, and your data vanishes into the void. Have you ever debugged a race condition in production? Follow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#java",
+          "#backend",
+          "#springboot",
+          "#developer",
+          "#softwareengineer",
+          "#multithreading"
+        ],
+        "cover_text": "THE TWIN RACE"
+      },
+      "warnings": [],
+      "pitch_msg_id": 189
+    },
+    "2026-10-30-c": {
+      "status": "pitched",
+      "created": "2026-10-30T07:01:04.215415+05:30",
+      "day": "2026-10-30",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-30-c",
+        "title": "The Endless Ring",
+        "monster": "caller",
+        "concept": "exponential backoff with jitter in Python",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This infinite retry loop will take down any third party API in seconds.",
+        "logline": "A chatty rotary phone wakes up at 1:56 PM to hammer a dead microservice with ten thousand instant retries.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "1:56 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "1:56 PM",
+            "text": "API RATE LIMIT EXCEEDED",
+            "sub": "Upstream service completely unres…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Endless Ring",
+            "sub": "Retry storms without backoff.",
+            "kicker": "ONE FIFTY SIX PM",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Calling again right now!"
+              },
+              {
+                "who": "junior",
+                "text": "Please add a backoff timer!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "copies": 4
+              }
+            ],
+            "lines": [
+              "for attempt in range(10):",
+              "    try:",
+              "        return requests.get(url)",
+              "    except ConnectionError:",
+              "        continue"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "highlight": [
+              1,
+              4,
+              5
+            ],
+            "error": "HTTPError: 429 Too Many Requests"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "title": "RETRY STORM",
+            "text": "Hammering a failing service guarantees it stays down."
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "for attempt in range(10):",
+              "    try:",
+              "        return requests.get(url)",
+              "    except ConnectionError:",
+              "        continue"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "fix_line": 5,
+            "after": "        time.sleep((2 ** attempt) + rand",
+            "note": "Add exponential backoff and jitter."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always back off when retrying failing APIs.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "null",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Retrying instantly without backoff turns a minor glitch into a full-scale DDoS attack on your own database. Ever taken down an API by accident? Follow @prodmanor for more backend wisdom.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#python",
+          "#backend",
+          "#devops",
+          "#api",
+          "#softwareengineer",
+          "#codinghumor"
+        ],
+        "cover_text": "THE ENDLESS RING"
+      },
+      "warnings": [],
+      "pitch_msg_id": 190
+    },
+    "2026-10-30-d": {
+      "status": "pitched",
+      "created": "2026-10-30T07:01:04.215419+05:30",
+      "day": "2026-10-30",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-30-d",
+        "title": "The Zero Ghost",
+        "monster": "null",
+        "concept": "strict comparison for zero index in PHP",
+        "level": "intermediate",
+        "language": "php",
+        "hook": "This one PHP comparison bug treats finding a match at index zero as not found.",
+        "logline": "A polite sheet ghost appears at 6:52 PM because loose type comparison swallowed a valid match index.",
+        "builds_on": "",
+        "topic": "PHP strpos returns 0 and == false treats it as not found",
+        "tech": "PHP",
+        "wake_time": "6:52 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "6:52 PM",
+            "text": "AUTH BYPASS DETECTED",
+            "sub": "Substring check evaluates zero as…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Zero Ghost",
+            "sub": "Loose comparison with strpos.",
+            "kicker": "SIX FIFTY TWO PM",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Zero is right at the front..."
+              },
+              {
+                "who": "junior",
+                "text": "Wait, why did you evaluate to false?!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "lines": [
+              "$pos = strpos('admin_user', 'admin');",
+              "if ($pos == false) {",
+              "    throw new Exception('Access Denied')",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "highlight": [
+              1,
+              2
+            ],
+            "error": "Exception: Access Denied (when match is at index 0)"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "title": "FALSE NEGATIVE",
+            "text": "Loose equality treats integer 0 and boolean false as identical."
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.1,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "$pos = strpos('admin_user', 'admin');",
+              "if ($pos == false) {",
+              "    throw new Exception('Access Denied')",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "fix_line": 2,
+            "after": "if ($pos === false) {",
+            "note": "Use strict comparison to distinguish 0 from false."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always use strict comparison with search functions.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "ollie",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Finding your string at index zero is great until loose type comparison locks you out of your own app. What's your favorite quirk in legacy languages? Follow @prodmanor for daily developer laughs.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#php",
+          "#webdev",
+          "#backend",
+          "#developer",
+          "#softwareengineer",
+          "#codinghumor"
+        ],
+        "cover_text": "THE ZERO GHOST"
+      },
+      "warnings": [],
+      "pitch_msg_id": 191
     }
   },
   "telegram": {
@@ -6104,7 +6780,11 @@
       "181": "2026-10-29-a",
       "182": "2026-10-29-b",
       "183": "2026-10-29-c",
-      "184": "2026-10-29-d"
+      "184": "2026-10-29-d",
+      "188": "2026-10-30-a",
+      "189": "2026-10-30-b",
+      "190": "2026-10-30-c",
+      "191": "2026-10-30-d"
     }
   },
   "settings": {
@@ -6161,7 +6841,11 @@
       "note": "",
       "reported": true
     },
-    "2026-10-30": {}
+    "2026-10-30": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
