@@ -6743,6 +6743,704 @@
       },
       "warnings": [],
       "pitch_msg_id": 191
+    },
+    "2026-10-31-a": {
+      "status": "pitched",
+      "created": "2026-10-31T07:01:32.648008+05:30",
+      "day": "2026-10-31",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-31-a",
+        "title": "The Ghost Invoice",
+        "monster": "ollie",
+        "concept": "float money precision error in Python",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: Your client gets billed twelve cents more than their actual cart total.",
+        "logline": "A tall phantom demonstrates why binary floats ruin invoices.",
+        "builds_on": "",
+        "topic": "float money totals: 0.1 + 0.2 on an invoice",
+        "tech": "Python",
+        "wake_time": "12:48 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "12:48 PM",
+            "text": "INVOICE SERVICE DOWN",
+            "sub": "Precision mismatch in production…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Ghost Invoice",
+            "sub": "When floating point math sends bills to the afterlife.",
+            "kicker": "Prod Manor Episode",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92,
+                "scale": 1.0,
+                "action": "enter_right",
+                "to": {
+                  "x": 0.7,
+                  "scale": 1.0
+                }
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Your total is off by one tiny fraction."
+              },
+              {
+                "who": "junior",
+                "text": "Zero point one plus zero point two equals... wait."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "subtotal = 0.1 + 0.2",
+              "tax = 0.05",
+              "total = subtotal + tax",
+              "print(f'Total: {total}')"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "highlight": [
+              1
+            ],
+            "error": "AssertionError: Expected 0.3, got 0.30000000000000004"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Binary floats cannot store decimals cleanly."
+              },
+              {
+                "who": "junior",
+                "text": "I should have used integer cents or decimals."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.7,
+                "scale": 1.0,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "subtotal = 0.1 + 0.2",
+              "tax = 0.05",
+              "total = subtotal + tax",
+              "print(f'Total: {total}')"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "fix_line": 1,
+            "after": "from decimal import Decimal\nsubtotal = D",
+            "note": "Use Decimal for exact monetary representation."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never use standard floats for currency calculations.",
+            "cta": "Save this before your next checkout deploy.",
+            "next_monster": "twins",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Never trust standard floats with money totals unless you enjoy explaining missing cents to accounting. Use Decimal or store integer cents. What is the weirdest precision bug you have ever shipped to production? Follow @prodmanor for more midnight deploys.",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#webdev",
+          "#backend",
+          "#codinghumor",
+          "#softwareengineer",
+          "#devlife",
+          "#prodmanor"
+        ],
+        "cover_text": "FLOAT MONEY BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 195
+    },
+    "2026-10-31-b": {
+      "status": "pitched",
+      "created": "2026-10-31T07:01:32.648027+05:30",
+      "day": "2026-10-31",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-31-b",
+        "title": "The Twin Race",
+        "monster": "twins",
+        "concept": "ConcurrentHashMap atomic updates in Java",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "This ghost crashes your multithreaded backend just by existing.",
+        "logline": "Two identical gremlins overwrite shared state simultaneously.",
+        "builds_on": "",
+        "topic": "Java HashMap shared across threads loses updates",
+        "tech": "Java",
+        "wake_time": "8:56 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "8:56 PM",
+            "text": "THREAD POOL DESYNCHRONI…",
+            "sub": "Concurrent map updates dropping v…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Twin Race",
+            "sub": "When two threads write to the same map at once.",
+            "kicker": "Prod Manor Episode",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "enter_right"
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "After you with that map update."
+              },
+              {
+                "who": "junior",
+                "text": "No, you go first! Data loss incoming!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> cache = new HashMap",
+              "cache.put(key, cache.getOrDefault(key, 0",
+              "executor.submit(() -> process(cache));"
+            ],
+            "lang": "java",
+            "file": "CacheService.java",
+            "highlight": [
+              2
+            ],
+            "error": "ConcurrentModificationException / Lost update in thread write"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "We both grabbed the key at the exact same moment."
+              },
+              {
+                "who": "junior",
+                "text": "Standard Hash Maps are not thread safe."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> cache = new HashMap",
+              "cache.put(key, cache.getOrDefault(key, 0",
+              "executor.submit(() -> process(cache));"
+            ],
+            "lang": "java",
+            "file": "CacheService.java",
+            "fix_line": 1,
+            "after": "ConcurrentMap<String, Integer> cache = n",
+            "note": "Use ConcurrentHashMap and merge for atomic updates."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never use plain HashMaps across concurrent threads.",
+            "cta": "Follow before the next race condition wakes up.",
+            "next_monster": "leak",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Sharing a standard HashMap across threads is asking for lost updates and mysterious bugs. Use ConcurrentHashMap and atomic methods like merge instead. Have you ever debugged a race condition in Java? Follow @prodmanor for more midnight deploys.",
+        "hashtags": [
+          "#java",
+          "#springboot",
+          "#backend",
+          "#programming",
+          "#concurrency",
+          "#softwareengineer",
+          "#codinghumor",
+          "#prodmanor"
+        ],
+        "cover_text": "JAVA RACE CONDITION"
+      },
+      "warnings": [],
+      "pitch_msg_id": 196
+    },
+    "2026-10-31-c": {
+      "status": "pitched",
+      "created": "2026-10-31T07:01:32.648033+05:30",
+      "day": "2026-10-31",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-31-c",
+        "title": "The Sequential Drag",
+        "monster": "leak",
+        "concept": "Promise.all concurrency limiting over sequential loops",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: You put an await inside a loop and your API response time hits twenty seco…",
+        "logline": "A magenta slime swells as sequential requests slow the application to a crawl.",
+        "builds_on": "",
+        "topic": "await inside a for loop makes 100 API calls run one by one",
+        "tech": "Node.js",
+        "wake_time": "1:13 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "1:13 AM",
+            "text": "REQUEST QUEUE BACKLOG",
+            "sub": "Sequential await blocking executi…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Sequential Drag",
+            "sub": "When looping with await turns parallel tasks into a traffic jam.",
+            "kicker": "Prod Manor Episode",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more waiting..."
+              },
+              {
+                "who": "junior",
+                "text": "Why are these network calls running one by one?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "for (const id of userIds) {",
+              "  const data = await fetchUser(id);",
+              "  results.push(data);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "fetcher.js",
+            "highlight": [
+              2
+            ],
+            "error": "Gateway Timeout: Request took too long to complete"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.4
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...so slow..."
+              },
+              {
+                "who": "junior",
+                "text": "I should map them with Promise.all instead."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "for (const id of userIds) {",
+              "  const data = await fetchUser(id);",
+              "  results.push(data);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "fetcher.js",
+            "fix_line": 1,
+            "after": "const results = await Promise.all(\n  use",
+            "note": "Use Promise.all to run async tasks concurrently."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never await inside a loop when tasks can run in parallel.",
+            "cta": "Save this before your next API refactor.",
+            "next_monster": "null",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Putting an await inside a regular for loop turns async tasks into a slow sequential bottleneck. Use Promise.all to let them run concurrently. Have you ever accidentally DDoS'd your own database with sequential loops? Follow @prodmanor for more midnight deploys.",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#async",
+          "#programming",
+          "#codinghumor",
+          "#softwareengineer",
+          "#prodmanor"
+        ],
+        "cover_text": "AWAIT IN LOOP BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 197
+    },
+    "2026-10-31-d": {
+      "status": "pitched",
+      "created": "2026-10-31T07:01:32.648037+05:30",
+      "day": "2026-10-31",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-10-31-d",
+        "title": "The Zero Ghost",
+        "monster": "null",
+        "concept": "strict comparison for zero index in PHP",
+        "level": "intermediate",
+        "language": "php",
+        "hook": "This quiet ghost breaks your authentication check when a match happens at index…",
+        "logline": "A polite bedsheet ghost haunts code that relies on loose comparison.",
+        "builds_on": "",
+        "topic": "PHP strpos returns 0 and == false treats it as not found",
+        "tech": "PHP",
+        "wake_time": "1:45 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "1:45 PM",
+            "text": "AUTH BYPASS DETECTED",
+            "sub": "Loose comparison treating zero as…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Zero Ghost",
+            "sub": "When string position zero gets lost in loose type coercion.",
+            "kicker": "Prod Manor Episode",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "I was right at the very beginning..."
+              },
+              {
+                "who": "junior",
+                "text": "Position zero evaluated to false! Security flaw!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "$pos = strpos('admin_user', 'admin');",
+              "if ($pos == false) {",
+              "    echo 'Access Denied';",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "highlight": [
+              2
+            ],
+            "error": "Logic Error: Substring found at index 0 treated as missing"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Nobody checked with strict identity operators..."
+              },
+              {
+                "who": "junior",
+                "text": "I need to use strict comparison or str_contains."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "$pos = strpos('admin_user', 'admin');",
+              "if ($pos == false) {",
+              "    echo 'Access Denied';",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "fix_line": 2,
+            "after": "if (strpos('admin_user', 'admin') !== fa",
+            "note": "Use !== false to safely check string position."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always use strict comparison for functions returning zero indices.",
+            "cta": "Follow before the next type coercion bug wakes up.",
+            "next_monster": "ollie",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "In PHP, strpos returning index 0 combined with loose comparison (== false) will incorrectly trigger your error handler. Always use !== false or str_contains. Have you ever been bitten by loose type checking? Follow @prodmanor for more midnight deploys.",
+        "hashtags": [
+          "#php",
+          "#webdev",
+          "#backend",
+          "#programming",
+          "#security",
+          "#codinghumor",
+          "#softwareengineer",
+          "#prodmanor"
+        ],
+        "cover_text": "PHP STRPOS BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 198
     }
   },
   "telegram": {
@@ -6784,7 +7482,11 @@
       "188": "2026-10-30-a",
       "189": "2026-10-30-b",
       "190": "2026-10-30-c",
-      "191": "2026-10-30-d"
+      "191": "2026-10-30-d",
+      "195": "2026-10-31-a",
+      "196": "2026-10-31-b",
+      "197": "2026-10-31-c",
+      "198": "2026-10-31-d"
     }
   },
   "settings": {
@@ -6847,7 +7549,11 @@
       "note": "",
       "reported": true
     },
-    "2026-10-31": {}
+    "2026-10-31": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
