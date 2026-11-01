@@ -7441,6 +7441,723 @@
       },
       "warnings": [],
       "pitch_msg_id": 198
+    },
+    "2026-11-01-a": {
+      "status": "pitched",
+      "created": "2026-11-01T07:01:13.206825+05:30",
+      "day": "2026-11-01",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-01-a",
+        "title": "The Hungry Routine",
+        "monster": "leak",
+        "concept": "unbuffered channel goroutine leak",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "This slime eats your server memory every time an unbuffered channel blocks.",
+        "logline": "Junior investigates a memory spike in Go caused by an unbuffered channel whose sending goroutine blocks forever when the parent times out.",
+        "builds_on": "",
+        "topic": "Go goroutine leak: goroutine blocked forever on a channel nobody reads",
+        "tech": "Go",
+        "wake_time": "3:47 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Three forty-seven A M. Production memory is climbing fast.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "3:47 AM",
+            "text": "PROD IS SLOWING DOWN",
+            "sub": "Goroutine count climbing out of c…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Hungry Routine",
+            "sub": "Unbuffered Channel Goroutine Leak",
+            "kicker": "PROD MANOR #101",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "sfx": [
+              "slurp"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The memory graph is climbing!"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "If fetch returns early, sending to an unbuffered channel blocks forever.",
+            "lines": [
+              "func fetch() string {",
+              "  ch := make(chan string)",
+              "  go func() { ch <- getApi() }()",
+              "  return \"timeout\"",
+              "}"
+            ],
+            "lang": "go",
+            "file": "fetch.go",
+            "highlight": [
+              2
+            ],
+            "error": "fatal error: out of memory (48,210 blocked goroutines)"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "title": "MEMORY EXHAUSTI…",
+            "text": "48,000 goroutines blocked on channel sends with no receivers"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle",
+                "expr_to": "scared",
+                "expr_at": 0.5
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.4,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The goroutine needs room to exit!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "A buffer of one lets the goroutine write and exit without blocking.",
+            "lines": [
+              "func fetch() string {",
+              "  ch := make(chan string)",
+              "  go func() { ch <- getApi() }()",
+              "  return \"timeout\"",
+              "}"
+            ],
+            "lang": "go",
+            "file": "fetch.go",
+            "fix_line": 2,
+            "after": "  ch := make(chan string, 1)",
+            "note": "A buffer capacity of 1 allows the goroutine to write and terminate safely."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Buffer channels when sending goroutines outlive their receivers.",
+            "cta": "Follow for real Go production fixes",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "An unbuffered Go channel requires a receiver ready to read at the exact moment of sending. If your caller times out or returns early, the background goroutine blocks on `ch <- val` indefinitely, keeping its stack alive forever. Under load, thousands of goroutines pile up until your process runs out of RAM. Adding a buffer capacity of 1 lets the goroutine push its result and garbage collect itself. Have you ever leaked goroutines in production? Follow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#golang",
+          "#go",
+          "#backend",
+          "#concurrency",
+          "#programming",
+          "#softwareengineering",
+          "#devops",
+          "#codinghumor"
+        ],
+        "cover_text": "GOROUTINE LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 202
+    },
+    "2026-11-01-b": {
+      "status": "pitched",
+      "created": "2026-11-01T07:01:13.206847+05:30",
+      "day": "2026-11-01",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-01-b",
+        "title": "The Forgotten Promise",
+        "monster": "twins",
+        "concept": "unhandled promise rejection process crash",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: You merged a quick hotfix and Node just crashed.",
+        "logline": "Junior learns how an unawaited asynchronous DB write causes an unhandled promise rejection that kills the Node.js process.",
+        "builds_on": "",
+        "topic": "unhandled promise rejection crashes the Node process",
+        "tech": "Node.js",
+        "wake_time": "7:04 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Seven o-four A M. Production crashed right after the morning release.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "7:04 AM",
+            "text": "NODE PROCESS CRASHED",
+            "sub": "UnhandledPromiseRejection: Error:…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Forgotten Promise",
+            "sub": "Unhandled Rejection Crash",
+            "kicker": "PROD MANOR #102",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did the server just exit?!"
+              },
+              {
+                "who": "twins",
+                "text": "You didn't wait for us."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Invoking an async function without await drops any thrown promise errors.",
+            "lines": [
+              "async function saveUser(req) {",
+              "  validate(req.body);",
+              "  saveToDb(req.body);",
+              "  return { status: 'ok' };",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              3
+            ],
+            "error": "UnhandledPromiseRejection: Error: DB connection failed"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "title": "PROCESS TERMINA…",
+            "text": "Unhandled promise rejections terminate modern Node.js runtimes"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle",
+                "expr_to": "scared",
+                "expr_at": 0.4
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I forgot the await!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Awaiting the promise ensures errors are caught inside the request lifecycle.",
+            "lines": [
+              "async function saveUser(req) {",
+              "  validate(req.body);",
+              "  saveToDb(req.body);",
+              "  return { status: 'ok' };",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 3,
+            "after": "  await saveToDb(req.body);",
+            "note": "Awaiting promises catches rejections inside the handler before they bring down Node."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always await or catch every promise to keep Node.js alive.",
+            "cta": "Save this before your next Node deploy",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In modern versions of Node.js, an unhandled promise rejection exits the process with a non-zero code by default. When you call an async function like `saveToDb()` without `await` or `.catch()`, any database network hiccup will throw an unhandled error that tears down your entire web server. A simple `await` ensures proper error propagation. Has an missing `await` ever taken down your API? Follow @prodmanor to stay safe on call.",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#expressjs",
+          "#backend",
+          "#webdev",
+          "#coding",
+          "#fullstack",
+          "#softwareengineering"
+        ],
+        "cover_text": "UNHANDLED REJECTION"
+      },
+      "warnings": [],
+      "pitch_msg_id": 203
+    },
+    "2026-11-01-c": {
+      "status": "pitched",
+      "created": "2026-11-01T07:01:13.206853+05:30",
+      "day": "2026-11-01",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-01-c",
+        "title": "The Endless Loop",
+        "monster": "caller",
+        "concept": "circular reference JSON serialization error",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does serializing this user object crash the entire logging service?",
+        "logline": "Junior discovers why JSON.stringify throws a TypeError when trying to serialize an object that holds a circular back-reference.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "8:58 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Eight fifty-eight P M. The logger crashed when serializing user profiles.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "8:58 PM",
+            "text": "LOGGING SERVICE CRASHED",
+            "sub": "TypeError: Converting circular st…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Endless Loop",
+            "sub": "Circular Reference Serialization",
+            "kicker": "PROD MANOR #103",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "sfx": [
+              "ring"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The object points back to itself!"
+              },
+              {
+                "who": "caller",
+                "text": "Calling user... who calls user..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "JSON.stringify recursively traverses objects and throws on infinite cycles.",
+            "lines": [
+              "const user = { id: 1 };",
+              "user.profile = { owner: user };",
+              "const json = JSON.stringify(user);"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "highlight": [
+              2
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "title": "SERIALIZATION F…",
+            "text": "JSON format cannot represent circular object relationships"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle",
+                "expr_to": "scared",
+                "expr_at": 0.5
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Store the ID instead of the object!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Storing primitive identifiers breaks the circular loop completely.",
+            "lines": [
+              "const user = { id: 1 };",
+              "user.profile = { owner: user };",
+              "const json = JSON.stringify(user);"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "fix_line": 2,
+            "after": "user.profile = { userId: user.id };",
+            "note": "Reference primitive identifiers instead of direct object references for clean JSON."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never pass objects with cyclic parent references to JSON.stringify.",
+            "cta": "Follow for more daily debugging fixes",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Standard JSON does not support self-referencing circular data structures. When `JSON.stringify()` encounters an object that references a parent node, it detects an infinite loop and immediately throws a uncaught `TypeError`. In real apps, ORM models and bidirectional relationships frequently trigger this during logging or API response serialization. Replace back-references with entity IDs before stringifying. How do you handle circular objects in JS? Let us know below and follow @prodmanor!",
+        "hashtags": [
+          "#javascript",
+          "#typescript",
+          "#webdev",
+          "#frontend",
+          "#backend",
+          "#coding",
+          "#programminghumor",
+          "#devcommunity"
+        ],
+        "cover_text": "CIRCULAR JSON CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 204
+    },
+    "2026-11-01-d": {
+      "status": "pitched",
+      "created": "2026-11-01T07:01:13.206858+05:30",
+      "day": "2026-11-01",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-01-d",
+        "title": "The Missing Day",
+        "monster": "ollie",
+        "concept": "date range fencepost error",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Your end-of-month sales report is missing an entire day of transactions.",
+        "logline": "Junior figures out why date range queries drop the final day's records because string dates default to midnight.",
+        "builds_on": "",
+        "topic": "Date range fencepost error excluding end-of-day records",
+        "tech": "JavaScript",
+        "wake_time": "9:40 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Nine forty P M. The monthly report is missing a full day of sales.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "9:40 PM",
+            "text": "REPORT INCOMPLETE",
+            "sub": "Missing all March 30th transactio…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Missing Day",
+            "sub": "Date Range Fencepost Error",
+            "kicker": "PROD MANOR #104",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Where did March 30th go?!"
+              },
+              {
+                "who": "ollie",
+                "text": "Midnight starts at zero zero!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Parsing date strings without a time defaults to midnight, omitting the rest of that day.",
+            "lines": [
+              "function inRange(date, end) {",
+              "  // end defaults to 00:00:00",
+              "  return date <= new Date(end);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "report.js",
+            "highlight": [
+              3
+            ],
+            "error": "Report Error: March 30th sales omitted (0 results)"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "title": "FENCEPOST DATE…",
+            "text": "Date string parsing defaults to midnight 00:00:00"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We need the whole end day!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Extending to end-of-day captures every timestamp on the final date.",
+            "lines": [
+              "function inRange(date, end) {",
+              "  // end defaults to 00:00:00",
+              "  return date <= new Date(end);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "report.js",
+            "fix_line": 3,
+            "after": "  return date <= endOfDay(end);",
+            "note": "Use endOfDay to extend the cutoff time to 23:59:59.999."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always include 23:59:59 or use exclusive upper bounds for date ranges.",
+            "cta": "Save this before your next report deploy",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "When users select an end date like '2026-03-30', constructing `new Date('2026-03-30')` parses it as midnight (`2026-03-30 00:00:00`). Any transaction created during the day on March 30th (e.g. at 2:00 PM) fails the `<= end` check, dropping the entire day from executive reports. Make sure to set your upper limit to `endOfDay(end)` or use `< nextDay`. Have you caught a date fencepost bug in your queries? Tag a friend and follow @prodmanor!",
+        "hashtags": [
+          "#javascript",
+          "#webdevelopment",
+          "#sql",
+          "#backend",
+          "#coding",
+          "#bugs",
+          "#softwareengineering",
+          "#devhumor"
+        ],
+        "cover_text": "DATE FENCEPOST BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 205
     }
   },
   "telegram": {
@@ -7486,7 +8203,11 @@
       "195": "2026-10-31-a",
       "196": "2026-10-31-b",
       "197": "2026-10-31-c",
-      "198": "2026-10-31-d"
+      "198": "2026-10-31-d",
+      "202": "2026-11-01-a",
+      "203": "2026-11-01-b",
+      "204": "2026-11-01-c",
+      "205": "2026-11-01-d"
     }
   },
   "settings": {
@@ -7555,7 +8276,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-01": {}
+    "2026-11-01": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
