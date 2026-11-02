@@ -8158,6 +8158,1036 @@
       },
       "warnings": [],
       "pitch_msg_id": 205
+    },
+    "2026-11-02-a": {
+      "status": "pitched",
+      "created": "2026-11-02T07:01:06.262879+05:30",
+      "day": "2026-11-02",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-02-a",
+        "title": "The Missing Prefix",
+        "monster": "null",
+        "concept": "PHP strpos loose equality type coercion",
+        "level": "intermediate",
+        "language": "php",
+        "hook": "POV: your admin search returns zero results whenever the prefix matches positio…",
+        "logline": "Junior's PHP admin search breaks for users whose username starts with the target prefix because zero loosely equals false.",
+        "builds_on": "",
+        "topic": "PHP strpos returns 0 and == false treats it as not found",
+        "tech": "PHP",
+        "wake_time": "5:05 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "sfx": [
+              "pager"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "time": "5:05 AM",
+            "text": "SEARCH CRIPPLED",
+            "sub": "Admin lookup failing for root use…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Missing Prefix",
+            "sub": "When zero looks like false",
+            "kicker": "PHP TYPE TRAP",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "At five zero five AM, the admin search vanished.",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "I am at index zero..."
+              },
+              {
+                "who": "junior",
+                "text": "Why does PHP say you do not exist?!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Strpos returns integer zero when matching at the very start.",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.15,
+                "scale": 0.8
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.85,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "$pos = strpos($user, 'admin');",
+              "if ($pos == false) {",
+              "    return 'User not found';",
+              "}"
+            ],
+            "lang": "php",
+            "file": "search.php",
+            "highlight": [
+              2
+            ],
+            "error": "Returned false positive: user admin_99 marked as missing."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.1
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "title": "INDEX ZERO IS F…",
+            "text": "Loose equality converts integer 0 to boolean false."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Check type, not just boolean truth!"
+              },
+              {
+                "who": "junior",
+                "text": "Strict comparison to the rescue!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.2,
+            "sfx": [
+              "ding"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.8,
+                "scale": 0.9,
+                "action": "defeated"
+              }
+            ],
+            "lines": [
+              "$pos = strpos($user, 'admin');",
+              "if ($pos == false) {",
+              "    return 'User not found';",
+              "}"
+            ],
+            "lang": "php",
+            "file": "search.php",
+            "fix_line": 2,
+            "after": "if ($pos === false) {",
+            "note": "strpos returns 0 for start index; strict comparison prevents loose coercion."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "sfx": [
+              "whoosh"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Always use strict comparison for functions returning zero or false.",
+            "cta": "Save this before your next PHP deploy.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In PHP, strpos returns 0 when the match is at position 0. Using loose equality (== false) turns 0 into false, telling your app the substring was never found! Switch to strict equality (=== false) or str_contains in PHP 8.\n\nHave you ever been burned by loose type coercion in production?\n\nFollow @prodmanor for daily dev nightmare fixes.",
+        "hashtags": [
+          "#php",
+          "#webdev",
+          "#backend",
+          "#programming",
+          "#codinghumor",
+          "#softwareengineering",
+          "#devops"
+        ],
+        "cover_text": "PHP ZERO TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 209
+    },
+    "2026-11-02-b": {
+      "status": "pitched",
+      "created": "2026-11-02T07:01:06.262900+05:30",
+      "day": "2026-11-02",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-02-b",
+        "title": "The Lost Counter",
+        "monster": "twins",
+        "concept": "HashMap thread safety and atomic updates with ConcurrentHashMap",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "This race condition silently deletes half your data in production.",
+        "logline": "Fork and Join corrupt a shared Java metrics map by performing non-atomic read-modify-write operations across parallel threads.",
+        "builds_on": "",
+        "topic": "Java HashMap shared across threads loses updates",
+        "tech": "Java",
+        "wake_time": "9:59 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "sfx": [
+              "pager"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "time": "9:59 AM",
+            "text": "METRICS DROP",
+            "sub": "Traffic counters losing half of r…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Lost Counter",
+            "sub": "Race conditions in shared state",
+            "kicker": "JAVA CONCURRENCY",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "At nine fifty nine AM, thread contention ate the metrics.",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "pop_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "We both write to key api at once!"
+              },
+              {
+                "who": "junior",
+                "text": "My request count is shrinking!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "ConcurrentHashMap prevents structure corruption, but get-then-put is not atomic.",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.15,
+                "scale": 0.8
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.85,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> map = new Concurren",
+              "void hit(String key) {",
+              "  map.put(key, map.getOrDefault(key, 0) ",
+              "}"
+            ],
+            "lang": "java",
+            "file": "Metrics.java",
+            "highlight": [
+              3
+            ],
+            "error": "Data race: non-atomic read-modify-write overwrites parallel updates."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.1
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "title": "OVERWRITTEN STA…",
+            "text": "Thread A and B read 5; both write back 6 instead of 7."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.4
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Merge us atomically!"
+              },
+              {
+                "who": "junior",
+                "text": "Time for an atomic map merge!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.2,
+            "sfx": [
+              "ding"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.8,
+                "scale": 0.9,
+                "action": "defeated"
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> map = new Concurren",
+              "void hit(String key) {",
+              "  map.put(key, map.getOrDefault(key, 0) ",
+              "}"
+            ],
+            "lang": "java",
+            "file": "Metrics.java",
+            "fix_line": 3,
+            "after": "  map.merge(key, 1, Integer::sum);",
+            "note": "map.merge performs key retrieval and computation atomically."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "sfx": [
+              "whoosh"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Thread-safe collections still require atomic methods for state updates.",
+            "cta": "Share this with your Java backend team.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Even inside a ConcurrentHashMap, calling get() and put() separately creates a read-modify-write race condition under load! Multiple threads read the same old count and overwrite each other. Use map.merge() or compute() to guarantee atomic updates.\n\nWhat is your favorite Java concurrency bug?\n\nFollow @prodmanor for real prod bug breakdown reels.",
+        "hashtags": [
+          "#java",
+          "#backend",
+          "#concurrency",
+          "#multithreading",
+          "#programming",
+          "#softwareengineering",
+          "#coding"
+        ],
+        "cover_text": "JAVA MAP RACE"
+      },
+      "warnings": [],
+      "pitch_msg_id": 210
+    },
+    "2026-11-02-c": {
+      "status": "pitched",
+      "created": "2026-11-02T07:01:06.262906+05:30",
+      "day": "2026-11-02",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-02-c",
+        "title": "The Infinite Loopback",
+        "monster": "caller",
+        "concept": "JSON stringify circular references",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does stringifying this simple user session object crash Node completely?",
+        "logline": "The Caller repeatedly dials himself through a circular object reference, causing JSON.stringify to throw a TypeError in Node.js.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "4:53 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "sfx": [
+              "pager"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "time": "4:53 AM",
+            "text": "NODE CRASH",
+            "sub": "Session serializer throwing fatal…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Infinite Loopback",
+            "sub": "Objects that reference themselves",
+            "kicker": "NODE TRAVERSAL",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "At four fifty three AM, serializing state triggered a meltdown.",
+            "sfx": [
+              "ring"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Parent points to child, child to parent!"
+              },
+              {
+                "who": "junior",
+                "text": "It keeps stringifying forever!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Native JSON stringify cannot resolve cyclic object graphs.",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.15,
+                "scale": 0.8
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.85,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "const user = { id: 42 };",
+              "user.profile = { owner: user };",
+              "",
+              "const data = JSON.stringify(user);"
+            ],
+            "lang": "javascript",
+            "file": "session.js",
+            "highlight": [
+              4
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.1
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "title": "CIRCULAR STRUCT…",
+            "text": "Standard JSON format cannot express cyclic references."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Pass a replacer function to filter me out!"
+              },
+              {
+                "who": "junior",
+                "text": "Omit the back pointer during serialization!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.2,
+            "sfx": [
+              "ding"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.8,
+                "scale": 0.9,
+                "action": "defeated"
+              }
+            ],
+            "lines": [
+              "const user = { id: 42 };",
+              "user.profile = { owner: user };",
+              "",
+              "const data = JSON.stringify(user);"
+            ],
+            "lang": "javascript",
+            "file": "session.js",
+            "fix_line": 4,
+            "after": "const data = JSON.stringify(user, (k, v)",
+            "note": "A replacer function strips cyclic keys before JSON serialization."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "sfx": [
+              "whoosh"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Use custom replacers or structuredClone to sanitize circular objects.",
+            "cta": "Save this before your next API release.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Calling JSON.stringify on objects with circular references will crash Node with a TypeError! Fix it by using the 2nd argument of JSON.stringify—the replacer function—to drop cyclic back-references on the fly.\n\nHow do you handle circular objects in your codebase?\n\nFollow @prodmanor for clean fixes to real production bugs.",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#programming",
+          "#fullstack",
+          "#coding",
+          "#frontend"
+        ],
+        "cover_text": "JSON CIRCULAR CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 211
+    },
+    "2026-11-02-d": {
+      "status": "pitched",
+      "created": "2026-11-02T07:01:06.262910+05:30",
+      "day": "2026-11-02",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-02-d",
+        "title": "The Leaderboard Shuffle",
+        "monster": "ollie",
+        "concept": "JavaScript Array sort numerical comparator",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Your leaderboard is displaying rank 100 above rank 2 in production.",
+        "logline": "Ollie One-Off rearranges the gaming leaderboard because JavaScript array sort converts numbers to strings by default.",
+        "builds_on": "",
+        "topic": "Array.sort() sorts numbers as strings in a leaderboard",
+        "tech": "JavaScript",
+        "wake_time": "4:53 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "sfx": [
+              "pager"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "time": "4:53 AM",
+            "text": "LEADERBOARD BROKEN",
+            "sub": "Score 100 ranked lower than score…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Leaderboard Shuffle",
+            "sub": "Lexicographical numerical sorting",
+            "kicker": "JS SORT TRAP",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "At four fifty three AM, players complained about their ranks.",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0,
+                "action": "peek"
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "String '100' comes before string '2'!"
+              },
+              {
+                "who": "junior",
+                "text": "Wait, these are numbers, not strings!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Default Array.prototype.sort converts elements into strings before comparing.",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.15,
+                "scale": 0.8
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.85,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "const scores = [100, 25, 9, 2, 80];",
+              "",
+              "const ranked = scores.sort();"
+            ],
+            "lang": "javascript",
+            "file": "leaderboard.js",
+            "highlight": [
+              3
+            ],
+            "error": "Sorted array: [100, 2, 25, 80, 9] (alphabetical default)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.1
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "title": "ALPHABETICAL OR…",
+            "text": "100 is sorted ahead of 2 because string '1' comes before '2'."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.4
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Provide a comparison callback!"
+              },
+              {
+                "who": "junior",
+                "text": "Subtracting b from a sorts numerically descending!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.2,
+            "sfx": [
+              "ding"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 0.9,
+                "action": "defeated",
+                "to": {
+                  "x": 0.7,
+                  "scale": 0.9
+                }
+              }
+            ],
+            "lines": [
+              "const scores = [100, 25, 9, 2, 80];",
+              "",
+              "const ranked = scores.sort();"
+            ],
+            "lang": "javascript",
+            "file": "leaderboard.js",
+            "fix_line": 3,
+            "after": "const ranked = scores.sort((a, b) => b -",
+            "note": "Comparator (a, b) => b - a forces numeric sort in descending order."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "sfx": [
+              "whoosh"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Always pass a compare function when sorting numbers in JavaScript.",
+            "cta": "Save this before your next frontend release.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "JavaScript's default Array.prototype.sort() converts every element into a string before sorting! That means [100, 2, 25] gets sorted as [100, 2, 25] because '100' starts with '1'. Always provide a numeric comparator callback like (a, b) => a - b.\n\nWhat is the most surprising JavaScript default quirk you've encountered?\n\nFollow @prodmanor for animated real-world code bug breakdowns.",
+        "hashtags": [
+          "#javascript",
+          "#webdevelopment",
+          "#frontend",
+          "#programming",
+          "#codinghumor",
+          "#softwareengineering",
+          "#tech"
+        ],
+        "cover_text": "JS SORT FAIL"
+      },
+      "warnings": [],
+      "pitch_msg_id": 212
     }
   },
   "telegram": {
@@ -8207,7 +9237,11 @@
       "202": "2026-11-01-a",
       "203": "2026-11-01-b",
       "204": "2026-11-01-c",
-      "205": "2026-11-01-d"
+      "205": "2026-11-01-d",
+      "209": "2026-11-02-a",
+      "210": "2026-11-02-b",
+      "211": "2026-11-02-c",
+      "212": "2026-11-02-d"
     }
   },
   "settings": {
@@ -8282,7 +9316,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-02": {}
+    "2026-11-02": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
