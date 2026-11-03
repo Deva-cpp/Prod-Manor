@@ -9188,6 +9188,725 @@
       },
       "warnings": [],
       "pitch_msg_id": 212
+    },
+    "2026-11-03-a": {
+      "status": "pitched",
+      "created": "2026-11-03T07:01:04.580877+05:30",
+      "day": "2026-11-03",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-03-a",
+        "title": "The Memory Slurp",
+        "monster": "leak",
+        "concept": "line-by-line file streaming in Python",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: You processed one upload and OOM killed your container.",
+        "logline": "Junior reads an entire 5 GB log export into RAM at once, feeding The Leak until Linux kills the process.",
+        "builds_on": "",
+        "topic": "reading a 5 GB file into memory at once",
+        "tech": "Python",
+        "wake_time": "4:02 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Four oh two P M. A five gigabyte file just entered production.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "4:02 PM",
+            "text": "CRITICAL: OOM KILLED",
+            "sub": "POV: You processed one upload and…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "narration": "And The Leak is getting hungrier.",
+            "text": "The Memory Slurp",
+            "sub": "When readall eats the whole server",
+            "kicker": "PROD MANOR #101",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Junior tried to parse a single user export.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the server running out of RAM?"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "dot read loads all five gigabytes straight into RAM at once.",
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "grow",
+                "amount": 1.8
+              }
+            ],
+            "lines": [
+              "def parse_logs(path):",
+              "    data = open(path).read()",
+              "    return data.splitlines()"
+            ],
+            "lang": "python",
+            "file": "exporter.py",
+            "highlight": [
+              2
+            ],
+            "error": "MemoryError / Killed (Out of memory)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The operating system kernel executed the process to survive.",
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "grow",
+                "amount": 2.3
+              }
+            ],
+            "title": "FATAL: Out Of M…",
+            "text": "Process 4102 killed by kernel. Slime level 100%."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Iterate over the file generator. Only one line lives in RAM at a time.",
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "shrink",
+                "amount": 1.0
+              }
+            ],
+            "lines": [
+              "def parse_logs(path):",
+              "    data = open(path).read()",
+              "    return data.splitlines()"
+            ],
+            "lang": "python",
+            "file": "exporter.py",
+            "fix_line": 2,
+            "after": "    with open(path) as f:",
+            "note": "Iterate line by line to keep memory flat."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Never read large files into memory at once. Follow @prodmanor for more.",
+            "lesson": "Stream large files with generators instead of holding them in memory.",
+            "cta": "Save this before your next big data import.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Calling file.read() on a 5 GB export loads the entire payload straight into RAM, causing the Linux kernel OOM killer to terminate your process instantly. Stream large files using line-by-line generators or chunked streaming instead.\n\nHave you ever brought down a server with a giant file upload? Let us know below!\n\nFollow @prodmanor for daily production bug stories.",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#backend",
+          "#devops",
+          "#webdev",
+          "#codinghumor",
+          "#softwareengineering"
+        ],
+        "cover_text": "MEMORY SLURP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 216
+    },
+    "2026-11-03-b": {
+      "status": "pitched",
+      "created": "2026-11-03T07:01:04.580897+05:30",
+      "day": "2026-11-03",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-03-b",
+        "title": "The Zero Phantom",
+        "monster": "null",
+        "concept": "strict inequality check for PHP strpos",
+        "level": "intermediate",
+        "language": "php",
+        "hook": "Why does PHP think user ID zero does not exist?",
+        "logline": "Junior uses loose comparison on PHP strpos, causing index zero matches to evaluate as false.",
+        "builds_on": "",
+        "topic": "PHP strpos returns 0 and == false treats it as not found",
+        "tech": "PHP",
+        "wake_time": "7:35 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Seven thirty five A M. Premium user zero cannot log in.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "7:35 AM",
+            "text": "ALERT: SEARCH BROKEN",
+            "sub": "Why does PHP think user ID zero d…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "narration": "The Null ghost is hiding inside index zero.",
+            "text": "The Zero Phantom",
+            "sub": "Loose equality hiding index zero",
+            "kicker": "PROD MANOR #102",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The search string started at position zero.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The prefix search is failing for root admins!"
+              },
+              {
+                "who": "null",
+                "text": "I was at index zero... but you called me false."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "strpos returns zero. In loose equality, zero equals false.",
+            "actors": [
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "function hasPrefix($str, $sub) {",
+              "    if (strpos($str, $sub) == false) {",
+              "        return false;",
+              "    }",
+              "    return true;",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "highlight": [
+              2
+            ],
+            "error": "strpos() returns 0, zero == false evaluates to true"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The check fails because PHP coerced integer zero to boolean false.",
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "idle"
+              }
+            ],
+            "title": "LOGIC BUG: Loos…",
+            "text": "0 == false is true. Valid prefix rejected."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use strict equality to check against real false, not zero.",
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "function hasPrefix($str, $sub) {",
+              "    if (strpos($str, $sub) == false) {",
+              "        return false;",
+              "    }",
+              "    return true;",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "fix_line": 2,
+            "after": "    if (strpos($str, $sub) === false) {",
+            "note": "Use strict inequality !== false to distinguish zero from false."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Strict equality prevents zero from becoming false. Follow @prodmanor for more.",
+            "lesson": "Always use strict comparison !== false with PHP strpos.",
+            "cta": "Save this before your next PHP refactor.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In PHP, strpos returns integer 0 when a substring match is found at the very beginning of a string. Under loose equality (== false), integer 0 evaluates to true, breaking your validation logic! Always use strict inequality !== false or str_contains().\n\nWhat is your favorite PHP quirk? Tell us in the comments!\n\nFollow @prodmanor for real production bug breakdowns.",
+        "hashtags": [
+          "#php",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#code",
+          "#developer",
+          "#softwareengineering"
+        ],
+        "cover_text": "ZERO PHANTOM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 217
+    },
+    "2026-11-03-c": {
+      "status": "pitched",
+      "created": "2026-11-03T07:01:04.580903+05:30",
+      "day": "2026-11-03",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-03-c",
+        "title": "The Blocking Twin",
+        "monster": "twins",
+        "concept": "non-blocking HTTP calls in asyncio event loops",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This sync request inside async freezes every active user at once.",
+        "logline": "Junior uses sync requests inside an async Python endpoint, locking the entire single-threaded event loop.",
+        "builds_on": "",
+        "topic": "blocking requests.get inside async def freezes the event loop",
+        "tech": "Python asyncio",
+        "wake_time": "6:53 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Six fifty three A M. Every worker process in FastAPI is frozen.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "6:53 AM",
+            "text": "EVENT LOOP STALLED",
+            "sub": "This sync request inside async fr…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "narration": "Fork and Join are blocking the main loop.",
+            "text": "The Blocking Twin",
+            "sub": "When synchronous I/O locks asyncio",
+            "kicker": "PROD MANOR #103",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "One worker is handling a thousand requests, but it blocked.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is async serving one request at a time?"
+              },
+              {
+                "who": "twins",
+                "text": "After you."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "requests.get blocks the thread. Async cannot yield control.",
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "import requests",
+              "@app.get('/data')",
+              "async def fetch_data():",
+              "    res = requests.get(URL)",
+              "    return res.json()"
+            ],
+            "lang": "python",
+            "file": "api.py",
+            "highlight": [
+              4
+            ],
+            "error": "Event loop blocked by synchronous socket I/O"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The event loop cannot yield control until network I/O finishes.",
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7,
+                "action": "idle"
+              }
+            ],
+            "title": "THREAD LOCK: Ev…",
+            "text": "Single thread waiting on network socket. All requests queued."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use an async HTTP client with await to release the loop.",
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.7,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "import requests",
+              "@app.get('/data')",
+              "async def fetch_data():",
+              "    res = requests.get(URL)",
+              "    return res.json()"
+            ],
+            "lang": "python",
+            "file": "api.py",
+            "fix_line": 4,
+            "after": "    res = await client.get(URL)",
+            "note": "Use async httpx.AsyncClient to keep the loop moving."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Never call blocking synchronous code inside async functions. Follow @prodmanor for more.",
+            "lesson": "Never call synchronous blocking I/O inside async functions.",
+            "cta": "Share this with someone building FastAPI apps.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Calling synchronous libraries like requests inside an async def endpoint blocks Python's single-threaded event loop. While one network request is waiting for a response, no other concurrent request can be processed. Switch to an async HTTP client like httpx or aiohttp.\n\nHave you caught synchronous calls in your async code? Drop your experience below!\n\nFollow @prodmanor for daily programming tips.",
+        "hashtags": [
+          "#python",
+          "#fastapi",
+          "#asyncio",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#code"
+        ],
+        "cover_text": "BLOCKING ASYNC"
+      },
+      "warnings": [],
+      "pitch_msg_id": 218
+    },
+    "2026-11-03-d": {
+      "status": "pitched",
+      "created": "2026-11-03T07:01:04.580907+05:30",
+      "day": "2026-11-03",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-03-d",
+        "title": "The Endless Loopback",
+        "monster": "caller",
+        "concept": "circular references in JSON serialization",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Your logger will crash production if an object talks to itself.",
+        "logline": "Junior attempts to serialize a child object that references its parent, causing JSON.stringify to blow the call stack.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "3:01 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Three oh one P M. The payment logger just threw an unhandled error.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "3:01 PM",
+            "text": "UNCAUGHT TYPEERROR",
+            "sub": "Your logger will crash production…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "narration": "The Caller is dialing back to himself.",
+            "text": "The Endless Loopback",
+            "sub": "Circular references in JSON stringify",
+            "kicker": "PROD MANOR #104",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The child object points straight back to its parent.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did stringifying the user session explode?"
+              },
+              {
+                "who": "caller",
+                "text": "Parent has child, child has parent!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "JSON stringify recurses infinitely until the stack explodes.",
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "lines": [
+              "const user = { name: 'Alice' };",
+              "user.self = user;",
+              "function logUser(u) {",
+              "  return JSON.stringify(u);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "highlight": [
+              4
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The call stack collapsed under infinite self-references.",
+            "sfx": [
+              "ring"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "stack",
+                "copies": 5
+              }
+            ],
+            "title": "FATAL: Circular…",
+            "text": "TypeError: Converting circular structure to JSON."
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Pass a replacer function to strip circular links before stringifying.",
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "const user = { name: 'Alice' };",
+              "user.self = user;",
+              "function logUser(u) {",
+              "  return JSON.stringify(u);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "fix_line": 4,
+            "after": "  return JSON.stringify(u, getClean());",
+            "note": "Use a replacer function or WeakSet to omit circular references."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Always clean circular references before stringifying objects. Follow @prodmanor for more.",
+            "lesson": "Strip circular references before passing objects to JSON.stringify.",
+            "cta": "Save this before writing your next custom logger.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Standard JSON.stringify throws a TypeError whenever an object contains a circular reference (such as DOM nodes, ORM models with back-references, or recursive data models). Pass a custom replacer function using a WeakSet to safely prune cyclic nodes.\n\nHow do you handle cyclic objects in JS logging? Tell us below!\n\nFollow @prodmanor for more real production horrors.",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#frontend",
+          "#backend",
+          "#programming",
+          "#code"
+        ],
+        "cover_text": "CIRCULAR JSON"
+      },
+      "warnings": [],
+      "pitch_msg_id": 219
     }
   },
   "telegram": {
@@ -9241,7 +9960,11 @@
       "209": "2026-11-02-a",
       "210": "2026-11-02-b",
       "211": "2026-11-02-c",
-      "212": "2026-11-02-d"
+      "212": "2026-11-02-d",
+      "216": "2026-11-03-a",
+      "217": "2026-11-03-b",
+      "218": "2026-11-03-c",
+      "219": "2026-11-03-d"
     }
   },
   "settings": {
@@ -9322,7 +10045,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-03": {}
+    "2026-11-03": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
