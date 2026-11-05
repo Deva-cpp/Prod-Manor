@@ -11508,7 +11508,8 @@
     "2026-11-05": {
       "pitched": true,
       "brain": "gemini",
-      "note": ""
+      "note": "",
+      "reported": true
     }
   },
   "token": {},
