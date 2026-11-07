@@ -12148,6 +12148,667 @@
       },
       "warnings": [],
       "pitch_msg_id": 240
+    },
+    "2026-11-07-a": {
+      "status": "pitched",
+      "created": "2026-11-07T07:01:57.870128+05:30",
+      "day": "2026-11-07",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-07-a",
+        "title": "The Thirty Day Glitch",
+        "monster": "ollie",
+        "concept": "32-bit integer overflow in setTimeout",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Setting a thirty day timer fires right now.",
+        "logline": "Junior sets a 30-day trial expiration delay in Node.js, but integer overflow causes it to trigger immediately.",
+        "builds_on": "",
+        "topic": "setTimeout longer than 24.8 days fires immediately",
+        "tech": "Node.js",
+        "wake_time": "1:30 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "One thirty A M. All thirty day trials just expired instantly.",
+            "time": "1:30 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Trial accounts expiring after 1 m…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Thirty Day Glitch",
+            "sub": "32-bit signed integer overflow in Node timers",
+            "kicker": "Prod Manor #101",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.1,
+                "to": {
+                  "x": 0.75
+                }
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Room four, I presume? Your thirty day timer is complete!"
+              },
+              {
+                "who": "junior",
+                "text": "I set that timer two seconds ago!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Thirty days in milliseconds exceeds two to the thirty-first power minus one.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "// Delay for 30 days in milliseconds",
+              "const delay = 30 * 24 * 3600 * 1000;",
+              "setTimeout(expireTrial, delay);"
+            ],
+            "lang": "javascript",
+            "file": "billing.js",
+            "highlight": [
+              2,
+              3
+            ],
+            "error": "TimeoutOverflowWarning: 2592000000 does not fit into a 32-bit signed integer. Timeout duration set to 1."
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "shake": true,
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.2
+              }
+            ],
+            "title": "INTEGER OVERFLOW",
+            "text": "Node caps overflowing delays to 1ms"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1,
+                "expr_to": "scared",
+                "expr_at": 0.8
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Twenty four point eight days is my exact threshold!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Store the execution timestamp and let a background job scheduler trigger it.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "// Delay for 30 days in milliseconds",
+              "const delay = 30 * 24 * 3600 * 1000;",
+              "setTimeout(expireTrial, delay);"
+            ],
+            "lang": "javascript",
+            "file": "billing.js",
+            "fix_line": 3,
+            "after": "scheduleTask(Date.now() + delay, expireT",
+            "note": "Node setTimeout overflows past 24.8 days. Use a persistent job scheduler."
+          },
+          {
+            "type": "outro",
+            "dur": 2.5,
+            "lesson": "Never set Node timers longer than 24.8 days.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "leak",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Did you know Node.js setTimeout breaks after 24.8 days? Because delays are stored as 32-bit signed integers, anything over 2,147,483,647ms overflows and defaults to 1ms, triggering instantly!\n\nFor long-running delays, always use a persistent task queue or database job scheduler.\n\nHave you ever caught a timer overflow in production? Tag a friend who needs to know this!\n\nFollow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#codinghumor",
+          "#softwareengineering"
+        ],
+        "cover_text": "TIMER OVERFLOW"
+      },
+      "warnings": [],
+      "pitch_msg_id": 244
+    },
+    "2026-11-07-b": {
+      "status": "pitched",
+      "created": "2026-11-07T07:01:57.870147+05:30",
+      "day": "2026-11-07",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-07-b",
+        "title": "The Growing Listener",
+        "monster": "leak",
+        "concept": "EventEmitter listener leak per request",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: your server slows down with every single HTTP request.",
+        "logline": "An Express route handler registers a new event listener on every request, leaking memory until Node warns of excess listeners.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "7:17 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Seven seventeen P M. Memory consumption keeps rising.",
+            "time": "7:17 PM",
+            "text": "MEMORY WARNING",
+            "sub": "Server RAM climbing with every in…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Growing Listener",
+            "sub": "Attaching EventEmitters inside request routes",
+            "kicker": "Prod Manor #102",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more listeners?"
+              },
+              {
+                "who": "junior",
+                "text": "Why are you expanding on every request?!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Every HTTP request registers a fresh callback on a global event bus.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "app.get('/order', (req, res) => {",
+              "  bus.on('paid', () => sendEmail(req));",
+              "  res.send('Processing');",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 paid listeners added."
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "shake": true,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.4
+              }
+            ],
+            "title": "LISTENERS EXCEE…",
+            "text": "11 duplicate callbacks holding request scopes in memory"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use bus.once to clean up listeners automatically after execution.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.9,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "app.get('/order', (req, res) => {",
+              "  bus.on('paid', () => sendEmail(req));",
+              "  res.send('Processing');",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  bus.once('paid', () => sendEmail(req))",
+            "note": "bus.once auto-removes the listener after it executes one time."
+          },
+          {
+            "type": "outro",
+            "dur": 2.5,
+            "lesson": "Never register persistent event listeners inside request handlers.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Attaching bus.on inside express handlers is a classic Node.js memory leak! Every HTTP request adds another listener function that holds on to req scope in RAM.\n\nUse bus.once() for single events or register static listeners at app startup.\n\nHave you ever seen MaxListenersExceededWarning in your logs? Tell us in the comments!\n\nFollow @prodmanor for daily backend debugging tips.",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#backend",
+          "#expressjs",
+          "#memoryleak",
+          "#coding",
+          "#webdev"
+        ],
+        "cover_text": "MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 245
+    },
+    "2026-11-07-c": {
+      "status": "pitched",
+      "created": "2026-11-07T07:01:57.870153+05:30",
+      "day": "2026-11-07",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-07-c",
+        "title": "The Call That Never Ends",
+        "monster": "caller",
+        "concept": "circular reference JSON serialization failure",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does stringifying a simple user object crash your API?",
+        "logline": "Junior tries to JSON.stringify a record with a parent pointer back to itself, triggering a circular reference exception.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "7:56 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Seven fifty six P M. The user payload cannot be stringified.",
+            "time": "7:56 PM",
+            "text": "CRASH IN PROD",
+            "sub": "500 Internal Server Error on API…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Call That Never Ends",
+            "sub": "Converting circular structure to JSON",
+            "kicker": "Prod Manor #103",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "I am pointing to myself! Call back forever!"
+              },
+              {
+                "who": "junior",
+                "text": "Stop ringing! It is just a JSON object!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "JSON.stringify walks object properties infinitely when an object references itself.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "const user = { name: 'Alex' };",
+              "user.self = user;",
+              "const body = JSON.stringify(user);"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "highlight": [
+              2,
+              3
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2
+              }
+            ],
+            "title": "TYPE ERROR",
+            "text": "Circular structure detected during JSON serialization"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Break circular references before calling JSON.stringify.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const user = { name: 'Alex' };",
+              "user.self = user;",
+              "const body = JSON.stringify(user);"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "fix_line": 2,
+            "after": "delete user.self; // strip circular ref",
+            "note": "Remove back-references or use a custom replacer before stringifying."
+          },
+          {
+            "type": "outro",
+            "dur": 2.5,
+            "lesson": "Never pass objects with self-references to JSON.stringify.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Trying to serialize objects with circular references will crash your Node or browser app instantly! JSON.stringify cannot traverse infinite parent-child references.\n\nRemove back-references or use a custom replacer function like structuredClone or flatted.\n\nWhat is your favorite tool for handling circular data structures? Let us know below!\n\nFollow @prodmanor for daily dev tips.",
+        "hashtags": [
+          "#javascript",
+          "#typescript",
+          "#webdev",
+          "#frontend",
+          "#backend",
+          "#programming",
+          "#codebugs"
+        ],
+        "cover_text": "CIRCULAR JSON"
+      },
+      "warnings": [],
+      "pitch_msg_id": 246
+    },
+    "2026-11-07-d": {
+      "status": "pitched",
+      "created": "2026-11-07T07:01:57.870157+05:30",
+      "day": "2026-11-07",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-07-d",
+        "title": "The Frozen Event Loop",
+        "monster": "twins",
+        "concept": "blocking I/O inside asyncio coroutine",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Synchronous HTTP calls will paralyze your entire asyncio server.",
+        "logline": "Junior calls synchronous requests.get inside an async def FastAPI route, locking up the single-threaded Python event loop.",
+        "builds_on": "",
+        "topic": "blocking requests.get inside async def freezes the event loop",
+        "tech": "Python asyncio",
+        "wake_time": "12:34 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Twelve thirty four A M. All concurrent requests are frozen.",
+            "time": "12:34 AM",
+            "text": "EVENT LOOP FROZEN",
+            "sub": "Async API stopped responding to c…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Frozen Event Loop",
+            "sub": "Blocking requests inside Python asyncio coroutines",
+            "kicker": "Prod Manor #104",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "After you. No, after YOU. Nobody gets to move!"
+              },
+              {
+                "who": "junior",
+                "text": "Why is my entire FastAPI server stuck?!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "requests.get is synchronous and blocks the single Python event loop thread.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "async def fetch_data(url):",
+              "    response = requests.get(url)",
+              "    return response.json()"
+            ],
+            "lang": "python",
+            "file": "main.py",
+            "highlight": [
+              2
+            ],
+            "error": "WARNING: Event loop blocked for 4.82 seconds by synchronous requests.get call"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "shake": true,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2
+              }
+            ],
+            "title": "LOOP BLOCKED",
+            "text": "Synchronous I/O stops all concurrent tasks"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use await with non-blocking async HTTP client libraries.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "async def fetch_data(url):",
+              "    response = requests.get(url)",
+              "    return response.json()"
+            ],
+            "lang": "python",
+            "file": "main.py",
+            "fix_line": 2,
+            "after": "    response = await httpx.AsyncClient()",
+            "note": "Use an async HTTP client like httpx or aiohttp to yield control to the loop."
+          },
+          {
+            "type": "outro",
+            "dur": 2.5,
+            "lesson": "Never make synchronous blocking calls inside async functions.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Using synchronous HTTP libraries like `requests` inside Python `async def` functions blocks the entire asyncio event loop! That means every other concurrent user is stuck waiting for your synchronous network call to finish.\n\nAlways use non-blocking HTTP clients like `httpx` or `aiohttp` with `await` in async code.\n\nHave you ever frozen your event loop by accident? Drop your story in the comments!\n\nFollow @prodmanor for daily Python & backend tips.",
+        "hashtags": [
+          "#python",
+          "#fastapi",
+          "#asyncio",
+          "#backend",
+          "#programming",
+          "#webdevelopment",
+          "#codehumor"
+        ],
+        "cover_text": "FROZEN LOOP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 247
     }
   },
   "telegram": {
@@ -12217,7 +12878,11 @@
       "237": "2026-11-06-a",
       "238": "2026-11-06-b",
       "239": "2026-11-06-c",
-      "240": "2026-11-06-d"
+      "240": "2026-11-06-d",
+      "244": "2026-11-07-a",
+      "245": "2026-11-07-b",
+      "246": "2026-11-07-c",
+      "247": "2026-11-07-d"
     }
   },
   "settings": {
@@ -12322,7 +12987,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-07": {}
+    "2026-11-07": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
