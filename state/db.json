@@ -13572,6 +13572,814 @@
       },
       "warnings": [],
       "pitch_msg_id": 254
+    },
+    "2026-11-09-a": {
+      "status": "pitched",
+      "created": "2026-11-09T07:01:28.418926+05:30",
+      "day": "2026-11-09",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-09-a",
+        "title": "The Partial Match Trap",
+        "monster": "ollie",
+        "concept": "re.fullmatch vs re.match",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This regular expression let malicious scripts right past the validator.",
+        "logline": "Junior discovers re.match only validates the start of user input, letting malicious payloads pass.",
+        "builds_on": "",
+        "topic": "re.match without anchors accepts 'abc123evil'",
+        "tech": "Python",
+        "wake_time": "2:36 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "At two thirty six A M, malicious input slipped past validation.",
+            "on_screen": "2:36 AM - PROD ALERT",
+            "sfx": [
+              "pager"
+            ],
+            "time": "2:36 AM",
+            "text": "SECURITY ALERT",
+            "sub": "Validation bypass in production"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Partial Match Trap",
+            "sub": "re.match only checks the start of the string",
+            "kicker": "Python Regex Bug",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92,
+                "to": {
+                  "x": 0.75
+                }
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "I matched the front! The back is extra."
+              },
+              {
+                "who": "junior",
+                "text": "The back is a database injection payload!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Python re match stops checking once the initial pattern succeeds.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              }
+            ],
+            "lines": [
+              "import re",
+              "def check(s):",
+              "    # bug: matches prefix only",
+              "    m = re.match(r'\\w+', s)",
+              "    return bool(m)"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "highlight": [
+              4
+            ],
+            "error": "Accepted: 'admin; DROP TABLE users;'"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "SECURITY BREACH",
+            "text": "re.match returned True on unescaped payload suffix"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Without explicit anchors or fullmatch, trailing input is ignored.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "expr_to": "scared",
+                "expr_at": 0.6
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "If the first character matches, I stop caring."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use re fullmatch to ensure the regex validates the complete string.",
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "import re",
+              "def check(s):",
+              "    # bug: matches prefix only",
+              "    m = re.match(r'\\w+', s)",
+              "    return bool(m)"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "fix_line": 4,
+            "after": "    m = re.fullmatch(r'\\w+', s)",
+            "note": "re.fullmatch verifies the entire string matches the pattern, avoiding input injection."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Always use re.fullmatch when validating complete user input in Python.",
+            "cta": "Follow @prodmanor before the next bug strikes.",
+            "next_monster": "null",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Python's `re.match` only checks if the regex matches at the beginning of a string. If user input contains trailing malicious characters or SQL commands, `re.match` still returns a match object! To ensure the entire input matches your pattern, use `re.fullmatch`. Have you ever had a regex bug slip through code review? Tell us in the comments! @prodmanor",
+        "hashtags": [
+          "#python",
+          "#regex",
+          "#backend",
+          "#coding",
+          "#programming",
+          "#webdev",
+          "#devhumor",
+          "#prodmanor"
+        ],
+        "cover_text": "REGEX TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 258
+    },
+    "2026-11-09-b": {
+      "status": "pitched",
+      "created": "2026-11-09T07:01:28.418944+05:30",
+      "day": "2026-11-09",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-09-b",
+        "title": "The Ghost URL",
+        "monster": "null",
+        "concept": "environment variable validation",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: your app is making HTTP requests to undefined.com",
+        "logline": "A missing environment variable turns into the string 'undefined' inside template literals, breaking API calls.",
+        "builds_on": "",
+        "topic": "missing env var becomes the string 'undefined' inside a URL",
+        "tech": "Node.js",
+        "wake_time": "8:13 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "At eight thirteen A M, production tried contacting host undefined.",
+            "on_screen": "8:13 AM - PROD ALERT",
+            "sfx": [
+              "pager"
+            ],
+            "time": "8:13 AM",
+            "text": "HTTP 404 FLOOD",
+            "sub": "API client requesting undefined e…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Ghost URL",
+            "sub": "Missing environment variables coerce to 'undefined'",
+            "kicker": "Node.js Env Bug",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "sfx": [
+              "whoosh"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "I turned your missing environment variable into text!"
+              },
+              {
+                "who": "junior",
+                "text": "You made our app fetch undefined slash api!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "In Node, missing env variables return undefined, which template strings cast to text.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              }
+            ],
+            "lines": [
+              "function getUrl(path) {",
+              "  const base = process.env.HOST;",
+              "  // missing env coerced to string",
+              "  return `${base}/${path}`;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "highlight": [
+              2
+            ],
+            "error": "FetchError: Failed to parse URL from undefined/users"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "INVALID URL CRA…",
+            "text": "process.env.HOST returned undefined, coerced into URL string"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Always validate required configuration before accepting requests.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Nobody checked if I existed on startup..."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Throw an explicit error at application startup when env vars are missing.",
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "function getUrl(path) {",
+              "  const base = process.env.HOST;",
+              "  // missing env coerced to string",
+              "  return `${base}/${path}`;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "fix_line": 2,
+            "after": "  const base = requireEnv(\"HOST\");",
+            "note": "Validate environment variables at startup to prevent calls to undefined endpoints."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Fail fast on startup if required env variables are missing.",
+            "cta": "Save this before your next production deploy.",
+            "next_monster": "leak",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "In Node.js, reading an undefined environment variable returns `undefined`. But when concatenated inside a URL template string, JS silently coerces it to the string `'undefined'`, causing requests to `undefined/api`. Always validate required env vars at startup! How do you handle missing config in prod? Share your setup below! @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#programming",
+          "#softwareengineering",
+          "#code",
+          "#prodmanor"
+        ],
+        "cover_text": "UNDEFINED URL"
+      },
+      "warnings": [],
+      "pitch_msg_id": 259
+    },
+    "2026-11-09-c": {
+      "status": "pitched",
+      "created": "2026-11-09T07:01:28.418950+05:30",
+      "day": "2026-11-09",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-09-c",
+        "title": "The Infinite Channel",
+        "monster": "leak",
+        "concept": "goroutine unbuffered channel leak",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "This goroutine leak silently consumes your server memory on every timeout.",
+        "logline": "An unbuffered channel write blocks a goroutine forever when the caller stops listening, exhausting RAM.",
+        "builds_on": "",
+        "topic": "Go goroutine leak: goroutine blocked forever on a channel nobody reads",
+        "tech": "Go",
+        "wake_time": "7:53 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "At seven fifty three A M, production server memory collapsed.",
+            "on_screen": "7:53 AM - PROD ALERT",
+            "sfx": [
+              "pager"
+            ],
+            "time": "7:53 AM",
+            "text": "RAM EXHAUSTED",
+            "sub": "Goroutine count climbing infinite…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Infinite Channel",
+            "sub": "Goroutines block forever on unread channel writes",
+            "kicker": "Go Concurrency Bug",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "sfx": [
+              "slurp"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "action": "grow",
+                "amount": 1.6
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "Nobody read my channel, so I stay forever."
+              },
+              {
+                "who": "junior",
+                "text": "There are fifty thousand blocked goroutines in RAM!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Writing to an unbuffered channel blocks until another goroutine receives.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              }
+            ],
+            "lines": [
+              "func startWorker() {",
+              "    // unbuffered blocks goroutine",
+              "    c := make(chan string)",
+              "    go func() { c <- \"done\" }()",
+              "}"
+            ],
+            "lang": "go",
+            "file": "worker.go",
+            "highlight": [
+              3
+            ],
+            "error": "fatal error: all goroutines are asleep - deadlock!"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "MEMORY LEAK DET…",
+            "text": "Goroutines blocked on channel send never garbage collected"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Unread senders remain in memory indefinitely.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "I just wanted someone to take my value..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use a buffered channel so asynchronous goroutines can complete and exit.",
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "func startWorker() {",
+              "    // unbuffered blocks goroutine",
+              "    c := make(chan string)",
+              "    go func() { c <- \"done\" }()",
+              "}"
+            ],
+            "lang": "go",
+            "file": "worker.go",
+            "fix_line": 3,
+            "after": "    c := make(chan string, 1)",
+            "note": "Using a buffered channel or context prevents goroutines from blocking forever on unread s…"
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Buffer channels when writes happen asynchronously without guaranteed readers.",
+            "cta": "Follow @prodmanor for more Go production fixes.",
+            "next_monster": "caller",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Sending data to an unbuffered channel in Go blocks the calling goroutine until another goroutine reads from it. If the receiver exits early, the goroutine remains blocked in memory forever, leaking RAM. Using a buffered channel or context cancellation prevents leaks. Have you tracked down a goroutine leak before? Tell us below! @prodmanor",
+        "hashtags": [
+          "#golang",
+          "#backend",
+          "#concurrency",
+          "#programming",
+          "#devops",
+          "#coding",
+          "#prodmanor"
+        ],
+        "cover_text": "GOROUTINE LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 260
+    },
+    "2026-11-09-d": {
+      "status": "pitched",
+      "created": "2026-11-09T07:01:28.418954+05:30",
+      "day": "2026-11-09",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-09-d",
+        "title": "The Tower of Calls",
+        "monster": "caller",
+        "concept": "iterative tree traversal vs recursion",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Your recursive tree walk works fine until production data hits depth one thousa…",
+        "logline": "A deep recursive tree traversal exceeds Python's maximum recursion limit, taking down the worker.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "4:43 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "At four forty three A M, a deep tree traversal blew up the call stack.",
+            "on_screen": "4:43 AM - PROD ALERT",
+            "sfx": [
+              "pager"
+            ],
+            "time": "4:43 AM",
+            "text": "CRASH IN PROD",
+            "sub": "RecursionError: maximum recursion…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Tower of Calls",
+            "sub": "Deep recursive tree traversal overflows the stack",
+            "kicker": "Python Stack Bug",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "sfx": [
+              "ring"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Every child node gets another call on the stack!"
+              },
+              {
+                "who": "junior",
+                "text": "Stop calling! The stack frame limit is exploding!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Recursive calls build up stack frames until Python hits its limit.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              }
+            ],
+            "lines": [
+              "def walk(root):",
+              "    # recursion limit hit",
+              "    stack = [root]",
+              "    while stack:",
+              "        curr = stack.pop()",
+              "        walk(curr)"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "highlight": [
+              6
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded in comparison"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "STACK OVERFLOW",
+            "text": "Call stack limit reached during deep tree traversal"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Recursion relies on call stack space, which is finite.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "I can not stop phoning until I reach the bottom!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Append children to an explicit list stack to iterate safely.",
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "def walk(root):",
+              "    # recursion limit hit",
+              "    stack = [root]",
+              "    while stack:",
+              "        curr = stack.pop()",
+              "        walk(curr)"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "fix_line": 6,
+            "after": "        stack.extend(curr.kids)",
+            "note": "Use an explicit heap stack instead of recursion for deep trees."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Convert deep recursive traversals into iterative loops with explicit stacks.",
+            "cta": "Save this before your next tree traversal deploy.",
+            "next_monster": "twins",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Python has a default stack recursion limit of 1,000 frames. Traversing deep trees or nested structures recursively can crash production with a `RecursionError`. Switching to an iterative `while` loop with an explicit list stack avoids the call stack limit. What is the deepest stack trace you have seen in prod? Drop a comment! @prodmanor",
+        "hashtags": [
+          "#python",
+          "#algorithms",
+          "#datastructures",
+          "#programming",
+          "#softwareengineer",
+          "#coding",
+          "#prodmanor"
+        ],
+        "cover_text": "STACK OVERFLOW"
+      },
+      "warnings": [],
+      "pitch_msg_id": 261
     }
   },
   "telegram": {
@@ -13649,7 +14457,11 @@
       "251": "2026-11-08-a",
       "252": "2026-11-08-b",
       "253": "2026-11-08-c",
-      "254": "2026-11-08-d"
+      "254": "2026-11-08-d",
+      "258": "2026-11-09-a",
+      "259": "2026-11-09-b",
+      "260": "2026-11-09-c",
+      "261": "2026-11-09-d"
     }
   },
   "settings": {
@@ -13766,7 +14578,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-09": {}
+    "2026-11-09": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
