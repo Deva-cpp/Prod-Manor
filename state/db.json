@@ -14380,6 +14380,777 @@
       },
       "warnings": [],
       "pitch_msg_id": 261
+    },
+    "2026-11-10-a": {
+      "status": "pitched",
+      "created": "2026-11-10T07:01:19.701962+05:30",
+      "day": "2026-11-10",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-10-a",
+        "title": "The Retry Storm",
+        "monster": "caller",
+        "concept": "exponential backoff with jitter",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This phone will call your server until production melts.",
+        "logline": "A tight retry loop without backoff accidentally DDoSes a struggling upstream API.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "10:09 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Ten oh nine P M. An API glitch turned into a self-inflicted DDoS.",
+            "time": "10:09 PM",
+            "text": "PROD DOWN: API 503",
+            "sub": "10,000 requests per second!"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Retry Storm",
+            "sub": "When retries turn into a DDoS",
+            "kicker": "PYTHON TRAPS",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Is it up yet? How about now?!"
+              },
+              {
+                "who": "junior",
+                "text": "Stop calling! You are hammering it!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Retrying instantly on failure overwhelms the failing server.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "while True:",
+              "    try:",
+              "        return api.fetch_data()",
+              "    except APIError:",
+              "        pass"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "highlight": [
+              4,
+              5
+            ],
+            "error": "HTTP 503: Service Unavailable (Rate Limit Exceeded)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "RETRY STORM",
+            "text": "Zero delay between attempts created a self-inflicted DDoS."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "I can call one million times!"
+              },
+              {
+                "who": "junior",
+                "text": "We need exponential backoff!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Adding exponential backoff with jitter gives the API time to recover.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "while True:",
+              "    try:",
+              "        return api.fetch_data()",
+              "    except APIError:",
+              "        pass"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "fix_line": 5,
+            "after": "        time.sleep(2**i + jitter)",
+            "note": "Backoff delays retries so downstream services have room to recover."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always add exponential backoff to API retry loops.",
+            "cta": "Follow @prodmanor before your next deploy.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "When an external API stumbles, tight retry loops turn a tiny flicker into a full production outage. Without backoff and random jitter, every client retries at the exact same time, hammering the server back down. How do you handle retries in your production Python services? Follow @prodmanor for daily dev bugs!",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#webdev",
+          "#codinghumor",
+          "#devops",
+          "#softwareengineering",
+          "#programming",
+          "#api"
+        ],
+        "cover_text": "RETRY STORM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 265
+    },
+    "2026-11-10-b": {
+      "status": "pitched",
+      "created": "2026-11-10T07:01:19.701983+05:30",
+      "day": "2026-11-10",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-10-b",
+        "title": "The Uncaught Rejection",
+        "monster": "twins",
+        "concept": "awaiting unhandled promises in Node.js",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: You deployed your Node server on Friday night...",
+        "logline": "An unhandled promise rejection in an Express handler kills the whole Node process.",
+        "builds_on": "",
+        "topic": "unhandled promise rejection crashes the Node process",
+        "tech": "Node.js",
+        "wake_time": "11:55 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Eleven fifty five P M. One unhandled rejection killed Node.",
+            "time": "11:55 PM",
+            "text": "NODE PROCESS DIED",
+            "sub": "ERR_UNHANDLED_REJECTION"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Uncaught Rejection",
+            "sub": "One unhandled promise crashes everything",
+            "kicker": "NODE.JS TRAPS",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "We failed in secret and crashed Node!"
+              },
+              {
+                "who": "junior",
+                "text": "Why did the server process die?!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Firing a promise without await means rejections escape uncaught.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7
+              }
+            ],
+            "lines": [
+              "app.get('/user', async(req,res) => {",
+              "  fetchUser(req.params.id);",
+              "  res.send('OK');",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "UnhandledPromiseRejection: Error: User not found\n    [process exited with code 1]"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7
+              }
+            ],
+            "title": "PROCESS CRASH",
+            "text": "Node 15+ terminates the entire process on unhandled rejections."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Nobody caught our rejection!"
+              },
+              {
+                "who": "junior",
+                "text": "I have to await the promise!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Awaiting the promise allows Express and try-catch blocks to catch errors.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.7
+              }
+            ],
+            "lines": [
+              "app.get('/user', async(req,res) => {",
+              "  fetchUser(req.params.id);",
+              "  res.send('OK');",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  await fetchUser(req.params.id);",
+            "note": "Awaiting promises ensures errors route to catch blocks properly."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always await or catch every promise in Node.js.",
+            "cta": "Follow @prodmanor before your next deploy.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Ever had a Node.js server exit out of nowhere? Modern Node versions exit the entire process on unhandled promise rejections. If you trigger an async function inside a route without await or catch, any error will crash prod. Have you caught this bug in your logs before? Learn more with @prodmanor!",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#backend",
+          "#webdevelopment",
+          "#expressjs",
+          "#codinghumor",
+          "#fullstack"
+        ],
+        "cover_text": "UNCAUGHT REJECTION"
+      },
+      "warnings": [],
+      "pitch_msg_id": 266
+    },
+    "2026-11-10-c": {
+      "status": "pitched",
+      "created": "2026-11-10T07:01:19.701987+05:30",
+      "day": "2026-11-10",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-10-c",
+        "title": "The Lost Remainder",
+        "monster": "ollie",
+        "concept": "Math.ceil for pagination page calculation",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does page 10 of 10 return zero results?",
+        "logline": "Using Math.floor for page counts truncates the final page of data.",
+        "builds_on": "",
+        "topic": "total pages computed with integer division misses the last page",
+        "tech": "JavaScript",
+        "wake_time": "8:09 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Eight oh nine A M. Users are missing items on page three.",
+            "time": "8:09 AM",
+            "text": "CUSTOMER COMPLAINT",
+            "sub": "Where are my last 3 items?"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Lost Remainder",
+            "sub": "Math.floor steals your last page",
+            "kicker": "ALGORITHM TRAPS",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Twenty three items over ten is two pages!"
+              },
+              {
+                "who": "junior",
+                "text": "What about the leftover three items?!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "normal"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Floor division rounds down, dropping non-full final pages.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "to": {
+                  "x": 0.7
+                }
+              }
+            ],
+            "lines": [
+              "function getPages(total, size) {",
+              "  return Math.floor(total / size);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "paginate.js",
+            "highlight": [
+              2
+            ],
+            "error": "Expected 3 pages for 23 items, got 2 pages"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7
+              }
+            ],
+            "title": "TRUNCATION BUG",
+            "text": "Floor division drops remaining items into the void."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "I always drop the remainder!"
+              },
+              {
+                "who": "junior",
+                "text": "We need Math.ceil to round up!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "normal"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Math.ceil rounds fractional pages up so no data is cut off.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7
+              }
+            ],
+            "lines": [
+              "function getPages(total, size) {",
+              "  return Math.floor(total / size);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "paginate.js",
+            "fix_line": 2,
+            "after": "  return Math.ceil(total / size);",
+            "note": "Math.ceil ensures non-full final pages get counted."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use Math.ceil for pagination page counts.",
+            "cta": "Save this before writing your next API.",
+            "next_monster": "leak",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Calculating total pages with integer division or Math.floor works great until total items isn't evenly divisible by page size. 23 items with a page size of 10 gives 2 pages, hiding the last 3 items completely. Have you ever lost items to integer division? Save this and follow @prodmanor!",
+        "hashtags": [
+          "#javascript",
+          "#frontend",
+          "#webdev",
+          "#algorithm",
+          "#typescript",
+          "#coding",
+          "#softwaredeveloper"
+        ],
+        "cover_text": "LOST REMAINDER"
+      },
+      "warnings": [],
+      "pitch_msg_id": 267
+    },
+    "2026-11-10-d": {
+      "status": "pitched",
+      "created": "2026-11-10T07:01:19.701991+05:30",
+      "day": "2026-11-10",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-10-d",
+        "title": "The Growing Listener",
+        "monster": "leak",
+        "concept": "EventEmitter listener leaks in HTTP handlers",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Your Express server leaks memory on every single HTTP request.",
+        "logline": "Registering event listeners inside HTTP route handlers causes a memory leak.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "1:05 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "One oh five A M. Memory usage is climbing continuously.",
+            "time": "1:05 AM",
+            "text": "WARNING: MEMORY LEAK",
+            "sub": "MaxListenersExceededWarning"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Growing Listener",
+            "sub": "Adding event listeners inside request handlers",
+            "kicker": "NODE.JS TRAPS",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "action": "grow",
+                "amount": 1.8
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more?"
+              },
+              {
+                "who": "junior",
+                "text": "The event listener pool is overflowing!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Each request adds a permanent listener to the global event emitter.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "app.get('/data', (req, res) => {",
+              "  emitter.on('data', (d) => {});",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 data listeners added."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "LISTENER LEAK",
+            "text": "Every request attaches another listener to a shared emitter."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "So... hungry..."
+              },
+              {
+                "who": "junior",
+                "text": "We must use emitter.once!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Using once removes the listener after execution, preventing leaks.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "app.get('/data', (req, res) => {",
+              "  emitter.on('data', (d) => {});",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  emitter.once('data', (d) => {});",
+            "note": "emitter.once removes the listener immediately after firing."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never attach persistent event listeners inside request handlers.",
+            "cta": "Follow @prodmanor before your server crashes.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Attaching `emitter.on` inside an Express route handler registers a new listener on every incoming HTTP request. Because the handler is held in memory by the emitter, Node raises a MaxListenersExceededWarning and leaks heap memory. How do you track down memory leaks in Node? Drop a comment and follow @prodmanor!",
+        "hashtags": [
+          "#nodejs",
+          "#expressjs",
+          "#backend",
+          "#javascript",
+          "#memoryleak",
+          "#codinghumor",
+          "#webdev"
+        ],
+        "cover_text": "GROWING LISTENER"
+      },
+      "warnings": [],
+      "pitch_msg_id": 268
     }
   },
   "telegram": {
@@ -14461,7 +15232,11 @@
       "258": "2026-11-09-a",
       "259": "2026-11-09-b",
       "260": "2026-11-09-c",
-      "261": "2026-11-09-d"
+      "261": "2026-11-09-d",
+      "265": "2026-11-10-a",
+      "266": "2026-11-10-b",
+      "267": "2026-11-10-c",
+      "268": "2026-11-10-d"
     }
   },
   "settings": {
@@ -14584,7 +15359,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-10": {}
+    "2026-11-10": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
