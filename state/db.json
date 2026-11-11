@@ -15151,6 +15151,783 @@
       },
       "warnings": [],
       "pitch_msg_id": 268
+    },
+    "2026-11-11-a": {
+      "status": "pitched",
+      "created": "2026-11-11T07:01:14.634418+05:30",
+      "day": "2026-11-11",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-11-a",
+        "title": "Nobody Called Him Back",
+        "monster": "null",
+        "concept": "Optional.get() without isPresent() check",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "POV: you assumed the database row actually existed.",
+        "logline": "Junior calls Optional.get() on an empty result and wakes The Null at nine fifty-one A M.",
+        "builds_on": "",
+        "topic": "Java Optional.get() on an empty Optional in a service",
+        "tech": "Spring Boot",
+        "wake_time": "9:51 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "shake": true,
+            "time": "9:51 AM",
+            "text": "PROD DOWN: NoSuchElemen…",
+            "sub": "NullPointerException's polite cou…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "Nobody Called Him Back",
+            "sub": "When you unwrap a box that was never packed",
+            "kicker": "Production Incident",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Nobody ever checks if I am present..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "public User getActiveUser(Long id) {",
+              "    Optional<User> user = repo.findById(",
+              "    return user.get();",
+              "}"
+            ],
+            "lang": "java",
+            "file": "UserService.java",
+            "highlight": [
+              3
+            ],
+            "error": "java.util.NoSuchElementException: No value present"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "title": "HTTP 500 INTERN…",
+            "text": "The service crashed because the database returned empty."
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I thought the ID had to exist!"
+              },
+              {
+                "who": "null",
+                "text": "Never assume. Always provide a backup."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.6
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "public User getActiveUser(Long id) {",
+              "    Optional<User> user = repo.findById(",
+              "    return user.get();",
+              "}"
+            ],
+            "lang": "java",
+            "file": "UserService.java",
+            "fix_line": 3,
+            "after": "    return user.orElseThrow(() -> new Us",
+            "note": "Use orElseThrow instead of raw get()"
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never call Optional.get() without checking isPresent() first.",
+            "cta": "Save this before your next Spring Boot deploy.",
+            "next_monster": "ollie",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Never trust an Optional to have a value just because you asked for it. Calling get() blindly throws NoSuchElementException straight into your logs at nine fifty-one A M. Use orElseThrow or orElse instead of playing database roulette. How often do you write custom exception handlers? Let us know below, and follow @prodmanor for more late-night debugging.",
+        "hashtags": [
+          "#coding",
+          "#java",
+          "#springboot",
+          "#backend",
+          "#programming",
+          "#softwareengineer",
+          "#devlife",
+          "#prodmanor"
+        ],
+        "cover_text": "STOP USING GET"
+      },
+      "warnings": [],
+      "pitch_msg_id": 272
+    },
+    "2026-11-11-b": {
+      "status": "pitched",
+      "created": "2026-11-11T07:01:14.634443+05:30",
+      "day": "2026-11-11",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-11-b",
+        "title": "The Almost Match",
+        "monster": "ollie",
+        "concept": "re.match prefix matching vs re.fullmatch",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This regex ghost accepts invalid input just because it started right.",
+        "logline": "Junior uses re.match for strict validation and lets evil input slip past at four twelve P M.",
+        "builds_on": "",
+        "topic": "re.match without anchors accepts 'abc123evil'",
+        "tech": "Python",
+        "wake_time": "4:12 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "shake": true,
+            "time": "4:12 PM",
+            "text": "SECURITY ALERT: Malicio…",
+            "sub": "Ollie One-Off matched the first h…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Almost Match",
+            "sub": "When matching the beginning is not enough",
+            "kicker": "Production Incident",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92,
+                "scale": 1.0,
+                "action": "enter_right",
+                "to": {
+                  "x": 0.75,
+                  "scale": 1.0
+                }
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "The first three characters were correct, neighbor!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "import re",
+              "def validate_code(val):",
+              "    pattern = r'[A-Z]{3}\\d{3}'",
+              "    return bool(re.match(pattern, val))"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "highlight": [
+              4
+            ],
+            "error": "Accepted 'ABC123evil' as valid"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "title": "UNVALIDATED INJ…",
+            "text": "re.match only checks the start of the string, not the end."
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "It matched evil input!"
+              },
+              {
+                "who": "ollie",
+                "text": "You forgot your end anchor dollar sign."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.6
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "import re",
+              "def validate_code(val):",
+              "    pattern = r'[A-Z]{3}\\d{3}'",
+              "    return bool(re.match(pattern, val))"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "fix_line": 4,
+            "after": "    return bool(re.fullmatch(pattern, va",
+            "note": "Use re.fullmatch for complete string validation"
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "re.match only tests the prefix. Use re.fullmatch for strict validation.",
+            "cta": "Follow before the next regex trap catches you.",
+            "next_monster": "twins",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Python's re.match does not mean what most developers think it means. It checks if the pattern matches at the beginning of the string, letting trailing malicious garbage sail right through at four twelve P M. Use re.fullmatch or add dollar sign anchors. Do you prefer re.fullmatch or adding anchors? Tell us below, and follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#python",
+          "#regex",
+          "#security",
+          "#programming",
+          "#backend",
+          "#developer",
+          "#prodmanor"
+        ],
+        "cover_text": "RE.MATCH TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 273
+    },
+    "2026-11-11-c": {
+      "status": "pitched",
+      "created": "2026-11-11T07:01:14.634449+05:30",
+      "day": "2026-11-11",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-11-c",
+        "title": "The Overwritten Map",
+        "monster": "twins",
+        "concept": "ConcurrentHashMap non-atomic compound operations",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "This concurrency bug silently eats your high-throughput counter updates.",
+        "logline": "Two threads update a shared map simultaneously and destroy state at three fourteen A M.",
+        "builds_on": "",
+        "topic": "Java HashMap shared across threads loses updates",
+        "tech": "Spring Boot",
+        "wake_time": "3:14 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "shake": true,
+            "time": "3:14 AM",
+            "text": "DATA CORRUPTION: Lost c…",
+            "sub": "Fork and Join arrived at the exac…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Overwritten Map",
+            "sub": "Thread safety is not guaranteed by thread-safe collections alone",
+            "kicker": "Production Incident",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "pop_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "After you update the count! No, after YOU."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "public void recordHit(String key) {",
+              "    int count = cache.getOrDefault(key, ",
+              "    cache.put(key, count + 1);",
+              "}"
+            ],
+            "lang": "java",
+            "file": "MetricsService.java",
+            "highlight": [
+              2,
+              3
+            ],
+            "error": "Race condition: concurrent updates overwrite each other"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "title": "LOST METRICS SI…",
+            "text": "Check-then-act is not atomic, even inside a concurrent map."
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The map is thread-safe why did it fail?!"
+              },
+              {
+                "who": "twins",
+                "text": "Two steps are never one, junior."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.6
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "public void recordHit(String key) {",
+              "    int count = cache.getOrDefault(key, ",
+              "    cache.put(key, count + 1);",
+              "}"
+            ],
+            "lang": "java",
+            "file": "MetricsService.java",
+            "fix_line": 2,
+            "after": "    cache.merge(key, 1, Integer::sum);",
+            "note": "Use atomic merge instead of check-then-act"
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Check-then-act on concurrent maps causes race conditions. Use atomic merge.",
+            "cta": "Save this before your multithreaded service loses data.",
+            "next_monster": "leak",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Even with a ConcurrentHashMap, calling get then put creates a dangerous check-then-act race condition that destroys updates at three fourteen A M. Atomic methods like merge exist for exactly this reason. How do you handle thread-safe aggregation? Tell us below, and follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#java",
+          "#concurrency",
+          "#multithreading",
+          "#backend",
+          "#softwareengineer",
+          "#programming",
+          "#prodmanor"
+        ],
+        "cover_text": "RACE CONDITION"
+      },
+      "warnings": [],
+      "pitch_msg_id": 274
+    },
+    "2026-11-11-d": {
+      "status": "pitched",
+      "created": "2026-11-11T07:01:14.634453+05:30",
+      "day": "2026-11-11",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-11-d",
+        "title": "The Infinite Swallow",
+        "monster": "leak",
+        "concept": "Reading entire large files into RAM with read()",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This adorable magenta slime just ate all six gigabytes of your RAM.",
+        "logline": "Junior loads a giant log file into memory in one go and wakes The Leak at six forty-five P M.",
+        "builds_on": "",
+        "topic": "reading a 5 GB file into memory at once",
+        "tech": "Python",
+        "wake_time": "6:45 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "shake": true,
+            "time": "6:45 PM",
+            "text": "OUT OF MEMORY: Containe…",
+            "sub": "The Leak grew four gigabytes in a…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Infinite Swallow",
+            "sub": "When your file reader eats the whole server",
+            "kicker": "Production Incident",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.4
+              }
+            ],
+            "lines": [
+              "def process_logs(path):",
+              "    with open(path, 'r') as f:",
+              "        data = f.read()",
+              "    return len(data.splitlines())"
+            ],
+            "lang": "python",
+            "file": "parser.py",
+            "highlight": [
+              3
+            ],
+            "error": "MemoryError: Unable to allocate 5.8 GiB"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "title": "KERNEL OOM KILL…",
+            "text": "The server ran out of memory trying to read one file."
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "It was only a five gigabyte log!"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.6
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "def process_logs(path):",
+              "    with open(path, 'r') as f:",
+              "        data = f.read()",
+              "    return len(data.splitlines())"
+            ],
+            "lang": "python",
+            "file": "parser.py",
+            "fix_line": 3,
+            "after": "    return sum(1 for line in f)",
+            "note": "Stream file line by line instead of reading all at once"
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never read massive files with f.read(). Stream them line by line.",
+            "cta": "Follow before your containers run out of memory.",
+            "next_monster": "null",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Using read() on a massive production log file swallows your RAM whole and triggers the kernel OOM killer at six forty-five P M. File objects are iterators for a reason. How do you process multi-gigabyte files safely? Let us know below, and follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#python",
+          "#backend",
+          "#devops",
+          "#performance",
+          "#programming",
+          "#softwareengineer",
+          "#prodmanor"
+        ],
+        "cover_text": "OUT OF MEMORY"
+      },
+      "warnings": [],
+      "pitch_msg_id": 275
     }
   },
   "telegram": {
@@ -15236,7 +16013,11 @@
       "265": "2026-11-10-a",
       "266": "2026-11-10-b",
       "267": "2026-11-10-c",
-      "268": "2026-11-10-d"
+      "268": "2026-11-10-d",
+      "272": "2026-11-11-a",
+      "273": "2026-11-11-b",
+      "274": "2026-11-11-c",
+      "275": "2026-11-11-d"
     }
   },
   "settings": {
@@ -15365,7 +16146,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-11": {}
+    "2026-11-11": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
