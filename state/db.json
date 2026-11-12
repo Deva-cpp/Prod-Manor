@@ -15928,6 +15928,729 @@
       },
       "warnings": [],
       "pitch_msg_id": 275
+    },
+    "2026-11-12-a": {
+      "status": "pitched",
+      "created": "2026-11-12T07:01:10.881894+05:30",
+      "day": "2026-11-12",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-12-a",
+        "title": "The Infinite Stringify",
+        "monster": "caller",
+        "concept": "JSON.stringify circular structure error",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This one API log crashes Node in production.",
+        "logline": "Junior's logger crashes when trying to serialize an object that references itself.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "3:21 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Three twenty one P M. The logger crashed production.",
+            "time": "3:21 PM",
+            "text": "PROD IS DOWN",
+            "sub": "TypeError in logger"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Infinite Stringify",
+            "sub": "When an object points to itself",
+            "kicker": "JavaScript Horror",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "The phone rings endlessly inside the object graph.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the logger ringing forever?"
+              },
+              {
+                "who": "caller",
+                "text": "I am calling myself back."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "const user = { name: \"Ada\" };",
+              "user.self = user;",
+              "JSON.stringify(user);"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "highlight": [
+              2,
+              3
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Node crashed while serializing a circular object.",
+            "shake": true,
+            "title": "CIRCULAR REF CR…",
+            "text": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.6
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.6
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Every object holds another me."
+              },
+              {
+                "who": "junior",
+                "text": "Setting self to undefined breaks it!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Setting circular properties to undefined strips them cleanly.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "const user = { name: \"Ada\" };",
+              "user.self = user;",
+              "JSON.stringify(user);"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "fix_line": 2,
+            "after": "user.self = undefined;",
+            "note": "JSON.stringify ignores undefined values, breaking circular loops."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Remove circular references before calling JSON.stringify.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "twins",
+            "kicker": "No More Crashes"
+          }
+        ],
+        "caption": "Circular object references in JavaScript will instantly crash JSON.stringify with a TypeError. When serializing data in production APIs, always sanitize or strip back-references to prevent server crashes. How do you handle circular structures in your apps? @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#coding",
+          "#programming",
+          "#backend",
+          "#softwareengineering"
+        ],
+        "cover_text": "CIRCULAR JSON CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 279
+    },
+    "2026-11-12-b": {
+      "status": "pitched",
+      "created": "2026-11-12T07:01:10.881910+05:30",
+      "day": "2026-11-12",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-12-b",
+        "title": "The Forgotten Promise",
+        "monster": "twins",
+        "concept": "unhandled promise rejections in Node.js",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: You forgot one await on a background promise.",
+        "logline": "An unawaited background promise fails silently until Node shuts down the process.",
+        "builds_on": "",
+        "topic": "unhandled promise rejection crashes the Node process",
+        "tech": "Node.js",
+        "wake_time": "7:34 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Seven thirty four A M. The Node process died.",
+            "time": "7:34 AM",
+            "text": "PROD IS DOWN",
+            "sub": "UnhandledPromiseRejection"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Forgotten Promise",
+            "sub": "Uncaught rejections bring down Node",
+            "kicker": "Node.js Horror",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "Two background tasks were spawned, but one was abandoned.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did Node crash silently?"
+              },
+              {
+                "who": "twins",
+                "text": "One of us failed alone."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "async function saveUser(user) {",
+              "  fetchUser();",
+              "  return await db.save(user);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "service.js",
+            "highlight": [
+              2
+            ],
+            "error": "UnhandledPromiseRejection: Connection reset by peer"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Node terminates on unhandled promise rejections.",
+            "shake": true,
+            "title": "PROCESS TERMINA…",
+            "text": "UnhandledPromiseRejection: Connection reset"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "If you do not await us, we crash."
+              },
+              {
+                "who": "junior",
+                "text": "I just need to await the fetch!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Awaiting the promise routes rejections into standard error handlers.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "async function saveUser(user) {",
+              "  fetchUser();",
+              "  return await db.save(user);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "service.js",
+            "fix_line": 2,
+            "after": "  await fetchUser();",
+            "note": "Awaiting or catching every promise prevents silent crashes."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always await or attach catch handlers to background promises.",
+            "cta": "Save this before your next Node deploy.",
+            "next_monster": "null",
+            "kicker": "Promise Handled"
+          }
+        ],
+        "caption": "Floating promises in Node.js can fail quietly and crash your entire process on unhandled rejections. Always await or handle errors on every single promise created. Have you ever had an uncaught promise crash your server? @prodmanor",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#backend",
+          "#webdev",
+          "#async",
+          "#programmer",
+          "#devops"
+        ],
+        "cover_text": "UNCAUGHT PROMISE CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 280
+    },
+    "2026-11-12-c": {
+      "status": "pitched",
+      "created": "2026-11-12T07:01:10.881918+05:30",
+      "day": "2026-11-12",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-12-c",
+        "title": "The Zero Trap",
+        "monster": "null",
+        "concept": "PHP strpos loose equality check false positive",
+        "level": "intermediate",
+        "language": "php",
+        "hook": "Why does PHP think index zero means false?",
+        "logline": "Junior's PHP security check fails because strpos returning index 0 loosely equals false.",
+        "builds_on": "",
+        "topic": "PHP strpos returns 0 and == false treats it as not found",
+        "tech": "PHP",
+        "wake_time": "10:48 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Ten forty eight P M. Security checks are failing.",
+            "time": "10:48 PM",
+            "text": "PROD IS DOWN",
+            "sub": "HTTPS validation failure"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Zero Trap",
+            "sub": "Loose equality turns index zero to false",
+            "kicker": "PHP Horror",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "A ghost appears where index zero used to be.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The search matches, why fail?"
+              },
+              {
+                "who": "null",
+                "text": "Position zero feels like false..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "$pos = strpos($url, \"https\");",
+              "if ($pos == false) {",
+              "  throw new Exception(\"Insecure\");",
+              "}"
+            ],
+            "lang": "php",
+            "file": "validator.php",
+            "highlight": [
+              2
+            ],
+            "error": "Exception: Insecure (URL starts with https at index 0)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Double equals treats index zero as false.",
+            "shake": true,
+            "title": "TYPE COERCION B…",
+            "text": "0 == false evaluated to true"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Zero and false look identical here."
+              },
+              {
+                "who": "junior",
+                "text": "Strict triple equals checks type too!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "dark"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Strict comparison ensures position zero is not confused with boolean false.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "$pos = strpos($url, \"https\");",
+              "if ($pos == false) {",
+              "  throw new Exception(\"Insecure\");",
+              "}"
+            ],
+            "lang": "php",
+            "file": "validator.php",
+            "fix_line": 2,
+            "after": "if ($pos === false) {",
+            "note": "Use strict comparison !== false because index 0 is falsy."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Use strict comparison with PHP strpos to avoid zero evaluating as false.",
+            "cta": "Follow @prodmanor for daily dev nightmare fixes.",
+            "next_monster": "leak",
+            "kicker": "Strict Comparison"
+          }
+        ],
+        "caption": "In PHP, index zero is falsy, so checking strpos with double equals == false treats position 0 as not found! Use strict equality !== false to avoid false positives. What is your favorite PHP type coercion quirk? @prodmanor",
+        "hashtags": [
+          "#php",
+          "#backend",
+          "#webdev",
+          "#coding",
+          "#programming",
+          "#laravel",
+          "#phpdeveloper"
+        ],
+        "cover_text": "PHP STRPOS TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 281
+    },
+    "2026-11-12-d": {
+      "status": "pitched",
+      "created": "2026-11-12T07:01:10.881922+05:30",
+      "day": "2026-11-12",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-12-d",
+        "title": "The Memory Slime",
+        "monster": "leak",
+        "concept": "Python file stream reading vs read() memory exhaustion",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This 5 gigabyte upload eats server RAM alive.",
+        "logline": "Reading a huge log file into memory with read() causes the OS kernel to OOM-kill Python.",
+        "builds_on": "",
+        "topic": "reading a 5 GB file into memory at once",
+        "tech": "Python",
+        "wake_time": "12:47 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Twelve forty seven P M. Python consumed all available memory.",
+            "time": "12:47 PM",
+            "text": "PROD IS DOWN",
+            "sub": "Out of Memory: Killed"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Memory Slime",
+            "sub": "Reading entire large files into RAM",
+            "kicker": "Python Horror",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "The slime swells as five gigabytes pour into RAM.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow",
+                "amount": 1.8
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The server ran out of memory!"
+              },
+              {
+                "who": "leak",
+                "text": "...more RAM?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "with open(\"large_log.txt\") as f:",
+              "    content = f.read()",
+              "    process_data(content)"
+            ],
+            "lang": "python",
+            "file": "parser.py",
+            "highlight": [
+              2
+            ],
+            "error": "MemoryError: Unable to allocate 5.0 GiB"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The OS kernel killed the process for memory exhaustion.",
+            "shake": true,
+            "title": "OOM KILLED",
+            "text": "MemoryError: Unable to allocate 5.0 GiB"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.8,
+                "action": "shrink",
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "You fed me five gigabytes!"
+              },
+              {
+                "who": "junior",
+                "text": "Line iteration streams data chunk by chunk!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Iterating over the file handle streams lines without loading everything into memory.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "with open(\"large_log.txt\") as f:",
+              "    content = f.read()",
+              "    process_data(content)"
+            ],
+            "lang": "python",
+            "file": "parser.py",
+            "fix_line": 2,
+            "after": "    for line in f:",
+            "note": "Iterating directly over file handles streams chunk by chunk."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Stream large files line-by-line instead of loading them into memory with read().",
+            "cta": "Save this reel to protect your Python servers.",
+            "next_monster": "caller",
+            "kicker": "Memory Saved"
+          }
+        ],
+        "caption": "Calling .read() on large files loads the entire payload into RAM at once, triggering Out Of Memory (OOM) crashes in production. Stream files line-by-line with a simple loop instead. What is the biggest log file you have had to parse? @prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#dataengineering",
+          "#coding",
+          "#programming",
+          "#pythoncode",
+          "#devops"
+        ],
+        "cover_text": "PYTHON OOM CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 282
     }
   },
   "telegram": {
@@ -16017,7 +16740,11 @@
       "272": "2026-11-11-a",
       "273": "2026-11-11-b",
       "274": "2026-11-11-c",
-      "275": "2026-11-11-d"
+      "275": "2026-11-11-d",
+      "279": "2026-11-12-a",
+      "280": "2026-11-12-b",
+      "281": "2026-11-12-c",
+      "282": "2026-11-12-d"
     }
   },
   "settings": {
@@ -16152,7 +16879,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-12": {}
+    "2026-11-12": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
