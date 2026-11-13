@@ -16651,6 +16651,751 @@
       },
       "warnings": [],
       "pitch_msg_id": 282
+    },
+    "2026-11-13-a": {
+      "status": "pitched",
+      "created": "2026-11-13T07:01:12.927482+05:30",
+      "day": "2026-11-13",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-13-a",
+        "title": "The Extra Surrogate",
+        "monster": "ollie",
+        "concept": "UTF-16 code units vs unicode code points string length",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This neighbor breaks your app when users sign up with emojis.",
+        "logline": "Junior's username validator fails on rocket emojis because JavaScript length counts UTF-16 surrogate pairs instead of code points.",
+        "builds_on": "",
+        "topic": "string length counts UTF-16 units: emoji username fails the limit",
+        "tech": "JavaScript",
+        "wake_time": "4:53 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Four fifty three P M. A user signed up with two emojis and prod rejected it.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "4:53 PM",
+            "text": "PROD IS DOWN",
+            "sub": "Username length check failed"
+          },
+          {
+            "type": "title",
+            "dur": 3.0,
+            "text": "The Extra Surrogate",
+            "sub": "When a single emoji counts as two characters.",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 4.5,
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did four character usernames get rejected?"
+              },
+              {
+                "who": "ollie",
+                "text": "Four? That rocket emoji counts as two!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 5.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "function checkName(name) {",
+              "  if (name.length > 4) {",
+              "    throw new Error('Name too long');",
+              "  }",
+              "  return true;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "validator.js",
+            "highlight": [
+              2
+            ],
+            "error": "Error: Name too long for ''"
+          },
+          {
+            "type": "scene",
+            "dur": 4.5,
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Two emojis is only two characters!"
+              },
+              {
+                "who": "ollie",
+                "text": "JavaScript string length counts UTF sixteen units."
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 5.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "function checkName(name) {",
+              "  if (name.length > 4) {",
+              "    throw new Error('Name too long');",
+              "  }",
+              "  return true;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "validator.js",
+            "fix_line": 2,
+            "after": "  if ([...name].length > 4) {",
+            "note": "Spreading a string iterates unicode code points instead of UTF-16 code units."
+          },
+          {
+            "type": "outro",
+            "dur": 4.0,
+            "lesson": "Spread strings into an array to count actual unicode code points.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Ever wonder why an emoji username breaks your character limit? JavaScript's string.length counts UTF-16 code units, so 4-byte emojis count as 2 characters each! Spreading the string into an array iterates over actual unicode code points. Has an emoji ever crashed your database validation? Tag a dev friend and follow @prodmanor!",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#coding",
+          "#programming",
+          "#frontend",
+          "#softwareengineering",
+          "#devhumor",
+          "#codinghumor"
+        ],
+        "cover_text": "EMOJI LENGTH TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 286
+    },
+    "2026-11-13-b": {
+      "status": "pitched",
+      "created": "2026-11-13T07:01:12.927503+05:30",
+      "day": "2026-11-13",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-13-b",
+        "title": "The Endless Ring",
+        "monster": "caller",
+        "concept": "Iterative tree traversal with explicit stack",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: your deep nested tree crashed on customer data.",
+        "logline": "A deep category tree blows Python's stack limit until Junior converts recursion to an iterative loop with a stack.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "7:20 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Seven twenty P M. A deeply nested category tree blew Python's call stack.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "7:20 PM",
+            "text": "PROD IS DOWN",
+            "sub": "Category tree crashed customer ca…"
+          },
+          {
+            "type": "title",
+            "dur": 3.0,
+            "text": "The Endless Ring",
+            "sub": "Deep trees will snap your call stack.",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 4.5,
+            "sfx": [
+              "ring"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Calling myself... and calling again..."
+              },
+              {
+                "who": "junior",
+                "text": "Stop phoning every single nested node!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 5.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "def walk(node):",
+              "    nodes, total = [node], 0",
+              "    while nodes:",
+              "        total += walk(nodes.pop())",
+              "    return total"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "highlight": [
+              4
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded"
+          },
+          {
+            "type": "scene",
+            "dur": 4.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "One thousand calls and the stack broke!"
+              },
+              {
+                "who": "junior",
+                "text": "We hit the default recursion limit."
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 5.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "def walk(node):",
+              "    nodes, total = [node], 0",
+              "    while nodes:",
+              "        total += walk(nodes.pop())",
+              "    return total"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "fix_line": 4,
+            "after": "        curr = nodes.pop()\n        total",
+            "note": "Use an explicit stack array in a loop to avoid Python stack overflow."
+          },
+          {
+            "type": "outro",
+            "dur": 4.0,
+            "lesson": "Replace recursion with an explicit stack loop for deep trees.",
+            "cta": "Save this before your next tree traversal.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Recursive functions look clean until production data gives you a tree 1000 levels deep! Python limits stack frames to prevent memory corruption. Using an explicit stack inside a simple while-loop keeps memory on the heap and prevents RecursionError. How deep is your deepest tree in prod? Share with your dev team and follow @prodmanor!",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#algorithms",
+          "#coding",
+          "#programming",
+          "#developer",
+          "#softwareengineering",
+          "#codehumor"
+        ],
+        "cover_text": "PYTHON STACK CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 287
+    },
+    "2026-11-13-c": {
+      "status": "pitched",
+      "created": "2026-11-13T07:01:12.927507+05:30",
+      "day": "2026-11-13",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-13-c",
+        "title": "The Trusting Cast",
+        "monster": "null",
+        "concept": "TypeScript type assertions vs Zod runtime schema validation",
+        "level": "intermediate",
+        "language": "typescript",
+        "hook": "TypeScript lied to you about your API responses.",
+        "logline": "Junior assumed 'as User' validated the backend response, but a missing field summoned Null to crash runtime execution.",
+        "builds_on": "",
+        "topic": "TypeScript 'as User' cast trusts unvalidated API JSON",
+        "tech": "TypeScript",
+        "wake_time": "6:42 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Six forty two A M. Production crashed when an API payload was missing fields.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "6:42 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Cannot read properties of undefin…"
+          },
+          {
+            "type": "title",
+            "dur": 3.0,
+            "text": "The Trusting Cast",
+            "sub": "TypeScript types vanish at runtime.",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 4.5,
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "opacity": 0.7
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "TypeScript said this profile photo existed!"
+              },
+              {
+                "who": "null",
+                "text": "I was never in that JSON..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "dark"
+          },
+          {
+            "type": "code",
+            "dur": 5.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "async function getUser(id) {",
+              "  const res = await fetch('/api');",
+              "  const data = await res.json();",
+              "  return data as User;",
+              "}"
+            ],
+            "lang": "typescript",
+            "file": "user.ts",
+            "highlight": [
+              4
+            ],
+            "error": "TypeError: Cannot read property 'url' of undefined"
+          },
+          {
+            "type": "scene",
+            "dur": 4.5,
+            "sfx": [
+              "glitch"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "The keyword as hides me from the compiler."
+              },
+              {
+                "who": "junior",
+                "text": "It does zero runtime checking!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 5.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "async function getUser(id) {",
+              "  const res = await fetch('/api');",
+              "  const data = await res.json();",
+              "  return data as User;",
+              "}"
+            ],
+            "lang": "typescript",
+            "file": "user.ts",
+            "fix_line": 4,
+            "after": "  return UserSchema.parse(data);",
+            "note": "Validate API payloads at runtime with Zod instead of casting with 'as'."
+          },
+          {
+            "type": "outro",
+            "dur": 4.0,
+            "lesson": "Type assertions do not validate runtime API data. Use Zod schemas.",
+            "cta": "Save this before your next API integration.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Type assertions like `data as User` tell TypeScript to shut up, but they do ZERO checking at runtime. If the backend omits a field, your frontend WILL crash! Use runtime validation libraries like Zod to parse and guarantee payload shapes. Do you trust backend APIs blindly? Tag your team and follow @prodmanor!",
+        "hashtags": [
+          "#typescript",
+          "#webdev",
+          "#frontend",
+          "#reactjs",
+          "#javascript",
+          "#fullstack",
+          "#coding",
+          "#devhumor"
+        ],
+        "cover_text": "TYPESCRIPT 'AS' TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 288
+    },
+    "2026-11-13-d": {
+      "status": "pitched",
+      "created": "2026-11-13T07:01:12.927510+05:30",
+      "day": "2026-11-13",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-13-d",
+        "title": "All Or Nothing",
+        "monster": "twins",
+        "concept": "Promise.all fail-fast behavior vs Promise.allSettled",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "One rejected API request just killed your entire dashboard.",
+        "logline": "When a minor third-party API fails, Promise.all rejects the entire batch and wipes out valid user data.",
+        "builds_on": "",
+        "topic": "Promise.all drops every result when one request fails",
+        "tech": "JavaScript",
+        "wake_time": "6:41 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Six forty one P M. A widget API errored and took down the whole dashboard.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "6:41 PM",
+            "text": "PROD IS DOWN",
+            "sub": "Dashboard total crash on secondar…"
+          },
+          {
+            "type": "title",
+            "dur": 3.0,
+            "text": "All Or Nothing",
+            "sub": "Why Promise.all rejects every result when one fails.",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 4.5,
+            "sfx": [
+              "thud"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did all four widgets disappear?"
+              },
+              {
+                "who": "twins",
+                "text": "One single service returned five hundred!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "code",
+            "dur": 5.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "async function loadDashboard() {",
+              "  const [user, stats] =",
+              "    await Promise.all([",
+              "      fetchUser(), fetchStats()",
+              "    ]);",
+              "  return { user, stats };",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "dashboard.js",
+            "highlight": [
+              3
+            ],
+            "error": "Uncaught (in promise) Error: Stats service unavailable"
+          },
+          {
+            "type": "scene",
+            "dur": 4.5,
+            "sfx": [
+              "crash"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Promise dot all rejects immediately on first error."
+              },
+              {
+                "who": "junior",
+                "text": "So user and stats got thrown away!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 5.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "lines": [
+              "async function loadDashboard() {",
+              "  const [user, stats] =",
+              "    await Promise.all([",
+              "      fetchUser(), fetchStats()",
+              "    ]);",
+              "  return { user, stats };",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "dashboard.js",
+            "fix_line": 3,
+            "after": "    await Promise.allSettled([",
+            "note": "Promise.allSettled waits for all promises to settle regardless of rejections."
+          },
+          {
+            "type": "outro",
+            "dur": 4.0,
+            "lesson": "Use Promise.allSettled to handle partial failures gracefully.",
+            "cta": "Follow before the next deploy breaks prod.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Using `Promise.all` means if ONE request fails, EVERY request is thrown out immediately! For dashboards and aggregate endpoints, use `Promise.allSettled` so successful requests render even if secondary endpoints fail. Have you had a minor API outage crash your entire UI? Tag your lead dev and follow @prodmanor!",
+        "hashtags": [
+          "#javascript",
+          "#async",
+          "#webdev",
+          "#nodejs",
+          "#frontend",
+          "#fullstack",
+          "#codinghumor",
+          "#programming"
+        ],
+        "cover_text": "PROMISE ALL TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 289
     }
   },
   "telegram": {
@@ -16744,7 +17489,11 @@
       "279": "2026-11-12-a",
       "280": "2026-11-12-b",
       "281": "2026-11-12-c",
-      "282": "2026-11-12-d"
+      "282": "2026-11-12-d",
+      "286": "2026-11-13-a",
+      "287": "2026-11-13-b",
+      "288": "2026-11-13-c",
+      "289": "2026-11-13-d"
     }
   },
   "settings": {
@@ -16885,7 +17634,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-13": {}
+    "2026-11-13": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
