@@ -17396,6 +17396,1010 @@
       },
       "warnings": [],
       "pitch_msg_id": 289
+    },
+    "2026-11-14-a": {
+      "status": "pitched",
+      "created": "2026-11-14T07:01:28.640134+05:30",
+      "day": "2026-11-14",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-14-a",
+        "title": "The Thundering Herd",
+        "monster": "caller",
+        "concept": "exponential backoff with jitter",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: your payment provider drops for 2 seconds and your app sends 10,000 retrie…",
+        "logline": "Junior's tight retry loop turns a tiny network glitch into a self-inflicted denial of service attack.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "9:41 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "on_screen": "9:41 AM — PROD IS DOWN",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "time": "9:41 AM",
+            "text": "PROD IS DOWN",
+            "sub": "API GATEWAY TIMED OUT"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "on_screen": "THE THUNDERING HERD",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Thundering Herd",
+            "sub": "When retries turn into a self-inflicted DDoS",
+            "kicker": "PROD MANOR #101",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "A tiny upstream glitch turned into an avalanche of instant retries.",
+            "on_screen": "RETRY STORM DETECTED",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the payment gateway melting down?"
+              },
+              {
+                "who": "caller",
+                "text": "I am calling again! Five hundred times a second!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Retrying instantly without waiting hammers the failing server into complete collapse.",
+            "on_screen": "429 TOO MANY REQUESTS",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "for i in range(5):",
+              "  try:",
+              "    return fetch_api(url)",
+              "  except Exception:",
+              "    pass"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "highlight": [
+              4,
+              5
+            ],
+            "error": "HTTPError: 429 Too Many Requests (Rate Limit Exceeded)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The server blocked all remaining connections.",
+            "on_screen": "API BLOCKED",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3,
+                "action": "idle"
+              }
+            ],
+            "title": "RATE LIMIT EXCE…",
+            "text": "10,000 instant retries blocked by upstream API threshold"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "on_screen": "SPACE OUT YOUR RETRIES",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "They failed, so I dialed right back!"
+              },
+              {
+                "who": "junior",
+                "text": "Give their server room to breathe!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Exponential delay plus random jitter spreads out traffic and restores API sanity.",
+            "on_screen": "EXPONENTIAL BACKOFF + JITTER",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.8,
+                "scale": 0.8,
+                "action": "defeated"
+              }
+            ],
+            "lines": [
+              "for i in range(5):",
+              "  try:",
+              "    return fetch_api(url)",
+              "  except Exception:",
+              "    pass"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "fix_line": 5,
+            "after": "    time.sleep(2**i + random())",
+            "note": "Exponential backoff with random jitter prevents hammering broken endpoints during outages."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "The next bug is already awake.",
+            "on_screen": "FOLLOW FOR MORE DEV horror STORIES",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Always combine exponential backoff with random jitter on network retries.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "ollie",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Retrying an API call instantly in a loop is how single microservice glitches turn into global outages. Always combine exponential backoff (2^i) with random jitter so retrying clients don't strike at the exact same millisecond. Have you ever accidentally self-DDoS'd your staging server?\n\nFollow @prodmanor for daily production bug tales.",
+        "hashtags": [
+          "#coding",
+          "#programming",
+          "#python",
+          "#backend",
+          "#webdev",
+          "#softwareengineering",
+          "#codinghumor",
+          "#devops"
+        ],
+        "cover_text": "RETRY STORM"
+      },
+      "warnings": [],
+      "pitch_msg_id": 293
+    },
+    "2026-11-14-b": {
+      "status": "pitched",
+      "created": "2026-11-14T07:01:28.640156+05:30",
+      "day": "2026-11-14",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-14-b",
+        "title": "The 25 Day Glitch",
+        "monster": "ollie",
+        "concept": "32-bit integer timer overflow",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why did this thirty-day account cleanup fire in zero milliseconds?",
+        "logline": "Ollie One-Off triggers a 30-day scheduled cleanup immediately because Node timers overflow 32-bit integers.",
+        "builds_on": "",
+        "topic": "setTimeout longer than 24.8 days fires immediately",
+        "tech": "Node.js",
+        "wake_time": "9:10 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "on_screen": "9:10 AM — ALL USERS DELETED",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "time": "9:10 AM",
+            "text": "CRITICAL ALERT",
+            "sub": "USER DATA ERASED IMMEDIATELY"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "on_screen": "THE 25 DAY GLITCH",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The 25 Day Glitch",
+            "sub": "When a month-long timer fires in zero seconds",
+            "kicker": "PROD MANOR #102",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "A scheduled trial cleanup executed the exact instant the process started.",
+            "on_screen": "TIMER FIRED IMMEDIATELY",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.1,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Did you just wipe the production users?!"
+              },
+              {
+                "who": "ollie",
+                "text": "Pardon me! Thirty days felt like one millisecond!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Delays over twenty-four point eight days overflow Node's internal 32-bit integer timer.",
+            "on_screen": "32-BIT TIMER OVERFLOW",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "const d = 30 * 86400 * 1000;",
+              "setTimeout(cleanup, d);"
+            ],
+            "lang": "javascript",
+            "file": "cleanup.js",
+            "highlight": [
+              1,
+              2
+            ],
+            "error": "TimeoutOverflowWarning: 2592000000 does not fit into a 32-bit signed integer. Delay set to 1."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Instead of waiting thirty days, it executed in one millisecond.",
+            "on_screen": "SETTIMEOUT OVERFLOWED TO 1MS",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.1,
+                "action": "idle"
+              }
+            ],
+            "title": "TIMEOUT OVERFLO…",
+            "text": "Node.js caps overflowed timer values to 1 millisecond"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "on_screen": "USE A JOB SCHEDULER",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.8,
+                "scale": 1.1,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Two billion milliseconds is my polite limit!"
+              },
+              {
+                "who": "junior",
+                "text": "We need a real cron scheduler!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Replace long setTimeout calls with a dedicated cron runner or persistent job queue.",
+            "on_screen": "CRON SCHEDULER FIXED IT",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0,
+                "action": "defeated"
+              }
+            ],
+            "lines": [
+              "const d = 30 * 86400 * 1000;",
+              "setTimeout(cleanup, d);"
+            ],
+            "lang": "javascript",
+            "file": "cleanup.js",
+            "fix_line": 2,
+            "after": "scheduleCron('0 0 30 * *', cleanup);",
+            "note": "Node timers use 32-bit signed ints; delays over 24.8 days execute immediately."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "The next bug is already awake.",
+            "on_screen": "FOLLOW FOR DAILY CODE HORRORS",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Never pass delays larger than 2,147,483,647 milliseconds to setTimeout.",
+            "cta": "Save this before your next long-running delay.",
+            "next_monster": "leak",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "In JavaScript and Node.js, timer delays are stored as 32-bit signed integers. The maximum value is 2,147,483,647 milliseconds (about 24.8 days). Any delay larger than that triggers an integer overflow and defaults to 1 millisecond, executing almost instantly! Have you ever seen a timer fire too early?\n\nFollow @prodmanor for daily production nightmare stories.",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#programming",
+          "#coding",
+          "#backend",
+          "#codinghumor",
+          "#tech"
+        ],
+        "cover_text": "24 DAY TIMER BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 294
+    },
+    "2026-11-14-c": {
+      "status": "pitched",
+      "created": "2026-11-14T07:01:28.640160+05:30",
+      "day": "2026-11-14",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-14-c",
+        "title": "The File That Ate RAM",
+        "monster": "leak",
+        "concept": "line-by-line stream processing",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This magenta slime kills your server whenever a user uploads a large CSV.",
+        "logline": "The Leak expands uncontrollably when Junior reads an entire 5 GB log export straight into RAM with readlines().",
+        "builds_on": "",
+        "topic": "reading a 5 GB file into memory at once",
+        "tech": "Python",
+        "wake_time": "10:48 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "on_screen": "10:48 AM — OUT OF MEMORY",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "time": "10:48 AM",
+            "text": "MEMORY CRITICAL",
+            "sub": "OOM KILLER TERMINATED WORKER"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "on_screen": "THE FILE THAT ATE RAM",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The File That Ate RAM",
+            "sub": "How a single CSV crashed the production node",
+            "kicker": "PROD MANOR #103",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "A customer uploaded a five gigabyte export file, and memory exploded.",
+            "on_screen": "SLIME EXPANDING",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow",
+                "amount": 2.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Where did fifty gigabytes of RAM go?!"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Calling readlines loads every single byte directly into memory simultaneously.",
+            "on_screen": "MEMORY ERROR",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "def parse_export(filename):",
+              "  with open(filename) as f:",
+              "    lines = f.readlines()",
+              "    return [clean(l) for l in lines]"
+            ],
+            "lang": "python",
+            "file": "parser.py",
+            "highlight": [
+              3
+            ],
+            "error": "MemoryError: Unable to allocate 5.20 GiB for array"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The operating system killed the process to save itself.",
+            "on_screen": "PROCESS KILLED BY KERNEL",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.6,
+                "action": "idle"
+              }
+            ],
+            "title": "OUT OF MEMORY",
+            "text": "Linux OOM Killer killed process python3 (SIGKILL)"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "on_screen": "STREAM IT INSTEAD",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.4,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Stop swallowing the whole file at once!"
+              },
+              {
+                "who": "leak",
+                "text": "...slurp?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Iterating over the file object directly yields one line at a time smoothly.",
+            "on_screen": "STREAM LINE BY LINE",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.7,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "def parse_export(filename):",
+              "  with open(filename) as f:",
+              "    lines = f.readlines()",
+              "    return [clean(l) for l in lines]"
+            ],
+            "lang": "python",
+            "file": "parser.py",
+            "fix_line": 3,
+            "after": "    return [clean(l) for l in f]",
+            "note": "Iterating over file objects streams line by line without loading full file into memory."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "The next bug is already awake.",
+            "on_screen": "FOLLOW FOR MORE BACKEND TIPS",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Stream large files lazily instead of holding the entire payload in memory.",
+            "cta": "Share this with a Python backend developer.",
+            "next_monster": "twins",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Using read() or readlines() on dynamic file uploads is a ticking time bomb for memory leaks. Python file handles are iterators—iterating over `for line in f` streams lines sequentially, maintaining near-zero memory overhead even for multi-gigabyte files. What's the biggest file your API ever tried to parse?\n\nFollow @prodmanor for daily backend horror stories.",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#backend",
+          "#coding",
+          "#dataengineering",
+          "#pythonprogramming",
+          "#webdev",
+          "#techhumor"
+        ],
+        "cover_text": "PYTHON RAM BLOWUP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 295
+    },
+    "2026-11-14-d": {
+      "status": "pitched",
+      "created": "2026-11-14T07:01:28.640162+05:30",
+      "day": "2026-11-14",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-14-d",
+        "title": "The Parallel Illusion",
+        "monster": "twins",
+        "concept": "ProcessPoolExecutor vs ThreadPoolExecutor GIL bottleneck",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Python threads will NEVER speed up your CPU-heavy calculations.",
+        "logline": "Fork & Join show Junior why ThreadPoolExecutor fails to use extra CPU cores due to Python's Global Interpreter Lock.",
+        "builds_on": "",
+        "topic": "threads don't speed up CPU-heavy Python work (the GIL)",
+        "tech": "Python",
+        "wake_time": "5:12 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "on_screen": "5:12 PM — CPU BOTTLENECK",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "time": "5:12 PM",
+            "text": "CPU BOTTLENECK",
+            "sub": "8 CORES AT 0 PERCENT UTILIZATION"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "on_screen": "THE PARALLEL ILLUSION",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Parallel Illusion",
+            "sub": "Why Python threads will not speed up CPU work",
+            "kicker": "PROD MANOR #104",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "narration": "Adding threads to a CPU-heavy task yielded zero performance gains.",
+            "on_screen": "ZERO MULTI-CORE SPEEDUP",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is this calculation taking forty seconds?!"
+              },
+              {
+                "who": "twins",
+                "text": "We are taking turns on one core!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Python's Global Interpreter Lock forces thread execution to happen on a single core.",
+            "on_screen": "GIL LOCKOUT",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import *",
+              "with ThreadPoolExecutor() as e:",
+              "  results = list(e.map(calc, data))"
+            ],
+            "lang": "python",
+            "file": "compute.py",
+            "highlight": [
+              2
+            ],
+            "error": "Execution took 40.2s (0% speedup across 8 CPU cores)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Only one thread can execute Python bytecode at a time.",
+            "on_screen": "THREADS LOCKED TO ONE CORE",
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.1,
+                "action": "idle"
+              }
+            ],
+            "title": "GIL SINGLE-CORE…",
+            "text": "ThreadPoolExecutor blocked by CPython Global Interpreter Lock"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "on_screen": "USE MULTIPROCESSING",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "After you! No, after YOU!"
+              },
+              {
+                "who": "junior",
+                "text": "We need separate processes, not threads!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "ProcessPoolExecutor spawns separate Python processes, utilizing all available CPU cores.",
+            "on_screen": "PROCESS POOL FIXED IT",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.8,
+                "scale": 0.8,
+                "action": "defeated"
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import *",
+              "with ThreadPoolExecutor() as e:",
+              "  results = list(e.map(calc, data))"
+            ],
+            "lang": "python",
+            "file": "compute.py",
+            "fix_line": 2,
+            "after": "with ProcessPoolExecutor() as e:",
+            "note": "Python's GIL restricts threads to one core; ProcessPoolExecutor bypasses it with separate…"
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "The next bug is already awake.",
+            "on_screen": "FOLLOW FOR DAILY PYTHON TIPS",
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Use ProcessPoolExecutor for CPU tasks and ThreadPoolExecutor for I/O tasks.",
+            "cta": "Save this before your next Python deployment.",
+            "next_monster": "caller",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Because of Python's Global Interpreter Lock (GIL), threads cannot execute Python bytecode simultaneously on multiple CPU cores. ThreadPoolExecutor is great for I/O-bound work (like HTTP calls or disk reads), but for CPU-bound computation, you must use ProcessPoolExecutor to harness multi-core speedup. Have you ever been bitten by the GIL?\n\nFollow @prodmanor for daily software engineering insights.",
+        "hashtags": [
+          "#python",
+          "#multithreading",
+          "#backend",
+          "#coding",
+          "#programming",
+          "#softwareengineering",
+          "#pythonprogramming",
+          "#devcommunity"
+        ],
+        "cover_text": "PYTHON GIL TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 296
     }
   },
   "telegram": {
@@ -17493,7 +18497,11 @@
       "286": "2026-11-13-a",
       "287": "2026-11-13-b",
       "288": "2026-11-13-c",
-      "289": "2026-11-13-d"
+      "289": "2026-11-13-d",
+      "293": "2026-11-14-a",
+      "294": "2026-11-14-b",
+      "295": "2026-11-14-c",
+      "296": "2026-11-14-d"
     }
   },
   "settings": {
@@ -17640,7 +18648,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-14": {}
+    "2026-11-14": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
