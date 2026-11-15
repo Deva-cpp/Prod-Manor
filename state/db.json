@@ -18400,6 +18400,776 @@
       },
       "warnings": [],
       "pitch_msg_id": 296
+    },
+    "2026-11-15-a": {
+      "status": "pitched",
+      "created": "2026-11-15T07:01:22.066716+05:30",
+      "day": "2026-11-15",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-15-a",
+        "title": "The Sequential Slime",
+        "monster": "leak",
+        "concept": "sequential await vs concurrent promise execution",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: your batch job takes forty minutes to fetch a hundred items.",
+        "logline": "Junior's batch sync takes 40 minutes because await inside a for loop runs HTTP requests one by one.",
+        "builds_on": "",
+        "topic": "await inside a for loop makes 100 API calls run one by one",
+        "tech": "JavaScript",
+        "wake_time": "10:58 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "10:58 PM",
+            "text": "PROD IS DOWN",
+            "sub": "POV: batch job taking 40 minutes"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Sequential Slime",
+            "sub": "When await slows production to a crawl",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "A loop with await forces each HTTP request to wait for the last.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow",
+                "amount": 1.4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The batch sync is crawling..."
+              },
+              {
+                "who": "leak",
+                "text": "One... by... one..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "async function loadUsers(ids) {",
+              "  let users = [];",
+              "  for (const id of ids) users.push(await",
+              "  return users;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "sync-users.js",
+            "highlight": [
+              3
+            ],
+            "error": "Job timeout: 100 requests executed sequentially (300000ms)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.6,
+                "action": "grow",
+                "amount": 1.8
+              }
+            ],
+            "title": "BATCH TIMEOUT E…",
+            "text": "100 network round trips executed sequentially"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "narration": "Fire all requests at once and resolve them concurrently with Promise.all.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.5
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "More waiting...?"
+              },
+              {
+                "who": "junior",
+                "text": "Run them together!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.9,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "async function loadUsers(ids) {",
+              "  let users = [];",
+              "  for (const id of ids) users.push(await",
+              "  return users;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "sync-users.js",
+            "fix_line": 3,
+            "after": "  users = await Promise.all(ids.map(fetc",
+            "note": "Promise.all executes all network requests in parallel instead of sequentially."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never await inside a simple for loop when calls can run in parallel.",
+            "cta": "Follow for the next prod bug.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Awaiting inside a for loop turns parallel HTTP requests into a slow sequential line. Map your array to promises and await Promise.all instead!\n\nDo you use Promise.all or p-limit for batch fetches?\n\nFollow @prodmanor for daily real-world bugs.",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#node",
+          "#async",
+          "#programming",
+          "#softwareengineering",
+          "#codinghumor"
+        ],
+        "cover_text": "AWAIT IN LOOP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 300
+    },
+    "2026-11-15-b": {
+      "status": "pitched",
+      "created": "2026-11-15T07:01:22.066738+05:30",
+      "day": "2026-11-15",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-15-b",
+        "title": "The Four Quadrillionth",
+        "monster": "ollie",
+        "concept": "floating point precision in currency calculations",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Your invoice total just charged a customer zero point three zero zero zero zero…",
+        "logline": "Python IEEE 754 floating point arithmetic turns ten cents plus twenty cents into a precise billing disaster.",
+        "builds_on": "",
+        "topic": "float money totals: 0.1 + 0.2 on an invoice",
+        "tech": "Python",
+        "wake_time": "12:31 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "12:31 AM",
+            "text": "INVOICE DISCREPANCY",
+            "sub": "Customer charged $0.3000000000000…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Four Quadrillionth",
+            "sub": "Why floating point numbers ruin invoices",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "Binary floating point cannot store exact base ten decimals like zero point one.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Just added four quadrillionths!"
+              },
+              {
+                "who": "junior",
+                "text": "It was ten cents!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "# billing.py",
+              "def get_total(subtotal, tax):",
+              "    return subtotal + tax",
+              "",
+              "# get_total(0.10, 0.20)"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "highlight": [
+              3
+            ],
+            "error": "Output: 0.30000000000000004 (Expected: 0.30)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2
+              }
+            ],
+            "title": "STRIPE CHARGE R…",
+            "text": "Invalid currency decimal precision"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "narration": "Use Python's Decimal class or store money as integer cents.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Never use float for money."
+              },
+              {
+                "who": "ollie",
+                "text": "Room for one more digit?"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0,
+                "to": {
+                  "x": 0.85,
+                  "scale": 1.0
+                }
+              }
+            ],
+            "lines": [
+              "# billing.py",
+              "def get_total(subtotal, tax):",
+              "    return subtotal + tax",
+              "",
+              "# get_total(0.10, 0.20)"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "fix_line": 3,
+            "after": "    return Decimal(str(subtotal)) + Deci",
+            "note": "Decimal performs exact base-10 arithmetic without floating-point inaccuracies."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always use Decimal or integer cents for monetary calculations.",
+            "cta": "Save this before your next checkout deploy.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Why does 0.1 + 0.2 equal 0.30000000000000004 in Python and JS? Because standard binary floating-point numbers cannot store decimal fractions exactly. Use Decimal or integer cents!\n\nDo you store currency as integer cents or Decimals in DBs?\n\nFollow @prodmanor for daily dev bugs.",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#fintech",
+          "#coding",
+          "#softwareengineering",
+          "#pythonprogramming",
+          "#devhumor"
+        ],
+        "cover_text": "FLOAT MONEY ERROR"
+      },
+      "warnings": [],
+      "pitch_msg_id": 301
+    },
+    "2026-11-15-c": {
+      "status": "pitched",
+      "created": "2026-11-15T07:01:22.066743+05:30",
+      "day": "2026-11-15",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-15-c",
+        "title": "The Endless Stack",
+        "monster": "caller",
+        "concept": "iterative tree traversal with explicit stack",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This recursive tree walker will blow up production the moment your category tre…",
+        "logline": "A recursive graph traversal function hits Python's default stack frame depth limit when processing deep category trees.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "10:41 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "10:41 PM",
+            "text": "CRASH IN PROD",
+            "sub": "RecursionError: maximum stack dep…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Endless Stack",
+            "sub": "When production data outgrows the call stack",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "Every recursive call opens a new call frame on Python's call stack.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Calling again! And again!"
+              },
+              {
+                "who": "junior",
+                "text": "The tree is too deep!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "# tree.py",
+              "def walk(node):",
+              "    stack, res = [node], []",
+              "    return [node.id] + walk(node.child)",
+              "    return res"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "highlight": [
+              4
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded in comparison"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.4,
+                "action": "stack",
+                "copies": 5
+              }
+            ],
+            "title": "CALL STACK OVER…",
+            "text": "Hit 1000 frame limit during tree traversal"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "narration": "Replace call stack recursion with an explicit loop and list stack.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Move the stack to heap memory!"
+              },
+              {
+                "who": "caller",
+                "text": "No more calls?"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "# tree.py",
+              "def walk(node):",
+              "    stack, res = [node], []",
+              "    return [node.id] + walk(node.child)",
+              "    return res"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "fix_line": 4,
+            "after": "    for n in stack: res.append(n.id); st",
+            "note": "An explicit heap stack avoids hitting language call stack recursion limits."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Convert deep recursive algorithms into iterative stack loops.",
+            "cta": "Follow before the next outage.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Deep tree or graph structures hit Python's default call stack limit (1000 frames) fast! Refactor recursive walks into an iterative loop using an explicit stack on the heap.\n\nHave you ever been bitten by a RecursionError in production?\n\nFollow @prodmanor for daily real engineering bugs.",
+        "hashtags": [
+          "#python",
+          "#algorithms",
+          "#datastructures",
+          "#backend",
+          "#softwareengineering",
+          "#coding",
+          "#devhumor"
+        ],
+        "cover_text": "RECURSION CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 302
+    },
+    "2026-11-15-d": {
+      "status": "pitched",
+      "created": "2026-11-15T07:01:22.066746+05:30",
+      "day": "2026-11-15",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-15-d",
+        "title": "The Undefined Host",
+        "monster": "null",
+        "concept": "string coercion of missing environment variables in URLs",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why is your production service sending API requests to undefined dot com?",
+        "logline": "A missing environment variable converts process.env.API_URL into the string 'undefined', causing broken outgoing HTTP requests.",
+        "builds_on": "",
+        "topic": "missing env var becomes the string 'undefined' inside a URL",
+        "tech": "Node.js",
+        "wake_time": "6:55 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "time": "6:55 AM",
+            "text": "500 ERROR IN PROD",
+            "sub": "Fetch failed: undefined/v1/users"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Undefined Host",
+            "sub": "When process.env silently coerces to text",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "In JavaScript, template literals turn missing variables into string literal undefined.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Nobody set my variable..."
+              },
+              {
+                "who": "junior",
+                "text": "It fetched undefined slash users!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "// api-client.js",
+              "function getUrl(path) {",
+              "  const base = process.env.API_URL;",
+              "  return `${base}${path}`;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api-client.js",
+            "highlight": [
+              3
+            ],
+            "error": "TypeError: Failed to parse URL from undefined/v1/users"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.2
+              }
+            ],
+            "title": "INVALID URL EXE…",
+            "text": "Request sent to host 'undefined'"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "narration": "Throw an explicit error immediately if a required environment variable is missing.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Fail fast at startup!"
+              },
+              {
+                "who": "null",
+                "text": "Check on me first?"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "// api-client.js",
+              "function getUrl(path) {",
+              "  const base = process.env.API_URL;",
+              "  return `${base}${path}`;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api-client.js",
+            "fix_line": 3,
+            "after": "  const base = process.env.API_URL ?? ((",
+            "note": "Throwing at startup prevents broken string URLs from reaching production runtime."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Validate all required environment variables on startup.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Template string interpolation in JavaScript turns missing process.env values into the literal string \"undefined\". Always validate environment variables at startup (e.g. using Zod or startup checks)!\n\nDo you validate your env vars on app startup?\n\nFollow @prodmanor for daily code horror stories.",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#backend",
+          "#typescript",
+          "#webdev",
+          "#coding",
+          "#devhumor"
+        ],
+        "cover_text": "UNDEFINED URL BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 303
     }
   },
   "telegram": {
@@ -18501,7 +19271,11 @@
       "293": "2026-11-14-a",
       "294": "2026-11-14-b",
       "295": "2026-11-14-c",
-      "296": "2026-11-14-d"
+      "296": "2026-11-14-d",
+      "300": "2026-11-15-a",
+      "301": "2026-11-15-b",
+      "302": "2026-11-15-c",
+      "303": "2026-11-15-d"
     }
   },
   "settings": {
@@ -18654,7 +19428,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-15": {}
+    "2026-11-15": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
