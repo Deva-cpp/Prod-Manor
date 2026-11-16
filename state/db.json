@@ -19170,6 +19170,750 @@
       },
       "warnings": [],
       "pitch_msg_id": 303
+    },
+    "2026-11-16-a": {
+      "status": "pitched",
+      "created": "2026-11-16T07:01:23.070317+05:30",
+      "day": "2026-11-16",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-16-a",
+        "title": "The Towering Stack",
+        "monster": "caller",
+        "concept": "explicit call stack vs Python recursion limit",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This phone will crash your deep nested API the moment users grow a bigger tree.",
+        "logline": "Junior tries to traverse a deep JSON tree in Python, but recursion hits the frame limit and crashes prod.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "9:53 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "PROD IS DOWN",
+            "shake": true,
+            "time": "9:53 PM",
+            "text": "RECURSION ERROR IN PROD",
+            "sub": "Deep AST traversal crashed server"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Towering Stack",
+            "sub": "Call stack exhausted on deep trees",
+            "kicker": "Python Production Horror",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "A deep tree walk pushed Python past its default limit.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Hold on! Calling back! And calling again!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def walk(root):",
+              "    stack = [root]",
+              "    while stack: walk(stack.pop())",
+              "    return True"
+            ],
+            "lang": "python",
+            "file": "tree_walker.py",
+            "highlight": [
+              3
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.4,
+                "action": "stack",
+                "copies": 5
+              }
+            ],
+            "title": "1000 FRAMES EXC…",
+            "text": "Python stack depth cap reached!"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "neutral",
+                "expr_at": 0.5
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Stop calling yourself! Use an explicit stack!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "def walk(root):",
+              "    stack = [root]",
+              "    while stack: walk(stack.pop())",
+              "    return True"
+            ],
+            "lang": "python",
+            "file": "tree_walker.py",
+            "fix_line": 3,
+            "after": "    while stack: stack.extend(stack.pop(",
+            "note": "Iterative stack traversal avoids Python call stack limit."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Replace deep recursion with iterative stack loops.",
+            "cta": "Follow for daily production fixes",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Python has a default recursion limit of 1,000 stack frames. If your tree traversal recurses instead of using an explicit stack, deep data structures will crash your process in production with RecursionError.\n\nHave you ever hit maximum recursion depth in production? Tag a dev who needs this fix! @prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#coding",
+          "#programming",
+          "#softwareengineering",
+          "#developer",
+          "#webdevelopment",
+          "#codehumor"
+        ],
+        "cover_text": "RECURSION ERROR FIX"
+      },
+      "warnings": [],
+      "pitch_msg_id": 307
+    },
+    "2026-11-16-b": {
+      "status": "pitched",
+      "created": "2026-11-16T07:01:23.070335+05:30",
+      "day": "2026-11-16",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-16-b",
+        "title": "The Twenty Four Day Glitch",
+        "monster": "ollie",
+        "concept": "32-bit signed integer overflow in setTimeout delay",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: You schedule a job for next month and it fires three seconds later.",
+        "logline": "Junior sets a thirty-day setTimeout in Node.js, only for Ollie to fire the callback immediately due to 32-bit integer overflow.",
+        "builds_on": "",
+        "topic": "setTimeout longer than 24.8 days fires immediately",
+        "tech": "Node.js",
+        "wake_time": "6:47 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "TIMER OVERFLOW",
+            "shake": true,
+            "time": "6:47 AM",
+            "text": "MONTHLY CLEANUP RAN TOD…",
+            "sub": "30-day timer executed in 1ms"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Twenty Four Day Glitch",
+            "sub": "32-bit integer timer overflow",
+            "kicker": "Node.js Production Horror",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "A thirty day delay overflowed Node's 32-bit timer.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Knock knock! Room thirty executed right now!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "// Schedule monthly cleanup task",
+              "const THIRTY_DAYS = 30 * 24 * 3600 * 100",
+              "setTimeout(runCleanup, THIRTY_DAYS);",
+              "console.log(\"Scheduled!\");"
+            ],
+            "lang": "javascript",
+            "file": "scheduler.js",
+            "highlight": [
+              3
+            ],
+            "error": "TimeoutOverflowWarning: 2592000000 does not fit in 32-bit signed int. Duration set to 1."
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.3
+              }
+            ],
+            "title": "OVERFLOW TO ONE…",
+            "text": "Delay exceeded 2,147,483,647 ms!"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "neutral",
+                "expr_at": 0.5
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Timers cap at 24.8 days! Use cron!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.92,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "// Schedule monthly cleanup task",
+              "const THIRTY_DAYS = 30 * 24 * 3600 * 100",
+              "setTimeout(runCleanup, THIRTY_DAYS);",
+              "console.log(\"Scheduled!\");"
+            ],
+            "lang": "javascript",
+            "file": "scheduler.js",
+            "fix_line": 3,
+            "after": "scheduleCronJob(\"0 0 1 * *\", runCleanup)",
+            "note": "Node timers overflow 32-bit signed int at 24.8 days and fire instantly."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never pass delays larger than 2^31-1 ms to setTimeout.",
+            "cta": "Save this before your next deploy",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In Node.js and browsers, setTimeout stores delays as 32-bit signed integers. Any duration greater than 2,147,483,647 milliseconds (~24.8 days) overflows to 1 millisecond, firing your long-term scheduled job instantly!\n\nHave you ever had a background job fire way too early? Tag a node dev! @prodmanor",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#webdev",
+          "#programming",
+          "#coding",
+          "#softwareengineering",
+          "#devops"
+        ],
+        "cover_text": "SETTIMEOUT OVERFLOW"
+      },
+      "warnings": [],
+      "pitch_msg_id": 308
+    },
+    "2026-11-16-c": {
+      "status": "pitched",
+      "created": "2026-11-16T07:01:23.070340+05:30",
+      "day": "2026-11-16",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-16-c",
+        "title": "The Lost Multipliers",
+        "monster": "twins",
+        "concept": "thread-safe atomic map updates with ConcurrentHashMap merge",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "Why did two hundred concurrent order updates silently disappear from total sale…",
+        "logline": "Fork & Join race on a ConcurrentHashMap because non-atomic put and get calls cause dirty overwrites.",
+        "builds_on": "",
+        "topic": "Java HashMap shared across threads loses updates",
+        "tech": "Java",
+        "wake_time": "11:19 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "DATA LOSS IN PROD",
+            "shake": true,
+            "time": "11:19 AM",
+            "text": "CORRUPTED SALES TOTALS",
+            "sub": "Concurrent map updates dropped"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Lost Multipliers",
+            "sub": "Compound actions are not atomic",
+            "kicker": "Java Concurrency Horror",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Even ConcurrentHashMap fails when get and put aren't atomic.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "We both read ten! Now we both write eleven!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> sales = new Concurr",
+              "",
+              "void recordSale(String item) {",
+              "    sales.put(item, sales.getOrDefault(i",
+              "}"
+            ],
+            "lang": "java",
+            "file": "SalesTracker.java",
+            "highlight": [
+              4
+            ],
+            "error": "Symptom: 500 parallel sales recorded, total shows only 42"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "RACE CONDITION…",
+            "text": "Thread A overwrote Thread B update!"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "neutral",
+                "expr_at": 0.5
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "ConcurrentHashMap needs merge for atomic updates!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> sales = new Concurr",
+              "",
+              "void recordSale(String item) {",
+              "    sales.put(item, sales.getOrDefault(i",
+              "}"
+            ],
+            "lang": "java",
+            "file": "SalesTracker.java",
+            "fix_line": 4,
+            "after": "    sales.merge(item, 1, Integer::sum);",
+            "note": "get and put combined are not atomic. ConcurrentHashMap.merge is atomic."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use atomic methods like merge or compute on concurrent maps.",
+            "cta": "Follow for daily production fixes",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Using a ConcurrentHashMap does NOT make compound operations thread-safe! Calling get() and put() as separate steps lets two threads read the same old value concurrently and overwrite each other's updates. Use map.merge() or compute() for atomic map updates in Java.\n\nHave race conditions ever corrupted your production metrics? Drop a comment! @prodmanor",
+        "hashtags": [
+          "#java",
+          "#backend",
+          "#programming",
+          "#coding",
+          "#softwareengineering",
+          "#concurrency",
+          "#multithreading"
+        ],
+        "cover_text": "JAVA CONCURRENCY BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 309
+    },
+    "2026-11-16-d": {
+      "status": "pitched",
+      "created": "2026-11-16T07:01:23.070343+05:30",
+      "day": "2026-11-16",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-16-d",
+        "title": "The Empty Assignment",
+        "monster": "null",
+        "concept": "initializing nil maps before writing in Go",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "A single missing line in your Go handler will crash your entire production serv…",
+        "logline": "The Null haunts Junior's Go HTTP handler when writing to an uninitialized nil map causes a fatal runtime panic.",
+        "builds_on": "",
+        "topic": "Go nil map write panics in a request handler",
+        "tech": "Go",
+        "wake_time": "12:12 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "SERVER PANIC",
+            "shake": true,
+            "time": "12:12 AM",
+            "text": "FATAL PANIC IN GO API",
+            "sub": "Assignment to entry in nil map"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Empty Assignment",
+            "sub": "Writing to uninitialized Go maps",
+            "kicker": "Go Production Horror",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "In Go, reading a nil map is safe, but writing panics.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Nobody allocated me... but you stored data anyway..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "type Store struct {",
+              "    cache map[string]string",
+              "}",
+              "func (s *Store) Save(k, v string) {",
+              "    s.cache[k] = v",
+              "}"
+            ],
+            "lang": "go",
+            "file": "session.go",
+            "highlight": [
+              5
+            ],
+            "error": "panic: assignment to entry in nil map"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.3
+              }
+            ],
+            "title": "FATAL RUNTIME P…",
+            "text": "Nil map memory is unallocated!"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "neutral",
+                "expr_at": 0.5
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Initialize nil maps with make before writing!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "type Store struct {",
+              "    cache map[string]string",
+              "}",
+              "func (s *Store) Save(k, v string) {",
+              "    s.cache[k] = v",
+              "}"
+            ],
+            "lang": "go",
+            "file": "session.go",
+            "fix_line": 5,
+            "after": "    if s.cache == nil { s.cache = make(m",
+            "note": "Reading a nil map returns zero values, but writing to it panics instantly."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always allocate Go maps with make() before key assignment.",
+            "cta": "Save this before your next deploy",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In Go, a declared map variable defaults to nil. While reading from a nil map safely returns zero values without crashing, attempting to write a key-value pair to a nil map triggers an immediate fatal runtime panic!\n\nHas an uninitialized map ever crashed your Go service in production? Let us know below! @prodmanor",
+        "hashtags": [
+          "#golang",
+          "#backend",
+          "#programming",
+          "#coding",
+          "#softwareengineering",
+          "#webdev",
+          "#devops"
+        ],
+        "cover_text": "GO NIL MAP PANIC"
+      },
+      "warnings": [],
+      "pitch_msg_id": 310
     }
   },
   "telegram": {
@@ -19275,7 +20019,11 @@
       "300": "2026-11-15-a",
       "301": "2026-11-15-b",
       "302": "2026-11-15-c",
-      "303": "2026-11-15-d"
+      "303": "2026-11-15-d",
+      "307": "2026-11-16-a",
+      "308": "2026-11-16-b",
+      "309": "2026-11-16-c",
+      "310": "2026-11-16-d"
     }
   },
   "settings": {
@@ -19434,7 +20182,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-16": {}
+    "2026-11-16": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
