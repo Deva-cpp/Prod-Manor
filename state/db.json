@@ -19914,6 +19914,752 @@
       },
       "warnings": [],
       "pitch_msg_id": 310
+    },
+    "2026-11-17-a": {
+      "status": "pitched",
+      "created": "2026-11-17T07:01:02.358091+05:30",
+      "day": "2026-11-17",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-17-a",
+        "title": "The Leaky Goroutine",
+        "monster": "leak",
+        "concept": "unbuffered channel goroutine leak",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "POV: your Go service consumes 8 gigabytes of RAM on idle.",
+        "logline": "Junior investigates a massive RAM leak in Go caused by an unbuffered channel blocking a goroutine forever.",
+        "builds_on": "",
+        "topic": "Go goroutine leak: goroutine blocked forever on a channel nobody reads",
+        "tech": "Go",
+        "wake_time": "6:04 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "POV. Your Go server is consuming eight gigabytes of memory at six oh four A M.",
+            "time": "6:04 AM",
+            "text": "PROD IS DOWN",
+            "sub": "RAM spike: 8 gigabytes"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Leaky Goroutine",
+            "sub": "A goroutine never dies alone",
+            "kicker": "PROD MANOR #101",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "action": "grow",
+                "amount": 1.5
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the memory slime growing?"
+              },
+              {
+                "who": "leak",
+                "text": "Someone left me waiting on a channel..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2
+              }
+            ],
+            "lines": [
+              "func fetch() string {",
+              "  ch := make(chan string)",
+              "  go func() {",
+              "    ch <- doWork()",
+              "  }()",
+              "  return <-ch",
+              "}"
+            ],
+            "lang": "go",
+            "file": "worker.go",
+            "highlight": [
+              2,
+              4
+            ],
+            "error": "fatal error: all goroutines are asleep - deadlock!"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "An unbuffered channel blocks the sending goroutine forever if the receiver exits early.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "MEMORY LEAK",
+            "text": "100,000 goroutines blocked forever"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "I just wanted someone to take my message..."
+              },
+              {
+                "who": "junior",
+                "text": "A buffered channel lets you finish!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              }
+            ],
+            "lines": [
+              "func fetch() string {",
+              "  ch := make(chan string)",
+              "  go func() {",
+              "    ch <- doWork()",
+              "  }()",
+              "  return <-ch",
+              "}"
+            ],
+            "lang": "go",
+            "file": "worker.go",
+            "fix_line": 2,
+            "after": "  ch := make(chan string, 1)",
+            "note": "Buffered channels prevent goroutines from blocking forever on unread sends."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "narration": "Always buffer channel sends or use context timeouts to protect your Go routines.",
+            "lesson": "Buffer channels when launching background goroutines.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "twins",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Sending to an unbuffered channel in a goroutine without a guaranteed receiver blocks that goroutine in memory forever. Under traffic, millions of abandoned goroutines eat your RAM until OOM kills the process.\n\nHave you ever leaked goroutines in production? Tell us in the comments!\n\nFollow @prodmanor for daily dev horror stories.",
+        "hashtags": [
+          "#golang",
+          "#go",
+          "#backend",
+          "#programming",
+          "#codinghumor",
+          "#devops",
+          "#softwareengineering"
+        ],
+        "cover_text": "GOROUTINE MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 314
+    },
+    "2026-11-17-b": {
+      "status": "pitched",
+      "created": "2026-11-17T07:01:02.358116+05:30",
+      "day": "2026-11-17",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-17-b",
+        "title": "The Unhandled Promise",
+        "monster": "twins",
+        "concept": "floating unhandled promise process crash",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This unhandled promise will kill your entire Node process in production.",
+        "logline": "Fork & Join cause a full server outage when a floating promise rejection goes un-awaited in Express.",
+        "builds_on": "",
+        "topic": "unhandled promise rejection crashes the Node process",
+        "tech": "Node.js",
+        "wake_time": "7:36 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "This unhandled promise will kill your entire Node process in production.",
+            "time": "7:36 PM",
+            "text": "CRASH DETECTED",
+            "sub": "Node process exited with code 1"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Unhandled Promise",
+            "sub": "Two tasks enter, neither catches the error",
+            "kicker": "PROD MANOR #102",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did the payment server crash?"
+              },
+              {
+                "who": "twins",
+                "text": "One of us failed and nobody was listening!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2
+              }
+            ],
+            "lines": [
+              "app.post('/pay', async (req, res) => {",
+              "  logAnalytics(req.body);",
+              "  await processPayment(req.body);",
+              "  res.send('ok');",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "UnhandledPromiseRejection: Error: Analytics offline"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Un-awaited promises drop rejected errors into thin air, crashing modern Node runtimes.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "PROCESS TERMINA…",
+            "text": "Node.js v18+ exits process on unhandled rejection"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75
+              },
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "You forgot to await me!"
+              },
+              {
+                "who": "junior",
+                "text": "Now the whole server is down..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              }
+            ],
+            "lines": [
+              "app.post('/pay', async (req, res) => {",
+              "  logAnalytics(req.body);",
+              "  await processPayment(req.body);",
+              "  res.send('ok');",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  await logAnalytics(req.body);",
+            "note": "Always await or catch promises so rejected errors reach the error handler."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "narration": "Always await background promises or explicitly catch errors in async handlers.",
+            "lesson": "Never leave floating promises un-awaited in Express route handlers.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "ollie",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "In modern Node.js, an unhandled promise rejection triggers process exit. Floating promises inside route handlers bypass Express error boundaries entirely when they reject.\n\nDo you use floating promises for background logging? Comment below!\n\nFollow @prodmanor for more real-world production bugs.",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#expressjs",
+          "#webdev",
+          "#backend",
+          "#codinghumor",
+          "#fullstack"
+        ],
+        "cover_text": "UNHANDLED PROMISE CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 315
+    },
+    "2026-11-17-c": {
+      "status": "pitched",
+      "created": "2026-11-17T07:01:02.358121+05:30",
+      "day": "2026-11-17",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-17-c",
+        "title": "Yesterday's Date",
+        "monster": "ollie",
+        "concept": "ISO date-only string UTC timezone offset",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why did your midnight deployment show up as yesterday?",
+        "logline": "Ollie One-Off haunts an invoice date feature because ISO date strings default to UTC midnight in JavaScript.",
+        "builds_on": "",
+        "topic": "new Date('2026-10-22') is UTC midnight and shows yesterday in the US",
+        "tech": "JavaScript",
+        "wake_time": "3:53 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "Why did your midnight deployment show up as yesterday?",
+            "time": "3:53 PM",
+            "text": "INVOICE BUG",
+            "sub": "Billing date off by one day"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "Yesterday's Date",
+            "sub": "ISO date strings strike at midnight UTC",
+            "kicker": "PROD MANOR #103",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The invoice date says October twenty-first!"
+              },
+              {
+                "who": "ollie",
+                "text": "I brought yesterday's mail. Exactly one day off!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2
+              }
+            ],
+            "lines": [
+              "function parseDay(dateStr) {",
+              "  const date = new Date(dateStr);",
+              "  return date.getDate();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "date.js",
+            "highlight": [
+              2
+            ],
+            "error": "parseDay('2026-10-22') returned 21 instead of 22"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Date-only ISO strings parse as UTC midnight, shifting back in western timezones.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.8
+              }
+            ],
+            "title": "TIMEZONE SHIFT",
+            "text": "YYYY-MM-DD parses as UTC midnight, shifting local day"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.8,
+                "to": {
+                  "x": 0.7
+                }
+              },
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "UTC midnight is seven P M yesterday in New York."
+              },
+              {
+                "who": "junior",
+                "text": "We need local time instead!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "normal"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              }
+            ],
+            "lines": [
+              "function parseDay(dateStr) {",
+              "  const date = new Date(dateStr);",
+              "  return date.getDate();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "date.js",
+            "fix_line": 2,
+            "after": "  const date = new Date(dateStr + 'T00:0",
+            "note": "Adding a time component forces JavaScript to parse dates in local time."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "narration": "Append time components or explicit zone offsets when constructing JS dates.",
+            "lesson": "Never parse YYYY-MM-DD without specifying local time or offset.",
+            "cta": "Follow before the next one wakes up.",
+            "next_monster": "null",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "In ECMAScript specs, date-only strings like '2026-10-22' are parsed as UTC midnight. If your server or user browser is in UTC-5, that midnight timestamp lands on 7:00 PM the previous evening!\n\nHas timezone math ever broken your production UI? Tell us your worst date bug!\n\nFollow @prodmanor for daily dev humor.",
+        "hashtags": [
+          "#javascript",
+          "#frontend",
+          "#webdev",
+          "#programming",
+          "#codinghumor",
+          "#reactjs",
+          "#typescript"
+        ],
+        "cover_text": "JS DATE TIMEZONE BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 316
+    },
+    "2026-11-17-d": {
+      "status": "pitched",
+      "created": "2026-11-17T07:01:02.358124+05:30",
+      "day": "2026-11-17",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-17-d",
+        "title": "The Ghost In The Cast",
+        "monster": "null",
+        "concept": "type assertion bypasses runtime validation",
+        "level": "intermediate",
+        "language": "typescript",
+        "hook": "TypeScript type assertions do absolutely nothing at runtime.",
+        "logline": "The Null ghost crashes a profile page when Junior trusts a TypeScript type cast on unvalidated API responses.",
+        "builds_on": "",
+        "topic": "TypeScript 'as User' cast trusts unvalidated API JSON",
+        "tech": "TypeScript",
+        "wake_time": "5:12 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "TypeScript type assertions do absolutely nothing at runtime.",
+            "time": "5:12 PM",
+            "text": "API CRASH",
+            "sub": "TypeError: Cannot read properties…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Ghost In The Cast",
+            "sub": "The compiler believed you. Production did not.",
+            "kicker": "PROD MANOR #104",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "opacity": 0.8
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "TypeScript said user profile was guaranteed!"
+              },
+              {
+                "who": "null",
+                "text": "The API sent null... Nobody checked on me..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2
+              }
+            ],
+            "lines": [
+              "async function getUser(id: string) {",
+              "  const res = await fetch('/api/' + id);",
+              "  const user = await res.json() as User;",
+              "  return user.profile.name;",
+              "}"
+            ],
+            "lang": "typescript",
+            "file": "user.ts",
+            "highlight": [
+              3,
+              4
+            ],
+            "error": "TypeError: Cannot read properties of null (reading 'name')"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The keyword 'as' only tricks the compiler. It vanishes completely in compiled JavaScript.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75
+              }
+            ],
+            "title": "RUNTIME BREAKAGE",
+            "text": "Type assertions are erased at compile time"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75
+              },
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "You trusted a type cast, but I was empty inside."
+              },
+              {
+                "who": "junior",
+                "text": "We need runtime schema validation!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25
+              }
+            ],
+            "lines": [
+              "async function getUser(id: string) {",
+              "  const res = await fetch('/api/' + id);",
+              "  const user = await res.json() as User;",
+              "  return user.profile.name;",
+              "}"
+            ],
+            "lang": "typescript",
+            "file": "user.ts",
+            "fix_line": 3,
+            "after": "  const user = UserSchema.parse(await re",
+            "note": "Zod parses and validates untrusted API payloads at runtime before access."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "narration": "Validate external data using Zod or Valibot instead of type assertions.",
+            "lesson": "Never use 'as' casts on external API responses without runtime validation.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "leak",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Type assertions using 'as' tell TypeScript to turn off checks, but they disappear when compiled. When your backend returns null or changes schema keys, your app crashes at runtime.\n\nDo you use Zod schemas or unsafe 'as' casts for API calls? Let us know in the comments!\n\nFollow @prodmanor for more software engineering tips.",
+        "hashtags": [
+          "#typescript",
+          "#javascript",
+          "#webdevelopment",
+          "#frontend",
+          "#backend",
+          "#zod",
+          "#codinghumor"
+        ],
+        "cover_text": "TYPESCRIPT 'AS' CAST TR…"
+      },
+      "warnings": [],
+      "pitch_msg_id": 317
     }
   },
   "telegram": {
@@ -20023,7 +20769,11 @@
       "307": "2026-11-16-a",
       "308": "2026-11-16-b",
       "309": "2026-11-16-c",
-      "310": "2026-11-16-d"
+      "310": "2026-11-16-d",
+      "314": "2026-11-17-a",
+      "315": "2026-11-17-b",
+      "316": "2026-11-17-c",
+      "317": "2026-11-17-d"
     }
   },
   "settings": {
@@ -20188,7 +20938,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-17": {}
+    "2026-11-17": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
