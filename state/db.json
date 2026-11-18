@@ -20660,6 +20660,723 @@
       },
       "warnings": [],
       "pitch_msg_id": 317
+    },
+    "2026-11-18-a": {
+      "status": "pitched",
+      "created": "2026-11-18T07:04:25.205215+05:30",
+      "day": "2026-11-18",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-18-a",
+        "title": "The Infinite Cycle",
+        "monster": "caller",
+        "concept": "Handling circular object references in JSON serialization",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This phone call will crash your Node API instantly.",
+        "logline": "Junior debugs a Node.js API crash caused by JSON.stringify looping infinitely over a circular reference object.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "8:00 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "on_screen": "CIRCULAR JSON CRASH",
+            "sfx": [
+              "pager"
+            ],
+            "time": "8:00 AM",
+            "text": "PRODUCTION IS DOWN",
+            "sub": "API crashed on JSON serialization"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Infinite Cycle",
+            "sub": "The phone that rings itself",
+            "kicker": "PROD MANOR #101",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "At eight A M, the API server crashed during JSON logging.",
+            "sfx": [
+              "ring"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the logger stuck in a loop?"
+              },
+              {
+                "who": "caller",
+                "text": "Hold on, calling my own extension!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const parent = { name: \"Root\" };",
+              "const child = { parent };",
+              "parent.child = child;",
+              "return JSON.stringify(parent);"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "highlight": [
+              4
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3
+              }
+            ],
+            "title": "CIRCULAR STRUCT…",
+            "text": "JSON.stringify followed child.parent back to parent forever."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "narration": "JSON dot stringify cannot resolve recursive object references.",
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Line is busy... because line is me."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "const parent = { name: \"Root\" };",
+              "const child = { parent };",
+              "parent.child = child;",
+              "return JSON.stringify(parent);"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "fix_line": 4,
+            "after": "delete child.parent; return JSON.stringi",
+            "note": "Deleting circular back-references prevents infinite JSON loops."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Remove back-references or use a custom replacer before stringifying objects.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "leak",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Ever had your Node process die on a simple log line? 💀 When objects reference each other, JSON.stringify runs infinitely until it throws a TypeError. Strip circular references or pass a replacer function before serializing!\n\nHave you ever broken prod with a circular object loop?\n\n@prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#backend",
+          "#programming",
+          "#codinghumor",
+          "#devcommunity"
+        ],
+        "cover_text": "CIRCULAR JSON CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 321
+    },
+    "2026-11-18-b": {
+      "status": "pitched",
+      "created": "2026-11-18T07:04:25.205237+05:30",
+      "day": "2026-11-18",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-18-b",
+        "title": "The Unbound Stream",
+        "monster": "leak",
+        "concept": "EventEmitter listener cleanup per request",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: Your server slow-leaks RAM on every user login.",
+        "logline": "Junior investigates a Node.js memory leak caused by registering event listeners inside HTTP request handlers.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "2:37 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "on_screen": "MEMORY LEAK WARNING",
+            "sfx": [
+              "pager"
+            ],
+            "time": "2:37 AM",
+            "text": "ALERT: HIGH MEMORY USAGE",
+            "sub": "Node process memory climbing stea…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Unbound Stream",
+            "sub": "The event listener that never leaves",
+            "kicker": "PROD MANOR #102",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "At two thirty-seven A M, Node memory usage climbed out of control.",
+            "sfx": [
+              "slurp"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.4,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Where is all our RAM going?"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "app.get(\"/login\", (req, res) => {",
+              "  bus.on(\"auth\", () => res.send(\"ok\"));",
+              "  bus.emit(\"auth\");",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "MaxListenersExceededWarning: 11 auth listeners added to [EventEmitter]"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.8
+              }
+            ],
+            "title": "MAX LISTENERS E…",
+            "text": "Every HTTP request attached a new listener that was never removed."
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "app.get(\"/login\", (req, res) => {",
+              "  bus.on(\"auth\", () => res.send(\"ok\"));",
+              "  bus.emit(\"auth\");",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  bus.once(\"auth\", () => res.send(\"ok\"))",
+            "note": "Using once automatically unbinds the listener after it fires."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never attach persistent event listeners inside short-lived request handlers.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Attaching emitter.on inside Express route handlers creates a silent memory leak on every hit. Node warns you at 10 listeners, but production will crash eventually! Use emitter.once or unbind on response close.\n\nHave you ever leaked RAM with EventEmitters?\n\n@prodmanor",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#backend",
+          "#webdevelopment",
+          "#softwareengineering",
+          "#codehumor",
+          "#devops"
+        ],
+        "cover_text": "NODE RAM LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 322
+    },
+    "2026-11-18-c": {
+      "status": "pitched",
+      "created": "2026-11-18T07:04:25.205242+05:30",
+      "day": "2026-11-18",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-18-c",
+        "title": "The Partial Match",
+        "monster": "ollie",
+        "concept": "Python re.fullmatch vs unanchored re.match",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Why did 'abc123evil' pass your strict regex check?",
+        "logline": "Junior fixes a Python security bug where re.match allowed extra trailing characters past the pattern.",
+        "builds_on": "",
+        "topic": "re.match without anchors accepts 'abc123evil'",
+        "tech": "Python",
+        "wake_time": "5:52 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "on_screen": "REGEX BYPASS DETECTED",
+            "sfx": [
+              "pager"
+            ],
+            "time": "5:52 AM",
+            "text": "SECURITY VULNERABILITY",
+            "sub": "Invalid input bypassed regex vali…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Partial Match",
+            "sub": "Ollie left the back door open",
+            "kicker": "PROD MANOR #103",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "At five fifty-two A M, malicious input bypassed the validator.",
+            "sfx": [
+              "creak"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Our regex was supposed to block numbers!"
+              },
+              {
+                "who": "ollie",
+                "text": "It matched the front! Good enough, right?"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "import re",
+              "",
+              "def validate_code(user_input):",
+              "    if re.match(r\"[a-z]+\", user_input):",
+              "        return True",
+              "    return False"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "highlight": [
+              4
+            ],
+            "error": "ValidationPassed: 'abc123evil' matched pattern r'[a-z]+'"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "title": "UNANCHORED MATC…",
+            "text": "re.match only checks from the beginning, ignoring trailing characters."
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0,
+                "to": {
+                  "x": 0.7
+                }
+              }
+            ],
+            "lines": [
+              "import re",
+              "",
+              "def validate_code(user_input):",
+              "    if re.match(r\"[a-z]+\", user_input):",
+              "        return True",
+              "    return False"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "fix_line": 4,
+            "after": "    if re.fullmatch(r\"[a-z]+\", user_inpu",
+            "note": "re.fullmatch forces regex matching across the complete string."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use re.fullmatch in Python to validate an entire string against a regex.",
+            "cta": "Follow for more real production fixes.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Python's re.match only checks if the START of the string matches your pattern! If a user submits 'abc123evil', re.match(r'[a-z]+') returns True! Use re.fullmatch to enforce strict string validation.\n\nDid you know re.match isn't fully anchored by default?\n\n@prodmanor",
+        "hashtags": [
+          "#python",
+          "#cybersecurity",
+          "#webdev",
+          "#backend",
+          "#coding",
+          "#programmerhumor",
+          "#pythonprogramming"
+        ],
+        "cover_text": "PYTHON REGEX BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 323
+    },
+    "2026-11-18-d": {
+      "status": "pitched",
+      "created": "2026-11-18T07:04:25.205247+05:30",
+      "day": "2026-11-18",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-18-d",
+        "title": "The Thread Lockout",
+        "monster": "twins",
+        "concept": "Python GIL bottleneck on CPU-bound thread pools",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Adding four threads made your Python code run slower.",
+        "logline": "Junior resolves a CPU performance bottleneck in Python by switching from ThreadPoolExecutor to ProcessPoolExecutor.",
+        "builds_on": "",
+        "topic": "threads don't speed up CPU-heavy Python work (the GIL)",
+        "tech": "Python",
+        "wake_time": "1:11 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "on_screen": "THREAD LOCKOUT BOTTLENECK",
+            "sfx": [
+              "pager"
+            ],
+            "time": "1:11 AM",
+            "text": "PERFORMANCE REGRESSION",
+            "sub": "Four worker threads running slowe…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Thread Lockout",
+            "sub": "Two threads, one lock",
+            "kicker": "PROD MANOR #104",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "At one eleven A M, adding worker threads slowed the job down.",
+            "sfx": [
+              "thud"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why are four cores sitting idle?"
+              },
+              {
+                "who": "twins",
+                "text": "After you! No, after YOU!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import ProcessPo",
+              "",
+              "def run_job(data):",
+              "    with ThreadPoolExecutor(4) as ex:",
+              "        return list(ex.map(heavy_calc, d"
+            ],
+            "lang": "python",
+            "file": "jobs.py",
+            "highlight": [
+              4
+            ],
+            "error": "Benchmark: 4 threads took 14.2s vs 12.1s single-threaded"
+          },
+          {
+            "type": "crash",
+            "dur": 2.5,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3
+              }
+            ],
+            "title": "GIL BOTTLENECK…",
+            "text": "Python threads share one Global Interpreter Lock for CPU tasks."
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "from concurrent.futures import ProcessPo",
+              "",
+              "def run_job(data):",
+              "    with ThreadPoolExecutor(4) as ex:",
+              "        return list(ex.map(heavy_calc, d"
+            ],
+            "lang": "python",
+            "file": "jobs.py",
+            "fix_line": 4,
+            "after": "    with ProcessPoolExecutor(4) as ex:",
+            "note": "ProcessPoolExecutor bypasses the GIL using separate processes."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use ProcessPoolExecutor for CPU tasks and ThreadPoolExecutor for I/O tasks.",
+            "cta": "Save this before your next performance audit.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Python threads cannot execute CPU-bound work concurrently because of the Global Interpreter Lock (GIL). Context switching between threads actually makes heavy calculations SLOWER! Switch to ProcessPoolExecutor to use multi-core CPUs properly.\n\nThread or process pool for your heavy Python jobs?\n\n@prodmanor",
+        "hashtags": [
+          "#python",
+          "#multithreading",
+          "#backend",
+          "#softwareengineering",
+          "#performance",
+          "#coding",
+          "#devcommunity"
+        ],
+        "cover_text": "PYTHON GIL BOTTLENECK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 324
     }
   },
   "telegram": {
@@ -20773,7 +21490,11 @@
       "314": "2026-11-17-a",
       "315": "2026-11-17-b",
       "316": "2026-11-17-c",
-      "317": "2026-11-17-d"
+      "317": "2026-11-17-d",
+      "321": "2026-11-18-a",
+      "322": "2026-11-18-b",
+      "323": "2026-11-18-c",
+      "324": "2026-11-18-d"
     }
   },
   "settings": {
@@ -20944,7 +21665,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-18": {}
+    "2026-11-18": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
