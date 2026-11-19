@@ -21377,6 +21377,753 @@
       },
       "warnings": [],
       "pitch_msg_id": 324
+    },
+    "2026-11-19-a": {
+      "status": "pitched",
+      "created": "2026-11-19T07:04:29.202472+05:30",
+      "day": "2026-11-19",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-19-a",
+        "title": "All For One Failure",
+        "monster": "twins",
+        "concept": "Promise.allSettled vs Promise.all short-circuiting",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: You fetched 10 user profile widgets and one 404 wiped out the whole dashbo…",
+        "logline": "Junior fetches multiple API endpoints using Promise.all, but a single failing request drops all valid data.",
+        "builds_on": "",
+        "topic": "Promise.all drops every result when one request fails",
+        "tech": "JavaScript",
+        "wake_time": "11:43 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "time": "11:43 AM",
+            "text": "PROD IS DOWN",
+            "sub": "DASHBOARD BLANK FOR ALL USERS"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "All For One Failure",
+            "sub": "One bad promise takes down the whole family",
+            "kicker": "PROD MANOR #101",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Fork and Join love strict teamwork. A single rejection cancels everything.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did nine successful requests disappear?"
+              },
+              {
+                "who": "twins",
+                "text": "If one fails, we both throw!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Promise.all short-circuits on the very first rejection, ignoring successful results.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const [user, posts, ads] =",
+              "  await Promise.all([",
+              "    fetchUser(),",
+              "    fetchPosts(),",
+              "    fetchAds()",
+              "  ]);"
+            ],
+            "lang": "javascript",
+            "file": "dashboard.js",
+            "highlight": [
+              2
+            ],
+            "error": "TypeError: Failed to fetch (Promise.all short-circuited)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "500 UNHANDLED R…",
+            "text": "Ads server timed out. Profile and Posts discarded."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I just needed whatever finished successfully!"
+              },
+              {
+                "who": "twins",
+                "text": "Then settle with us individually..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const [user, posts, ads] =",
+              "  await Promise.all([",
+              "    fetchUser(),",
+              "    fetchPosts(),",
+              "    fetchAds()",
+              "  ]);"
+            ],
+            "lang": "javascript",
+            "file": "dashboard.js",
+            "fix_line": 2,
+            "after": "  await Promise.allSettled([",
+            "note": "Promise.allSettled waits for all promises, returning fulfillments and rejections safely."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use Promise.allSettled when independent requests can fail without breaking the rest.",
+            "cta": "Follow @prodmanor before your next batch request drops prod.",
+            "next_monster": "null",
+            "kicker": "THE NEXT BUG IS ALR…"
+          }
+        ],
+        "caption": "One broken API shouldn't wipe out your whole UI. Promise.all rejects immediately when a single request fails, dropping all your valid response data on the floor. Switching to Promise.allSettled gives you status and value for every single promise.\n\nHave you ever had an optional endpoint crash your main page load? Tell us below!\n\nFollow @prodmanor for daily dev nightmare fixes.",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#reactjs",
+          "#frontend",
+          "#async",
+          "#codinghumor",
+          "#programming"
+        ],
+        "cover_text": "PROMISE ALL TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 328
+    },
+    "2026-11-19-b": {
+      "status": "pitched",
+      "created": "2026-11-19T07:04:29.202492+05:30",
+      "day": "2026-11-19",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-19-b",
+        "title": "The Ghost In The Type",
+        "monster": "null",
+        "concept": "runtime schema validation vs compile-time type assertions",
+        "level": "intermediate",
+        "language": "typescript",
+        "hook": "This ghost bypasses your TypeScript types and crashes production at nine forty…",
+        "logline": "Junior uses type casting on external API data, but missing fields crash the app when JavaScript runs.",
+        "builds_on": "",
+        "topic": "TypeScript 'as User' cast trusts unvalidated API JSON",
+        "tech": "TypeScript",
+        "wake_time": "9:45 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "time": "9:45 PM",
+            "text": "CRASH IN PRODUCTION",
+            "sub": "CANNOT READ PROPERTIES OF UNDEFIN…"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Ghost In The Type",
+            "sub": "TypeScript assertions evaporate at runtime",
+            "kicker": "PROD MANOR #102",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.6,
+            "narration": "The Null haunts unvalidated JSON payloads that masquerade as valid types.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "TypeScript promised this user profile had a name!"
+              },
+              {
+                "who": "null",
+                "text": "Nobody checked me at runtime..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "The 'as' keyword lies to the compiler. It adds zero runtime checks to raw JSON.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const res = await fetch('/api/me');",
+              "const raw = await res.json();",
+              "const user = raw as User;",
+              "console.log(user.profile.name);"
+            ],
+            "lang": "typescript",
+            "file": "user.ts",
+            "highlight": [
+              3
+            ],
+            "error": "TypeError: Cannot read properties of undefined (reading 'name')"
+          },
+          {
+            "type": "crash",
+            "dur": 2.8,
+            "shake": true,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.5,
+                "scale": 1.2
+              }
+            ],
+            "title": "RUNTIME TYPE ER…",
+            "text": "raw.profile was undefined. App crashed."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "How do I enforce types outside of build time?"
+              },
+              {
+                "who": "null",
+                "text": "Parse me with Zod before trusting me!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const res = await fetch('/api/me');",
+              "const raw = await res.json();",
+              "const user = raw as User;",
+              "console.log(user.profile.name);"
+            ],
+            "lang": "typescript",
+            "file": "user.ts",
+            "fix_line": 3,
+            "after": "const user = UserSchema.parse(raw);",
+            "note": "Zod parses and validates external payloads at runtime, catching missing data safely."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never trust API payloads with type assertions. Use Zod schemas for runtime safety.",
+            "cta": "Save this reel before your next external API integration de…",
+            "next_monster": "caller",
+            "kicker": "THE NEXT BUG IS ALR…"
+          }
+        ],
+        "caption": "Type assertions (`as User`) completely disappear once TypeScript compiles to JavaScript. If an API sends undefined fields, your app crashes in prod despite clean build checks. Parse unknown JSON with runtime schema validators like Zod instead.\n\nDo you validate API responses at runtime or trust the types? Let us know below!\n\nFollow @prodmanor for more survival guides.",
+        "hashtags": [
+          "#typescript",
+          "#javascript",
+          "#backend",
+          "#fullstack",
+          "#zod",
+          "#webdevelopment",
+          "#codequality"
+        ],
+        "cover_text": "TYPESCRIPT LIE"
+      },
+      "warnings": [],
+      "pitch_msg_id": 329
+    },
+    "2026-11-19-c": {
+      "status": "pitched",
+      "created": "2026-11-19T07:04:29.202498+05:30",
+      "day": "2026-11-19",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-19-c",
+        "title": "The Endless Retry Storm",
+        "monster": "caller",
+        "concept": "exponential backoff with jitter on retries",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Why does taking down one third-party service cause your app to DDOS itself?",
+        "logline": "Junior loops a failed HTTP request without backoff, triggering a total rate-limit lock out.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "10:30 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "time": "10:30 PM",
+            "text": "API RATE LIMIT EXCEEDED",
+            "sub": "503 SERVICE UNAVAILABLE"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Endless Retry Storm",
+            "sub": "Tight loops turn failures into traffic avalanches",
+            "kicker": "PROD MANOR #103",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.6,
+            "narration": "The Caller stacks calls endlessly when retries have no delay or exponential cap.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why are we making ten thousand requests a second?"
+              },
+              {
+                "who": "caller",
+                "text": "It failed, so I dialed right back!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "A static delay of zero point one seconds hammers recovering upstream servers.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "while True:",
+              "    res = requests.get(url)",
+              "    if res.status_code == 200:",
+              "        break",
+              "    time.sleep(0.1)"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "highlight": [
+              5
+            ],
+            "error": "HTTPError: 429 Too Many Requests (Rate limit breached)"
+          },
+          {
+            "type": "crash",
+            "dur": 2.8,
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3,
+                "copies": 5
+              }
+            ],
+            "title": "RETRY STORM DET…",
+            "text": "Upstream service blocked IP for 24 hours."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We need to give the server room to breathe!"
+              },
+              {
+                "who": "caller",
+                "text": "Double the wait each time..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "while True:",
+              "    res = requests.get(url)",
+              "    if res.status_code == 200:",
+              "        break",
+              "    time.sleep(0.1)"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "fix_line": 5,
+            "after": "    time.sleep(min(2 ** attempt, 30))",
+            "note": "Exponential backoff increases wait times exponentially, preventing retry storms."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always use exponential backoff with delay caps on failing network retries.",
+            "cta": "Follow @prodmanor to save your backend from self-inflicted…",
+            "next_monster": "leak",
+            "kicker": "THE NEXT BUG IS ALR…"
+          }
+        ],
+        "caption": "Retrying failed HTTP connections in a tight loop instantly turns temporary hiccups into total service blockades. Using exponential backoff (`2 ** attempt`) backs off gracefully and allows upstream systems to recover.\n\nHave you ever accidentally DDOSed your own staging environment? Tell us below!\n\nFollow @prodmanor for clean architecture tips.",
+        "hashtags": [
+          "#python",
+          "#devops",
+          "#backend",
+          "#api",
+          "#microservices",
+          "#softwareengineering",
+          "#systemdesign"
+        ],
+        "cover_text": "RETRY STORM TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 330
+    },
+    "2026-11-19-d": {
+      "status": "pitched",
+      "created": "2026-11-19T07:04:29.202502+05:30",
+      "day": "2026-11-19",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-19-d",
+        "title": "The Infinite Dictionary",
+        "monster": "leak",
+        "concept": "bounded cache limits with functools.lru_cache",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Your fast Python cache is silently stealing all your server memory.",
+        "logline": "Junior uses a raw dictionary as an in-memory cache, causing the process memory to expand until OOM killer strikes.",
+        "builds_on": "",
+        "topic": "module-level dict cache in a long-running server grows forever",
+        "tech": "Python",
+        "wake_time": "7:31 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "time": "7:31 AM",
+            "text": "OOM KILLED",
+            "sub": "PROCESS EXCEEDED 4GB RAM LIMIT"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Infinite Dictionary",
+            "sub": "Unbounded caches slowly swallow production RAM",
+            "kicker": "PROD MANOR #104",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The Leak consumes every object placed into unbounded global data stores.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow",
+                "amount": 1.8
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "The server was so fast three hours ago!"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "A plain dictionary never drops old keys. Unique IDs cause memory growth without end.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "CACHE = {}",
+              "",
+              "def get_user(user_id):",
+              "    if user_id not in CACHE:",
+              "        CACHE[user_id] = db_fetch(user_i",
+              "    return CACHE[user_id]"
+            ],
+            "lang": "python",
+            "file": "service.py",
+            "highlight": [
+              1
+            ],
+            "error": "MemoryError: Out of memory (Process killed by Linux OOM killer)"
+          },
+          {
+            "type": "crash",
+            "dur": 2.8,
+            "shake": true,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 2.0
+              }
+            ],
+            "title": "FATAL: OUT OF M…",
+            "text": "Python worker process killed by kernel."
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.5,
+                "action": "shrink"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We need an automatic eviction policy!"
+              },
+              {
+                "who": "leak",
+                "text": "Cap my max size..."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "CACHE = {}",
+              "",
+              "def get_user(user_id):",
+              "    if user_id not in CACHE:",
+              "        CACHE[user_id] = db_fetch(user_i",
+              "    return CACHE[user_id]"
+            ],
+            "lang": "python",
+            "file": "service.py",
+            "fix_line": 1,
+            "after": "@functools.lru_cache(maxsize=1024)",
+            "note": "functools.lru_cache sets a maximum item boundary, evicting oldest keys automatically."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never store unbound state in a raw global dict. Always set max bounds with LRU caching.",
+            "cta": "Share this with a Python dev before their worker process ge…",
+            "next_monster": "twins",
+            "kicker": "THE NEXT BUG IS ALR…"
+          }
+        ],
+        "caption": "Caching database responses in a global dictionary seems innocent until high-cardinality keys like user IDs grow the process memory forever. Decorating functions with `@functools.lru_cache(maxsize=1024)` keeps your lookup speeds blazingly fast while capping RAM usage safely.\n\nWhat cache strategy do you use in your long-running services? Drop a comment below!\n\nFollow @prodmanor for production insights.",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#coding",
+          "#memoryleak",
+          "#performance",
+          "#softwareengineering",
+          "#webdev"
+        ],
+        "cover_text": "PYTHON MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 331
     }
   },
   "telegram": {
@@ -21494,7 +22241,11 @@
       "321": "2026-11-18-a",
       "322": "2026-11-18-b",
       "323": "2026-11-18-c",
-      "324": "2026-11-18-d"
+      "324": "2026-11-18-d",
+      "328": "2026-11-19-a",
+      "329": "2026-11-19-b",
+      "330": "2026-11-19-c",
+      "331": "2026-11-19-d"
     }
   },
   "settings": {
@@ -21671,7 +22422,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-19": {}
+    "2026-11-19": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
