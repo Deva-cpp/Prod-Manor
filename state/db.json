@@ -22425,7 +22425,8 @@
     "2026-11-19": {
       "pitched": true,
       "brain": "gemini",
-      "note": ""
+      "note": "",
+      "reported": true
     }
   },
   "token": {},
