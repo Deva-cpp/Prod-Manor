@@ -22124,6 +22124,795 @@
       },
       "warnings": [],
       "pitch_msg_id": 331
+    },
+    "2026-11-20-a": {
+      "status": "pitched",
+      "created": "2026-11-20T07:01:35.192695+05:30",
+      "day": "2026-11-20",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-20-a",
+        "title": "The Extra Penny",
+        "monster": "ollie",
+        "concept": "floating point precision in currency calculations",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: your invoice total is off by one cent in prod",
+        "logline": "Junior discovers Python float arithmetic added extra decimals to an invoice total, breaking exact billing matching.",
+        "builds_on": "",
+        "topic": "float money totals: 0.1 + 0.2 on an invoice",
+        "tech": "Python",
+        "wake_time": "6:31 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "time": "6:31 PM",
+            "text": "INVOICE DISCREPANCY",
+            "sub": "Total calculated: 0.3000000000000…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Extra Penny",
+            "sub": "Floating point math strikes the billing department",
+            "kicker": "PROD MANOR EP 101",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "A customer was billed thirty cents, but Python calculated a fraction of a cent extra.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Your total has sixteen extra decimal places!"
+              },
+              {
+                "who": "junior",
+                "text": "Why is float adding invisible pennies to invoices?"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Binary floats cannot represent exact base-ten decimals like zero point one.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "def calc_total(a, b):",
+              "    # float precision error",
+              "    total = a + b",
+              "    return total"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "highlight": [
+              3
+            ],
+            "error": "total == 0.30000000000000004 (Expected 0.30)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Payment processors reject invoices that fail exact currency matching.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "title": "INVOICE REJECTED",
+            "text": "0.30000000000000004 != 0.30"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "Ollie loves rounding errors, but Python's Decimal type avoids binary float artifacts.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Use exact base-ten decimals for money!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Import Decimal from decimal to calculate currency exactly.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.92,
+                "scale": 1.1
+              }
+            ],
+            "lines": [
+              "def calc_total(a, b):",
+              "    # float precision error",
+              "    total = a + b",
+              "    return total"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "fix_line": 3,
+            "after": "    total = Decimal(a) + Decimal(b)",
+            "note": "Decimal performs exact base-ten arithmetic without floating point precision drift."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never store or calculate money as floating point numbers",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Floating point numbers in binary cannot accurately represent base-10 decimals like 0.1 or 0.2. In Python, 0.1 + 0.2 evaluates to 0.30000000000000004! For money or invoice calculations, always use Python's built-in Decimal class or work entirely in integer cents to avoid silent rounding bugs in prod.\n\nHave you ever caught a floating point bug in production? Follow @prodmanor for daily dev nightmare fixes!",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#backend",
+          "#webdev",
+          "#codinghumor",
+          "#softwareengineering",
+          "#devops"
+        ],
+        "cover_text": "FLOAT MONEY BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 335
+    },
+    "2026-11-20-b": {
+      "status": "pitched",
+      "created": "2026-11-20T07:01:35.192711+05:30",
+      "day": "2026-11-20",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-20-b",
+        "title": "The Circular Phone",
+        "monster": "caller",
+        "concept": "circular object reference JSON serialization",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This line crashes your Express server on every single request",
+        "logline": "The Caller loops endlessly when Junior tries to JSON.stringify a JavaScript object with circular references.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "2:49 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "time": "2:49 AM",
+            "text": "EXPRESS CRASH",
+            "sub": "TypeError: Converting circular st…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Circular Phone",
+            "sub": "Serializing objects that reference themselves",
+            "kicker": "PROD MANOR EP 102",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The response object contains a parent pointer that loops right back to itself.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Child calls parent, parent calls child!"
+              },
+              {
+                "who": "junior",
+                "text": "JSON stringify is stuck in a loop!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "JSON stringify traverses object properties recursively until it hits circular reference limits.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function logUser(u) {",
+              "    // u has circular ref",
+              "    const txt = JSON.stringify(u);",
+              "    return txt;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "highlight": [
+              3
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "The Node process crashes instantly when trying to log or return the payload.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "UNHANDLED EXCEP…",
+            "text": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "A safe serializer or weak set filter strips out cyclic back-references.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Prune recurring nodes before stringifying!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use a circular-aware serialization function to ignore recursive object nodes.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function logUser(u) {",
+              "    // u has circular ref",
+              "    const txt = JSON.stringify(u);",
+              "    return txt;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "fix_line": 3,
+            "after": "    const txt = safeStringify(u);",
+            "note": "A circular-safe stringifier uses a WeakSet to skip already visited objects."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Break circular references before JSON serialization",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "leak",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "When a JavaScript object contains references to itself or its ancestors, standard `JSON.stringify` gets caught in infinite recursion and throws a fatal TypeError. Avoid server downtime by using a custom replacer function with WeakSet tracking or a utility like flatted or fast-safe-stringify!\n\nWhat's the weirdest error that brought down your server? Tell us below and follow @prodmanor!",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#expressjs",
+          "#webdev",
+          "#codinghumor",
+          "#fullstack",
+          "#softwaredeveloper"
+        ],
+        "cover_text": "CIRCULAR JSON CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 336
+    },
+    "2026-11-20-c": {
+      "status": "pitched",
+      "created": "2026-11-20T07:01:35.192717+05:30",
+      "day": "2026-11-20",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-20-c",
+        "title": "The Forever Dictionary",
+        "monster": "leak",
+        "concept": "unbounded lru_cache memory leaks",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Why does your Python API server crash every 48 hours?",
+        "logline": "The Leak grows uncontrollably when Python lru_cache is set to maxsize=None on a long-running server worker.",
+        "builds_on": "",
+        "topic": "module-level dict cache in a long-running server grows forever",
+        "tech": "Python",
+        "wake_time": "1:00 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "time": "1:00 AM",
+            "text": "OOM KILLED",
+            "sub": "Container memory exceeded 2GB lim…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Forever Dictionary",
+            "sub": "Unbounded cache growing endlessly in module scope",
+            "kicker": "PROD MANOR EP 103",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "An unbounded cache stores every lookup, but entries are never evicted.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "Mmm... more cache keys..."
+              },
+              {
+                "who": "junior",
+                "text": "The worker RAM keeps rising after every request!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Setting maxsize to None disables cache eviction entirely in long-running processes.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "from functools import lru_cache",
+              "",
+              "@lru_cache(maxsize=None)",
+              "def fetch_user(uid):",
+              "    return db_get(uid)"
+            ],
+            "lang": "python",
+            "file": "cache.py",
+            "highlight": [
+              3
+            ],
+            "error": "MemoryError: Out of memory (lru_cache size: 4,120,000 items)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "As unique user queries accumulate, memory grows until Linux terminates the process.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.6
+              }
+            ],
+            "title": "PROCESS TERMINA…",
+            "text": "SIGKILL: Out of Memory"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "Bounding the cache size automatically purges least recently used items.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.6,
+                "expr_to": "scared",
+                "expr_at": 0.4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We must set a maximum size on the cache!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Cap lru_cache maxsize to bound memory usage safely in production servers.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "from functools import lru_cache",
+              "",
+              "@lru_cache(maxsize=None)",
+              "def fetch_user(uid):",
+              "    return db_get(uid)"
+            ],
+            "lang": "python",
+            "file": "cache.py",
+            "fix_line": 3,
+            "after": "@lru_cache(maxsize=1024)",
+            "note": "Setting maxsize caps memory footprint by evicting oldest cached entries."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always set maxsize on Python in-memory caches",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Decorating a function with `@functools.lru_cache(maxsize=None)` turns off cache eviction entirely. In long-running web servers like Gunicorn or FastAPI, dynamic arguments like user IDs will hoard RAM forever until Kubernetes or the OS kills your container with an Out Of Memory error. Always set an explicit maxsize!\n\nHave you ever tracked down a memory leak in prod? Share your story below and follow @prodmanor!",
+        "hashtags": [
+          "#python",
+          "#fastapi",
+          "#django",
+          "#backend",
+          "#devops",
+          "#softwareengineering",
+          "#codinghumor"
+        ],
+        "cover_text": "UNBOUNDED CACHE LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 337
+    },
+    "2026-11-20-d": {
+      "status": "pitched",
+      "created": "2026-11-20T07:01:35.192722+05:30",
+      "day": "2026-11-20",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-20-d",
+        "title": "The Unmade Map",
+        "monster": "null",
+        "concept": "nil map write panics in Go",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "Go will panic instantly if you assign a key to this map",
+        "logline": "The Null haunts Junior when writing to an uninitialized nil Go map causes an unrecoverable runtime panic.",
+        "builds_on": "",
+        "topic": "Go nil map write panics in a request handler",
+        "tech": "Go",
+        "wake_time": "4:31 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "time": "4:31 PM",
+            "text": "PANIC RECOVERED",
+            "sub": "panic: assignment to entry in nil…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Unmade Map",
+            "sub": "Writing to a map before calling make",
+            "kicker": "PROD MANOR EP 104",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "In Go, reading from a nil map yields default zero values, but writing crashes the process.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Reading a nil map is safe..."
+              },
+              {
+                "who": "junior",
+                "text": "Wait! Don't write a new key to it!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Declaring a map variable without initialization leaves its backing pointer nil.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "func getStore() map[string]int {",
+              "    var m map[string]int",
+              "    m[\"count\"] = 1",
+              "    return m",
+              "}"
+            ],
+            "lang": "go",
+            "file": "store.go",
+            "highlight": [
+              3
+            ],
+            "error": "panic: assignment to entry in nil map"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Unlike slices, Go maps do not auto-allocate underlying hash table memory on assignment.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "RUNTIME PANIC",
+            "text": "panic: assignment to entry in nil map"
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "Calling make allocates the internal data structures required to hold map entries.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We need to initialize memory with make!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Allocate Go maps with make before setting any keys.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "func getStore() map[string]int {",
+              "    var m map[string]int",
+              "    m[\"count\"] = 1",
+              "    return m",
+              "}"
+            ],
+            "lang": "go",
+            "file": "store.go",
+            "fix_line": 2,
+            "after": "    m := make(map[string]int)",
+            "note": "make allocates and initializes the backing hash table required for map writes."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always initialize Go maps with make before writing",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In Go, nil maps are perfectly safe to read (they return zero values for missing keys), but trying to write a key-value pair to a nil map triggers a non-recoverable runtime panic! Always allocate your map using `make(map[K]V)` or a map literal before mutating it.\n\nHave you ever crashed a Go service with a nil map assignment? Comment below and follow @prodmanor!",
+        "hashtags": [
+          "#golang",
+          "#go",
+          "#backend",
+          "#microservices",
+          "#codinghumor",
+          "#softwareengineering",
+          "#devops"
+        ],
+        "cover_text": "GO NIL MAP PANIC"
+      },
+      "warnings": [],
+      "pitch_msg_id": 338
     }
   },
   "telegram": {
@@ -22245,7 +23034,11 @@
       "328": "2026-11-19-a",
       "329": "2026-11-19-b",
       "330": "2026-11-19-c",
-      "331": "2026-11-19-d"
+      "331": "2026-11-19-d",
+      "335": "2026-11-20-a",
+      "336": "2026-11-20-b",
+      "337": "2026-11-20-c",
+      "338": "2026-11-20-d"
     }
   },
   "settings": {
@@ -22428,7 +23221,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-20": {}
+    "2026-11-20": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
