@@ -22913,6 +22913,773 @@
       },
       "warnings": [],
       "pitch_msg_id": 338
+    },
+    "2026-11-21-a": {
+      "status": "pitched",
+      "created": "2026-11-21T09:30:18.325957+05:30",
+      "day": "2026-11-21",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-21-a",
+        "title": "The Frozen Loop",
+        "monster": "twins",
+        "concept": "async event loop blocking",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: You merged async code and locked the entire server.",
+        "logline": "Junior calls sync requests inside an async def, freezing the entire Python event loop.",
+        "builds_on": "",
+        "topic": "blocking requests.get inside async def freezes the event loop",
+        "tech": "Python asyncio",
+        "wake_time": "3:18 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Three eighteen P M. Production froze solid.",
+            "time": "3:18 PM",
+            "text": "PROD IS DOWN",
+            "sub": "0 requests completing"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Frozen Loop",
+            "sub": "Sync calls in async def freeze the single thread",
+            "kicker": "PYTHON ASYNCIO",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Fork and Join locked the entire Python event loop.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "While we wait, nobody else moves."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "requests dot get is synchronous. It blocks the thread completely.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 0.9
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "async def fetch(url):",
+              "    res = requests.get(url)",
+              "    return res.json()"
+            ],
+            "lang": "python",
+            "file": "api.py",
+            "highlight": [
+              2
+            ],
+            "error": "Event loop blocked: HTTP 504 Gateway Timeout"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Every incoming request queues up forever.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "EVENT LOOP BLOC…",
+            "text": "requests.get is synchronous and blocks the single Python thread."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "The twins drop their hold when non-blocking I O arrives.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Use an async HTTP client instead!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Swap requests for an async client like httpx.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "async def fetch(url):",
+              "    res = requests.get(url)",
+              "    return res.json()"
+            ],
+            "lang": "python",
+            "file": "api.py",
+            "fix_line": 2,
+            "after": "    res = await client.get(url)",
+            "note": "Sync calls block the single thread event loop. Use non-blocking async HTTP clients."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never call blocking synchronous I/O inside async functions.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "null",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Blocking synchronous HTTP calls inside Python async def functions will freeze the entire event loop single thread! Always use an async HTTP client like httpx or a thread executor. Have you ever blocked an event loop in prod? Let us know below! @prodmanor",
+        "hashtags": [
+          "#coding",
+          "#python",
+          "#asyncio",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#codinghumor",
+          "#devops"
+        ],
+        "cover_text": "EVENT LOOP FROZEN"
+      },
+      "warnings": [],
+      "pitch_msg_id": 342
+    },
+    "2026-11-21-b": {
+      "status": "pitched",
+      "created": "2026-11-21T09:30:18.325978+05:30",
+      "day": "2026-11-21",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-21-b",
+        "title": "Nobody Checked On Him",
+        "monster": "null",
+        "concept": "Java Optional handling",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "This polite ghost crashes Java apps when you assume data exists.",
+        "logline": "Junior calls Optional.get() directly without checking presence, throwing NoSuchElementException.",
+        "builds_on": "",
+        "topic": "Java Optional.get() on an empty Optional in a service",
+        "tech": "Java",
+        "wake_time": "10:34 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Ten thirty four P M. User service crashed.",
+            "time": "10:34 PM",
+            "text": "PROD IS DOWN",
+            "sub": "NoSuchElementException in UserSer…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "Nobody Checked On Him",
+            "sub": "Calling get() on empty Optional throws an exception",
+            "kicker": "JAVA OPTIONAL",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The Null haunts empty Optional wrappers.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "You called get() without checking me..."
+              }
+            ],
+            "bg": "hallway",
+            "light": "dark"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Dot get on an empty Optional throws a runtime exception.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 0.9
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "User getUser(Long id) {",
+              "  var u = repo.findById(id);",
+              "  return u.get();",
+              "}"
+            ],
+            "lang": "java",
+            "file": "UserService.java",
+            "highlight": [
+              3
+            ],
+            "error": "java.util.NoSuchElementException: No value present"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Prod crashes on missing database records.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "NO VALUE PRESENT",
+            "text": "Optional.get() throws an unchecked exception when empty."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "The Null just wants proper fallback handling.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Use orElseThrow for a clear error!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use orElseThrow or orElse to safely handle missing values.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "User getUser(Long id) {",
+              "  var u = repo.findById(id);",
+              "  return u.get();",
+              "}"
+            ],
+            "lang": "java",
+            "file": "UserService.java",
+            "fix_line": 3,
+            "after": "  return u.orElseThrow();",
+            "note": "Never call get() without checking. Use orElseThrow for explicit domain exceptions."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never call Optional.get() directly. Use orElse or orElseThrow.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "ollie",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Calling Optional.get() without checking presence in Java throws NoSuchElementException when empty! Use orElse, orElseGet, or orElseThrow to handle missing values cleanly. How do you handle empty Optionals in Java? Tell us in the comments! @prodmanor",
+        "hashtags": [
+          "#java",
+          "#backend",
+          "#springboot",
+          "#coding",
+          "#programming",
+          "#webdev",
+          "#codinghumor",
+          "#softwareengineering"
+        ],
+        "cover_text": "EMPTY OPTIONAL CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 343
+    },
+    "2026-11-21-c": {
+      "status": "pitched",
+      "created": "2026-11-21T09:30:18.325981+05:30",
+      "day": "2026-11-21",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-21-c",
+        "title": "One Hundred Comes Before Two",
+        "monster": "ollie",
+        "concept": "Array.sort numeric comparator",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "JavaScript leaderboard put score 100 lower than score 25.",
+        "logline": "Junior calls Array.sort() on leaderboard scores, causing lexicographical string sorting bugs.",
+        "builds_on": "",
+        "topic": "Array.sort() sorts numbers as strings in a leaderboard",
+        "tech": "JavaScript",
+        "wake_time": "8:26 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Eight twenty six P M. Leaderboard ranks are completely backwards.",
+            "time": "8:26 PM",
+            "text": "LEADERBOARD CORRUPTED",
+            "sub": "User with 25 points ranked above…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "One Hundred Comes Before Two",
+            "sub": "Array.sort converts numbers to strings by default",
+            "kicker": "JAVASCRIPT ARRAYS",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Ollie One-Off rearranged the numeric rankings.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "In string land, one hundred starts with one!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "normal"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Array dot sort converts elements to strings before comparing.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 0.9
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "function rank(scores) {",
+              "  return scores.sort();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "leaderboard.js",
+            "highlight": [
+              2
+            ],
+            "error": "Output: [100, 25, 5, 80] sorted to [100, 25, 5, 80]"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "String string comparison puts 100 before 25.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "LEXICOGRAPHICAL…",
+            "text": "Array.sort converts elements to UTF-16 strings before comparing."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "Ollie reveals the missing comparator argument.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Pass a comparator function for numbers!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Pass a subtraction comparator for numeric sorting.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "function rank(scores) {",
+              "  return scores.sort();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "leaderboard.js",
+            "fix_line": 2,
+            "after": "  return scores.sort((a,b)=>b-a);",
+            "note": "Default sort converts numbers to strings. Pass a comparator function for numeric sorting."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always pass a comparator function when sorting numbers in JavaScript.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "caller",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "JavaScript's Array.prototype.sort() converts array elements into UTF-16 strings by default! That means 100 comes before 25 alphabetically. Always pass a comparator function like (a, b) => b - a for numeric sorting. Has this JS quirk tripped you up before? Drop a comment! @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#frontend",
+          "#coding",
+          "#programming",
+          "#techhumor",
+          "#fullstack",
+          "#js"
+        ],
+        "cover_text": "LEADERBOARD SORT BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 344
+    },
+    "2026-11-21-d": {
+      "status": "pitched",
+      "created": "2026-11-21T09:30:18.325983+05:30",
+      "day": "2026-11-21",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-21-d",
+        "title": "The Retrying Storm",
+        "monster": "caller",
+        "concept": "exponential backoff on retries",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "A tight retry loop without delay just destroyed your API.",
+        "logline": "Junior retries payment requests without backoff delay, hammering a struggling API into rate limits.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "8:34 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "Eight thirty four P M. Payment API rate limited.",
+            "time": "8:34 PM",
+            "text": "RATE LIMIT EXCEEDED",
+            "sub": "HTTP 429: Too Many Requests"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Retrying Storm",
+            "sub": "Retrying without backoff hammers failing APIs",
+            "kicker": "RETRY BACKOFF",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The Caller creates a retry storm against the API.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "I called five times in zero seconds!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "red"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Fixed retry delays fail to give servers time to recover.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 0.9
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def call_api(req):",
+              "    for i in range(5):",
+              "        time.sleep(1)",
+              "        if send(req): return"
+            ],
+            "lang": "python",
+            "file": "gateway.py",
+            "highlight": [
+              3
+            ],
+            "error": "HTTP 429 Too Many Requests: 500 requests per second"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "narration": "Thousands of client retries crush the upstream service.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "RETRY STORM DET…",
+            "text": "Fixed delays fail to give struggling upstream servers time to recover."
+          },
+          {
+            "type": "scene",
+            "dur": 3.2,
+            "narration": "The stack topples when exponential backoff is added.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "expr_to": "scared",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Space out the attempts exponentially!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Multiply wait time exponentially between retry attempts.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def call_api(req):",
+              "    for i in range(5):",
+              "        time.sleep(1)",
+              "        if send(req): return"
+            ],
+            "lang": "python",
+            "file": "gateway.py",
+            "fix_line": 3,
+            "after": "        time.sleep(2 ** i)",
+            "note": "Fixed retries hammer failing servers. Use exponential backoff to space out attempts."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always use exponential backoff when retrying failed API calls.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "twins",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Retrying failed API requests with fixed short delays creates a retry storm that hammers struggling servers into rate limits! Always apply exponential backoff (and jitter) between retries. Do you use exponential backoff in your API clients? Tell us in the comments! @prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#api",
+          "#coding",
+          "#programming",
+          "#devops",
+          "#codinghumor",
+          "#systemdesign"
+        ],
+        "cover_text": "RETRY STORM CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 345
     }
   },
   "telegram": {
@@ -23038,7 +23805,11 @@
       "335": "2026-11-20-a",
       "336": "2026-11-20-b",
       "337": "2026-11-20-c",
-      "338": "2026-11-20-d"
+      "338": "2026-11-20-d",
+      "342": "2026-11-21-a",
+      "343": "2026-11-21-b",
+      "344": "2026-11-21-c",
+      "345": "2026-11-21-d"
     }
   },
   "settings": {
@@ -23227,7 +23998,11 @@
       "note": "",
       "reported": true
     },
-    "2026-11-21": {}
+    "2026-11-21": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
