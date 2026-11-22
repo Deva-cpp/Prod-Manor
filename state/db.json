@@ -23680,6 +23680,763 @@
       },
       "warnings": [],
       "pitch_msg_id": 345
+    },
+    "2026-11-22-a": {
+      "status": "pitched",
+      "created": "2026-11-22T11:55:52.660383+05:30",
+      "day": "2026-11-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-22-a",
+        "title": "The Unchecked Tail",
+        "monster": "ollie",
+        "concept": "unanchored regex pattern matching with re.match",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Your regex validator is letting malicious payloads right through.",
+        "logline": "Junior's username validator passes malicious inputs because re.match only checks the start of the string.",
+        "builds_on": "",
+        "topic": "re.match without anchors accepts 'abc123evil'",
+        "tech": "Python",
+        "wake_time": "4:17 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "four seventeen A M. Security alert in production.",
+            "time": "4:17 AM",
+            "text": "SECURITY ALERT",
+            "sub": "Validation bypassed in prod"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Unchecked Tail",
+            "sub": "re.match only checks the start",
+            "kicker": "PROD MANOR #101",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "Ollie One-Off stands right at the boundary.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "I brought extra characters for you!"
+              },
+              {
+                "who": "junior",
+                "text": "Wait, my regex matched that?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "import re",
+              "",
+              "def is_valid(s):",
+              "    if re.match(r\"[a-z]+\", s):",
+              "        return True",
+              "    return False"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "highlight": [
+              4
+            ],
+            "error": "Validation passed: 'admin; DROP TABLE users;'"
+          },
+          {
+            "type": "crash",
+            "dur": 3.2,
+            "narration": "re match only matches the start of the string.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "title": "VALIDATION BYPA…",
+            "text": "re.match matched 'admin' and ignored the tail payload"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1,
+                "to": {
+                  "x": 0.7
+                }
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "You forgot to check the full string!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "normal"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "import re",
+              "",
+              "def is_valid(s):",
+              "    if re.match(r\"[a-z]+\", s):",
+              "        return True",
+              "    return False"
+            ],
+            "lang": "python",
+            "file": "validator.py",
+            "fix_line": 4,
+            "after": "    if re.fullmatch(r\"[a-z]+\", s):",
+            "note": "re.match checks prefix only; re.fullmatch matches the entire string."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Use re.fullmatch to validate complete input strings.",
+            "cta": "Save this before your next security audit.",
+            "next_monster": "caller",
+            "kicker": "Follow @prodmanor"
+          }
+        ],
+        "caption": "Using re.match in Python only checks from the beginning of the input string! Without end anchors or re.fullmatch, malicious trailing payloads pass validation completely undetected. Switch to re.fullmatch for complete string validation. Have you checked your Python regex validators lately? Follow @prodmanor for daily production bug fixes.",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#cybersecurity",
+          "#webdev",
+          "#codehumor",
+          "#programming",
+          "#devops"
+        ],
+        "cover_text": "REGEX BYPASS"
+      },
+      "warnings": [],
+      "pitch_msg_id": 347
+    },
+    "2026-11-22-b": {
+      "status": "pitched",
+      "created": "2026-11-22T11:55:52.660401+05:30",
+      "day": "2026-11-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-22-b",
+        "title": "The Falling Stack",
+        "monster": "caller",
+        "concept": "stack overflow from recursive tree traversal",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This recursive function will crash your server on deep data.",
+        "logline": "A recursive tree walk hits Python's call stack limit on a deep organizational hierarchy.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "1:18 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "one eighteen A M. The worker process died.",
+            "time": "1:18 AM",
+            "text": "CRASH IN PROD",
+            "sub": "RecursionError in worker thread"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Falling Stack",
+            "sub": "Deep trees blow the stack",
+            "kicker": "PROD MANOR #102",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "copies": 1
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Let us make another call!"
+              },
+              {
+                "who": "junior",
+                "text": "The category tree is thousand levels deep!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def walk(root):",
+              "    stack = [root]",
+              "    while stack:",
+              "        curr = stack.pop()",
+              "        stack.extend(walk(curr))"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "highlight": [
+              5
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded"
+          },
+          {
+            "type": "crash",
+            "dur": 3.2,
+            "narration": "Every recursive step adds a stack frame until Python crashes.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "title": "STACK OVERFLOW",
+            "text": "Recursion limit exceeded at depth 1000"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We need an explicit stack array instead!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "normal"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def walk(root):",
+              "    stack = [root]",
+              "    while stack:",
+              "        curr = stack.pop()",
+              "        stack.extend(walk(curr))"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "fix_line": 5,
+            "after": "        stack.extend(curr.kids)",
+            "note": "Iterative loops use heap memory instead of exhausting call stack frames."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Replace deep recursion with iterative stack loops.",
+            "cta": "Save this before your next tree traversal.",
+            "next_monster": "twins",
+            "kicker": "Follow @prodmanor"
+          }
+        ],
+        "caption": "Deep organizational trees or nested JSON structures can easily hit Python's maximum recursion limit of 1000 call frames. Converting tree traversals to an explicit iterative stack loop uses heap memory and prevents RecursionError from taking down your production workers. Have you ever hit RecursionError in production? Tag @prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#datastructures",
+          "#webdev",
+          "#programming",
+          "#codinghumor",
+          "#devlife"
+        ],
+        "cover_text": "STACK OVERFLOW"
+      },
+      "warnings": [],
+      "pitch_msg_id": 348
+    },
+    "2026-11-22-c": {
+      "status": "pitched",
+      "created": "2026-11-22T11:55:52.660407+05:30",
+      "day": "2026-11-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-22-c",
+        "title": "The Orphaned Rejection",
+        "monster": "twins",
+        "concept": "unhandled promise rejection process termination",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: your Node server silently dies because of one missing await.",
+        "logline": "An unawaited async function throws an error, causing Node.js to exit with an unhandled promise rejection.",
+        "builds_on": "",
+        "topic": "unhandled promise rejection crashes the Node process",
+        "tech": "Node.js",
+        "wake_time": "11:26 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "eleven twenty six A M. Production container died.",
+            "time": "11:26 AM",
+            "text": "PROCESS TERMINATED",
+            "sub": "Node container exited code 1"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Orphaned Rejection",
+            "sub": "Floating promises crash Node",
+            "kicker": "PROD MANOR #103",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "Fork and Join spawned an unawaited promise.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "We started tasks without waiting!"
+              },
+              {
+                "who": "junior",
+                "text": "Wait, did that promise reject?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "app.post(\"/pay\", async (req, res) => {",
+              "  chargeCard(req.body.id);",
+              "  res.send({ status: \"ok\" });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "UnhandledPromiseRejection: Insufficient funds"
+          },
+          {
+            "type": "crash",
+            "dur": 3.2,
+            "narration": "Modern Node terminates the entire process on unhandled rejections.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "title": "NODE PROCESS CR…",
+            "text": "UnhandledPromiseRejection terminated Node process"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Next time, await us!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "normal"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "app.post(\"/pay\", async (req, res) => {",
+              "  chargeCard(req.body.id);",
+              "  res.send({ status: \"ok\" });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "  await chargeCard(req.body.id);",
+            "note": "Await async function calls so rejected promises flow into error handlers."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Always await or catch every promise in Node.js.",
+            "cta": "Share this before your next async deploy.",
+            "next_monster": "leak",
+            "kicker": "Follow @prodmanor"
+          }
+        ],
+        "caption": "In modern Node.js environments, unhandled promise rejections are treated as uncaught exceptions and immediately terminate the process with non-zero exit codes. Floating unawaited promises inside Express routes will crash your server instance if they reject. Always await or attach a .catch() handler. Has an unhandled promise ever brought down your server? Tag @prodmanor",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#backend",
+          "#expressjs",
+          "#webdevelopment",
+          "#coding",
+          "#devops"
+        ],
+        "cover_text": "NODE CRASHED"
+      },
+      "warnings": [],
+      "pitch_msg_id": 349
+    },
+    "2026-11-22-d": {
+      "status": "pitched",
+      "created": "2026-11-22T11:55:52.660412+05:30",
+      "day": "2026-11-22",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-22-d",
+        "title": "The Growing Listener",
+        "monster": "leak",
+        "concept": "event listener accumulation in request handlers",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does this express route slow down after 10 requests?",
+        "logline": "Attaching EventEmitter listeners inside Express route handlers causes a memory leak that triggers MaxListenersExceededWarning.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "11:56 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "narration": "eleven fifty six A M. Memory usage is climbing.",
+            "time": "11:56 AM",
+            "text": "HIGH MEMORY WARN",
+            "sub": "Heap usage climbing in web-01"
+          },
+          {
+            "type": "title",
+            "dur": 2.2,
+            "text": "The Growing Listener",
+            "sub": "Per-request listeners leak memory",
+            "kicker": "PROD MANOR #104",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "The Leak grows every time a client connects.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow",
+                "amount": 1.3
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "...more?"
+              },
+              {
+                "who": "junior",
+                "text": "Why are there ten duplicate listeners?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "app.get(\"/stream\", (req, res) => {",
+              "  bus.on(\"data\", (chunk) => {",
+              "    res.write(chunk);",
+              "  });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "stream.js",
+            "highlight": [
+              2
+            ],
+            "error": "MaxListenersExceededWarning: 11 data listeners added"
+          },
+          {
+            "type": "crash",
+            "dur": 3.2,
+            "narration": "Every HTTP request registers another permanent event listener.",
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.8
+              }
+            ],
+            "title": "MEMORY LEAK DET…",
+            "text": "MaxListenersExceededWarning thrown by EventEmitter"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I should use once instead of on!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "normal"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.9
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "app.get(\"/stream\", (req, res) => {",
+              "  bus.on(\"data\", (chunk) => {",
+              "    res.write(chunk);",
+              "  });",
+              "});"
+            ],
+            "lang": "javascript",
+            "file": "stream.js",
+            "fix_line": 2,
+            "after": "  bus.once(\"data\", (chunk) => {",
+            "note": "Use once() or remove listeners after requests complete to prevent leaks."
+          },
+          {
+            "type": "outro",
+            "dur": 3.2,
+            "lesson": "Never call bus.on inside HTTP request handlers.",
+            "cta": "Save this before writing streaming endpoints.",
+            "next_monster": "ollie",
+            "kicker": "Follow @prodmanor"
+          }
+        ],
+        "caption": "Registering event listeners with bus.on() inside Express route handlers creates a brand new listener for every single HTTP request. Over time, Node issues a MaxListenersExceededWarning while memory steadily rises. Fix it by using bus.once() or managing registration outside the handler. Have you ever hunted down a listener leak? Tag @prodmanor",
+        "hashtags": [
+          "#nodejs",
+          "#javascript",
+          "#webdev",
+          "#backend",
+          "#programming",
+          "#softwareengineering",
+          "#devhumor"
+        ],
+        "cover_text": "MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 350
     }
   },
   "telegram": {
@@ -23809,7 +24566,11 @@
       "342": "2026-11-21-a",
       "343": "2026-11-21-b",
       "344": "2026-11-21-c",
-      "345": "2026-11-21-d"
+      "345": "2026-11-21-d",
+      "347": "2026-11-22-a",
+      "348": "2026-11-22-b",
+      "349": "2026-11-22-c",
+      "350": "2026-11-22-d"
     }
   },
   "settings": {
@@ -24003,7 +24764,11 @@
       "brain": "gemini",
       "note": ""
     },
-    "2026-11-22": {}
+    "2026-11-22": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
