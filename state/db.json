@@ -24437,6 +24437,873 @@
       },
       "warnings": [],
       "pitch_msg_id": 350
+    },
+    "2026-11-23-a": {
+      "status": "pitched",
+      "created": "2026-11-23T15:13:02.287170+05:30",
+      "day": "2026-11-23",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-23-a",
+        "title": "The Ghost In The URL",
+        "monster": "null",
+        "concept": "startup environment variable validation",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This ghost turns missing config into valid URLs.",
+        "logline": "Junior discovers missing environment variables silently coerce into the string 'undefined' inside URL template literals.",
+        "builds_on": "",
+        "topic": "missing env var becomes the string 'undefined' inside a URL",
+        "tech": "Node.js",
+        "wake_time": "12:18 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "sfx": [
+              "pager"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "time": "12:18 AM",
+            "text": "PROD IS DOWN",
+            "sub": "404 on all payment webhooks"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Ghost In The URL",
+            "sub": "Undefined strings bypass your null checks",
+            "kicker": "NODE.JS PRODUCTION BUG",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "At twelve eighteen A M, production returns four oh four on every webhook.",
+            "sfx": [
+              "creak"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why are third party calls returning four oh four?"
+              },
+              {
+                "who": "null",
+                "text": "I turned your missing config into text."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "When environment variables are missing, Node coerces undefined into text.",
+            "sfx": [
+              "glitch"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const key = process.env.KEY;",
+              "const url = `https://api.io/${key}`;",
+              "const res = await fetch(url);"
+            ],
+            "lang": "javascript",
+            "file": "client.js",
+            "highlight": [
+              1,
+              2
+            ],
+            "error": "HTTP 404: Route /undefined not found"
+          },
+          {
+            "type": "crash",
+            "dur": 3.2,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.2,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3
+              }
+            ],
+            "title": "404 ROUTE NOT F…",
+            "text": "Fetch requested https://api.io/undefined instead of failing fast"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Validate required environment variables before using them in string templates.",
+            "sfx": [
+              "ding"
+            ],
+            "camera": {
+              "zoom_from": 1.05,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "const key = process.env.KEY;",
+              "const url = `https://api.io/${key}`;",
+              "const res = await fetch(url);"
+            ],
+            "lang": "javascript",
+            "file": "client.js",
+            "fix_line": 1,
+            "after": "const key = process.env.KEY || process.e",
+            "note": "Fail fast at startup before string interpolation hides missing env vars."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "sfx": [
+              "whoosh"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Never interpolate raw process.env variables into URLs without validation.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Template literals quietly turn missing environment variables into the string 'undefined'. That means fetch('https://api.com/' + process.env.KEY) hits '/undefined' and returns a 404 instead of crashing early! Always assert process.env variables on boot.\n\nHas missing config ever broken your staging build?\n\nFollow @prodmanor for daily dev horrors.",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#programming",
+          "#devlife",
+          "#codinghumor",
+          "#backend"
+        ],
+        "cover_text": "UNDEFINED URL BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 352
+    },
+    "2026-11-23-b": {
+      "status": "pitched",
+      "created": "2026-11-23T15:13:02.287189+05:30",
+      "day": "2026-11-23",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-23-b",
+        "title": "The Collapsing Batch",
+        "monster": "twins",
+        "concept": "partial failure handling with Promise.allSettled",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "POV: one failed microservice just broke your whole dashboard.",
+        "logline": "Fork & Join show Junior how Promise.all drops valid responses the moment a single request rejects.",
+        "builds_on": "",
+        "topic": "Promise.all drops every result when one request fails",
+        "tech": "JavaScript",
+        "wake_time": "5:52 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "sfx": [
+              "pager"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "time": "5:52 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Dashboard failing for all users"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Collapsing Batch",
+            "sub": "One error drops every successful response",
+            "kicker": "ASYNC CONCURRENCY BUG",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "Five fifty two A M. Two microservices succeeded, but the dashboard is blank.",
+            "sfx": [
+              "creak"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1,
+                "expr_to": "happy",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Where did the user profile data go?"
+              },
+              {
+                "who": "twins",
+                "text": "One service failed so we threw everything away!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Promise.all short-circuits instantly on the first rejection.",
+            "sfx": [
+              "glitch"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "const reqs = [f1(), f2(), f3()];",
+              "const res = await Promise.all(reqs);",
+              "const data = res.map(r => r.data);"
+            ],
+            "lang": "javascript",
+            "file": "dashboard.js",
+            "highlight": [
+              2
+            ],
+            "error": "UnhandledPromiseRejection: Service 3 returned 500"
+          },
+          {
+            "type": "crash",
+            "dur": 3.2,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.2,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3
+              }
+            ],
+            "title": "ALL PROMISES RE…",
+            "text": "Promise.all discarded 2 valid responses due to 1 failure"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use Promise.allSettled to handle partial failures gracefully.",
+            "sfx": [
+              "ding"
+            ],
+            "camera": {
+              "zoom_from": 1.05,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "const reqs = [f1(), f2(), f3()];",
+              "const res = await Promise.all(reqs);",
+              "const data = res.map(r => r.data);"
+            ],
+            "lang": "javascript",
+            "file": "dashboard.js",
+            "fix_line": 2,
+            "after": "const res = await Promise.allSettled(req",
+            "note": "Promise.allSettled preserves successful responses even when individual requests fail."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "sfx": [
+              "whoosh"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Use Promise.allSettled when loading independent dashboard widgets.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "leak",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Promise.all is fail-fast: if 1 out of 10 requests rejects, the whole call throws immediately and discards all 9 successful responses! For independent API calls like dashboard cards, use Promise.allSettled so partial data renders correctly.\n\nDo you use Promise.all or Promise.allSettled by default?\n\nFollow @prodmanor for more.",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#async",
+          "#frontend",
+          "#programming",
+          "#softwareengineering",
+          "#coding"
+        ],
+        "cover_text": "PROMISE.ALL TRAP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 353
+    },
+    "2026-11-23-c": {
+      "status": "pitched",
+      "created": "2026-11-23T15:13:02.287194+05:30",
+      "day": "2026-11-23",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-23-c",
+        "title": "The Endless Dictionary",
+        "monster": "leak",
+        "concept": "bounded cache limits with functools.lru_cache",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Why does your Python server crash every three days?",
+        "logline": "The Leak grows infinitely inside a module-level Python dictionary cache until Linux OOM-kills the server.",
+        "builds_on": "",
+        "topic": "module-level dict cache in a long-running server grows forever",
+        "tech": "Python",
+        "wake_time": "2:40 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "sfx": [
+              "pager"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "time": "2:40 PM",
+            "text": "PROD IS DOWN",
+            "sub": "OOMKilled by Linux kernel"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Endless Dictionary",
+            "sub": "Global dict caches grow until RAM dies",
+            "kicker": "PYTHON MEMORY LEAK",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "At two forty P M, RAM usage hit one hundred percent.",
+            "sfx": [
+              "slurp"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow",
+                "expr_to": "happy",
+                "expr_at": 0.5
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is this global dictionary ten gigabytes?"
+              },
+              {
+                "who": "leak",
+                "text": "...more?"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "A plain dictionary cache never evicts old keys, causing unbounded growth.",
+            "sfx": [
+              "glitch"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "CACHE = {}",
+              "def get_user(uid):",
+              "    if uid not in CACHE:",
+              "        CACHE[uid] = db.fetch(uid)",
+              "    return CACHE[uid]"
+            ],
+            "lang": "python",
+            "file": "cache.py",
+            "highlight": [
+              1,
+              4
+            ],
+            "error": "MemoryError: Out of memory (OOMKilled process 4091)"
+          },
+          {
+            "type": "crash",
+            "dur": 3.2,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.2,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.5
+              }
+            ],
+            "title": "OOM KILLED PROC…",
+            "text": "Unbounded module dict accumulated 8 million user session keys"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Replace unbounded dicts with lru_cache or an explicit TTL eviction limit.",
+            "sfx": [
+              "ding"
+            ],
+            "camera": {
+              "zoom_from": 1.05,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "CACHE = {}",
+              "def get_user(uid):",
+              "    if uid not in CACHE:",
+              "        CACHE[uid] = db.fetch(uid)",
+              "    return CACHE[uid]"
+            ],
+            "lang": "python",
+            "file": "cache.py",
+            "fix_line": 1,
+            "after": "@lru_cache(maxsize=1024)",
+            "note": "Unbounded caches grow infinitely. Setting maxsize limits memory footprint safely."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "sfx": [
+              "whoosh"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Always bound in-memory caches with LRU eviction or TTL expiration.",
+            "cta": "Follow before the next bug wakes up.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Storing items in a raw global dictionary `CACHE[key] = data` feels easy, but in long-running processes like FastAPI or Gunicorn, unique keys accumulate forever until the Linux OOM killer terminates your container. Wrap lookup functions with `@lru_cache(maxsize=1024)` instead.\n\nHave you ever hunted an OOM crash in production?\n\nFollow @prodmanor.",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#devops",
+          "#programming",
+          "#coding",
+          "#pythonprogramming",
+          "#sysadmin"
+        ],
+        "cover_text": "PYTHON DICT LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 354
+    },
+    "2026-11-23-d": {
+      "status": "pitched",
+      "created": "2026-11-23T15:13:02.287198+05:30",
+      "day": "2026-11-23",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-23-d",
+        "title": "The Infinite Stack",
+        "monster": "caller",
+        "concept": "iterative tree traversal with explicit stack",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Your deep nested JSON parser will fail in production.",
+        "logline": "The Caller stacks phones to infinity when a deep production JSON structure exceeds Python's default recursion limit.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "3:35 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "sfx": [
+              "pager"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.5
+            },
+            "time": "3:35 AM",
+            "text": "PROD IS DOWN",
+            "sub": "RecursionError in tree parser"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "text": "The Infinite Stack",
+            "sub": "Deep recursive traversals blow the call stack",
+            "kicker": "PYTHON STACK OVERFLOW",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.8,
+            "narration": "Three thirty five A M. Production received a nested object one thousand levels deep.",
+            "sfx": [
+              "ring"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1,
+                "action": "stack",
+                "expr_to": "happy",
+                "expr_at": 0.5,
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why are phone calls stacking to the ceiling?!"
+              },
+              {
+                "who": "caller",
+                "text": "Every child node calls another frame!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Python defaults to a 1000 stack frame limit for recursive calls.",
+            "sfx": [
+              "glitch"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "def walk(node):",
+              "    nodes = [node]",
+              "    for n in nodes:",
+              "        nodes.extend(walk(n))",
+              "    return nodes"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "highlight": [
+              4
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded"
+          },
+          {
+            "type": "crash",
+            "dur": 3.2,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.2,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3
+              }
+            ],
+            "title": "RECURSION ERROR",
+            "text": "Maximum recursion depth exceeded (1000 frames)"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Convert recursive traversals to iterative loops using an explicit stack list.",
+            "sfx": [
+              "ding"
+            ],
+            "camera": {
+              "zoom_from": 1.05,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "def walk(node):",
+              "    nodes = [node]",
+              "    for n in nodes:",
+              "        nodes.extend(walk(n))",
+              "    return nodes"
+            ],
+            "lang": "python",
+            "file": "tree.py",
+            "fix_line": 4,
+            "after": "        nodes.extend(n.children)",
+            "note": "Iterative traversal using a list avoids Python call stack limit on deep trees."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "sfx": [
+              "whoosh"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.0,
+              "focus_x": 0.5
+            },
+            "lesson": "Never walk arbitrary customer trees using recursive function calls in Python.",
+            "cta": "Save this before your next code review.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Python has a hard recursion limit (sys.getrecursionlimit() = 1000). A recursive tree walk works fine on shallow test data, but deep user-supplied JSON or org charts will crash your app with `RecursionError`. Rewrite deep walks iteratively using a list as your stack.\n\nWhat is your favorite stack overflow story?\n\nFollow @prodmanor for daily dev reels.",
+        "hashtags": [
+          "#python",
+          "#programming",
+          "#algorithms",
+          "#datastructures",
+          "#backend",
+          "#codinghumor",
+          "#softwareengineering"
+        ],
+        "cover_text": "RECURSION ERROR CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 355
     }
   },
   "telegram": {
@@ -24570,7 +25437,11 @@
       "347": "2026-11-22-a",
       "348": "2026-11-22-b",
       "349": "2026-11-22-c",
-      "350": "2026-11-22-d"
+      "350": "2026-11-22-d",
+      "352": "2026-11-23-a",
+      "353": "2026-11-23-b",
+      "354": "2026-11-23-c",
+      "355": "2026-11-23-d"
     }
   },
   "settings": {
@@ -24769,7 +25640,11 @@
       "brain": "gemini",
       "note": ""
     },
-    "2026-11-23": {}
+    "2026-11-23": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
