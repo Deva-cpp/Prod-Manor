@@ -25304,6 +25304,824 @@
       },
       "warnings": [],
       "pitch_msg_id": 355
+    },
+    "2026-11-24-a": {
+      "status": "pitched",
+      "created": "2026-11-24T11:06:08.482562+05:30",
+      "day": "2026-11-24",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-24-a",
+        "title": "The Last Place Winner",
+        "monster": "ollie",
+        "concept": "Array.prototype.sort lexicographical default vs numeric comparator",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why did the top player with 100 points get ranked at the bottom?",
+        "logline": "Junior's gaming leaderboard sorts level 100 below level 2 because Array.sort defaults to lexicographical string sorting.",
+        "builds_on": "",
+        "topic": "Array.sort() sorts numbers as strings in a leaderboard",
+        "tech": "JavaScript",
+        "wake_time": "8:37 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "At eight thirty seven P M, the high score leaderboard crowned the wrong champion.",
+            "time": "8:37 PM",
+            "text": "PROD ALERT",
+            "sub": "Leaderboard ranked level 100 belo…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Last Place Winner",
+            "sub": "When JavaScript converts your high score to a string",
+            "kicker": "PROD MANOR #101",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.0,
+                "action": "peek"
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "One hundred comes before two, neighbor."
+              },
+              {
+                "who": "junior",
+                "text": "That is not how numbers work!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Default Array sort converts elements to strings before comparing.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.8,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function sortRanks(a) {",
+              "  return a.sort();",
+              "}",
+              "const r = sortRanks([10, 2, 100]);"
+            ],
+            "lang": "javascript",
+            "file": "leaderboard.js",
+            "highlight": [
+              2
+            ],
+            "error": "Result: [10, 100, 2] — string alphabetical sort"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "title": "LEADERBOARD COR…",
+            "text": "100 sorted after 2 because string '100' comes before '2'"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "I compare character by character."
+              },
+              {
+                "who": "junior",
+                "text": "We need a numeric comparator!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0,
+                "to": {
+                  "x": 0.9,
+                  "scale": 1.0
+                }
+              }
+            ],
+            "lines": [
+              "function sortRanks(a) {",
+              "  return a.sort();",
+              "}",
+              "const r = sortRanks([10, 2, 100]);"
+            ],
+            "lang": "javascript",
+            "file": "leaderboard.js",
+            "fix_line": 2,
+            "after": "  return a.sort((x, y) => x - y);",
+            "note": "Array.sort default converts elements to strings. Pass a comparator for numbers."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always pass a comparator to Array.sort when sorting numbers.",
+            "cta": "Follow for more prod survival guides",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In JavaScript, [10, 2, 100].sort() becomes [10, 100, 2] because default .sort() casts numbers to strings before comparing! Always pass a numeric comparator (a, b) => a - b to sort numbers properly. Have you ever shipped a numeric sort bug to production? @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#codinghumor",
+          "#frontend",
+          "#bugs",
+          "#fullstack",
+          "#devlife",
+          "#js"
+        ],
+        "cover_text": "STRING SORT BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 357
+    },
+    "2026-11-24-b": {
+      "status": "pitched",
+      "created": "2026-11-24T11:06:08.482583+05:30",
+      "day": "2026-11-24",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-24-b",
+        "title": "Nobody Checked On Him",
+        "monster": "null",
+        "concept": "Java Optional handling with orElseThrow",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "This ghost crashes your app just by existing",
+        "logline": "Junior wrapped a nullable record in a Java Optional, but calling .get() on an empty Optional crashes prod with NoSuchElementException.",
+        "builds_on": "",
+        "topic": "Java Optional.get() on an empty Optional in a service",
+        "tech": "Java",
+        "wake_time": "12:09 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "At twelve O nine A M, a missing user profile crashed the backend service.",
+            "time": "12:09 AM",
+            "text": "PROD DOWN",
+            "sub": "NullPointer exception replaced by…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "Nobody Checked On Him",
+            "sub": "Calling .get() on an empty Java Optional",
+            "kicker": "PROD MANOR #102",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "You wrapped me, but never checked..."
+              },
+              {
+                "who": "junior",
+                "text": "I thought Optionals prevented crashes!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "dark"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Calling get directly on an empty Optional throws NoSuchElementException.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "public User getUser(Long id) {",
+              "  Optional<User> u = repo.find(id);",
+              "  return u.get();",
+              "}"
+            ],
+            "lang": "java",
+            "file": "UserService.java",
+            "highlight": [
+              3
+            ],
+            "error": "java.util.NoSuchElementException: No value present"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "500 INTERNAL SE…",
+            "text": "NoSuchElementException: No value present"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Check if I exist before calling!"
+              },
+              {
+                "who": "junior",
+                "text": "I will use orElseThrow for safety!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "public User getUser(Long id) {",
+              "  Optional<User> u = repo.find(id);",
+              "  return u.get();",
+              "}"
+            ],
+            "lang": "java",
+            "file": "UserService.java",
+            "fix_line": 3,
+            "after": "  return u.orElseThrow();",
+            "note": "Calling get on an empty Optional throws. Use orElseThrow or orElse."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never call Optional.get directly without checking or using fallback methods.",
+            "cta": "Save this before your next Java deploy",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Wrapping a variable in a Java Optional does not stop crashes if you call .get() directly on an empty value! It just swaps NullPointerException for NoSuchElementException. Use .orElseThrow() or .orElse() instead. How do you handle empty Optionals in your codebase? @prodmanor",
+        "hashtags": [
+          "#java",
+          "#backend",
+          "#springboot",
+          "#codinghumor",
+          "#programming",
+          "#softwareengineering",
+          "#devlife",
+          "#cleancode"
+        ],
+        "cover_text": "JAVA OPTIONAL BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 358
+    },
+    "2026-11-24-c": {
+      "status": "pitched",
+      "created": "2026-11-24T11:06:08.482588+05:30",
+      "day": "2026-11-24",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-24-c",
+        "title": "The Falling Stack",
+        "monster": "caller",
+        "concept": "iterative tree traversal with explicit stack",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: you just merged your category crawler and prod crashed",
+        "logline": "A deep product category tree exceeds Python's default call stack limit during a recursive walk, triggering RecursionError.",
+        "builds_on": "",
+        "topic": "recursive walk over a deep production tree hits RecursionError",
+        "tech": "Python",
+        "wake_time": "5:22 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "At five twenty two P M, a deep category tree crashed the recursive crawler.",
+            "time": "5:22 PM",
+            "text": "STACK OVERFLOW",
+            "sub": "RecursionError: maximum recursion…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Falling Stack",
+            "sub": "Deep tree traversal crashed Python call stack",
+            "kicker": "PROD MANOR #103",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Hold on, opening another call!"
+              },
+              {
+                "who": "junior",
+                "text": "The stack tower is collapsing!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "dark"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Python limits default recursion depth to one thousand stack frames.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "lines": [
+              "def walk(node):",
+              "    s = [node]",
+              "    while s:",
+              "        walk(s.pop().children)"
+            ],
+            "lang": "python",
+            "file": "tree_walker.py",
+            "highlight": [
+              4
+            ],
+            "error": "RecursionError: maximum recursion depth exceeded"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 5
+              }
+            ],
+            "title": "RECURSION ERROR",
+            "text": "Call stack limit reached while processing nested tree node"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "I store every call on stack!"
+              },
+              {
+                "who": "junior",
+                "text": "We need an explicit list on heap!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "def walk(node):",
+              "    s = [node]",
+              "    while s:",
+              "        walk(s.pop().children)"
+            ],
+            "lang": "python",
+            "file": "tree_walker.py",
+            "fix_line": 4,
+            "after": "        s.extend(s.pop().children)",
+            "note": "Iterative traversal uses heap memory list instead of call stack frames."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Use iterative loops with an explicit stack for deep production trees.",
+            "cta": "Share this with a Python developer",
+            "next_monster": "leak",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Recursive function calls consume call stack frames. In Python, trees deeper than 1000 nodes hit RecursionError! Replace recursive calls with an iterative loop and an explicit heap list. What is the deepest recursion stack you have ever seen fail in prod? @prodmanor",
+        "hashtags": [
+          "#python",
+          "#backend",
+          "#algorithms",
+          "#codinghumor",
+          "#pythonprogramming",
+          "#softwareengineering",
+          "#devlife",
+          "#computerscience"
+        ],
+        "cover_text": "PYTHON STACK FAIL"
+      },
+      "warnings": [],
+      "pitch_msg_id": 359
+    },
+    "2026-11-24-d": {
+      "status": "pitched",
+      "created": "2026-11-24T11:06:08.482592+05:30",
+      "day": "2026-11-24",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-24-d",
+        "title": "The Unresolved Array",
+        "monster": "leak",
+        "concept": "Promise.all concurrent execution vs awaiting array directly",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Your async loop is secretly returning unresolved promises",
+        "logline": "Awaiting an array in JavaScript returns pending Promise objects instead of resolved values because Array is not a Promise.",
+        "builds_on": "",
+        "topic": "await inside a for loop makes 100 API calls run one by one",
+        "tech": "JavaScript",
+        "wake_time": "4:55 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.2,
+            "narration": "At four fifty five A M, unresolved promises filled the memory queue.",
+            "time": "4:55 AM",
+            "text": "PROD ALERT",
+            "sub": "API returning empty promise objec…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Unresolved Array",
+            "sub": "Why awaiting an Array in JS does not await its Promises",
+            "kicker": "PROD MANOR #104",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow",
+                "amount": 1.5
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "Your promises are still dripping..."
+              },
+              {
+                "who": "junior",
+                "text": "But I put await in front!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "dark"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Awaiting an Array evaluates to the array itself, not its inner promises.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "grow",
+                "amount": 1.8
+              }
+            ],
+            "lines": [
+              "async function fetchAll(ids) {",
+              "  const reqs = ids.map(api);",
+              "  return await reqs;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "batch_fetch.js",
+            "highlight": [
+              3
+            ],
+            "error": "Returns: [Promise {<pending>}, Promise {<pending>}]"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "UNRESOLVED PROM…",
+            "text": "API returned array of pending promises instead of data"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "Arrays are not thenable, child."
+              },
+              {
+                "who": "junior",
+                "text": "I need Promise dot all to resolve!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flicker"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "async function fetchAll(ids) {",
+              "  const reqs = ids.map(api);",
+              "  return await reqs;",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "batch_fetch.js",
+            "fix_line": 3,
+            "after": "  return Promise.all(reqs);",
+            "note": "Awaiting an array does not resolve inner promises. Wrap the array in Promise.all."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always wrap an array of promises in Promise.all to await them.",
+            "cta": "Save this before your next async code review",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In JavaScript, doing `await [promise1, promise2]` returns `[Promise, Promise]` because arrays are not thenables! To resolve all promises in an array concurrently, wrap it in `Promise.all(reqs)`. Did you know that awaiting an array in JS does not await its inner promises? @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#webdev",
+          "#async",
+          "#promises",
+          "#nodejs",
+          "#codinghumor",
+          "#fullstack",
+          "#devlife"
+        ],
+        "cover_text": "ASYNC ARRAY BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 360
     }
   },
   "telegram": {
@@ -25441,7 +26259,11 @@
       "352": "2026-11-23-a",
       "353": "2026-11-23-b",
       "354": "2026-11-23-c",
-      "355": "2026-11-23-d"
+      "355": "2026-11-23-d",
+      "357": "2026-11-24-a",
+      "358": "2026-11-24-b",
+      "359": "2026-11-24-c",
+      "360": "2026-11-24-d"
     }
   },
   "settings": {
@@ -25645,7 +26467,11 @@
       "brain": "gemini",
       "note": ""
     },
-    "2026-11-24": {}
+    "2026-11-24": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
