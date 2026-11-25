@@ -26122,6 +26122,604 @@
       },
       "warnings": [],
       "pitch_msg_id": 360
+    },
+    "2026-11-25-a": {
+      "status": "pitched",
+      "created": "2026-11-25T15:23:15.967139+05:30",
+      "day": "2026-11-25",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-25-a",
+        "title": "The Zero Search",
+        "monster": "null",
+        "concept": "PHP type juggling with strpos return values",
+        "level": "intermediate",
+        "language": "php",
+        "hook": "Why does PHP think user ID zero doesn't exist in this string?",
+        "logline": "Junior investigates why PHP login checks fail specifically for user ID zero at index zero.",
+        "builds_on": "",
+        "topic": "PHP strpos returns 0 and == false treats it as not found",
+        "tech": "PHP",
+        "wake_time": "2:49 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Two forty nine P M. Admin users with ID zero are blocked from logging in.",
+            "shake": true,
+            "time": "2:49 PM",
+            "text": "PROD IS DOWN",
+            "sub": "Why does PHP think user ID zero d…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Zero Search",
+            "sub": "When position zero evaluates to false in PHP",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The Null is ghosting legitimate users at the start of the string.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "User zero is at index zero!"
+              },
+              {
+                "who": "null",
+                "text": "In PHP, zero equals false..."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "strpos returns zero for index zero. Loose equality double equals converts zero to false.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.8,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "$allowed = '0,10,25,99';",
+              "if (strpos($allowed, $userId) == false) ",
+              "    throw new Exception('Unauthorized us",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "highlight": [
+              2
+            ],
+            "error": "Exception: Unauthorized user (for userId = '0')"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "TYPE JUGGLING C…",
+            "text": "strpos() returned 0 which loosely evaluated to false!"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Check identity with triple equals false!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Use strict comparison triple equals false or str_contains in PHP eight.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "$allowed = '0,10,25,99';",
+              "if (strpos($allowed, $userId) == false) ",
+              "    throw new Exception('Unauthorized us",
+              "}"
+            ],
+            "lang": "php",
+            "file": "auth.php",
+            "fix_line": 2,
+            "after": "if (strpos($allowed, $userId) === false)",
+            "note": "Strict inequality prevents index 0 from being juggled into boolean false."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Loose comparison in PHP turns zero into false every time.",
+            "cta": "Save this reel before your next PHP deploy.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "PHP's strpos() returns 0 when the search match is at the very beginning of a string. Loose comparison `== false` turns 0 into false, making valid matches fail! Always check `=== false` or use `str_contains()`. What's your favorite PHP quirk? Tell us below and follow @prodmanor!",
+        "hashtags": [
+          "#php",
+          "#webdev",
+          "#backend",
+          "#coding",
+          "#bugs",
+          "#fullstack",
+          "#php8"
+        ],
+        "cover_text": "PHP STRPOS BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 362
+    },
+    "2026-11-25-b": {
+      "status": "pitched",
+      "created": "2026-11-25T15:23:15.967158+05:30",
+      "day": "2026-11-25",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-25-b",
+        "title": "The Extra Fraction",
+        "monster": "ollie",
+        "concept": "Python Decimal vs float for precision currency",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This neighbor adds 0.0000000000000004 to every receipt you generate.",
+        "logline": "Junior tracks down why checkout total validation fails due to floating point math in Python.",
+        "builds_on": "",
+        "topic": "float money totals: 0.1 + 0.2 on an invoice",
+        "tech": "Python",
+        "wake_time": "6:43 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Six forty three A M. Stripe rejected every single checkout invoice total.",
+            "shake": true,
+            "time": "6:43 AM",
+            "text": "PROD IS DOWN",
+            "sub": "This neighbor adds 0.000000000000…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Extra Fraction",
+            "sub": "When binary floating point destroys your financial math",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Ollie One-Off is tweaking invoice balances by fractional fractions.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.85,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Ten cents plus twenty cents is thirty cents!"
+              },
+              {
+                "who": "ollie",
+                "text": "Actually, it is point three zero zero zero four!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Binary floats cannot represent base ten decimals accurately.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.85,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "def calculate_total(item_a, item_b):",
+              "    # item_a = 0.10, item_b = 0.20",
+              "    total = item_a + item_b",
+              "    return total  # 0.30000000000000004"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "highlight": [
+              3,
+              4
+            ],
+            "error": "AssertionError: Expected 0.30, got 0.30000000000000004"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.85,
+                "scale": 1.0
+              }
+            ],
+            "title": "PRECISION FAILU…",
+            "text": "Invoice Total: $0.30000000000000004 — Payment gateway rejected"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Use Decimal from the decimal module instead!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Store money as integer cents or use Decimal for exact financial calculations.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "def calculate_total(item_a, item_b):",
+              "    # item_a = 0.10, item_b = 0.20",
+              "    total = item_a + item_b",
+              "    return total  # 0.30000000000000004"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "fix_line": 3,
+            "after": "    total = Decimal(str(item_a)) + Decim",
+            "note": "Python Decimal preserves exact decimal arithmetic for financial precision."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never use binary floats for financial transactions.",
+            "cta": "Follow @prodmanor for more clean code fixes.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Adding 0.10 and 0.20 in float arithmetic yields 0.30000000000000004! Binary IEEE 754 floating point numbers cannot represent fractions like 0.1 exactly. Always use Decimal strings or integer cents for money. Have you ever lost cents to floating point math? Comment below and follow @prodmanor!",
+        "hashtags": [
+          "#python",
+          "#fintech",
+          "#coding",
+          "#backend",
+          "#softwareengineering",
+          "#pythonprogramming",
+          "#stripe"
+        ],
+        "cover_text": "FLOAT MONEY BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 363
+    },
+    "2026-11-25-c": {
+      "status": "pitched",
+      "created": "2026-11-25T15:23:15.967163+05:30",
+      "day": "2026-11-25",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-25-c",
+        "title": "The Retrying Storm",
+        "monster": "caller",
+        "concept": "Exponential backoff with jitter for API retry storms",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "Your naive retry loop is actually a denial of service attack against your own b…",
+        "logline": "Junior stops an accidental self-inflicted denial-of-service attack caused by instant retry loops.",
+        "builds_on": "",
+        "topic": "retry loop without backoff hammers a failing API (retry storm)",
+        "tech": "Python",
+        "wake_time": "3:38 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "narration": "Three thirty eight A M. An API glitch triggered fifty thousand retries a second.",
+            "shake": true,
+            "time": "3:38 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Your naive retry loop is actually…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Retrying Storm",
+            "sub": "When tight loops crash a recovering upstream server",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "The Caller is flooding the target server with infinite instantaneous retries.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 4
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Stop calling the API! It is down!"
+              },
+              {
+                "who": "caller",
+                "text": "If it fails, I call again right now!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "Retrying immediately without delay slams failing servers and prevents recovery.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.8,
+                "scale": 0.8
+              }
+            ],
+            "lines": [
+              "while retries < max_retries:",
+              "    res = fetch_data()",
+              "    if res.ok: return res",
+              "    retries += 1  # tight loop retry"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "highlight": [
+              4
+            ],
+            "error": "HTTP 429 Too Many Requests / Target Server Crash"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "title": "RETRY STORM",
+            "text": "10,000 workers retried at once, crushing the backend database"
+          },
+          {
+            "type": "scene",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Back off exponentially with random jitter..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "narration": "Add exponential delays with randomized jitter to space out retries.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "while retries < max_retries:",
+              "    res = fetch_data()",
+              "    if res.ok: return res",
+              "    retries += 1  # tight loop retry"
+            ],
+            "lang": "python",
+            "file": "client.py",
+            "fix_line": 4,
+            "after": "    time.sleep(2 ** retries + random.uni",
+            "note": "Exponential backoff with jitter prevents thundering herd retry storms."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Always back off and add jitter when retrying failed API requests.",
+            "cta": "Save this reel before your microservices crash.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Retrying failed API requests immediately without backoff creates a retry storm that prevents your backend from recovering. Adding exponential backoff plus randomized jitter spreads out load and stops the thundering herd. Has a retry loop ever DDOSed your database? Follow @prodmanor for daily dev tips!",
+        "hashtags": [
+          "#python",
+          "#api",
+          "#backend",
+          "#systemdesign",
+          "#devops",
+          "#microservices",
+          "#coding"
+        ],
+        "cover_text": "RETRY STORM BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 364
     }
   },
   "telegram": {
@@ -26263,7 +26861,10 @@
       "357": "2026-11-24-a",
       "358": "2026-11-24-b",
       "359": "2026-11-24-c",
-      "360": "2026-11-24-d"
+      "360": "2026-11-24-d",
+      "362": "2026-11-25-a",
+      "363": "2026-11-25-b",
+      "364": "2026-11-25-c"
     }
   },
   "settings": {
@@ -26472,7 +27073,11 @@
       "brain": "gemini",
       "note": ""
     },
-    "2026-11-25": {}
+    "2026-11-25": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
