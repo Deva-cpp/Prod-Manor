@@ -26720,6 +26720,804 @@
       },
       "warnings": [],
       "pitch_msg_id": 364
+    },
+    "2026-11-26-a": {
+      "status": "pitched",
+      "created": "2026-11-26T08:12:21.137255+05:30",
+      "day": "2026-11-26",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-26-a",
+        "title": "The Frozen Twin Call",
+        "monster": "twins",
+        "concept": "blocking requests.get inside async def freezes the event loop",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: you used async def and your entire app just locked up.",
+        "logline": "Two identical twins freeze an async event loop because someone put synchronous requests inside an async function.",
+        "builds_on": "",
+        "topic": "blocking requests.get inside async def freezes the event loop",
+        "tech": "Python asyncio",
+        "wake_time": "9:16 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "shake": true,
+            "time": "9:16 AM",
+            "text": "PROD IS FROZEN",
+            "sub": "Zero responses across all endpoin…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Frozen Twin Call",
+            "sub": "Python asyncio",
+            "kicker": "Prod Manor Episode",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "enter_right"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did every request stop at once?"
+              },
+              {
+                "who": "twins",
+                "text": "We are waiting. Both of us. Forever."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "async def fetch_user(user_id):",
+              "    response = requests.get(",
+              "        f\"https://api.internal/v1/{user_",
+              "    )",
+              "    return response.json()"
+            ],
+            "lang": "python",
+            "file": "api/client.py",
+            "highlight": [
+              2
+            ],
+            "error": "RuntimeError: Event loop blocked by synchronous IO operation"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "title": "EVENT LOOP LOCK…",
+            "text": "Synchronous network calls block the single-threaded event loop."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We need non-blocking HTTP clients here."
+              },
+              {
+                "who": "twins",
+                "text": "After you with the async client."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "async def fetch_user(user_id):",
+              "    response = requests.get(",
+              "        f\"https://api.internal/v1/{user_",
+              "    )",
+              "    return response.json()"
+            ],
+            "lang": "python",
+            "file": "api/client.py",
+            "fix_line": 2,
+            "after": "    async with httpx.AsyncClient() as cl",
+            "note": "Use httpx.AsyncClient instead of blocking requests."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never use synchronous HTTP calls inside async def functions.",
+            "cta": "Follow before the next one wakes up.",
+            "next_monster": "ollie",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "POV: you used async def and your entire app just locked up. Putting synchronous requests inside an async function blocks the entire event loop, freezing all concurrent requests. Use an async client instead. Have you ever accidentally blocked your event loop in production? Let us know below, and follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#python",
+          "#asyncio",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#softwareengineer",
+          "#devhumor"
+        ],
+        "cover_text": "FROZEN LOOP"
+      },
+      "warnings": [],
+      "pitch_msg_id": 366
+    },
+    "2026-11-26-b": {
+      "status": "pitched",
+      "created": "2026-11-26T08:12:21.137276+05:30",
+      "day": "2026-11-26",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-26-b",
+        "title": "The Thirteen Dollar Invoice",
+        "monster": "ollie",
+        "concept": "integer cents or Decimal for money totals",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "This ghost crashes your billing system just by adding zero point one and zero p…",
+        "logline": "Ollie One-Off appears when floating-point math inaccuracies corrupt invoice totals by a single phantom cent.",
+        "builds_on": "",
+        "topic": "float money totals: 0.1 + 0.2 on an invoice",
+        "tech": "Python",
+        "wake_time": "4:11 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "shake": true,
+            "time": "4:11 PM",
+            "text": "INVOICE DISCREPANCY",
+            "sub": "Customer charged $10.000000000000…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Thirteen Dollar Invoice",
+            "sub": "Python floating-point precision",
+            "kicker": "Prod Manor Episode",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.92,
+                "scale": 1.0,
+                "action": "enter_right"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the checkout total off by one tiny fraction?"
+              },
+              {
+                "who": "ollie",
+                "text": "Floats are an approximation, neighbor."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "def calculate_total(items):",
+              "    subtotal = sum(i['price'] for i in i",
+              "    tax = subtotal * 0.08",
+              "    return round(subtotal + tax, 2)"
+            ],
+            "lang": "python",
+            "file": "billing/invoice.py",
+            "highlight": [
+              2,
+              3
+            ],
+            "error": "AssertionError: Expected 10.33, got 10.330000000000002"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.8,
+                "scale": 1.1
+              }
+            ],
+            "title": "PRECISION CORRU…",
+            "text": "Binary floating-point arithmetic cannot represent decimal fractions precisely."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.8,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Never use floats for money."
+              },
+              {
+                "who": "ollie",
+                "text": "Use integers in cents or Decimal instead."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 0.8,
+                "action": "exit_right"
+              }
+            ],
+            "lines": [
+              "def calculate_total(items):",
+              "    subtotal = sum(i['price'] for i in i",
+              "    tax = subtotal * 0.08",
+              "    return round(subtotal + tax, 2)"
+            ],
+            "lang": "python",
+            "file": "billing/invoice.py",
+            "fix_line": 2,
+            "after": "    subtotal = sum(Decimal(str(i['price'",
+            "note": "Use Decimal for precise monetary calculations."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never use float for currency. Use Decimal or integer cents.",
+            "cta": "Save this before your next deploy.",
+            "next_monster": "leak",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "This ghost crashes your billing system just by adding zero point one and zero point two. Floating-point math in programming introduces tiny rounding errors that accumulate in financial calculations. Always use Decimal or integer cents for money. Have you ever been bit by float precision bugs? Let us know below, and follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#python",
+          "#fintech",
+          "#backend",
+          "#programming",
+          "#softwareengineer",
+          "#developer",
+          "#codinghumor"
+        ],
+        "cover_text": "FLOAT MATH FAILS"
+      },
+      "warnings": [],
+      "pitch_msg_id": 367
+    },
+    "2026-11-26-c": {
+      "status": "pitched",
+      "created": "2026-11-26T08:12:21.137296+05:30",
+      "day": "2026-11-26",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-26-c",
+        "title": "The Growing Listener",
+        "monster": "leak",
+        "concept": "register EventEmitter listeners once at startup or remove them",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Your Node server is leaking memory and nobody knows why.",
+        "logline": "A magenta slime monster eats server memory because event listeners are added inside every incoming HTTP request handler.",
+        "builds_on": "",
+        "topic": "EventEmitter listener added per request: MaxListenersExceededWarning",
+        "tech": "Node.js",
+        "wake_time": "4:03 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "shake": true,
+            "time": "4:03 PM",
+            "text": "MEMORY WARNING",
+            "sub": "MaxListenersExceededWarning: Poss…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Growing Listener",
+            "sub": "Node.js EventEmitter leak",
+            "kicker": "Prod Manor Episode",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "enter_right"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why does memory usage double every single request?"
+              },
+              {
+                "who": "leak",
+                "text": "...more listeners..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.4,
+                "action": "grow"
+              }
+            ],
+            "lines": [
+              "app.get('/charge', (req, res) => {",
+              "    paymentEmitter.on('complete', (data)",
+              "        res.send(data);",
+              "    });",
+              "    processPayment(req.body);",
+              "})"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "highlight": [
+              2
+            ],
+            "error": "MaxListenersExceededWarning: Possible EventEmitter memory leak detected"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.6
+              }
+            ],
+            "title": "HEAP OUT OF MEM…",
+            "text": "Adding event listeners inside request handlers accumulates unbounded closures."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.6
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We registered a new listener on every single HTTP request."
+              },
+              {
+                "who": "leak",
+                "text": "...feed me once at startup..."
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "leak",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "shrink"
+              }
+            ],
+            "lines": [
+              "app.get('/charge', (req, res) => {",
+              "    paymentEmitter.on('complete', (data)",
+              "        res.send(data);",
+              "    });",
+              "    processPayment(req.body);",
+              "})"
+            ],
+            "lang": "javascript",
+            "file": "server.js",
+            "fix_line": 2,
+            "after": "    paymentEmitter.once('complete', (dat",
+            "note": "Use emitter.once or register listeners globally."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Never add event listeners inside request handlers without cleaning them up.",
+            "cta": "Follow before the next one wakes up.",
+            "next_monster": "null",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "Your Node server is leaking memory and nobody knows why. Adding event listeners inside request handlers creates new closures on every HTTP call until memory fills up. Use once() or register listeners globally. Ever debugged a MaxListenersExceededWarning in production? Let us know below, and follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#javascript",
+          "#nodejs",
+          "#backend",
+          "#webdev",
+          "#programming",
+          "#softwareengineer",
+          "#devhumor"
+        ],
+        "cover_text": "MEMORY LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 368
+    },
+    "2026-11-26-d": {
+      "status": "pitched",
+      "created": "2026-11-26T08:12:21.137300+05:30",
+      "day": "2026-11-26",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-26-d",
+        "title": "The Empty JSON Response",
+        "monster": "null",
+        "concept": "check res.status before calling res.json()",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This ghost crashes your frontend because an API endpoint returned nothing.",
+        "logline": "The Null haunts a frontend client when a two hundred four status code returns empty body text and res.json fails.",
+        "builds_on": "",
+        "topic": "API returns 204 No Content and res.json() throws",
+        "tech": "JavaScript",
+        "wake_time": "12:07 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 3.0,
+            "shake": true,
+            "time": "12:07 PM",
+            "text": "FRONTEND CRASH",
+            "sub": "SyntaxError: Unexpected end of JS…"
+          },
+          {
+            "type": "title",
+            "dur": 2.5,
+            "text": "The Empty JSON Response",
+            "sub": "JavaScript fetch error handling",
+            "kicker": "Prod Manor Episode",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why did deleting the resource crash our entire dashboard?"
+              },
+              {
+                "who": "null",
+                "text": "Nobody checked if I was actually there..."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "async function deleteRecord(id) {",
+              "    const res = await fetch(`/api/record",
+              "        method: 'DELETE'",
+              "    });",
+              "    return await res.json();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "highlight": [
+              4
+            ],
+            "error": "SyntaxError: Unexpected end of JSON input at deleteRecord"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.1
+              }
+            ],
+            "title": "UNEXPECTED END…",
+            "text": "Status 204 No Content returns an empty body, causing res.json() to throw."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "We assumed every response came with JSON attached."
+              },
+              {
+                "who": "null",
+                "text": "Check status two hundred four first."
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 0.8,
+                "action": "fade_out"
+              }
+            ],
+            "lines": [
+              "async function deleteRecord(id) {",
+              "    const res = await fetch(`/api/record",
+              "        method: 'DELETE'",
+              "    });",
+              "    return await res.json();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "fix_line": 4,
+            "after": "    return res.status === 204 ? null : a",
+            "note": "Check status 204 before parsing JSON bodies."
+          },
+          {
+            "type": "outro",
+            "dur": 3.0,
+            "lesson": "Always check status 204 before calling res.json() on fetch responses.",
+            "cta": "Follow before the next one wakes up.",
+            "next_monster": "twins",
+            "kicker": "Prod Manor"
+          }
+        ],
+        "caption": "This ghost crashes your frontend because an API endpoint returned nothing. When a backend returns status 204 No Content, calling res.json() throws an unexpected end of input syntax error. Always verify the status code before parsing. Have you ever crashed your client on a DELETE request? Let us know below, and follow @prodmanor.",
+        "hashtags": [
+          "#coding",
+          "#javascript",
+          "#frontend",
+          "#webdev",
+          "#react",
+          "#programming",
+          "#softwareengineer",
+          "#devhumor"
+        ],
+        "cover_text": "EMPTY JSON CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 369
     }
   },
   "telegram": {
@@ -26864,7 +27662,11 @@
       "360": "2026-11-24-d",
       "362": "2026-11-25-a",
       "363": "2026-11-25-b",
-      "364": "2026-11-25-c"
+      "364": "2026-11-25-c",
+      "366": "2026-11-26-a",
+      "367": "2026-11-26-b",
+      "368": "2026-11-26-c",
+      "369": "2026-11-26-d"
     }
   },
   "settings": {
@@ -27078,7 +27880,11 @@
       "brain": "gemini",
       "note": ""
     },
-    "2026-11-26": {}
+    "2026-11-26": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
