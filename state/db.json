@@ -27518,6 +27518,831 @@
       },
       "warnings": [],
       "pitch_msg_id": 369
+    },
+    "2026-11-27-a": {
+      "status": "pitched",
+      "created": "2026-11-27T08:48:16.742562+05:30",
+      "day": "2026-11-27",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-27-a",
+        "title": "The Infinite Echo",
+        "monster": "caller",
+        "concept": "circular reference JSON serialization",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "This phone call never stops because your JSON points back to itself.",
+        "logline": "Junior tries to log a parent-child relationship object, but a circular reference causes JSON.stringify to crash Node in production.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "10:19 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "narration": "Ten nineteen P M. A node process crashed right after log serialization.",
+            "sfx": [
+              "pager"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.05,
+              "focus_x": 0.5
+            },
+            "time": "10:19 PM",
+            "text": "CRITICAL ALERT",
+            "sub": "Express server process crashed in…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "narration": "The Caller is looping your object tree forever.",
+            "text": "The Infinite Echo",
+            "sub": "When JSON stringify loops forever",
+            "kicker": "PROD MANOR #101",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "sfx": [
+              "ring"
+            ],
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.1,
+              "focus_x": 0.75
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why is the logger ringing forever?!"
+              },
+              {
+                "who": "caller",
+                "text": "I call parent, parent calls child, child calls parent!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "Parent points to child, and child points right back to parent.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "const parent = { id: 1 };",
+              "const child = { parent };",
+              "parent.child = child;",
+              "const json = JSON.stringify(parent);"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "highlight": [
+              3,
+              4
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.3,
+                "action": "idle"
+              }
+            ],
+            "title": "TYPE ERROR",
+            "text": "Converting circular structure to JSON"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Break the loop before serializing to JSON.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0,
+                "action": "idle",
+                "expr_to": "neutral",
+                "expr_at": 0.5
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "Just send my ID, not my whole family!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "const parent = { id: 1 };",
+              "const child = { parent };",
+              "parent.child = child;",
+              "const json = JSON.stringify(parent);"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "fix_line": 3,
+            "after": "parent.child = { id: 2 };",
+            "note": "Remove back-references before calling JSON.stringify on nested structures."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Break back-references before stringifying. Follow before the next bug wakes up.",
+            "lesson": "Never JSON.stringify circular object references.",
+            "cta": "Follow before the next deploy breaks.",
+            "next_monster": "twins",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "When an object points to its parent and you stringify it, JavaScript throws a TypeError. Always remove circular references or format data before serializing. Does your log payload hold secret cycles? @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdev",
+          "#programming",
+          "#codehumor",
+          "#softwareengineering",
+          "#devlife",
+          "#backend"
+        ],
+        "cover_text": "CIRCULAR JSON CRASH"
+      },
+      "warnings": [],
+      "pitch_msg_id": 371
+    },
+    "2026-11-27-b": {
+      "status": "pitched",
+      "created": "2026-11-27T08:48:16.742583+05:30",
+      "day": "2026-11-27",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-27-b",
+        "title": "The Overwritten Count",
+        "monster": "twins",
+        "concept": "atomic operations on concurrent maps",
+        "level": "intermediate",
+        "language": "java",
+        "hook": "Your Java HashMap is silently dropping updates under high traffic.",
+        "logline": "Two concurrent threads read and write a shared map count at the exact same moment, causing values to vanish in production.",
+        "builds_on": "",
+        "topic": "Java HashMap shared across threads loses updates",
+        "tech": "Java",
+        "wake_time": "12:07 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "narration": "Twelve zero seven P M. Revenue metrics are dropping counter updates.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "12:07 PM",
+            "text": "METRIC MISMATCH",
+            "sub": "Analytics count is lower than act…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "narration": "Fork and Join are updating the same key together.",
+            "text": "The Overwritten Count",
+            "sub": "Non-atomic map updates in Java",
+            "kicker": "PROD MANOR #102",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "camera": {
+              "zoom_from": 1.0,
+              "zoom_to": 1.15,
+              "focus_x": 0.75
+            },
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Where did fifty order counts go?!"
+              },
+              {
+                "who": "twins",
+                "text": "We both read ten, so we both saved eleven!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "ConcurrentHashMap prevents corruption, but read-plus-write is still two separate steps.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> counts = new Concur",
+              "public void increment(String key) {",
+              "  counts.put(key, counts.getOrDefault(ke",
+              "}"
+            ],
+            "lang": "java",
+            "file": "Metrics.java",
+            "highlight": [
+              3
+            ],
+            "error": "Race Condition: put-if-absent read/write step is not atomic"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.2,
+                "action": "idle"
+              }
+            ],
+            "title": "RACE CONDITION",
+            "text": "Concurrent writes lost 45% of metric increments"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Use ConcurrentHashMap merge for atomic updates.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "Merge us atomically so we can't step on each other!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "Map<String, Integer> counts = new Concur",
+              "public void increment(String key) {",
+              "  counts.put(key, counts.getOrDefault(ke",
+              "}"
+            ],
+            "lang": "java",
+            "file": "Metrics.java",
+            "fix_line": 3,
+            "after": "  counts.merge(key, 1, Integer::sum);",
+            "note": "ConcurrentHashMap.merge performs atomic get-and-update in one thread-safe operation."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Map updates must be atomic. Save this before your next Java deploy.",
+            "lesson": "Use atomic merge for concurrent map counts.",
+            "cta": "Save this before your next thread-safety bug.",
+            "next_monster": "leak",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "Even with ConcurrentHashMap, put-if-absent reads and writes are not atomic. Multiple threads will still overwrite each other's updates. ConcurrentHashMap.merge solves race conditions cleanly. Have you shipped a race condition to prod? @prodmanor",
+        "hashtags": [
+          "#java",
+          "#backend",
+          "#multithreading",
+          "#concurrency",
+          "#programming",
+          "#softwareengineering",
+          "#codingtips",
+          "#javaprogramming"
+        ],
+        "cover_text": "JAVA MAP RACE CONDITION"
+      },
+      "warnings": [],
+      "pitch_msg_id": 372
+    },
+    "2026-11-27-c": {
+      "status": "pitched",
+      "created": "2026-11-27T08:48:16.742588+05:30",
+      "day": "2026-11-27",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-27-c",
+        "title": "The Trapped Worker",
+        "monster": "leak",
+        "concept": "buffered channels to prevent goroutine leaks",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "This Go goroutine will stay in memory until your server restarts.",
+        "logline": "An unbuffered channel blocks an orphan worker goroutine indefinitely after a request timeout, consuming Go memory.",
+        "builds_on": "",
+        "topic": "Go goroutine leak: goroutine blocked forever on a channel nobody reads",
+        "tech": "Go",
+        "wake_time": "3:26 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "narration": "Three twenty-six A M. Goroutines are accumulating without stopping.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "3:26 AM",
+            "text": "MEMORY WARNING",
+            "sub": "Goroutine count growing linearly…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "narration": "The Leak grows every time a goroutine gets stuck.",
+            "text": "The Trapped Worker",
+            "sub": "Unbuffered channels leak goroutines",
+            "kicker": "PROD MANOR #103",
+            "monster": "leak"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "sfx": [
+              "slurp"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.2,
+                "action": "grow"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "Why are fifty thousand goroutines sleeping?!"
+              },
+              {
+                "who": "leak",
+                "text": "Nobody is listening on the unbuffered channel..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "narration": "If context times out, the background worker blocks on channel send forever.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "func fetch(ctx context.Context) string {",
+              "  ch := make(chan string)",
+              "  go func() { ch <- doWork() }()",
+              "  select {",
+              "  case res := <-ch: return res",
+              "  case <-ctx.Done(): return \"\"",
+              "  }"
+            ],
+            "lang": "go",
+            "file": "fetcher.go",
+            "highlight": [
+              2,
+              3
+            ],
+            "error": "Goroutine Leak: channel send blocks forever on context timeout"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "leak",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.6,
+                "action": "idle"
+              }
+            ],
+            "title": "GOROUTINE LEAK",
+            "text": "50,000 idle goroutines blocked on channel send"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Buffer size of one lets worker goroutines exit safely.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "leak",
+                "expr": "neutral",
+                "x": 0.7,
+                "scale": 1.2,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "leak",
+                "text": "Buffer the channel so I can drop my result and leave!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "func fetch(ctx context.Context) string {",
+              "  ch := make(chan string)",
+              "  go func() { ch <- doWork() }()",
+              "  select {",
+              "  case res := <-ch: return res",
+              "  case <-ctx.Done(): return \"\"",
+              "  }"
+            ],
+            "lang": "go",
+            "file": "fetcher.go",
+            "fix_line": 2,
+            "after": "  ch := make(chan string, 1)",
+            "note": "A buffered channel allows the worker to send and terminate even if context timed out."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Always buffer channels that can timeout. Follow for more Go bug fixes.",
+            "lesson": "Buffer channels when workers can outlive contexts.",
+            "cta": "Follow before the next memory leak wakes up.",
+            "next_monster": "null",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "If your context times out before an unbuffered channel receives a send, the goroutine blocks forever. A buffered channel of size 1 lets the goroutine exit safely without leaking memory. How many orphan goroutines are running in your cluster right now? @prodmanor",
+        "hashtags": [
+          "#golang",
+          "#backend",
+          "#concurrency",
+          "#memoryleak",
+          "#programming",
+          "#microservices",
+          "#codehumor",
+          "#devops"
+        ],
+        "cover_text": "GO GOROUTINE LEAK"
+      },
+      "warnings": [],
+      "pitch_msg_id": 373
+    },
+    "2026-11-27-d": {
+      "status": "pitched",
+      "created": "2026-11-27T08:48:16.742591+05:30",
+      "day": "2026-11-27",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-27-d",
+        "title": "The Ghost User",
+        "monster": "null",
+        "concept": "runtime schema validation with Zod",
+        "level": "intermediate",
+        "language": "typescript",
+        "hook": "Type casting API responses with 'as' does nothing at runtime.",
+        "logline": "Junior casts raw JSON response to a TypeScript interface using 'as User', but undefined fields crash frontend users.",
+        "builds_on": "",
+        "topic": "TypeScript 'as User' cast trusts unvalidated API JSON",
+        "tech": "TypeScript",
+        "wake_time": "5:48 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.0,
+            "narration": "Five forty-eight P M. Sentry reported uncaught runtime crashes.",
+            "sfx": [
+              "pager"
+            ],
+            "time": "5:48 PM",
+            "text": "CLIENT CRASH",
+            "sub": "Cannot read properties of undefin…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "narration": "The Null haunts your app when types are fake.",
+            "text": "The Ghost User",
+            "sub": "TypeScript assertions vanish at runtime",
+            "kicker": "PROD MANOR #104",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "junior",
+                "text": "I used 'as User', why is it undefined?!"
+              },
+              {
+                "who": "null",
+                "text": "TypeScript types disappear when JS runs..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.0,
+            "narration": "TypeScript assertions lie to the compiler; runtime data can still be empty.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "const res = await fetch(\"/api/user\");",
+              "const data = await res.json();",
+              "const user = data as User;",
+              "console.log(user.name.toUpperCase());"
+            ],
+            "lang": "typescript",
+            "file": "userClient.ts",
+            "highlight": [
+              3,
+              4
+            ],
+            "error": "TypeError: Cannot read properties of undefined (reading 'toUpperCase')"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "sfx": [
+              "crash"
+            ],
+            "shake": true,
+            "actors": [
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.5,
+                "scale": 1.2,
+                "action": "idle"
+              }
+            ],
+            "title": "TYPE ERROR",
+            "text": "Cannot read properties of undefined (reading 'toUpperCase')"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "Parse API payloads with runtime validators like Zod.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0,
+                "action": "idle"
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.0,
+                "action": "idle"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Check on me with Zod schema parsing!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.5,
+            "sfx": [
+              "ding"
+            ],
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.2,
+                "scale": 0.8,
+                "action": "idle"
+              }
+            ],
+            "lines": [
+              "const res = await fetch(\"/api/user\");",
+              "const data = await res.json();",
+              "const user = data as User;",
+              "console.log(user.name.toUpperCase());"
+            ],
+            "lang": "typescript",
+            "file": "userClient.ts",
+            "fix_line": 3,
+            "after": "const user = UserSchema.parse(data);",
+            "note": "Zod validates actual JSON shapes at runtime before your code accesses properties."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "narration": "Use runtime validation for external payloads. Save before your next deploy.",
+            "lesson": "Never trust API responses with type assertions alone.",
+            "cta": "Save this before your next TypeScript deployment.",
+            "next_monster": "caller",
+            "kicker": "PROD MANOR"
+          }
+        ],
+        "caption": "TypeScript type assertions like 'as User' disappear at compile time. If the backend returns null or missing fields, your app crashes at runtime anyway. Use Zod schema validation to parse untrusted responses. Do you trust API payloads blindly? @prodmanor",
+        "hashtags": [
+          "#typescript",
+          "#javascript",
+          "#webdev",
+          "#frontend",
+          "#reactjs",
+          "#programming",
+          "#codehumor",
+          "#fullstack"
+        ],
+        "cover_text": "TYPESCRIPT AS BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 374
     }
   },
   "telegram": {
@@ -27666,7 +28491,11 @@
       "366": "2026-11-26-a",
       "367": "2026-11-26-b",
       "368": "2026-11-26-c",
-      "369": "2026-11-26-d"
+      "369": "2026-11-26-d",
+      "371": "2026-11-27-a",
+      "372": "2026-11-27-b",
+      "373": "2026-11-27-c",
+      "374": "2026-11-27-d"
     }
   },
   "settings": {
@@ -27885,7 +28714,11 @@
       "brain": "gemini",
       "note": ""
     },
-    "2026-11-27": {}
+    "2026-11-27": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
