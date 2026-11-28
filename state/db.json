@@ -28343,6 +28343,717 @@
       },
       "warnings": [],
       "pitch_msg_id": 374
+    },
+    "2026-11-28-a": {
+      "status": "pitched",
+      "created": "2026-11-28T09:16:42.638267+05:30",
+      "day": "2026-11-28",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-28-a",
+        "title": "The Three Cent Ghost",
+        "monster": "ollie",
+        "concept": "IEEE 754 floating point precision in currency",
+        "level": "intermediate",
+        "language": "python",
+        "hook": "POV: your billing code just charged a customer three extra quadrillionths of a…",
+        "logline": "Junior discovers why floating point math is corrupting invoice totals at checkout.",
+        "builds_on": "",
+        "topic": "float money totals: 0.1 + 0.2 on an invoice",
+        "tech": "Python",
+        "wake_time": "1:06 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "CHECKOUT FAILED",
+            "time": "1:06 AM",
+            "text": "PROD IS DOWN",
+            "sub": "Invoice math failed checkout vali…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Three Cent Ghost",
+            "sub": "When binary math steals from your users.",
+            "kicker": "PYTHON PRECISION BUG",
+            "monster": "ollie"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "At one zero six A M, binary floats struck production.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "ollie",
+                "expr": "happy",
+                "x": 0.92,
+                "scale": 1.2
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "Binary math is an exact science...ish."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "from decimal import Decimal",
+              "def total(items):",
+              "    total = 0.0",
+              "    for p in items:",
+              "        total += p",
+              "    return total"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "highlight": [
+              3
+            ],
+            "error": "total([0.1, 0.2]) == 0.30000000000000004"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0
+              }
+            ],
+            "title": "PRECISION ERROR",
+            "text": "Floating point numbers cannot accurately represent 0.1 in binary."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0,
+                "expr_to": "neutral",
+                "expr_at": 0.5
+              },
+              {
+                "who": "ollie",
+                "expr": "neutral",
+                "x": 0.75,
+                "scale": 1.2
+              }
+            ],
+            "say": [
+              {
+                "who": "ollie",
+                "text": "I gave you four extra quadrillionths!"
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "from decimal import Decimal",
+              "def total(items):",
+              "    total = 0.0",
+              "    for p in items:",
+              "        total += p",
+              "    return total"
+            ],
+            "lang": "python",
+            "file": "billing.py",
+            "fix_line": 3,
+            "after": "    total = Decimal('0')",
+            "note": "Use Decimal or integer cents for exact monetary totals."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never use float for money in production.",
+            "cta": "Save this before your next checkout deploy.",
+            "next_monster": "twins",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Floating point arithmetic strikes every developer at least once. 0.1 + 0.2 in standard IEEE 754 binary floating-point yields 0.30000000000000004. In financial production code, always store currency as integer cents or use Python's built-in Decimal class!\n\nHave you ever shipped a float currency bug to production? Tag a friend who needs this reminder! @prodmanor",
+        "hashtags": [
+          "#python",
+          "#coding",
+          "#programming",
+          "#softwareengineering",
+          "#webdev",
+          "#devlife",
+          "#backend",
+          "#codinghumor"
+        ],
+        "cover_text": "FLOAT MONEY BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 376
+    },
+    "2026-11-28-b": {
+      "status": "pitched",
+      "created": "2026-11-28T09:16:42.638287+05:30",
+      "day": "2026-11-28",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-28-b",
+        "title": "The Shared Map Panic",
+        "monster": "twins",
+        "concept": "Go map concurrency protection with sync.Mutex",
+        "level": "intermediate",
+        "language": "go",
+        "hook": "This runtime panic will crash your entire Go service instantly.",
+        "logline": "Fork & Join trigger Go's unrecoverable fatal panic by writing to the same map concurrently.",
+        "builds_on": "",
+        "topic": "Go goroutines write the same map: concurrent map writes fatal error",
+        "tech": "Go",
+        "wake_time": "2:13 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "FATAL PANIC",
+            "time": "2:13 PM",
+            "text": "PROD IS DOWN",
+            "sub": "fatal error: concurrent map writes"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Shared Map Panic",
+            "sub": "Two goroutines, one unprotected map.",
+            "kicker": "GO CONCURRENCY BUG",
+            "monster": "twins"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "At two thirteen P M, twin goroutines crashed the runtime.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "happy",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "We write to cache at the same time!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "func Set(k string, v int) {",
+              "    go func() {",
+              "        cache[k] = v",
+              "    }()",
+              "}"
+            ],
+            "lang": "go",
+            "file": "cache.go",
+            "highlight": [
+              3
+            ],
+            "error": "fatal error: concurrent map writes"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0
+              }
+            ],
+            "title": "UNRECOVERABLE P…",
+            "text": "Go intentionally terminates the process on concurrent map mutation."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 1.0
+              },
+              {
+                "who": "twins",
+                "expr": "scared",
+                "x": 0.7,
+                "scale": 1.1
+              }
+            ],
+            "say": [
+              {
+                "who": "twins",
+                "text": "The whole server went down!"
+              }
+            ],
+            "bg": "server_room",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "func Set(k string, v int) {",
+              "    go func() {",
+              "        cache[k] = v",
+              "    }()",
+              "}"
+            ],
+            "lang": "go",
+            "file": "cache.go",
+            "fix_line": 3,
+            "after": "        mu.Lock(); cache[k] = v; mu.Unlo",
+            "note": "Wrap map access in a Mutex or use sync.Map."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never write to Go maps concurrently without synchronization.",
+            "cta": "Follow before your next microservice deploy.",
+            "next_monster": "caller",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "In Go, standard maps are NOT thread-safe for concurrent writes. When two goroutines mutate a map simultaneously, Go throws a fatal error that cannot be caught with recover() — your entire application process dies instantly. Protect map access with a sync.Mutex or sync.RWMutex!\n\nHas concurrent map access taken down your Go API before? Share your war story below! @prodmanor",
+        "hashtags": [
+          "#golang",
+          "#go",
+          "#backend",
+          "#microservices",
+          "#programming",
+          "#concurrency",
+          "#devops",
+          "#coding"
+        ],
+        "cover_text": "GO MAP PANIC"
+      },
+      "warnings": [],
+      "pitch_msg_id": 377
+    },
+    "2026-11-28-c": {
+      "status": "pitched",
+      "created": "2026-11-28T09:16:42.638291+05:30",
+      "day": "2026-11-28",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-28-c",
+        "title": "The Infinite Ring",
+        "monster": "caller",
+        "concept": "Circular reference handling in JSON serialization",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Why does serializing a simple user object crash NodeJS without warning?",
+        "logline": "The Caller traps Junior in a loop of circular object references during JSON logging.",
+        "builds_on": "",
+        "topic": "JSON.stringify on an object with a circular reference",
+        "tech": "JavaScript",
+        "wake_time": "4:58 AM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "CIRCULAR ERROR",
+            "time": "4:58 AM",
+            "text": "PROD IS DOWN",
+            "sub": "TypeError: Converting circular st…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Infinite Ring",
+            "sub": "When an object points back to itself.",
+            "kicker": "NODE JS SERIALIZE BUG",
+            "monster": "caller"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "At four fifty eight A M, circular structures struck.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "User has post, post has user!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "function serialize(user) {",
+              "    user.ref = user;",
+              "    return JSON.stringify(user);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "highlight": [
+              3
+            ],
+            "error": "TypeError: Converting circular structure to JSON"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0
+              }
+            ],
+            "title": "SERIALIZATION C…",
+            "text": "JSON.stringify fails on infinite object graph recursion."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "caller",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "stack",
+                "copies": 3
+              }
+            ],
+            "say": [
+              {
+                "who": "caller",
+                "text": "The phones just keep ringing!"
+              }
+            ],
+            "bg": "hallway",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "function serialize(user) {",
+              "    user.ref = user;",
+              "    return JSON.stringify(user);",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "logger.js",
+            "fix_line": 2,
+            "after": "    delete user.ref;",
+            "note": "Clean back-references or use a custom replacer function."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never pass circular graph objects into JSON stringify.",
+            "cta": "Save this before your next logger deploy.",
+            "next_monster": "null",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "Passing an object with a circular reference to JSON.stringify will throw an unhandled TypeError in JavaScript! This commonly happens when logging database entities with bidirectional relationships (e.g. User -> Post -> User). Strip back-references or use a custom replacer before serializing!\n\nWhat library do you use to handle circular JSON in Node? Let us know in the comments! @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#nodejs",
+          "#webdevelopment",
+          "#fullstack",
+          "#backend",
+          "#frontend",
+          "#coding",
+          "#developer"
+        ],
+        "cover_text": "CIRCULAR JSON BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 378
+    },
+    "2026-11-28-d": {
+      "status": "pitched",
+      "created": "2026-11-28T09:16:42.638294+05:30",
+      "day": "2026-11-28",
+      "brain": "gemini",
+      "episode": {
+        "id": "2026-11-28-d",
+        "title": "The Empty Response",
+        "monster": "null",
+        "concept": "Handling 204 No Content responses in fetch",
+        "level": "intermediate",
+        "language": "javascript",
+        "hook": "Your fetch code has a hidden bug that fires only when APIs succeed cleanly.",
+        "logline": "The Null ghost haunts a DELETE endpoint that returns status 204 No Content.",
+        "builds_on": "",
+        "topic": "API returns 204 No Content and res.json() throws",
+        "tech": "JavaScript",
+        "wake_time": "6:36 PM",
+        "beats": [
+          {
+            "type": "pager",
+            "dur": 2.5,
+            "on_screen": "FETCH PARSE FAIL",
+            "time": "6:36 PM",
+            "text": "PROD IS DOWN",
+            "sub": "SyntaxError: Unexpected end of JS…"
+          },
+          {
+            "type": "title",
+            "dur": 2.0,
+            "text": "The Empty Response",
+            "sub": "When a 204 status has no body to parse.",
+            "kicker": "FETCH API BUG",
+            "monster": "null"
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "narration": "At six thirty six P M, an empty response crashed fetch.",
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "scared",
+                "x": 0.75,
+                "scale": 1.0,
+                "action": "fade_in"
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "The API succeeded... but I am empty."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "code",
+            "dur": 4.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.2,
+                "scale": 0.9
+              }
+            ],
+            "lines": [
+              "async function loadData(url) {",
+              "    const res = await fetch(url);",
+              "    return await res.json();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "highlight": [
+              3
+            ],
+            "error": "SyntaxError: Unexpected end of JSON input"
+          },
+          {
+            "type": "crash",
+            "dur": 3.0,
+            "shake": true,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "scared",
+                "x": 0.3,
+                "scale": 1.0
+              }
+            ],
+            "title": "PARSING FAILURE",
+            "text": "HTTP 204 status means empty body bytes, causing JSON parser crash."
+          },
+          {
+            "type": "scene",
+            "dur": 3.5,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "neutral",
+                "x": 0.25,
+                "scale": 1.0
+              },
+              {
+                "who": "null",
+                "expr": "happy",
+                "x": 0.75,
+                "scale": 1.0
+              }
+            ],
+            "say": [
+              {
+                "who": "null",
+                "text": "Nobody checks my status code..."
+              }
+            ],
+            "bg": "bedroom",
+            "light": "flashlight"
+          },
+          {
+            "type": "fix",
+            "dur": 4.0,
+            "actors": [
+              {
+                "who": "junior",
+                "expr": "happy",
+                "x": 0.25,
+                "scale": 1.0
+              }
+            ],
+            "lines": [
+              "async function loadData(url) {",
+              "    const res = await fetch(url);",
+              "    return await res.json();",
+              "}"
+            ],
+            "lang": "javascript",
+            "file": "api.js",
+            "fix_line": 3,
+            "after": "    return res.status === 204 ? null : a",
+            "note": "Always check status 204 before parsing JSON response body."
+          },
+          {
+            "type": "outro",
+            "dur": 3.5,
+            "lesson": "Never call res.json() on HTTP 204 No Content responses.",
+            "cta": "Follow before your next frontend deploy.",
+            "next_monster": "ollie",
+            "kicker": "The next bug is alr…"
+          }
+        ],
+        "caption": "When an HTTP API returns status 204 No Content (common for DELETE or UPDATE requests), the response body is completely empty. Calling res.json() on an empty stream throws 'SyntaxError: Unexpected end of JSON input'. Always check res.status or response body length before parsing JSON!\n\nHow do you handle 204 responses in your fetch wrappers? Drop your fix below! @prodmanor",
+        "hashtags": [
+          "#javascript",
+          "#typescript",
+          "#webdev",
+          "#reactjs",
+          "#frontend",
+          "#api",
+          "#coding",
+          "#softwaredeveloper"
+        ],
+        "cover_text": "204 NO CONTENT BUG"
+      },
+      "warnings": [],
+      "pitch_msg_id": 379
     }
   },
   "telegram": {
@@ -28495,7 +29206,11 @@
       "371": "2026-11-27-a",
       "372": "2026-11-27-b",
       "373": "2026-11-27-c",
-      "374": "2026-11-27-d"
+      "374": "2026-11-27-d",
+      "376": "2026-11-28-a",
+      "377": "2026-11-28-b",
+      "378": "2026-11-28-c",
+      "379": "2026-11-28-d"
     }
   },
   "settings": {
@@ -28719,7 +29434,11 @@
       "brain": "gemini",
       "note": ""
     },
-    "2026-11-28": {}
+    "2026-11-28": {
+      "pitched": true,
+      "brain": "gemini",
+      "note": ""
+    }
   },
   "token": {},
   "render": {},
